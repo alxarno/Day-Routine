@@ -1,0 +1,17 @@
+@font-face {
+    font-family: Helvetica-Light;
+    src: url(../res/fonts/HelveticaLight/HelveticaLight.ttf); 
+}
+@font-face {
+    font-family: Helvetica-Medium; 
+    src: url(../res/fonts/HelveticaMedium/HelveticaMedium.ttf); 
+}
+@font-face {
+    font-family: Helvetica-Regular; 
+    src: url(../res/fonts/HelveticaRegular/HelveticaRegular.ttf); 
+}
+
+body{
+	background: #fbfbfb;
+  margin: 0px;
+}

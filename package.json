@@ -1,0 +1,45 @@
+{
+  "name": "WeekRoutine",
+  "version": "1.0.0",
+  "productName": "WeekRoutine",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "watch": "webpack --watch",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "clean": "rimraf dist",
+    "exe32": "electron-packager . week_routine --platform win32 --arch ia32 --out dist/ --ignore \"(dist|node_modules/electron.*)\" --icon res/images/logo.ico",
+    "exe64": "electron-packager . week_routine --platform win32 --arch x64 --out dist/ --ignore \"(dist|node_modules/electron.*)\" --icon res/images/logo.ico",
+    "set32": "electron-installer-windows --src dist/week_routine-win32-ia32/ --dest dist/installers/ia32/ --config config.json",
+    "set64": "electron-installer-windows --src dist/week_routine-win32-x64/ --dest dist/installers/x64/ --config config.json",
+    "build": "npm run clean && npm run exe32 && npm run set32 && npm run exe64 && npm run set64"
+  },
+  "repository": "https://github.com/AlexeyArno/Week-Routine",
+  "author": "AlexArno",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "css-loader": "^0.28.7",
+    "electron": "~1.7.8",
+    "electron-builder": "^19.51.0",
+    "electron-installer-windows": "^0.2.0",
+    "rimraf": "^2.6.2",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "electron-reload": "^1.2.2",
+    "style-loader": "^0.19.1",
+    "vue": "^2.5.17",
+    "vue-loader": "^15.4.2",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "build": {
+    "appId": "Week Routine",
+    "mac": {
+      "category": "organizer"
+    }
+  }
+}
