@@ -40,7 +40,13 @@ module.exports = {
           "style-loader",
           "css-loader",
           {
-            loader: "sass-loader"
+            loader: "sass-loader",
+            options:{
+              data: `@import "variables";`,
+              includePaths:[
+                path.resolve(__dirname, "src")
+              ]
+            }
           }
         ]
       }
@@ -50,7 +56,8 @@ module.exports = {
     extensions: ['.ts', '.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      'src': path.resolve('src')
+      'src': path.resolve('src'),
+      "assets": path.resolve("assets")
     }
   }
 };

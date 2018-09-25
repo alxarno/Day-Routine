@@ -1,7 +1,9 @@
-// src/index.ts
-
 import Vue from "vue";
+import Vuex from 'vuex'
+import store from './store/index'
 import HeaderComponent from "./components/header/header";
+
+
 
 let UI = new Vue({
     el: "#app",
@@ -9,6 +11,7 @@ let UI = new Vue({
     <div>
       <header-component />
     </div>`,
+    store,
     data: {
         name: "World"
     },

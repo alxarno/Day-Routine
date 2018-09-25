@@ -23,6 +23,10 @@
   font-family: Roboto-Regular; 
   src: url(../res/fonts/Roboto/Roboto-Regular.ttf); 
 }
+@font-face {
+  font-family: Roboto-Bold; 
+  src: url(../res/fonts/Roboto/Roboto-Bold.ttf); 
+}
 
 body{
 	background: #fbfbfb;

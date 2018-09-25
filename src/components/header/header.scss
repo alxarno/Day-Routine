@@ -3,4 +3,62 @@
   font-family: Roboto-Regular;
   background: #ffffff;  
   border: 1px solid #EBEBEB;
+  display: flex;
+  align-items: center;
+}
+
+.header>.app-logo{
+  height: 25px;
+  width:25px;
+  margin: 7.5px 10px;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.header-separator{
+  height: 26px;
+  width: 1px;
+  display: inline-block;
+  background: #EBEBEB;
+  position: relative;
+  top: 1px;
+}
+
+.header-menu-wrapper{
+  width: 240px;
+  height: 40px;
+  padding-left: 20px;
+  
+}
+.header-menu-slider{
+  height: 2px;
+  width: 60px;
+  background: $primary-color
+}
+
+.header-menu-items{
+  height: 38px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.header-menu-item,
+.header-menu-item-active{
+  width: 60px;
+  display: inline-block;
+  text-align: center;
+  margin-right: 20px;
+  font-family: Roboto-Light;
+  color: $gray;
+  cursor: pointer;
+}
+
+.header-menu-item:hover{
+  color: darken($gray, 20%)
+}
+
+.header-menu-item-active{
+  font-family: Roboto-Bold;
+  color: $dark;
 }
