@@ -1,8 +1,8 @@
 node_modules
+final/bundle.js
 .idea
 dist
 build
 npm-debug.log
 start.bat
 watch.bat
-final/bundle.js
