@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
     font-family: Helvetica-Light;
     src: url(../res/fonts/HelveticaLight/HelveticaLight.ttf); 
 }
@@ -9,6 +9,19 @@
 @font-face {
     font-family: Helvetica-Regular; 
     src: url(../res/fonts/HelveticaRegular/HelveticaRegular.ttf); 
+} */
+
+@font-face {
+  font-family: Roboto-Light;
+  src: url(../res/fonts/Roboto/Roboto-Light.ttf); 
+}
+@font-face {
+  font-family: Roboto-Medium; 
+  src: url(../res/fonts/Roboto/Roboto-Medium.ttf); 
+}
+@font-face {
+  font-family: Roboto-Regular; 
+  src: url(../res/fonts/Roboto/Roboto-Regular.ttf); 
 }
 
 body{

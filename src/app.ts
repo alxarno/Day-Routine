@@ -1,15 +1,18 @@
 // src/index.ts
 
 import Vue from "vue";
+import HeaderComponent from "./components/header/header";
 
-let v = new Vue({
+let UI = new Vue({
     el: "#app",
     template: `
     <div>
-        <div>Hello {{name}}!</div>
-        Name: <input v-model="name" type="text">
+      <header-component />
     </div>`,
     data: {
         name: "World"
-    }
+    },
+    components: {
+      HeaderComponent
+  }
 });

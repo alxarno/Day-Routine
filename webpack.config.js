@@ -31,15 +31,26 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        test: /\.svg$/,
+        loader: 'svg-inline-loader'
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader"
+          }
+        ]
       }
     ]
   },
    resolve: {
     extensions: ['.ts', '.js', '.vue', '.json'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm.js',
+      'src': path.resolve('src')
     }
   }
 };
