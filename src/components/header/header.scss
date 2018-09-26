@@ -33,7 +33,10 @@
 .header-menu-slider{
   height: 2px;
   width: 60px;
-  background: $primary-color
+  background: $primary-color;
+  position: relative;
+  transition-duration: .2s;
+  transition-timing-function: cubic-bezier;
 }
 
 .header-menu-items{
@@ -52,6 +55,9 @@
   font-family: Roboto-Light;
   color: $gray;
   cursor: pointer;
+  height: 35px;
+  line-height: 3.2;
+  user-select: none;
 }
 
 .header-menu-item:hover{

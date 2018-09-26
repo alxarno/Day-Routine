@@ -1,0 +1,25 @@
+.settings-icon{
+  height: 25px;
+  width:25px;
+  margin: 7.5px 10px;
+  display: inline-block;
+  margin-right: 20px;
+  fill: lighten( $gray, 20% );
+  position: absolute;
+  right: 0px;
+  cursor: pointer;
+}
+
+.settings-icon:hover{
+  fill: lighten( $gray, 25% );
+  transition: 0.2s
+}
+
+.settings-icon>svg{
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: -5px;
+  right: -15px;
+}
+

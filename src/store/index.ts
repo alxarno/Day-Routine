@@ -3,24 +3,34 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
+export default new Vuex.Store({
   state: {
-    menu_active_item: 0
+    menu_active_item: 1,
+    settings_open: false
   },
   actions: {
-    // CHANGE_MENU_ACTIVE_ITEM: ({commit: any})=>{
+    setMenuItem({commit}, number) {
+      commit('SET_MENU_ACTIVE_ITEM', number)
+    },
+    settingsOpemChange({commit}) {
+      commit('CHANGE_SETTINGS_OPEN')
+    }
 
-    // }
   },
   mutations: {
     SET_MENU_ACTIVE_ITEM:(state, {number}) => {
       state.menu_active_item = number
+    },
+    CHANGE_SETTINGS_OPEN:(state)=>{
+      state.settings_open = !state.settings_open
     }
   },
   getters: {
-    menuActiveItem: state=>{
+    getMenuActiveItem: state=>{
       return state.menu_active_item
+    },
+    getSettingsOpened: state=>{
+      return state.settings_open  
     }
   }
 })
-export default store

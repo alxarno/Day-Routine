@@ -9,13 +9,10 @@ let UI = new Vue({
     el: "#app",
     template: `
     <div>
-      <header-component />
+      <HeaderComponent />
     </div>`,
     store,
-    data: {
-        name: "World"
-    },
     components: {
       HeaderComponent
-  }
+    }
 });
