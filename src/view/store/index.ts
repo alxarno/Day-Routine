@@ -12,7 +12,7 @@ export default new Vuex.Store({
     setMenuItem({commit}, number) {
       commit('SET_MENU_ACTIVE_ITEM', number)
     },
-    settingsOpemChange({commit}) {
+    settingsOpenChange({commit}) {
       commit('CHANGE_SETTINGS_OPEN')
     }
 

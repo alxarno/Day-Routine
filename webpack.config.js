@@ -9,6 +9,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.html$/,
+        loader: 'vue-template-loader',
+        exclude: /index.html/,
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
@@ -44,7 +49,7 @@ module.exports = {
             options:{
               data: `@import "variables";`,
               includePaths:[
-                path.resolve(__dirname, "src")
+                path.resolve(__dirname, "src/view")
               ]
             }
           }

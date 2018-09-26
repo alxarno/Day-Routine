@@ -1,0 +1,25 @@
+<div class="header">
+  <div v-html="logo" class="app-logo"></div>
+
+  <div class="header-separator"></div>
+
+  <div class="header-menu-wrapper">
+
+    <div class="header-menu-items">
+
+    <div v-for="item in menu"
+         v-on:click="change(item.number)"
+         v-bind:class="[menuActiveItem == item.number ?
+            'header-menu-item-active':'header-menu-item']">
+        {{item.name}}
+      </div>
+    </div>
+
+    <div class="header-menu-slider"
+        v-bind:style="{ left: menuActiveItem*70 + 10*menuActiveItem  + 'px' }"
+    ></div>
+
+  </div>
+  <SettingsComponent></SettingsComponent>
+
+</div>

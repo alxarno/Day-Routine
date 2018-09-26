@@ -4798,6 +4798,10 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-class-component@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-6.2.0.tgz#7adb1daa9a868c75f30f97f33f4f1b94aee62089"
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.1.tgz#b2d3d95402a811602380783ea4f566eb875569a2"
@@ -4838,6 +4842,16 @@ vue-template-compiler@^2.5.17:
 vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
+
+vue-template-loader@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vue-template-loader/-/vue-template-loader-1.0.0.tgz#fd350bd52c7ad8bb6add01401276f26bf2ec9b37"
+  dependencies:
+    "@vue/component-compiler-utils" "^2.0.0"
+    hash-sum "^1.0.2"
+    loader-utils "^1.1.0"
+    source-map "^0.6.1"
+    vue-hot-reload-api "^2.3.0"
 
 vue@^2.5.17:
   version "2.5.17"

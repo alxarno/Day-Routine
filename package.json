@@ -36,9 +36,11 @@
     "style-loader": "^0.19.1",
     "svg-inline-loader": "^0.8.0",
     "vue": "^2.5.17",
+    "vue-class-component": "^6.2.0",
     "vue-loader": "^15.4.2",
     "vue-svg-loader": "^0.10.0",
     "vue-template-compiler": "^2.5.17",
+    "vue-template-loader": "^1.0.0",
     "vuex": "^3.0.1"
   },
   "build": {

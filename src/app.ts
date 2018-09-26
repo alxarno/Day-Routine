@@ -1,18 +1,3 @@
-import Vue from "vue";
-import Vuex from 'vuex'
-import store from './store/index'
-import HeaderComponent from "./components/header/header";
+import CreateView from './view/view'
 
-
-
-let UI = new Vue({
-    el: "#app",
-    template: `
-    <div>
-      <HeaderComponent />
-    </div>`,
-    store,
-    components: {
-      HeaderComponent
-    }
-});
+let UI = CreateView()
