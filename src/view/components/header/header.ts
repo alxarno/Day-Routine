@@ -22,6 +22,7 @@ export default class Header extends Vue {
   get menuActiveItem() :number{
     return this.$store.state.menu_active_item
   }
+  
   computed:any = {
     ...mapGetters({
       menu_active_item: 'getMenuActiveItem'

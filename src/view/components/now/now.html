@@ -1,1 +1,23 @@
-<div>NowComponent</div>
+<div class="now-body" ref="now__body">
+  <div class="now-wrapper">
+    <div class="now-time__line">
+      <div v-for="hour in time"
+            class="now-hour">
+        {{hour}}
+      </div>
+    </div>
+    <div class="now-schedule__main">
+      <div v-for="hour in time"
+           class="now-separator"></div>
+      <div>
+      </div>
+    </div>
+    <div class="now-current__time"
+         v-bind:style="{ marginTop: currentTimeMarginTop + 'px' }">
+      <div class="now-current__time-line"></div>
+      <div class="now-current__time-value">{{currentTime}}</div>
+    
+    </div>
+  </div>
+
+</div>  

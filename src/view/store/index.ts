@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    menu_active_item: 1,
+    menu_active_item: 0,
     settings_open: false
   },
   actions: {
