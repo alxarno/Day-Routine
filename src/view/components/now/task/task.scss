@@ -1,0 +1,23 @@
+// Task Routine
+.task-task__routine{
+  width: 250px;
+  border-radius: 0px 10px 10px 0px;
+  height: 94px;
+  margin: 13.9px 0px;
+  background:#FFD9C6;
+}
+
+.task-task__routine-header{
+  height: 30px;
+  font-family: Roboto-Regular;
+}
+
+.task-task__routine-header__name{
+  display: inline-block;
+  font-size: 16px;
+}
+
+.task-task__routine-header__time{ 
+  display: inline-block; 
+  font-size: 12px;
+}

@@ -1,0 +1,22 @@
+<div>
+  <div v-if="task" class="task-task__routine"> 
+    <div class="task-task__routine-header">
+      <div class="task-task__routine-header__name">
+          {{this.$props.task.name}}
+      </div>
+      <div class="task-task__routine-header__time">
+        07:00 - 09:00
+      </div>
+    </div>
+    <div class="task-task__routine-describe">
+      {{this.$props.task.describe}}
+    </div>
+    <div class="task-task__routine-action">
+        {{this.$props.task.action}}
+    </div>
+  </div>
+  <div v-if="!task" class="task-task__routine">
+      DeadZone
+  </div>
+</div>
+

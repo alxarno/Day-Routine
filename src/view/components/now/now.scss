@@ -41,7 +41,14 @@
 .now-separator:first-of-type{
   margin-top:145px;
 }
+// Current Tasks
 
+.now-current__tasks{
+  width: 250px;
+  position: relative;
+  left: -340px;
+  padding-top: 30px;
+}
 
 // Current Time
 
@@ -53,11 +60,11 @@
   align-items: center;
   height: 20px;
   position: relative;
-  left: -110px;
+  left: -330px;
 }
 
 .now-current__time-line{
-  width: 110px;
+  width: 80px;
   height: 1px;
   display: inline-block;
   background:$primary-color
