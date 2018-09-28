@@ -1,0 +1,73 @@
+.routines-routines__body{
+  width: 100vw;
+  height: calc(100vh - 42px);
+  overflow-y: auto; 
+}
+
+.routines-wrapper{
+  padding-top: 35px;
+  width: 500px;
+  margin: auto;
+}
+
+.routines-search__input{
+  width: calc(100% - 50px); 
+  border: 0px;
+  border-bottom: 1px solid $light-gray;
+  background: $background;
+  outline: none;
+  font-size: 20px;
+  font-family: Roboto-Light;
+  color: darken($gray, 20);
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.search-icon{
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  fill: $light-gray;
+}
+
+// New Routine
+
+// -----Button
+.routines-new__routine-button{
+  user-select: none;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  right: 40px;
+  bottom: 20px;
+  fill: #ffffff;
+  background: lighten($primary-color, 10);
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0px 0px 12px 1px lighten($primary-color, 10);
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.routines-new__routine-button:hover{
+  box-shadow: 0px 0px 6px 0px lighten($primary-color, 10);
+}
+
+.routines-new__routine-button:active{
+  box-shadow: none;
+  background: lighten($primary-color, 5);
+  box-shadow: 0px 0px 3px 0px lighten($primary-color, 20);
+
+}
+
+
+// -----Window
+
+.routines-pop__up-background{
+  background: rgba(0,0,0,0.5);
+  position: absolute;
+  top:0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+}

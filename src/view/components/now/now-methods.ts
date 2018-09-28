@@ -1,7 +1,10 @@
 import {NowTask} from 'src/models/now.tasks'
 
-const TIME_WRAPPER_PADDING_TOP = 35
+const TIME_WRAPPER_PADDING_TOP = 34
 const TIME_ELEMENT_HEIGHT = 94
+
+const TASK_ELEMENT_HEIGHT = 107.9
+const TASK_WRAPPER_PADDING_TOP = 27
 
 function GetTimes():Array<string>{
   let time:Array<string> = []
@@ -18,7 +21,6 @@ function GetTimes():Array<string>{
 function GetScrollTop():number{
   let d = new Date();
   let n = d.getHours();
-  // let n = 0;
   return TIME_WRAPPER_PADDING_TOP+
         ((TIME_ELEMENT_HEIGHT+15)*(n+1))-
         (document.body.clientHeight/2)
@@ -41,8 +43,7 @@ function GetCurrentTimeMarginTop():number{
   let timeNow = d.getHours();
   let m = d.getMinutes()/60;
   timeNow+=m
-  return (timeNow*(TIME_ELEMENT_HEIGHT+13.5))+
-          TIME_WRAPPER_PADDING_TOP-5
+  return (timeNow*(TASK_ELEMENT_HEIGHT))+TASK_WRAPPER_PADDING_TOP
 }
 
 function GetNowTasks():Array<NowTask|null>{
@@ -53,7 +54,7 @@ function GetNowTasks():Array<NowTask|null>{
       continue
     }
 
-    if(i==10){
+    if(i==17){
       tasks.push({
         name: 'English',
         action: "english.pdf",

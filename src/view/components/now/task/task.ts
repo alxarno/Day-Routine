@@ -18,7 +18,9 @@ interface wrapperStyleInterface{
 @WithRender
 @Component({
   props: {
-    task: Object
+    task: {
+      type: Object as () => NowTask
+    }
   }
 })
 export default class Task extends Vue {

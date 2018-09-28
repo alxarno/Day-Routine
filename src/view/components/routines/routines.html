@@ -1,3 +1,26 @@
-<div>
-  RoutinesComponent
+<div class="routines-routines__body">
+  <div class="routines-wrapper">
+    <div>
+        <input type="text" class="routines-search__input"
+               placeholder="Search..."/>
+        <div v-html="searchIcon"
+              class="search-icon"></div>
+    </div>
+    <routine-component v-for="routine in routines" v-bind:routine="routine"/>
+  </div>
+  <div class="routines-new__routine-button"
+        v-html="addIcon"
+        v-on:click="newRoutine"></div>
+
+  <div v-if="this.$store.state.new_routine_open"
+      class="routines-pop__up-background"
+      v-on:click="newRoutine">
+    
+  </div>
+
+  <div v-if="this.$store.state.routine_settings_open"
+      class="routines-pop__up-background"
+      v-on:click="closeSettings">
+    
+  </div>
 </div>

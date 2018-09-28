@@ -1,0 +1,49 @@
+.routines-routine{
+  width: 500px;
+  border-radius: 5px;
+  background: #ffffff;
+  margin-bottom: 15px;
+  box-shadow: 0px 1px 10px -5px rgba(0,0,0,0.5);
+  height: 50px;
+  font-family: Roboto-Regular;
+  display: flex;
+  align-items: center;
+}
+
+
+.routines-routine__name{
+  margin-left: 10px;
+  flex-grow: 3;
+}
+
+.routines-routine__hours{
+  width: 30px;
+  color: $gray;
+  font-size: 12px;
+  font-family: Roboto-Light;
+  margin-right: 10px;
+}
+
+.routines-routine__describe{
+  flex:  2 1 100px;
+  margin-right: 70px;
+  font-size: 12px;
+  font-family: Roboto-Light;
+  color:$gray;
+  white-space: nowrap; /* Отменяем перенос текста */
+  overflow: hidden; /* Обрезаем содержимое */
+  padding: 5px; /* Поля */
+  text-overflow: ellipsis; /* Многоточие */
+}
+
+.routines-routine__settings{
+  width: 15px;
+  height: 15px;
+  fill: $gray;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.routines-routine__settings:hover{
+  fill: $light-gray;
+}
