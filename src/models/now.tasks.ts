@@ -3,6 +3,7 @@ export interface NowTask{
   hours: number;
   describe: string;
   action: string;
+  start: number;
   color: string;
 }
 

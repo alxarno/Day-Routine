@@ -17,8 +17,8 @@ function GetTimes():Array<string>{
 
 function GetScrollTop():number{
   let d = new Date();
-  // let n = d.getHours();
-  let n = 0;
+  let n = d.getHours();
+  // let n = 0;
   return TIME_WRAPPER_PADDING_TOP+
         ((TIME_ELEMENT_HEIGHT+15)*(n+1))-
         (document.body.clientHeight/2)
@@ -42,13 +42,12 @@ function GetCurrentTimeMarginTop():number{
   let m = d.getMinutes()/60;
   timeNow+=m
   return (timeNow*(TIME_ELEMENT_HEIGHT+13.5))+
-          TIME_WRAPPER_PADDING_TOP
+          TIME_WRAPPER_PADDING_TOP-5
 }
 
 function GetNowTasks():Array<NowTask|null>{
   let tasks:Array<NowTask|null> = []
-
-  for(let i=0;i<23;i++){
+  for(let i=0;i<24;i++){
     if(i<=7){
       tasks.push(null)
       continue
@@ -58,11 +57,12 @@ function GetNowTasks():Array<NowTask|null>{
       tasks.push({
         name: 'English',
         action: "english.pdf",
-        color: "#8D6EFF",
+        color: "violet",
         describe: `I learn English to find best company
                    in the world which can use my skills
                    to make world better place`,
-        hours: 2
+        hours: 2,
+        start: i
       })
       i++
       continue
@@ -71,9 +71,10 @@ function GetNowTasks():Array<NowTask|null>{
     tasks.push({
       name: 'Math',
       action: "math.pdf",
-      color: "#FF7A38",
+      color: "orange",
       describe: `I learn math to realize world better and ...`,
-      hours: 1
+      hours: 1,
+      start: i
     })
   }
   

@@ -1,5 +1,0 @@
-let colors={
-  "orange":{
-    
-  }
-}
