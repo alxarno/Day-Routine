@@ -9,7 +9,7 @@ export default new Vuex.Store({
     settings_open: false,
     current_routine: -1,
     routine_settings_open: false,
-    new_routine_open: false
+    new_routine_open: true
   },
 
   actions: {
@@ -27,7 +27,11 @@ export default new Vuex.Store({
     },
     currentRoutineChange({commit}, number){
       commit('SET_CURRENT_ROUTINE', number)
+    },
+    closePopUps({commit}){
+      commit("CLOSE_POPUPS")
     }
+
 
   },
   mutations: {
@@ -45,6 +49,10 @@ export default new Vuex.Store({
     },
     SET_CURRENT_ROUTINE:(state,{number})=>{
       state.current_routine = number
+    },
+    CLOSE_POPUPS:(state)=>{
+      state.routine_settings_open = false
+      state.new_routine_open = false
     }
   },
   getters: {
@@ -53,6 +61,12 @@ export default new Vuex.Store({
     },
     getSettingsOpened: state=>{
       return state.settings_open  
+    },
+    routineSettingsOpen:state=>{
+      return state.routine_settings_open
+    },
+    newRoutineOpen:state=>{
+      return state.new_routine_open
     }
   }
 })

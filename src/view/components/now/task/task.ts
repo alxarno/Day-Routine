@@ -88,7 +88,6 @@ export default class Task extends Vue {
     }
 
    
-    console.log(this.$props.task)
   }
 
   mounted (){
