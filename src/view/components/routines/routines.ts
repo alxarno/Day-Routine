@@ -26,10 +26,12 @@ export default class RoutinesComponent extends Vue {
   routines:Array<Routine> = GetRoutines()
 
   newRoutine (): void {
+    this.$store.dispatch("openPopUp")
     this.$store.dispatch('newRoutineWindow')
   }
   
   closeSettings():void{
+    this.$store.dispatch("openPopUp")
     this.$store.dispatch('routineSettingsWindow')
   }
 

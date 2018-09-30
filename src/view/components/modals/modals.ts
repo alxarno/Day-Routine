@@ -17,8 +17,5 @@ require("./modals.scss")
 })
 export default class  extends Vue {
 
-  getShow():boolean{
-    return this.$store.state.routine_settings_open ||
-    this.$store.state.new_routine_open
-  }
+  
 }

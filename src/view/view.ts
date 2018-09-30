@@ -14,8 +14,8 @@ var CreateView = function(){
     <div>
       <div v-bind:style="blurShow()?style : {}">
         <HeaderComponent/>
-        <NowComponent v-if="menu_active_item == 0"/>
-        <RoutinesComponent v-if="menu_active_item == 1"/>
+        <NowComponent v-if="this.$store.state.app.menu_active_item == 0"/>
+        <RoutinesComponent v-if="this.$store.state.app.menu_active_item == 1"/>
       </div>
       <ModalsComponent/>
     </div>`,
@@ -34,16 +34,9 @@ var CreateView = function(){
   
     methods:{
       blurShow:function():boolean{
-        return this.routine_settings_open || this.new_routine_open
+        return this.$store.state.app.popup_open
       },
     },
-    computed:{
-      ...mapGetters({
-        menu_active_item: 'getMenuActiveItem',
-        routine_settings_open:"routineSettingsOpen",
-        new_routine_open:"newRoutineOpen"
-       })     
-      }
 });
 }
 

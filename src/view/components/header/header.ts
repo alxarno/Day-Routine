@@ -20,7 +20,7 @@ export default class Header extends Vue {
 
 
   get menuActiveItem() :number{
-    return this.$store.state.menu_active_item
+    return this.$store.state.app.menu_active_item
   }
   
   computed:any = {

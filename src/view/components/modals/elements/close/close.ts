@@ -13,6 +13,6 @@ export default class CloseButton extends Vue {
   icon:string=icon
   
   click(){
-    this.$store.dispatch("closePopUps")
+    this.$store.dispatch("closePopUp")
   }
 }
