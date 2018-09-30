@@ -5,11 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    menu_active_item: 1,
+    menu_active_item: 0,
     settings_open: false,
     current_routine: -1,
     routine_settings_open: false,
-    new_routine_open: true
+    new_routine_open: false
   },
 
   actions: {
