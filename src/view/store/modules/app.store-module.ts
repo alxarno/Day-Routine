@@ -1,19 +1,19 @@
-import Vuex from 'vuex'
-
 const AppModule = {
   state: {
     menu_active_item: 0,
-    // settings_open: false,
-    popup_open: false
+    settings_open: true,
+    popup_open: true
    },
   actions:{
     setMenuItem({commit}, number) {
       commit('SET_MENU_ACTIVE_ITEM', number)
     },
     settingsOpenChange({commit}) {
-      commit('CHANGE_SETTINGS_OPEN')
+      commit('CHANGE_SETTINGS')
     },    
     closePopUp({commit}){
+      commit("DROP")
+      commit("CLOSE_SETTINGS")
       commit("POP_UP")
     },
     openPopUp({commit}){
@@ -25,8 +25,11 @@ const AppModule = {
     SET_MENU_ACTIVE_ITEM:(state, {number}) => {
       state.menu_active_item = number
     },
-    CHANGE_SETTINGS_OPEN:(state)=>{
-      // state.settings_open = !state.settings_open
+    CHANGE_SETTINGS:(state)=>{
+      state.settings_open = !state.settings_open
+    },
+    CLOSE_SETTINGS:(state)=>{
+      state.settings_open = false
     },
     POP_UP:(state)=>{
       state.popup_open = !state.popup_open

@@ -13,6 +13,7 @@ export default class SettingsIcon extends Vue {
   icon: string = icon
 
   change (): void {
+    this.$store.dispatch("openPopUp")
     this.$store.dispatch('settingsOpenChange')
   }
 }

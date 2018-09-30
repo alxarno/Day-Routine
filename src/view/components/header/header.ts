@@ -23,11 +23,11 @@ export default class Header extends Vue {
     return this.$store.state.app.menu_active_item
   }
   
-  computed:any = {
-    ...mapGetters({
-      menu_active_item: 'getMenuActiveItem'
-    })
-  }
+  // computed:any = {
+  //   ...mapGetters({
+  //     menu_active_item: 'getMenuActiveItem'
+  //   })
+  // }
 
   change (number:number): void {
     this.$store.dispatch('setMenuItem', {number})

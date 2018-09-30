@@ -1,0 +1,31 @@
+.settings-menu__body{
+  width: 160px;
+  display: inline-block;
+  // background: $gray;
+  padding: 20px 0px 0px 15px;
+  height: 100%;  
+  border-radius: 5px 0px 0px 5px;
+  box-shadow: 5px 0px 17px -10px rgba(0, 0, 0, 0.3);
+}
+
+.settings-menu__active-tab,
+.settings-menu__tab{
+  margin-top: 10px;
+  cursor: pointer;
+  height: 20px;
+}
+
+.settings-menu__tab{
+  font-family: Roboto-Regular;
+  font-size: 15px;
+  color: $light-gray;
+  transition: 0.2s;
+}
+.settings-menu__tab:hover{
+  font-size: 18px;
+  color: #000000 ;
+}
+
+.settings-menu__active-tab{
+  font-family: Roboto-Regular;
+}
