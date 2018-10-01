@@ -1,3 +1,15 @@
-<div>
-  Dead Zones
+<div class="settings-dead_zones__body">
+  <div class="settings-dead_zones__body-header">
+    <div class="settings-dead_zones__body-header__wrapper">
+      <h2>Dead Zones</h2>
+      <div class="settings-dead_zones__body-header__add" 
+            v-html="icon"/>
+    </div>
+    <p>The time zones when you aren't available
+         perform any planed activity</p>
+  </div>
+  <div>
+    <dead-zone-component v-for="item in deadZonesItems"
+                        v-bind:zone="item"/>
+  </div>
 </div>

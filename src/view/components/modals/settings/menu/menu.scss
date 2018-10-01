@@ -2,6 +2,7 @@
   width: 160px;
   display: inline-block;
   // background: $gray;
+  user-select: none;
   padding: 20px 0px 0px 15px;
   height: 100%;  
   border-radius: 5px 0px 0px 5px;
@@ -17,12 +18,11 @@
 
 .settings-menu__tab{
   font-family: Roboto-Regular;
-  font-size: 15px;
+  font-size: 18px;
   color: $light-gray;
   transition: 0.2s;
 }
 .settings-menu__tab:hover{
-  font-size: 18px;
   color: #000000 ;
 }
 

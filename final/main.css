@@ -31,4 +31,7 @@
 body{
 	background: #fbfbfb;
   margin: 0px;
+  font-family: Roboto-Regular;
+  user-select: none;
+  cursor: default
 }

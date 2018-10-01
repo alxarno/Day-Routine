@@ -1,0 +1,44 @@
+.settings-dead_zones__body{
+  padding-left: 30px; 
+
+}
+
+.settings-dead_zones__body>h1{
+
+}
+
+.settings-dead_zones__body-header>p{
+  font-size: 12px;
+  color: $gray;
+  margin: 0;
+}
+
+.settings-dead_zones__body-header__wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings-dead_zones__body-header__wrapper>h2{
+  // display: inline-block;
+}
+
+.settings-dead_zones__body-header__add{
+  background: $light-gray;
+  cursor: pointer;
+  fill: #ffffff;
+  padding: 3px;
+  // float: right;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 1px 1px $light-gray;
+  transition: 0.2s;
+
+}
+
+.settings-dead_zones__body-header__add:hover{
+
+  box-shadow: 0px 0px 1px 1px lighten($light-gray, 20);
+
+}

@@ -12,7 +12,7 @@
   text-align: center;
   vertical-align: middle;
   background: $primary-color;
-  transition: 0.2s;
+  transition: background, box-shadow 0.2s;
   box-shadow: 0px 0px 12px 1px lighten($primary-color, 10);
 }
 
@@ -20,7 +20,7 @@
   width: 10px;
   height: 10px;
   position: relative;
-  top: -1px;
+  top: -2px;
 }
 
 .close_button:hover{

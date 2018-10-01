@@ -1,6 +1,9 @@
+import DeadZonesModule from './settings/dead_zones.store-module'
+
 const AppModule = {
   state: {
     menu_active_item: 0,
+
    },
   actions:{
     setSettingsMenuItem({commit}, number) {
@@ -20,6 +23,10 @@ const AppModule = {
     activeItem(){
       return state.menu_active_item
     }
+  },
+
+  modules:{
+    deadZones: DeadZonesModule
   }
 }
 

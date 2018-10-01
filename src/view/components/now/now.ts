@@ -36,7 +36,6 @@ export default class NowComponent extends Vue {
   mounted (){
     var elem: any= this.$refs.now__body
     elem.scrollTop = GetScrollTop()
-    console.log(this.tasks)
   }
 
 }
