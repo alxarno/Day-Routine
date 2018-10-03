@@ -42,6 +42,7 @@
     "vue-svg-loader": "^0.10.0",
     "vue-template-compiler": "^2.5.17",
     "vue-template-loader": "^1.0.0",
+    "vuebar": "^0.0.20",
     "vuex": "^3.0.1",
     "vuex-class": "^0.3.1"
   },

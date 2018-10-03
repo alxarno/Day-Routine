@@ -1,0 +1,29 @@
+<div class="settings-dead_zones-editor-body">
+    <div class="settings-dead_zones-editor-up">
+      <div class="settings-dead_zones-editor-up-start">
+        <div class="settings-dead_zones-editor-up-name">Start</div>
+        <div class="settings-dead_zones-editor-up-value">
+          5:00
+        </div>
+        <div></div>
+      </div>
+      <div class="settings-dead_zones-editor-up-input">
+        <span>Name</span>
+        <input type="text">
+      </div>
+      <div>
+        <div  class="settings-dead_zones-editor-up-name">End</div>
+        <div class="settings-dead_zones-editor-up-value">17:00</div>
+        <div></div>
+      </div>
+    </div>
+    <div class="settings-dead_zones-editor-down">
+      <div class="settings-dead_zones-editor-down_circle-left">
+        <circle-component v-bind:time="timeHalf(zone.start)"/>
+      </div>
+      <div>Delete</div>
+      <div class="settings-dead_zones-editor-down_circle-right">
+        <circle-component v-bind:time="timeHalf(zone.start)"/>
+      </div>
+    </div>
+</div>

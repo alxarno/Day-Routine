@@ -1,0 +1,62 @@
+.settings-dead_zones-editor-body{
+  width: 350px;
+  height: 210px;
+  overflow: hidden;
+  background: $light-gray;
+}
+
+.settings-dead_zones-editor-up,
+.settings-dead_zones-editor-down{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.settings-dead_zones-editor-up-start{
+
+}
+
+.settings-dead_zones-editor-up-name{
+  font-family: Roboto-Regular;
+  font-size: 10px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.settings-dead_zones-editor-up-value{
+  font-family: Roboto-Bold;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.settings-dead_zones-editor-up-input{
+  width: 100px;
+}
+
+.settings-dead_zones-editor-up-input>span{
+  font-size: 10px;
+  color: $gray;
+}
+
+.settings-dead_zones-editor-up-input>input{
+  width: 100px;
+  border: 0px;
+  border-bottom: 1px solid $gray;
+  background: $light-gray;
+  outline: none;
+}
+
+// Circles
+
+.settings-dead_zones-editor-down_circle-left{
+  position: relative;
+  left: -55px;
+  top: 55px;
+}
+
+.settings-dead_zones-editor-down_circle-right{
+  position: relative;
+  left: 55px;
+  top: 55px;
+}

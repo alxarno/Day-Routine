@@ -5,6 +5,9 @@ import HeaderComponent from "./components/header/header";
 import NowComponent from "./components/now/now";
 import RoutinesComponent from "./components/routines/routines";
 import ModalsComponent from './components/modals/modals'
+import Vuebar from 'vuebar';
+
+Vue.use(Vuebar);
 
 
 var CreateView = function(){

@@ -15,7 +15,9 @@ require('./dead_zones.scss')
 })
 export default class DeadZones extends Vue {
   @State(state => state.settings.deadZones.items) deadZonesItems:any
+  @State(state => state.settings.deadZones.currentItem) currentItem:number
   icon:string = icon
+  
 
   mounted(){
     console.log(this.$store.state.settings.deadZones.items)
