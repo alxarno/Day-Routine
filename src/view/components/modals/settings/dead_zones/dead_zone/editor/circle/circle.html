@@ -1,5 +1,5 @@
-<div v-bind:class="(time=='AM'?'circle':'circle-light')">
-  <div v-bind:class="(time=='AM'?'circle-inner':'circle-inner-light')"
+<div v-bind:class="(time=='AM'?'circle':'circle-light')" @mousedown="startDrag()">
+ <div v-bind:class="(time=='AM'?'circle-inner':'circle-inner-light')"
         v-bind:style="{transform: 'rotate('+rotate+'deg)'}">
       <b>0</b>
       <b >1</b>
@@ -16,6 +16,7 @@
     
   </div>
   <div v-bind:class="(time=='AM'?'circle-inner-title':'circle-inner-title-light')">
-    {{time}}
+    <!-- {{time}} -->
+    {{curentHourNow}}
   </div>
 </div>

@@ -9,11 +9,11 @@
          perform any planed activity</p>
   </div>
   <div v-bar class="settings-dead-zones__body-components">
-  <div >
-    
-    <dead-zone-component v-for="(item, index) in deadZonesItems"
-                          v-bind:zone="item"
-                          v-bind:active="(index == currentItem)"/>
-  </div>
+    <div >
+      
+      <dead-zone-component v-for="(item, index) in deadZonesItems"
+                            v-bind:zone="item"
+                            v-bind:active="(index == currentItem)"/>
+    </div>
   </div>
 </div>
