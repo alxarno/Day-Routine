@@ -1,8 +1,9 @@
 .settings-dead_zones-editor-body{
   width: 350px;
-  height: 210px;
+  height: 160px;
   overflow: hidden;
   background: $light-gray;
+  box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.1);
 }
 
 .settings-dead_zones-editor-up,
@@ -57,13 +58,13 @@
 .settings-dead_zones-editor-down_circle-left{
   position: relative;
   left: -55px;
-  top: 55px;
+  top: 20px;
 }
 
 .settings-dead_zones-editor-down_circle-right{
   position: relative;
   left: 55px;
-  top: 55px;
+  top: 20px;
 }
 
 // Circle Cursors

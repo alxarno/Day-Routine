@@ -1,21 +1,25 @@
 <div class="settings-dead_zones-editor-body">
     <div class="settings-dead_zones-editor-up">
+        <switch-component v-bind:timeZone="timeHalf(zone.start)"
+            v-bind="{changeZone:changeZoneStart}"/>
       <div class="settings-dead_zones-editor-up-start">
         <div class="settings-dead_zones-editor-up-name">Start</div>
         <span class="settings-dead_zones-editor-up-value">
           {{zone.start}}:00
         </span>
-        <div></div>
+        
       </div>
       <div class="settings-dead_zones-editor-up-input">
         <span>Name</span>
-        <input type="text">
+        <input type="text" v-model="zone.name">
       </div>
       <div>
         <div  class="settings-dead_zones-editor-up-name">End</div>
         <span class="settings-dead_zones-editor-up-value">{{zone.done}}:00</span>
-        <div></div>
+       
       </div>
+      <switch-component v-bind:timeZone="timeHalf(zone.done)"
+                v-bind="{changeZone:changeZoneEnd}"/>
     </div>
     <div class="settings-dead_zones-editor-down">
       <div class="settings-dead_zones-editor-down_circle-left">
