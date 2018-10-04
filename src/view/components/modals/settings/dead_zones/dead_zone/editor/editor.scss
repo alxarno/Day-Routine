@@ -22,12 +22,17 @@
   font-size: 10px;
   text-align: center;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .settings-dead_zones-editor-up-value{
   font-family: Roboto-Bold;
   font-size: 16px;
   margin-top: 10px;
+  width: 50px;
+  text-align: center;
+  display: block;
+  line-height: 0.5;
 }
 
 .settings-dead_zones-editor-up-input{
@@ -59,4 +64,27 @@
   position: relative;
   left: 55px;
   top: 55px;
+}
+
+// Circle Cursors
+
+.settings-dead_zones-editor-down_circle-cursor-left,
+.settings-dead_zones-editor-down_circle-cursor-right{
+  width: 10px;
+  height: 10px;
+  fill: $gray
+}
+
+.settings-dead_zones-editor-down_circle-cursor-left{
+  position: relative;
+  left: 127px;
+  top: 43px;
+  transform: rotate(190deg);
+}
+
+.settings-dead_zones-editor-down_circle-cursor-right{
+  position: relative;
+  right: 5px;
+  top: 42px;
+  transform: rotate(70deg);
 }

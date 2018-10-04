@@ -8,6 +8,8 @@ import CircleComponent from './circle/circle'
 
 import * as WithRender from './editor.html'
 require('./editor.scss')
+
+const cursor = require('assets/navigation.svg')
  
 @WithRender
 @Component({
@@ -25,12 +27,27 @@ require('./editor.scss')
 })
 export default class Editor extends Vue {
 
-  get startTheme():TimeHalf{
-    if(this.$props.zone.start>=12){
-      return TimeHalf.PM
-    }else{
-      return TimeHalf.AM
+  startTimeZone:TimeHalf = TimeHalf.AM
+  doneTimeZone:TimeHalf = TimeHalf.AM
+  cursor:string = cursor
+
+  computed(){
+    this.startTimeZone = this.timeHalf(this.$props.zone.start)
+    this.doneTimeZone = this.timeHalf(this.$props.zone.done)
+  }
+
+  triggeredRight(hour:number){
+    if(this.doneTimeZone == TimeHalf.PM){
+      hour+=12
     }
+    this.$props.zone.done = hour
+  }
+
+  trigerredLeft(hour:number){
+    if(this.startTimeZone == TimeHalf.PM){
+      hour+=12
+    }
+    this.$props.zone.start = hour
   }
 
   timeHalf(time:number):TimeHalf{

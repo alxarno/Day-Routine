@@ -2,9 +2,9 @@
     <div class="settings-dead_zones-editor-up">
       <div class="settings-dead_zones-editor-up-start">
         <div class="settings-dead_zones-editor-up-name">Start</div>
-        <div class="settings-dead_zones-editor-up-value">
-          5:00
-        </div>
+        <span class="settings-dead_zones-editor-up-value">
+          {{zone.start}}:00
+        </span>
         <div></div>
       </div>
       <div class="settings-dead_zones-editor-up-input">
@@ -13,17 +13,29 @@
       </div>
       <div>
         <div  class="settings-dead_zones-editor-up-name">End</div>
-        <div class="settings-dead_zones-editor-up-value">17:00</div>
+        <span class="settings-dead_zones-editor-up-value">{{zone.done}}:00</span>
         <div></div>
       </div>
     </div>
     <div class="settings-dead_zones-editor-down">
       <div class="settings-dead_zones-editor-down_circle-left">
-        <circle-component v-bind:time="timeHalf(zone.start)"/>
+        <div class="settings-dead_zones-editor-down_circle-cursor-left"
+              v-html="cursor"/>
+        <circle-component v-bind:time="timeHalf(zone.start)"
+          v-bind:startPos="2"
+          v-bind:timeCurrent="zone.start"
+          v-bind="{triggered:trigerredLeft}"
+        />
       </div>
       <div>Delete</div>
       <div class="settings-dead_zones-editor-down_circle-right">
-        <circle-component v-bind:time="timeHalf(zone.start)"/>
+        <div class="settings-dead_zones-editor-down_circle-cursor-right"
+            v-html="cursor"/>
+        <circle-component v-bind:time="timeHalf(zone.done)"
+          v-bind:startPos="-2"
+          v-bind:timeCurrent="zone.done"
+          v-bind="{triggered:triggeredRight}"
+        />
       </div>
     </div>
 </div>
