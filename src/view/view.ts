@@ -4,7 +4,9 @@ import store from './store/index'
 import HeaderComponent from "./components/header/header";
 import NowComponent from "./components/now/now";
 import RoutinesComponent from "./components/routines/routines";
+import DeadZonesComponent from "./components/dead_zones/dead_zones"
 import ModalsComponent from './components/modals/modals'
+
 import Vuebar from 'vuebar';
 
 Vue.use(Vuebar);
@@ -19,6 +21,7 @@ var CreateView = function(){
         <HeaderComponent/>
         <NowComponent v-if="this.$store.state.app.menu_active_item == 0"/>
         <RoutinesComponent v-if="this.$store.state.app.menu_active_item == 1"/>
+        <DeadZonesComponent v-if="this.$store.state.app.menu_active_item == 2"/>
       </div>
       <ModalsComponent/>
     </div>`,
@@ -27,7 +30,8 @@ var CreateView = function(){
       HeaderComponent,
       NowComponent,
       RoutinesComponent,
-      ModalsComponent
+      ModalsComponent,
+      DeadZonesComponent
     },
     data:{
       style:{

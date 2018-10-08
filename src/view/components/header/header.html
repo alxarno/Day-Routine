@@ -7,19 +7,19 @@
 
     <div class="header-menu-items">
 
-    <div v-for="item in menu"
-         v-on:click="change(item.number)"
-         v-bind:class="[menuActiveItem == item.number ?
+    <div v-for="(item, index) in menu"
+         v-on:click="change(index)"
+         v-bind:class="[menuActiveItem == index ?
             'header-menu-item-active':'header-menu-item']">
-        {{item.name}}
+        {{item}}
       </div>
     </div>
 
     <div class="header-menu-slider"
-        v-bind:style="{ left: menuActiveItem*70 + 10*menuActiveItem  + 'px' }"
+        v-bind:style="{ left: menuActiveItem*100 + 10*menuActiveItem  + 'px' }"
     ></div>
 
   </div>
-  <SettingsComponent></SettingsComponent>
+  <settings-component/>
 
 </div>

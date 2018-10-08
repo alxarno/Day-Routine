@@ -3,4 +3,5 @@ export interface DeadZone{
   start:number;
   done: number;
   enable:boolean;
+  disabled_days: Array<number>
 }

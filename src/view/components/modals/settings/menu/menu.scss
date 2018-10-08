@@ -2,9 +2,9 @@
   width: 160px;
   display: inline-block;
   user-select: none;
+  background: lighten($light-gray, 6);
   padding: 20px 0px 0px 15px;
   border-radius: 5px 0px 0px 5px;
-  box-shadow: 5px 0px 17px -10px rgba(0, 0, 0, 0.3);
 }
 
 .settings-menu__active-tab,
@@ -12,6 +12,7 @@
   margin-top: 10px;
   cursor: pointer;
   height: 20px;
+  font-size :18px;
 }
 
 .settings-menu__tab{
@@ -24,6 +25,3 @@
   color: #000000 ;
 }
 
-.settings-menu__active-tab{
-  font-family: Roboto-Regular;
-}

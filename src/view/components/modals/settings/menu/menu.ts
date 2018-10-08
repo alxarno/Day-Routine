@@ -7,7 +7,7 @@ require('./menu.scss')
 @WithRender
 @Component({})
 export default class Menu extends Vue {
-  names:Array<string> = ["Dead Zones", "Other"]
+  names:Array<string> = ["Data"]
 
   computed:any = {
     ...mapGetters({

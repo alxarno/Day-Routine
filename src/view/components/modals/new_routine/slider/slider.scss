@@ -1,0 +1,13 @@
+.slider-wrapper{
+  width: 400px;
+  border-radius: 15px;
+  height: 15px;
+  background: lighten($light-gray, 5);
+}
+
+.slider-active{
+  width: 300px;
+  height: 15px;
+  border-radius: 15px;
+  background: lighten($primary-color,15);
+}

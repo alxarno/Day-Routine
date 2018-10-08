@@ -32,7 +32,7 @@
 }
 .header-menu-slider{
   height: 2px;
-  width: 60px;
+  width: 90px;
   background: $primary-color;
   position: relative;
   transition-duration: .2s;
@@ -48,7 +48,7 @@
 
 .header-menu-item,
 .header-menu-item-active{
-  width: 60px;
+  min-width: 90px;
   display: inline-block;
   text-align: center;
   margin-right: 20px;

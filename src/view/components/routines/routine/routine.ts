@@ -28,6 +28,7 @@ export default class RoutineComponent extends Vue {
   }
 
   settings():void{
+    this.$store.dispatch("openPopUp")
     this.$store.dispatch("currentRoutineChange", {number: this.$props.routine.id})
     this.$store.dispatch('routineSettingsWindow')
   }

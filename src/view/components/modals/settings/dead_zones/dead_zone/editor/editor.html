@@ -13,18 +13,16 @@
         <span>Name</span>
         <input type="text" v-model="zone.name">
       </div>
-      <div>
+      <div class="settings-dead_zones-editor-up-end">
         <div  class="settings-dead_zones-editor-up-name">End</div>
         <span class="settings-dead_zones-editor-up-value">{{zone.done}}:00</span>
-       
       </div>
       <switch-component v-bind:timeZone="timeHalf(zone.done)"
                 v-bind="{changeZone:changeZoneEnd}"/>
     </div>
     <div class="settings-dead_zones-editor-down">
       <div class="settings-dead_zones-editor-down_circle-left">
-        <div class="settings-dead_zones-editor-down_circle-cursor-left"
-              v-html="cursor"/>
+        <div class="settings-dead_zones-editor-down_circle-cursor-left"/>
         <circle-component v-bind:time="timeHalf(zone.start)"
           v-bind:startPos="2"
           v-bind:timeCurrent="zone.start"
@@ -33,8 +31,7 @@
       </div>
       <div>Delete</div>
       <div class="settings-dead_zones-editor-down_circle-right">
-        <div class="settings-dead_zones-editor-down_circle-cursor-right"
-            v-html="cursor"/>
+        <div class="settings-dead_zones-editor-down_circle-cursor-right"/>
         <circle-component v-bind:time="timeHalf(zone.done)"
           v-bind:startPos="-2"
           v-bind:timeCurrent="zone.done"

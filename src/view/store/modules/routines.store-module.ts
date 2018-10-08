@@ -1,8 +1,15 @@
+
+
 const RoutinesModule = {
   state: {
     current_routine: -1,
     routine_settings_open: false,
-    new_routine_open: false
+    new_routine_open: true,
+    routines:[
+      {
+        
+      }
+    ]
    },
   actions:{
     newRoutineWindow({commit}) {

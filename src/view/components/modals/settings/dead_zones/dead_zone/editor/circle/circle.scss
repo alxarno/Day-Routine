@@ -1,5 +1,18 @@
+.circle-wrapper{
+  width: 150px;
+  height: 150px;
+  border: 1px solid lighten($gray,15);
+  border-radius: 50%;
+  position: absolute;
+  left: -11px;
+  top: 3px;
+  pointer-events: none;
+  z-index: 9;
+}
+
 .circle,
 .circle-light{
+  z-index: 9999;
   width: 130px;
   height: 130px;
   // background: $primary-color;

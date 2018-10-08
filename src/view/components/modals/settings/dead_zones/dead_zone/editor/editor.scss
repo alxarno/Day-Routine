@@ -15,7 +15,15 @@
 }
 
 .settings-dead_zones-editor-up-start{
+  margin-left: -30px;
+}
 
+.settings-dead_zones-editor-up-start{
+  margin-left: -30px;
+}
+
+.settings-dead_zones-editor-up-end{
+  margin-right: -30px;
 }
 
 .settings-dead_zones-editor-up-name{
@@ -58,34 +66,34 @@
 .settings-dead_zones-editor-down_circle-left{
   position: relative;
   left: -55px;
-  top: 20px;
+  top: 10px;
 }
 
 .settings-dead_zones-editor-down_circle-right{
   position: relative;
   left: 55px;
-  top: 20px;
+  top: 10px;
 }
 
 // Circle Cursors
 
 .settings-dead_zones-editor-down_circle-cursor-left,
 .settings-dead_zones-editor-down_circle-cursor-right{
-  width: 10px;
-  height: 10px;
-  fill: $gray
+  width: 1px;
+  height: 15px;
+  background:lighten($gray,15);
+  position: absolute;
+  z-index: 999;
 }
 
 .settings-dead_zones-editor-down_circle-cursor-left{
-  position: relative;
-  left: 127px;
-  top: 43px;
-  transform: rotate(190deg);
+  left: 128px;
+    top: 30px;
+    transform: rotate(235deg);
 }
 
 .settings-dead_zones-editor-down_circle-cursor-right{
-  position: relative;
-  right: 5px;
-  top: 42px;
-  transform: rotate(70deg);
+  right: 130px;
+    top: 35px;
+    transform: rotate(120deg);
 }

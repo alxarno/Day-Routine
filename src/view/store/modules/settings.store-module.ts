@@ -1,5 +1,3 @@
-import DeadZonesModule from './settings/dead_zones.store-module'
-
 const AppModule = {
   state: {
     menu_active_item: 0,
@@ -25,9 +23,7 @@ const AppModule = {
     }
   },
 
-  modules:{
-    deadZones: DeadZonesModule
-  }
+  
 }
 
 export default AppModule

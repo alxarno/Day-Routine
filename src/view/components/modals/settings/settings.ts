@@ -3,7 +3,7 @@ import Component from 'vue-class-component'
 import * as WithRender from './settings.html'
 
 import MenuComponent from './menu/menu'
-import DeadZones from './dead_zones/dead_zones'
+import DataComponent from './data/data'
 
 require('./settings.scss')
  
@@ -11,7 +11,7 @@ require('./settings.scss')
 @Component({
   components:{
     MenuComponent,
-    DeadZones
+    DataComponent
   }
 })
 export default class SettingsComponent extends Vue {

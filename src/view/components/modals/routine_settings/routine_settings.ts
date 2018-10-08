@@ -10,9 +10,5 @@ import { mapGetters } from 'vuex'
 })
 export default class RoutineSettingsComponent extends Vue {
 
-  message: string = 'Hello!'
-
-  onClick (): void {
-    window.alert(this.message)
-  }
+ 
 }

@@ -1,0 +1,49 @@
+.modal-new_routin-wrapper{
+  padding: 20px;
+  padding-top: 40px;
+  padding-right: 0px;
+}
+
+.modal-new_routine-description,
+.modal-new_routine-name{
+  border: 0px;
+  font-size: 18px;
+  border-bottom: 1px solid $light-gray;
+  background: #ffffff;
+  outline: none;
+  margin-top: 25px;
+  font-family: Roboto-Light;
+  color: $gray;
+}
+
+.modal-new_routine-description::-webkit-input-placeholder,
+.modal-new_routine-name::-webkit-input-placeholder{
+  color: $gray;
+}
+
+.modal-new_routine-description{
+  width: 500px;
+}
+
+// SLIDER
+.modal-new_routine-slider_wrapper{
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.modal-new_routine-hours_wrapper{
+  text-align: center;
+  font-family: Roboto-Light;
+  color: $gray;
+
+}
+
+.modal-new_routine-hours_up{
+  font-size: 28px;
+}
+
+.modal-new_routine-hours_down{
+  font-size: 14px;
+  
+}

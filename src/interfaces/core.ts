@@ -1,3 +1,3 @@
-interface Core{
-
+interface ICore{
+  
 }

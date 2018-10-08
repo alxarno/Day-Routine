@@ -1,0 +1,48 @@
+<div class="settings-dead_zones-editor-body">
+    <div class="settings-dead_zones-editor-up">
+      <div
+        v-html="del"
+        class="dead_zones-editor-delete"
+        v-on:click="deleteClick"
+      >
+      </div>
+      <div 
+        class="dead_zones-editor-delete-alert"
+        v-if="deleteSwitch">
+        Click one more time for delete
+      </div>
+      <div class="settings-dead_zones-editor-up-input">
+        <span>Name</span>
+        <input type="text" v-model="zone.name">
+      </div>
+      <week-component v-bind:disabled_days="zone.disabled_days"/>
+    </div>
+    <div class="settings-dead_zones-editor-down">
+      <div class="settings-dead_zones-editor-down_circle-left">
+        <div class="settings-dead_zones-editor-down_circle-cursor-left"/>
+        <circle-component v-bind:time="timeHalf(zone.start)"
+          v-bind:startPos="2"
+          v-bind:timeCurrent="zone.start"
+          v-bind="{triggered:trigerredLeft}"
+        />
+      </div>
+      <!-- <div>Delete</div> -->
+      <switch-component
+          class="settings-dead_zones-editor-switch-left"
+          v-bind:timeZone="timeHalf(zone.start)"
+          v-bind="{changeZone:changeZoneStart}"/>
+
+      <switch-component 
+          class="settings-dead_zones-editor-switch-right"
+          v-bind:timeZone="timeHalf(zone.done)"
+          v-bind="{changeZone:changeZoneEnd}"/>
+      <div class="settings-dead_zones-editor-down_circle-right">
+        <div class="settings-dead_zones-editor-down_circle-cursor-right"/>
+        <circle-component v-bind:time="timeHalf(zone.done)"
+          v-bind:startPos="-2"
+          v-bind:timeCurrent="zone.done"
+          v-bind="{triggered:triggeredRight}"
+        />
+      </div>
+    </div>
+</div>

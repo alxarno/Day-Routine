@@ -8,7 +8,8 @@
     </div>
     <routine-component v-for="routine in routines" v-bind:routine="routine"/>
   </div>
-  <div class="routines-new__routine-button"
+  <new-button v-bind="{click: newRoutine}"/>
+  <!-- <div class="routines-new__routine-button"
         v-html="addIcon"
-        v-on:click="newRoutine"></div>
+        v-on:click="newRoutine"></div> -->
 </div>
