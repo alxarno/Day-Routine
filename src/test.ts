@@ -1,6 +1,9 @@
-import {CreateDB} from './database/test/databas.test'
+import {CreateDB} from './database/test/database.test'
 
 
-export function TEST(){
-  CreateDB()
+export async function TEST(){
+  let db = CreateDB()
+  // let table = db.Table()
+  db.Table().Create("smuglers", {name:String})
+  let table = await db.Table().Get("smuglers")
 }
