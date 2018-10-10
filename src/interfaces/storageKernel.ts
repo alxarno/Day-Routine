@@ -14,7 +14,7 @@ export interface ITableCreate{
 }
 
 export interface ITableMethods{
-  Create:ITableCreate;
+  Create:ITableGet;
   Drop:Function;
   Get:ITableGet
 }

@@ -1,0 +1,11 @@
+Needs:
+	UI:
+	*Get Current Day Schedule
+	*Get/Insert/Delete/Update Routines
+	*Get/Insert/Delete/Update Dead Zones
+	
+	*Import/Export schedule data
+	
+	*Delete whole schedule
+	
+	
