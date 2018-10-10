@@ -72,8 +72,34 @@ export class Crud implements ICRUD{
     await promise
   }
 
-  Update(){
+  async Update(data:{[key:string]:any}){
+    if(!data.hasOwnProperty('ID')){
+      throw "Argument haven't ID property"
+    }
+
+    let fields:Array<string> = this.getFields(data)
+
+    fields.splice(fields.indexOf('ID'),1)
+
+    let valueTemplates:Array<any> = fields.map((val)=>{return val+" = ?"})
+    let valuesTemplatesString:string = valueTemplates.join(",")
+
+    let querryString = `UPDATE `+this.tableName+` SET `+
+      valuesTemplatesString+` WHERE ID=?`
     
+
+    let valuesArray =  fields.map((val)=>data[val])
+    valuesArray =  [...valuesArray, data['ID']]
+
+    // console.log(querryString)
+    // console.log(valuesArray)
+
+    let promise = Request(
+      querryString,
+      valuesArray,
+      this.DB)
+
+    await promise
   }
 
   async Delete(){

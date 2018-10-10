@@ -49,8 +49,13 @@ export class Table implements ITableMethods{
     return new Crud(name,this.DB)
   }
 
-  Drop(){
-
+  async Drop(name:string){
+    let sqlBody = "DROP TABLE "+name
+    let promise = Request(
+      sqlBody,
+      [],
+      this.DB)
+    await promise;
   }
 
   async Get(name:string){

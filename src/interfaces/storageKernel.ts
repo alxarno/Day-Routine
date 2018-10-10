@@ -10,11 +10,11 @@ export interface ITableGet{
 }
 
 export interface ITableCreate{
-  (name:string, schema:{[key:string]:any}):Promise<any>
+  (name:string, schema:{[key:string]:any}):Promise<ICRUD>
 }
 
 export interface ITableMethods{
-  Create:ITableGet;
+  Create:ITableCreate;
   Drop:Function;
   Get:ITableGet
 }
