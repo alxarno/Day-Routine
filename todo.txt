@@ -7,5 +7,10 @@ Needs:
 	*Import/Export schedule data
 	
 	*Delete whole schedule
+
+  Storage:
+  *Routine apply history(Add/Clear/ClearSpoiled)
+  *Routines(All/Create/Delete/Update)
+  *Dead Zones(All/Create/Delete/Update)
 	
 	

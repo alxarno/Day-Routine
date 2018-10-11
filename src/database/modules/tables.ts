@@ -22,7 +22,12 @@ export class Table implements ITableMethods{
           rowSQL+= field+" TEXT, "
           break;
         case Number:
+          if(field=="ID"){
+            // Already defined
+            break;
+          }
           rowSQL+=field+" INTEGER, "
+
           break;
         case Boolean:
           rowSQL+=field+" INTEGER, "
@@ -42,6 +47,7 @@ export class Table implements ITableMethods{
   async Create(name:string, schema: any){
     let sqlBody = this.DecodeTableSchema(schema)
     sqlBody = "CREATE TABLE IF NOT EXISTS "+name+"("+sqlBody+")"
+    console.log(sqlBody)
     let promise = Request(sqlBody,[],this.DB)
 
     await promise;
