@@ -4,12 +4,12 @@ export default class SchemaMap implements StorageSchema.IMap{
     
   }
 
-  Deserial(val:any):Object{
-    return {}
+  Serial(val:Object):any{
+    return JSON.stringify(val)
   }
 
-  Serial(val:Object):any{
-    return val
+  Deserial(val:any):Object{
+    return JSON.parse(val)
   }
 
   SchemaNativeType():any{

@@ -3,7 +3,9 @@ namespace StorageSchema{
   export interface ISchema{
     name:string;
     schemaBody:IScheamBody;
-    transpilerToPrimitive:Function
+    TranspilerToPrimitive:Function
+    Serialization:Function
+    Deserialization:Function
   }
 
   export interface IScheamBody{

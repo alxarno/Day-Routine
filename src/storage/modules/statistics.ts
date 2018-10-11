@@ -4,6 +4,7 @@ import {NowTask} from '../../models/now.tasks'
 
 export class Statistics implements IStatisticsStorage {
   kernel:IStorageKernel
+  schema:any
 
   constructor(kernel:IStorageKernel){
     this.kernel = kernel

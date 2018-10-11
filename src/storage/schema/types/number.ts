@@ -3,12 +3,12 @@ export default class SchemaNumber implements StorageSchema.INumber{
     
   }
 
-  Deserial(val:any):Number{
-    return 0
-  }
-
   Serial(val:number):any{
     return val
+  }
+
+  Deserial(val:any):Number{
+    return Number(val)
   }
 
   SchemaNativeType():any{

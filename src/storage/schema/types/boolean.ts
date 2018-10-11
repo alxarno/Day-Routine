@@ -3,13 +3,12 @@ export default class SchemaBoolean implements StorageSchema.IBoolean{
   constructor() {
     
   }
-
-  Deserial(val:any):Boolean{
-    return false
+  Serial(val:boolean):any{
+    return (val?1:0)
   }
 
-  Serial(val:boolean):any{
-    return val
+  Deserial(val:any):Boolean{
+    return (<number>val==1?true:false)
   }
 
   SchemaNativeType():any{

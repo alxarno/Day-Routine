@@ -7,12 +7,36 @@ export default class Schema implements StorageSchema.ISchema{
     this.schemaBody = schemaBody
   }
 
-  transpilerToPrimitive(){
+  TranspilerToPrimitive(){
     let finalObj:any = {}
     for(let field in this.schemaBody){
-      finalObj[field] = this.schemaBody[field].SchemaNativeType()
+        finalObj[field] = this.schemaBody[field].SchemaNativeType()
     }
-    console.log(finalObj)
+    return finalObj
   }  
+
+  Serialization(data:any):any{
+    let finalObj:any = {}
+    for(let field in this.schemaBody){
+      if(data.hasOwnProperty(field)){
+        finalObj[field] = this.schemaBody[field].Serial(data[field])
+      }else{
+        throw "Argument's structure is wrong"
+      }
+    }
+    return finalObj
+  }
+
+  Deserialization(data:any):any{
+    let finalObj:any = {}
+    for(let field in this.schemaBody){
+      if(data.hasOwnProperty(field)){
+        finalObj[field] = this.schemaBody[field].Deserial(data[field])
+      }else{
+        throw "Argument's structure is wrong"
+      }
+    }
+    return finalObj
+  }
 
 }

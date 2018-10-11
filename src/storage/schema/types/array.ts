@@ -4,12 +4,12 @@ export default class ShcemaArray implements StorageSchema.IArray{
     
   }
 
-  Deserial(value:string):Array<any>{
-    return []
+  Serial(val:Array<any>):string{
+    return JSON.stringify(val)
   }
 
-  Serial(val:Array<any>):string{
-    return ""
+  Deserial(val:string):Array<any>{
+    return JSON.parse(val)
   }
 
   SchemaNativeType():any{

@@ -4,12 +4,14 @@ export default class SchemaDate implements StorageSchema.IDate{
     
   }
 
-  Deserial(val:any):Date{
-    return new Date()
+  Serial(val:Date):any{
+    return val.getTime()
   }
 
-  Serial(val:Date):any{
-    return val
+  Deserial(val:any):Date{
+    let fin = new Date()
+    fin.setTime(<number>val)
+    return fin
   }
 
   SchemaNativeType():any{

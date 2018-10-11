@@ -1,11 +1,12 @@
 import {IDeadZonesStorage} from '../../interfaces/storage'
 import {IStorageKernel} from '../../interfaces/storageKernel'
 
-export class DeadZones implements IDeadZonesStorage {
-  kernel:IStorageKernel
+import StorageModule from './module'
 
-  constructor(kernel:IStorageKernel){
-    this.kernel = kernel
+export class DeadZones extends StorageModule  implements IDeadZonesStorage {
+
+  constructor(kernel:IStorageKernel, schema:StorageSchema.ISchema){
+    super(kernel,schema)
   }
 
   async Get(){
