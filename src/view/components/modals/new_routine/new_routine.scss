@@ -1,49 +1,98 @@
-.modal-new_routin-wrapper{
-  padding: 20px;
-  padding-top: 40px;
-  padding-right: 0px;
+.modal-routin-wrapper{
+  padding: 15px;
+  // padding-top: 45px;
+  margin-top: 30px;
 }
 
-.modal-new_routine-description,
-.modal-new_routine-name{
+.modal-routines-row{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0px 40px;
+  margin-top: 50px;
+}
+
+// .modal-routines-row{
+ 
+// }
+
+.modal-routine-input>span{
+  width: 100%;
+  display: inline-block;
+}
+
+.modal-routine-input>input,
+.modal-routine-input.description>textarea{
   border: 0px;
-  font-size: 18px;
-  border-bottom: 1px solid $light-gray;
+  font-size: 16px;
+  border: 1px solid $light-gray;
   background: #ffffff;
   outline: none;
-  margin-top: 25px;
+  border-radius: 2.5px;
+
   font-family: Roboto-Light;
   color: $gray;
 }
 
-.modal-new_routine-description::-webkit-input-placeholder,
-.modal-new_routine-name::-webkit-input-placeholder{
-  color: $gray;
+
+.modal-routine-input.description>textarea{
+  width: 100%;
+  resize: none;
 }
 
-.modal-new_routine-description{
-  width: 500px;
-}
-
-// SLIDER
-.modal-new_routine-slider_wrapper{
-  margin-top: 25px;
+.modal-routine-action-wrapper{
+  border: 1px solid $light-gray;
+  border-radius: 2.5px;
+  width: 80px;
+  height: 25px;
   display: flex;
   align-items: center;
+  padding: 0px 10px;
+  justify-content: space-between;
+  position: relative;
+  top: 15px;
 }
 
-.modal-new_routine-hours_wrapper{
-  text-align: center;
-  font-family: Roboto-Light;
-  color: $gray;
-
+.modal-routine-action{
+  fill: $gray;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
 }
 
-.modal-new_routine-hours_up{
-  font-size: 28px;
+.modal-routine-separator{
+  width: 1px;
+  height: 15px;
+  position: relative;
+  top: 1.5px;
+  background: $light-gray;
+  margin: 2.5px;
+  margin-top: 0px;
 }
 
-.modal-new_routine-hours_down{
-  font-size: 14px;
+.modal-routine-action.active>svg{
+  fill: $primary-color;
+}
+
+.modal-routine-action-body-wrapper{
+  width: 150px;
+  // margin-top: 20px;
   
+}
+
+.modal-routine-col-3{
+  width: 190px;
+}
+
+.modal-routine-color{
+  width: 100px;
+}
+
+
+.modal-routines-slider-wrapper{
+  width: calc(100% - 100px);
+}
+
+.modal-routines-hours-caption{
+  color: $gray;
 }

@@ -1,13 +1,47 @@
-<div class="modal-new_routin-wrapper">
-  <div>
-    <input type="text" class="modal-new_routine-name"
-          placeholder="Name">
+<div class="modal-routin-wrapper">
+  <div class="modal-routines-row">
+    <div class="modal-routine-input">
+      <span>Name</span>
+      <input type="text" class="modal-routine-name"/>
+    </div>
+    <div class="modal-routine-input description">
+      <span>Description</span>
+      <textarea  type="text" class="modal-routine-description"
+             rows="2"/>
+    </div>
   </div>
-  <div>
-    <input type="text" class="modal-new_routine-description"
-            placeholder="Description">
+
+  <div class="modal-routines-row">
+    <div class="modal-routine-action-wrapper">
+      <div v-html="link" class="modal-routine-action" v-bind:class="[ action == 1 ? 'active':'']"
+        v-on:click="click(1)"/>
+      <div class="modal-routine-separator"/>
+      <div v-html="file" class="modal-routine-action"  v-bind:class="[action == 2 ? 'active':'']"
+        v-on:click="click(2)"/>
+      <div class="modal-routine-separator"/>
+      <div v-html="nothing" class="modal-routine-action" v-bind:class="[action == 3 ? 'active':'']"
+        v-on:click="click(3)"/>
+    </div>
+    <div class="modal-routine-col-3">
+      <div class="modal-routine-input" v-if="action == 1 ">
+        <span>Link</span>
+        <input type="text" class="modal-routine-name"/>
+      </div>
+    </div>
+    
+    <div class="modal-routine-color">
+        <span>Color</span>
+        <dropdown-component/>
+       
+    </div>
   </div>
-  <div class="modal-new_routine-slider_wrapper">
+  <div class="modal-routines-row">
+    <div class="modal-routines-slider-wrapper">
+      <slider-component v-bind:max="20" v-bind:now="5" v-bind="{triggered:sliderTriger}"/>
+    </div>
+    <span class="modal-routines-hours-caption">h/week</span>
+  </div>
+  <!-- <div class="modal-new_routine-slider_wrapper">
     <div class="modal-new_routine-hours_wrapper">
       <div class="modal-new_routine-hours_up">7</div>
       <div class="modal-new_routine-hours_down">h/week</div>
@@ -28,5 +62,5 @@
   <div>
     <div>Del</div>
     <div>Save</div>
-  </div>
+  </div> -->
 </div>

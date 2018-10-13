@@ -2,7 +2,7 @@ const AppModule = {
   state: {
     menu_active_item: 0,
     settings_open: false,
-    popup_open: false
+    popup_open: true
    },
   actions:{
     setMenuItem({commit}, number) {
