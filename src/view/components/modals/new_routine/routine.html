@@ -27,12 +27,19 @@
         <span>Link</span>
         <input type="text" class="modal-routine-name"/>
       </div>
+      <div class="modal-routine-input" v-if="action == 2 ">
+        <span>File</span>
+        <div class="modal-routine-file-body">
+          {{actionBody}}
+          <div class="modal-routines-file-body-change button-rec" v-html="pen">
+          </div>
+        </div>      
+      </div>
     </div>
     
     <div class="modal-routine-color">
         <span>Color</span>
         <dropdown-component/>
-       
     </div>
   </div>
   <div class="modal-routines-row">
@@ -41,26 +48,8 @@
     </div>
     <span class="modal-routines-hours-caption">h/week</span>
   </div>
-  <!-- <div class="modal-new_routine-slider_wrapper">
-    <div class="modal-new_routine-hours_wrapper">
-      <div class="modal-new_routine-hours_up">7</div>
-      <div class="modal-new_routine-hours_down">h/week</div>
-    </div>
-    <slider-component/>
+  <div class="modal-routines-row">
+    <div class="button-rec modal-routines-save"> Create</div>
+
   </div>
-  <div>
-    <div>
-      type
-    </div>
-    <div>
-      link
-    </div>
-    <div>
-      change
-    </div>
-  </div>
-  <div>
-    <div>Del</div>
-    <div>Save</div>
-  </div> -->
 </div>

@@ -80,8 +80,35 @@
   
 }
 
+.modal-routine-file-body{
+  color: $gray;
+  margin-left: -4px;
+}
+
+.modal-routines-file-body-change{
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  display: inline-block;
+
+}
+
+.modal-routines-file-body-change:active{
+  opacity: 0.4;
+}
+
+.modal-routines-file-body-change>svg{
+  fill: #ffffff;
+  position: relative;
+  top: 2px;
+ 
+  width: 15px;
+  height: 15px;
+}
+
 .modal-routine-col-3{
   width: 190px;
+  height: 45px;
 }
 
 .modal-routine-color{
@@ -95,4 +122,11 @@
 
 .modal-routines-hours-caption{
   color: $gray;
+}
+
+
+.modal-routines-save{
+  width: 100px;
+  color:#ffffff;
+  font-size: 12px;
 }

@@ -3,7 +3,7 @@ import Component from 'vue-class-component'
 import * as WithRender from './modals.html';
 import CloseButton from './elements/close/close'
 import SettingsComponent from './settings/settings'
-import NewRoutineComponent from './new_routine/new_routine'
+import RoutineComponent from './new_routine/routine'
 import RoutineSettingsComponent from './routine_settings/routine_settings'
 
 
@@ -12,7 +12,7 @@ require("./modals.scss")
 @Component({
   components:{
     SettingsComponent,
-    NewRoutineComponent,
+    RoutineComponent,
     RoutineSettingsComponent,
     CloseButton
   }

@@ -83,3 +83,28 @@ body{
 .vb.vb-dragging-phantom > .vb-dragger > .vb-dragger-styler {
   background-color: rgba(95, 47, 225,.5);
 }
+
+/* Buttons */
+
+.button-rec{
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 10px;
+  margin: auto;
+  padding-right: 2px;
+  line-height: 2;
+
+  text-decoration: none;
+  border-width: 2px 0;
+  border-style: solid none;
+  border-color: #a087ff #000 #8D6EFF;
+  border-radius: 6px;
+  background: linear-gradient(#a087ff, #8D6EFF) #8D6EFF;
+  transition: 0.2s;
+}
+
+.button-rec:active{
+  opacity: 0.4;
+}
