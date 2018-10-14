@@ -2,11 +2,12 @@
   <div class="routines-wrapper">
     <div>
         <input type="text" class="routines-search__input"
-               placeholder="Search..."/>
+               placeholder="Search..." v-model="searchRequest"/>
         <div v-html="searchIcon"
               class="search-icon"></div>
     </div>
-    <routine-component v-for="routine in routines" v-bind:routine="routine"/>
+    <routine-component v-for="routine in routines" v-bind:routine="routine"
+      v-if="routine.name.toLowerCase().includes(searchRequest)"/>
   </div>
   <new-button v-bind="{click: newRoutine}"/>
   <!-- <div class="routines-new__routine-button"

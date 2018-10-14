@@ -2,6 +2,7 @@ import {DeadZone} from 'src/models/dead_zone'
 
 const deadZones:Array<DeadZone> = [
   {
+    ID:0,
     start: 0,
     done: 10,
     enable: true,
@@ -9,6 +10,7 @@ const deadZones:Array<DeadZone> = [
     disabled_days: [0,3]
   },
   {
+    ID:1,
     start: 13,
     done: 14,
     enable: false,

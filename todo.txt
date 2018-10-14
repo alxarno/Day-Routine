@@ -12,5 +12,17 @@ Needs:
   *Routine apply history(Add/Clear/ClearSpoiled)
   *Routines(All/Create/Delete/Update)
   *Dead Zones(All/Create/Delete/Update)
-	
-	
+
+
+
+
+
+todo:
+  UI:
+    Search in Routines
+    Search in DeadZones
+    Create new DeadZones
+    Delete DeadZones
+
+    Create new Routine action
+    Customize routine modal

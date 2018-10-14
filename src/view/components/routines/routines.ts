@@ -23,6 +23,8 @@ const addIcon = require("assets/add.svg")
   }
 })
 export default class RoutinesComponent extends Vue {
+  searchRequest:string = "" 
+
   searchIcon:string = searchIcon
   addIcon:string = addIcon
 

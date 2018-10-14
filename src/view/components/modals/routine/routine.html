@@ -28,11 +28,14 @@
         <input type="text" class="modal-routine-name"/>
       </div>
       <div class="modal-routine-input" v-if="action == 2 ">
-        <span>File</span>
+        <span>
+            File
+           <div class="modal-routines-file-body-change button-rec" v-html="pen"/>
+        </span>
+        
         <div class="modal-routine-file-body">
           {{actionBody}}
-          <div class="modal-routines-file-body-change button-rec" v-html="pen">
-          </div>
+          
         </div>      
       </div>
     </div>

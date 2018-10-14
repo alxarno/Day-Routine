@@ -3,7 +3,7 @@ import Component from 'vue-class-component'
 import * as WithRender from './modals.html';
 import CloseButton from './elements/close/close'
 import SettingsComponent from './settings/settings'
-import RoutineComponent from './new_routine/routine'
+import RoutineComponent from './routine/routine'
 import RoutineSettingsComponent from './routine_settings/routine_settings'
 
 
