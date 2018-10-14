@@ -7,10 +7,7 @@
               class="search-icon"></div>
     </div>
     <routine-component v-for="routine in routines" v-bind:routine="routine"
-      v-if="routine.name.toLowerCase().includes(searchRequest)"/>
+      v-if="routine.name.toLowerCase().includes(searchRequest.toLowerCase())"/>
   </div>
   <new-button v-bind="{click: newRoutine}"/>
-  <!-- <div class="routines-new__routine-button"
-        v-html="addIcon"
-        v-on:click="newRoutine"></div> -->
 </div>

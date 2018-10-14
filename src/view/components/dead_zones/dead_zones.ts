@@ -19,6 +19,7 @@ export default class DeadZones extends Vue {
   @State(state => state.dead_zones.items) deadZonesItems:any
   @State(state => state.dead_zones.currentItem) currentItem:any
   searchIcon:string = searchIcon
+  searchRequest:string = "" 
 
   mounted(){
     console.log(this.$store.state.dead_zones.items)
