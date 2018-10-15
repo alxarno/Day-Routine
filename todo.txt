@@ -19,8 +19,6 @@ Needs:
 
 todo:
   UI:
-    Search in Routines
-    Search in DeadZones
     Create new DeadZones
     Delete DeadZones
 

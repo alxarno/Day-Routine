@@ -2,12 +2,12 @@
   <div class="modal-routines-row">
     <div class="modal-routine-input">
       <span>Name</span>
-      <input type="text" class="modal-routine-name"/>
+      <input type="text" class="modal-routine-name" v-model="name"/>
     </div>
     <div class="modal-routine-input description">
       <span>Description</span>
       <textarea  type="text" class="modal-routine-description"
-             rows="2"/>
+             rows="2" v-model="description"/>
     </div>
   </div>
 
@@ -25,12 +25,12 @@
     <div class="modal-routine-col-3">
       <div class="modal-routine-input" v-if="action == 1 ">
         <span>Link</span>
-        <input type="text" class="modal-routine-name"/>
+        <input type="text" class="modal-routine-name" v-model="actionBody"/>
       </div>
       <div class="modal-routine-input" v-if="action == 2 ">
         <span>
             File
-           <div class="modal-routines-file-body-change button-rec" v-html="pen"/>
+           <div class="modal-routines-file-body-change button-rec" v-html="pen" @click="chooseFile"/>
         </span>
         
         <div class="modal-routine-file-body">
@@ -42,7 +42,7 @@
     
     <div class="modal-routine-color">
         <span>Color</span>
-        <dropdown-component/>
+        <dropdown-component v-bind:items="colors" v-bind:currentItem="0" v-bind="{callback:colorChange}"/>
     </div>
   </div>
   <div class="modal-routines-row">
@@ -52,7 +52,7 @@
     <span class="modal-routines-hours-caption">h/week</span>
   </div>
   <div class="modal-routines-row">
-    <div class="button-rec modal-routines-save"> Create</div>
+    <div class="button-rec modal-routines-save" @click="create"> Create</div>
 
   </div>
 </div>
