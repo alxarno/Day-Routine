@@ -12,30 +12,24 @@ export class Routines extends StorageModule implements IRoutinesStorage {
   }
 
   async Get(){
-    
+    let rows = await this.kernel.Table().GetByName(this.schema.name).Get()
+    let units:Array<Routine> = rows.map((el:Routines)=>this.schema.Deserialization(el))
+    return units
   }
 
-  async Create(unit:Routine){
+  Create(unit:Routine){
     let dunit = this.schema.Serialization(unit)
-    await this.kernel.Table()
-      .Get(this.schema.name)
-      .then((table)=>{
-        table.Insert(dunit)
-      })
+    this.kernel.Table().GetByName(this.schema.name).Insert(dunit)
   }
 
-  async Delete(unit:any){
+  Delete(unit:any){
     // We don't use serialization cause serialization
     // doesn't process ID , but we need ID for delete
     // certain row
-    await this.kernel.Table()
-      .Get(this.schema.name)
-      .then((table)=>{
-        table.Delete(unit)
-      })
+    this.kernel.Table().GetByName(this.schema.name).Delete(unit)
   }
 
-  async Update(){
-
+  Update(unit:Routine){
+    this.kernel.Table().GetByName(this.schema.name).Update(unit)
   }
 }

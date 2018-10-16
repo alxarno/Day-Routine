@@ -18,6 +18,10 @@ Needs:
 
 
 todo:
+  Done Storage
+  Done Core
+
+  
   UI:
     Create new DeadZones
     Delete DeadZones

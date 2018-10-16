@@ -9,10 +9,10 @@ import {
   IStorageKernel
 } from '../interfaces/storageKernel'
 
-
 import {
   RoutinesSchema,
-  DeadZoneSchema
+  DeadZoneSchema,
+  StatisticsSchema
 } from './schemas'
 
 import {Routines} from './modules/routines'
@@ -31,7 +31,7 @@ export class Storage implements IStorage{
   constructor(kernel:IStorageKernel){
     this.kernel = kernel
     
-    this.statistics = new Statistics(this.kernel)
+    this.statistics = new Statistics(this.kernel, StatisticsSchema)
     this.routines = new Routines(this.kernel, RoutinesSchema)
     this.deadZones= new DeadZones(this.kernel, DeadZoneSchema)
   }

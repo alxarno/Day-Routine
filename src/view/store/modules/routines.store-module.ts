@@ -24,7 +24,7 @@ const RoutinesModule = {
       commit('SET_CURRENT_ROUTINE', number)
     },
     addRoutine({commit},routine:Routine){
-      console.log("Save", routine);
+      // console.log("Save", routine);
     },
     closeRoutines({commit}){
       commit('DROP')

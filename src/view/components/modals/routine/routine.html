@@ -13,10 +13,10 @@
 
   <div class="modal-routines-row">
     <div class="modal-routine-action-wrapper">
-      <div v-html="link" class="modal-routine-action" v-bind:class="[ action == 1 ? 'active':'']"
+      <div v-html="file" class="modal-routine-action"  v-bind:class="[action == 1 ? 'active':'']"
         v-on:click="click(1)"/>
       <div class="modal-routine-separator"/>
-      <div v-html="file" class="modal-routine-action"  v-bind:class="[action == 2 ? 'active':'']"
+      <div v-html="link" class="modal-routine-action" v-bind:class="[ action == 2 ? 'active':'']"
         v-on:click="click(2)"/>
       <div class="modal-routine-separator"/>
       <div v-html="nothing" class="modal-routine-action" v-bind:class="[action == 3 ? 'active':'']"
@@ -24,10 +24,6 @@
     </div>
     <div class="modal-routine-col-3">
       <div class="modal-routine-input" v-if="action == 1 ">
-        <span>Link</span>
-        <input type="text" class="modal-routine-name" v-model="actionBody"/>
-      </div>
-      <div class="modal-routine-input" v-if="action == 2 ">
         <span>
             File
            <div class="modal-routines-file-body-change button-rec" v-html="pen" @click="chooseFile"/>
@@ -37,6 +33,10 @@
           {{actionBody}}
           
         </div>      
+      </div>
+      <div class="modal-routine-input" v-if="action == 2 ">
+        <span>Link</span>
+        <input type="text" class="modal-routine-name" v-model="actionBody"/>
       </div>
     </div>
     

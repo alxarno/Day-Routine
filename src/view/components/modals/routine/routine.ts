@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
-
-
-
-
 import {Action} from 'src/models/action'
+import {State} from 'vuex-class'
 import SliderComponent from './slider/slider'
 import * as WithRender from './routine.html';
 require('./routine.scss')
@@ -17,18 +14,23 @@ const link = require('assets/internet.svg')
 
 const pen =require('assets/pen.svg')
 import {colors} from 'src/view/color.themes'
+import { Routine } from 'src/models/routines.routine';
 
 const {shell,dialog} = window.require('electron').remote
 let actionBuffer:string;
 
 @WithRender
 @Component({
+  props:{
+    routineID:Number
+  },
   components:{
     SliderComponent,
     DropdownComponent
   }
 })
 export default class RoutineComponent extends Vue {
+  @State(state => state.routines.routines) routines:Array<Routine>
 
   name:string = ""
   description:string = ""
@@ -42,6 +44,23 @@ export default class RoutineComponent extends Vue {
   file:string = file
   link:string = link  
   pen:string = pen
+
+  created(){
+    // console.log("RoutineComponent")
+    if(this.$props.routineID != -1){
+      this.routines.forEach((element:Routine) => {
+        if(element.ID == this.$props.routineID){
+          this.name = element.name
+          this.description = element.describe
+          this.hours = element.hours
+          this.action = element.actionType
+          this.actionBody = element.actionBody
+          this.colorScheme = element.colorScheme;
+        }
+      });
+
+    }
+  }
 
   colorChange(colorScheme:string){
     this.colorScheme = colorScheme;

@@ -1,5 +1,3 @@
-// import {ISchema} from './schema/schema.interfaces'
-// import SchemaNumber from './schema/types/number'
 import Schema from './schema/schema'
 
 import {
@@ -7,11 +5,11 @@ import {
   SchemaString,
   SchemaBoolean,
   SchemaArray,
-
+  SchemaDate,
 } from './schema/types'
 
-
 let RoutinesSchema:StorageSchema.ISchema  = new Schema("routines",{
+  ID:new SchemaNumber(),
   actionBody: new SchemaString(),
   actionType: new SchemaNumber(),
   colorScheme: new SchemaString(),
@@ -20,8 +18,8 @@ let RoutinesSchema:StorageSchema.ISchema  = new Schema("routines",{
   name: new SchemaString()
 }) 
 
-
 let DeadZoneSchema:StorageSchema.ISchema = new Schema("dead_zones", {
+  ID:new SchemaNumber(),
   name: new SchemaString(),
   start: new SchemaNumber(),
   done:new SchemaNumber(),
@@ -29,18 +27,11 @@ let DeadZoneSchema:StorageSchema.ISchema = new Schema("dead_zones", {
   disabled_days: new SchemaArray()
 })
 
-
-// let SomeSchema:ISchema={
-//   name:"test",
-//   schemaBody:{
-//     age:new SchemaNumber()
-//   }
-// }
-
-let SomeSchema:StorageSchema.ISchema = new Schema("test",{
-  age: new SchemaNumber()
+let StatisticsSchema:StorageSchema.ISchema = new Schema("statist",{
+  ID:new SchemaNumber(),
+  routineID:new SchemaNumber(),
+  spent:new SchemaArray(),
+  lastUpdate: new SchemaDate()
 })
 
-// let schemas = [SomeSchema]
-
-export {RoutinesSchema, DeadZoneSchema}
+export {RoutinesSchema, DeadZoneSchema, StatisticsSchema}

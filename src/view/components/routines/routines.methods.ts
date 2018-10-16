@@ -5,7 +5,9 @@ export function GetRoutines():Array<Routine>{
 
   for(let i=0;i<20;i++){
     routines.push({
-      id:i,
+      ID:i,
+      actionBody:"https://loco.com",
+      actionType:2,
       colorScheme:"orange",
       describe: `I learn English to find best company
       in the world which can use my skills

@@ -55,6 +55,7 @@ export class Crud implements ICRUD{
 
   async Insert(data:{[key:string]:any}){
     let fields:Array<string> = this.getFields(data)
+    fields.splice(fields.indexOf("ID"), 1);
    
 
     let values:Array<any> = fields.map((val)=>data[val])

@@ -6,7 +6,7 @@ export interface ICRUD{
 }
 
 export interface ITableGet{
-  (name:string):Promise<ICRUD>
+  (name:string):ICRUD
 }
 
 export interface ITableCreate{
@@ -16,7 +16,7 @@ export interface ITableCreate{
 export interface ITableMethods{
   Create:ITableCreate;
   Drop:Function;
-  Get:ITableGet
+  GetByName:ITableGet
 }
 
 export interface IStorageKernelTable{

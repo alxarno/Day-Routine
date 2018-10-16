@@ -1,6 +1,6 @@
 import { IDB} from '../interfaces'
 
-import {ITableMethods} from '../../interfaces/storageKernel'
+import {ITableMethods, ICRUD} from '../../interfaces/storageKernel'
 
 import {Crud} from './CRUD'
 
@@ -64,27 +64,28 @@ export class Table implements ITableMethods{
     await promise;
   }
 
-  async Get(name:string){
-    let promise = Request(`SELECT name FROM sqlite_master
-      WHERE type='table'
-      ORDER BY name;`,
-      [],this.DB)
+  GetByName(name:string):ICRUD{
+    return new Crud(name,this.DB)
+    // let promise = Request(`SELECT name FROM sqlite_master
+    //   WHERE type='table'
+    //   ORDER BY name;`,
+    //   [],this.DB)
 
-    let data = null
+    // let data = null
 
-    try{
-      data = await promise;
-    }catch(err){
-      throw err
-    }
+    // try{
+    //   data = await promise;
+    // }catch(err){
+    //   throw err
+    // }
 
-    for(let i =0;i<data.rows.length;i++){
-      if(data.rows[i].name == name){
-        return new Crud(name,this.DB)
-      }
-    }
+    // for(let i =0;i<data.rows.length;i++){
+    //   if(data.rows[i].name == name){
+    //     return new Crud(name,this.DB)
+    //   }
+    // }
 
-    throw "Table did'nt find"
+    // throw "Table did'nt find"
 
   }
 }
