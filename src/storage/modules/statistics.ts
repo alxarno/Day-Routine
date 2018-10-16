@@ -17,16 +17,18 @@ export class Statistics extends StorageModule implements IStatisticsStorage {
   }
 
   async Get(){
-    let rows = await this.kernel.Table().GetByName(this.schema.name).Get()
-    let units:Array<IStatistics> = rows.map((el:IStatistics)=>this.schema.Deserialization(el))
+    let rows:{[key:number]:any} = await this.kernel.Table().GetByName(this.schema.name).Get()
+    if(Object.keys(rows).length==0) return [];
+    let crows:Array<any> = Object.keys(rows).map((v,i) => rows[i]);
+    let units:Array<IStatistics> = crows.map((el:IStatistics)=>this.schema.Deserialization(el))
     return units
   }
 
   async Add(data:{routineID:number, hours:number}){
-    let rows = await this.kernel.Table().GetByName(this.schema.name).Get({routineID:data.routineID})
-    let units:Array<IStatistics> = rows.map((el:IStatistics)=>this.schema.Deserialization(el))
     let st:IStatistics;
-    if(units.length==0){
+    let rows:{[key:number]:any} 
+    rows = await this.kernel.Table().GetByName(this.schema.name).Get({routineID:data.routineID})
+    if(Object.keys(rows).length==0){
       st = {
         ID:-1,
         routineID:data.routineID,
@@ -34,8 +36,10 @@ export class Statistics extends StorageModule implements IStatisticsStorage {
         spent: [0,0,0,0,0,0,0]
       }
     }else{
+      let crows:Array<any> = Object.keys(rows).map((v,i) => rows[i]);
+      let units:Array<IStatistics> = crows.map((el:IStatistics)=>this.schema.Deserialization(el))
       st=units[0]
-    } 
+    }
     this.clearSpoiled(st)
     st.spent[6] +=data.hours;
     if(st.ID == -1){

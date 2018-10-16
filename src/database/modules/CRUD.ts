@@ -64,6 +64,9 @@ export class Crud implements ICRUD{
 
     let querryString = `INSERT INTO `+this.tableName+
     ` (`+fields.toString()+`) VALUES (`+questionMarks.toString()+`)`
+    console.log("------------------")
+    console.log(querryString)
+    console.log("------------------")
     
     let promise = Request(
       querryString,

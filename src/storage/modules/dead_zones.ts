@@ -11,8 +11,10 @@ export class DeadZones extends StorageModule  implements IDeadZonesStorage {
   }
 
   async Get(){
-    let rows = await this.kernel.Table().GetByName(this.schema.name).Get()
-    let units:Array<DeadZone> = rows.map((el:DeadZone)=>this.schema.Deserialization(el))
+    let rows:{[key:number]:any} = await this.kernel.Table().GetByName(this.schema.name).Get()
+    if(Object.keys(rows).length==0) return [];
+    let crows:Array<any> = Object.keys(rows).map((v,i) => rows[i]);
+    let units:Array<DeadZone> = crows.map((el:DeadZone)=>this.schema.Deserialization(el))
     return units
   }
 

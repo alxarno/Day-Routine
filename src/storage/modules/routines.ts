@@ -12,8 +12,10 @@ export class Routines extends StorageModule implements IRoutinesStorage {
   }
 
   async Get(){
-    let rows = await this.kernel.Table().GetByName(this.schema.name).Get()
-    let units:Array<Routine> = rows.map((el:Routines)=>this.schema.Deserialization(el))
+    let rows:{[key:number]:any} = await this.kernel.Table().GetByName(this.schema.name).Get()
+    if(Object.keys(rows).length==0) return [];
+    let crows:Array<any> = Object.keys(rows).map((v,i) => rows[i]);
+    let units:Array<Routine> = crows.map((el:Routines)=>this.schema.Deserialization(el))
     return units
   }
 

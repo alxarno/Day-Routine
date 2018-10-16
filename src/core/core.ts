@@ -1,36 +1,42 @@
-import IStorage from "src/interfaces/storage"
+import {IStorage} from "src/interfaces/storage"
 
-import {IScheduleCore} from './interfaces'
-import {IDeadZoneCore} from './interfaces'
-import {IRoutinesCore} from './interfaces'
+import {
+  ICore,
+  IScheduleCore,
+  ISettingsCore,
+  IRoutinesCore,
+  IDeadZonesCore
+} from 'src/interfaces/core'
+
 
 import {ScheduleCore} from './modules/schedule'
-import {DeadZonesCore} from './modules/dead_zones'
-import {RoutinesCore} from './modules/routines'
+import {SettingsCore} from "./modules/settings";
 
-class Core {
+export class Core implements ICore{
   private Storage:IStorage
   private ScheduleModule:IScheduleCore
-  private RoutinesModule:IRoutinesCore
-  private DeadZonesModule:IDeadZoneCore
+  private SettingsModule:ISettingsCore
 
   constructor(storage: IStorage) {
     this.Storage = storage;
 
-    this.ScheduleModule = new ScheduleCore()
-    this.RoutinesModule = new RoutinesCore()
-    this.DeadZonesModule = new DeadZonesCore()
+    this.ScheduleModule = new ScheduleCore(this.Storage)
+    this.SettingsModule = new SettingsCore(this.Storage)
   }
 
   public Routines():IRoutinesCore{
-    return this.RoutinesModule
+    return this.Storage.Routines()
   }
 
-  public DeadZones():IDeadZoneCore{
-    return this.DeadZonesModule
+  public DeadZones():IDeadZonesCore{
+    return this.Storage.DeadZones()
   }
 
   public Schedule():IScheduleCore{
     return this.ScheduleModule
+  }
+
+  public Settings():ISettingsCore{
+    return this.SettingsModule
   }
 }
