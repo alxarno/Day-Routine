@@ -4,6 +4,13 @@ import { Routine } from "src/models/routines.routine";
 import IStatistics from "src/models/statistics";
 import { DeadZone } from "src/models/dead_zone";
 import { NowTask } from "src/models/now.tasks";
+import { RoutinesHoursPerWeekSpent,
+   GetCoefficients,
+   SortRoutinesByFinishingCoefficients } from "./schedule/schedule.methods";
+
+function Copy(d:Object):Object{
+  return Object.assign({},d)
+}
 
 export class ScheduleCore extends CoreModule implements IScheduleCore{
 
@@ -13,9 +20,9 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
     dzs.forEach(( dz:DeadZone)=>{
       if(fin) return;
       if(dz.start>dz.done){
-        if(hour<dz.start || hour>=dz.done) fin=true 
+        if(hour>=dz.start || hour<dz.done) fin=true 
       }else{
-        if(hour>=dz.start || hour<dz.done) fin=true
+        if(hour>=dz.start && hour<dz.done) fin=true
       }
     })
 
@@ -29,44 +36,60 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
 
     if(activities.length==0) throw "Activityes is empty";
 
-    let routineSpentWeek:{[key:number]:number}= {};
+    let routineSpentWeek:{[key:number]:number}= RoutinesHoursPerWeekSpent(activities);
+    let routineSpentWeekCopy:{[key:number]:number} = Object.assign({},routineSpentWeek)
 
-    // Get count of hours was spented for last week
-    activities.forEach((e:IStatistics)=>{
-      routineSpentWeek[e.routineID] = 
-        e.spent.reduce((sum:number, current:number)=>sum+current, 0)
-    })
-
-    // Get "finishing" coefficients
-    routines.forEach((e:Routine)=>{
-      if(routineSpentWeek.hasOwnProperty(e.ID)){
-        routineSpentWeek[e.ID] /= (e.hours==0?0.1:e.hours);
-      }
-    })
+    let routineSpentWeekCoefficients:{[key:number]:number} = GetCoefficients(routines, <{[key:number]:number}>Copy(routineSpentWeek))
 
     // Sorting routines by "finishing" coefficients
-    let routinesSeqSorted:Array<number> = [] 
-    Object.keys(routineSpentWeek).forEach((v:any)=>{
-      v = Number(v)
-      if(routinesSeqSorted.length==0) {routinesSeqSorted.push(v); return}
-      if(routineSpentWeek[v]>=routinesSeqSorted[routinesSeqSorted.length-1]){
-        routinesSeqSorted.push(v)
-      }else{
-        routinesSeqSorted = [v,...routinesSeqSorted]
-      }
-    })
+    let routinesSeqSorted:Array<number> = SortRoutinesByFinishingCoefficients(<{[key:number]:number}>Copy(routineSpentWeekCoefficients))
 
     let finalSchedule:Array<NowTask|null> = []
 
-    Array.from({length: 24}, (x,i) => i).forEach((hour:number)=>{
+    let func = function(hour:number){
       if(this.IsNowDeadZone(deadZones, hour)){
         finalSchedule.push(null)
         return
-      }else{
-        // CONTINUE THERE 
+      }else{ 
+        
+        let routine: Routine|null= null;
+        routines.forEach((r:Routine)=>{
+          if(routine!=null) return
+          if(r.ID == routinesSeqSorted[0]){
+            routine = r
+          }
+        })
+
+        if(routine === null) {finalSchedule.push(null); return;}
+        let froutine:Routine = <Routine>routine
+        finalSchedule.push({
+          name: froutine.name,
+          actionBody:froutine.actionBody,
+          actionType:froutine.actionType,
+          color:froutine.colorScheme,
+          describe:froutine.describe,
+          hours:1,
+          start:hour
+        })
+        
+        // console.log("Routines, ",routines)
+        routineSpentWeekCopy[froutine.ID]++;
+        routineSpentWeekCoefficients = GetCoefficients(routines,<{[key:number]:number}>Copy(routineSpentWeekCopy))
+        // console.log("Spent, ",routineSpentWeekCopy)
+        // console.log("Coeffs, ",routineSpentWeekCoefficients)
+        // Rebuild 
+        routinesSeqSorted = SortRoutinesByFinishingCoefficients(<{[key:number]:number}>Copy(routineSpentWeekCoefficients))
+
+        // // console.log("Coeffs, ",routineSpentWeekCoefficients)
+        // console.log("Sorted, ",routinesSeqSorted)
+        
+        // console.log("-------------------")
       }
+    }.bind(this)
 
-    }.bind(this))
+    Array.from({length: 24}, (x,i) => i).forEach(func)
+    
+
     
 
 
@@ -75,12 +98,13 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
 
     
 
-    console.log(routineSpentWeek)
-    console.log(routinesSeqSorted)
+    // console.log(routineSpentWeek)
+    // console.log(routinesSeqSorted)
 
     // console.log(routines)
-    // console.log(activities)
-    console.log(deadZones)
+    // console.log("DeadZones Hours ", deadZoneHours)
+    // console.log("Spent, ",routineSpentWeekCopy)
+    console.log(finalSchedule)
   }
 
   // public Import(){
