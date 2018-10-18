@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
-
+import {Action} from 'vuex-class'
 import RoutineComponent from './routine/routine'
 
 import {Routine} from 'src/models/routines.routine'
@@ -15,6 +15,7 @@ require("./routines.scss")
 const searchIcon = require("assets/search.svg")
 const addIcon = require("assets/add.svg")
 
+const namespace:string = 'routines'
 @WithRender 
 @Component({
   components:{
@@ -23,6 +24,11 @@ const addIcon = require("assets/add.svg")
   }
 })
 export default class RoutinesComponent extends Vue {
+
+  @Action('newRoutineWindow', { namespace }) newRoutineWindow: any;
+  @Action('routineSettingsWindow', { namespace }) routineSettingsWindow: any;
+
+  // @State(state => state.routines.items) routines:Array<Routine | null>
   searchRequest:string = "" 
 
   searchIcon:string = searchIcon
@@ -31,14 +37,16 @@ export default class RoutinesComponent extends Vue {
   routines:Array<Routine> = GetRoutines()
 
   newRoutine (): void {
-    this.$store.dispatch("openPopUp")
-    this.$store.dispatch('newRoutineWindow')
+    // this.$store.dispatch("openPopUp")
+    // this.$store.dispatch('newRoutineWindow')
+    this.newRoutineWindow()
   }
   
   
   closeSettings():void{
-    this.$store.dispatch("openPopUp")
-    this.$store.dispatch('routineSettingsWindow')
+    this.routineSettingsWindow()
+    // this.$store.dispatch("openPopUp")
+    // this.$store.dispatch('routineSettingsWindow')
   }
 
 }

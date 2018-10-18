@@ -1,6 +1,6 @@
 export interface ICRUD{
   Get:Function;
-  Insert:Function;
+  Insert:{(data:{[key:string]:any}):Promise<number>};
   Update:Function;
   Delete:Function;
 }

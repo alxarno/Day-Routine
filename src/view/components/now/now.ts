@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
-
+import {State, Action} from 'vuex-class'
 import TaskComponent from './task/task'
 
 import * as WithRender from './now.html';
@@ -21,21 +21,32 @@ require('./now.scss')
 
 
 
-
+const namespace: string = 'schedule';
 @WithRender
 @Component({
   components: { TaskComponent}
 })
 export default class NowComponent extends Vue {
 
+  @State(state => state.schedule.items) tasks:any
+  @Action('loadSchedule', { namespace }) loadSchedule: any;
+
   time: string[] = GetTimes()
   currentTime: string = GetCurrentTime()
   currentTimeMarginTop: number = GetCurrentTimeMarginTop()
-  tasks: Array<NowTask|null> = GetNowTasks()
-
+  // tasks: Array<NowTask|null> = GetNowTasks()
+  computed(){
+    // this.$store.dispatch('LoadSchedule')
+  }
   mounted (){
     var elem: any= this.$refs.now__body
+    this.loadSchedule()
     elem.scrollTop = GetScrollTop()
+  }
+
+  beforeCreate () {
+   
+    // console.log("Hello")
   }
 
 }

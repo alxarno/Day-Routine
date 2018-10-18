@@ -29,7 +29,7 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
     return fin
   }
 
-  public async Get(){
+  public async Get():Promise<Array<NowTask|null>>{
     let routines:Array<Routine> = await this.storage.Routines().Get()
     let activities:Array<IStatistics> = await this.storage.Statistics().Get();
     let deadZones:Array<DeadZone> = await this.storage.DeadZones().Get();
@@ -45,9 +45,11 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
     let routinesSeqSorted:Array<number> = SortRoutinesByFinishingCoefficients(<{[key:number]:number}>Copy(routineSpentWeekCoefficients))
 
     let finalSchedule:Array<NowTask|null> = []
+    
+    let IsNowDeadZone = this.IsNowDeadZone
 
     let func = function(hour:number){
-      if(this.IsNowDeadZone(deadZones, hour)){
+      if(IsNowDeadZone(deadZones, hour)){
         finalSchedule.push(null)
         return
       }else{ 
@@ -72,39 +74,19 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
           start:hour
         })
         
-        // console.log("Routines, ",routines)
+ 
         routineSpentWeekCopy[froutine.ID]++;
         routineSpentWeekCoefficients = GetCoefficients(routines,<{[key:number]:number}>Copy(routineSpentWeekCopy))
-        // console.log("Spent, ",routineSpentWeekCopy)
-        // console.log("Coeffs, ",routineSpentWeekCoefficients)
+
         // Rebuild 
         routinesSeqSorted = SortRoutinesByFinishingCoefficients(<{[key:number]:number}>Copy(routineSpentWeekCoefficients))
-
-        // // console.log("Coeffs, ",routineSpentWeekCoefficients)
-        // console.log("Sorted, ",routinesSeqSorted)
         
-        // console.log("-------------------")
       }
     }.bind(this)
 
     Array.from({length: 24}, (x,i) => i).forEach(func)
-    
 
-    
-
-
-
-
-
-    
-
-    // console.log(routineSpentWeek)
-    // console.log(routinesSeqSorted)
-
-    // console.log(routines)
-    // console.log("DeadZones Hours ", deadZoneHours)
-    // console.log("Spent, ",routineSpentWeekCopy)
-    console.log(finalSchedule)
+    return finalSchedule
   }
 
   // public Import(){

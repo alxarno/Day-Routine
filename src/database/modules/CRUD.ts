@@ -43,7 +43,9 @@ export class Crud implements ICRUD{
     }else{
       requestString = "SELECT * FROM "+this.tableName
     }
-
+    // console.log("===================")
+    // console.log(requestString)
+    // console.log("===================")
     let promise = Request(
       requestString,
       requestData,this.DB)
@@ -53,7 +55,7 @@ export class Crud implements ICRUD{
     return data.rows
   }
 
-  async Insert(data:{[key:string]:any}){
+  async Insert(data:{[key:string]:any}):Promise<number>{
     let fields:Array<string> = this.getFields(data)
     fields.splice(fields.indexOf("ID"), 1);
    
@@ -64,17 +66,19 @@ export class Crud implements ICRUD{
 
     let querryString = `INSERT INTO `+this.tableName+
     ` (`+fields.toString()+`) VALUES (`+questionMarks.toString()+`)`
-    console.log("------------------")
-    console.log(querryString)
-    console.log("------------------")
+    // console.log("++++++++++++++++++")
+    // console.log(querryString)
+    // console.log("++++++++++++++++++")
     
     let promise = Request(
       querryString,
       values,
       this.DB)
-
-    await promise
+    
+    let somedata = await promise
+    return somedata.insertId
   }
+
 
   async Update(data:{[key:string]:any}){
     if(!data.hasOwnProperty('ID')){

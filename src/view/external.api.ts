@@ -1,13 +1,27 @@
-class ExternalAPI{
-  dayscheduleRequest: Function = function(){}
+import { ICore } from "src/interfaces/core";
 
-  constructor(){
+// class ExternalAPI{
+//   dayscheduleRequest: Function = function(){}
 
-  }
+//   constructor(){
 
-  get DaySchedule(){
-    return this.dayscheduleRequest()
-  }
+//   }
+
+//   get DaySchedule(){
+//     return this.dayscheduleRequest()
+//   }
+// }
+let core:ICore;
+
+function RegisterAPI(c:ICore){
+  core = c
 }
 
-export default ExternalAPI
+function GetAPI():ICore{
+  if(!core){
+    throw "external.api.ts: Core didn't register"
+  }
+  return core
+}
+
+export {RegisterAPI, GetAPI}

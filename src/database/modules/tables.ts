@@ -47,7 +47,7 @@ export class Table implements ITableMethods{
   async Create(name:string, schema: any){
     let sqlBody = this.DecodeTableSchema(schema)
     sqlBody = "CREATE TABLE IF NOT EXISTS "+name+"("+sqlBody+")"
-    console.log(sqlBody)
+    // console.log(sqlBody)
     let promise = Request(sqlBody,[],this.DB)
 
     await promise;

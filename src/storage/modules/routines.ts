@@ -1,14 +1,18 @@
-import {IRoutinesStorage} from '../../interfaces/storage'
-import {IStorageKernel} from '../../interfaces/storageKernel'
+import {IRoutinesStorage, IStatisticsStorage} from '../../interfaces/storage'
+import {IStorageKernel, ICRUD} from '../../interfaces/storageKernel'
 
 import {Routine} from 'src/models/routines.routine'
 
 import StorageModule from './module'
+import IStatistics from 'src/models/statistics';
 
 export class Routines extends StorageModule implements IRoutinesStorage {
 
-  constructor(kernel:IStorageKernel, schema:StorageSchema.ISchema){
+  private addToStatics:Function;
+
+  constructor(kernel:IStorageKernel, schema:StorageSchema.ISchema, addToStatics:Function){
     super(kernel,schema)
+    this.addToStatics = addToStatics
   }
 
   async Get(){
@@ -19,9 +23,12 @@ export class Routines extends StorageModule implements IRoutinesStorage {
     return units
   }
 
-  Create(unit:Routine){
+  async Create(unit:Routine){
     let dunit = this.schema.Serialization(unit)
-    this.kernel.Table().GetByName(this.schema.name).Insert(dunit)
+    // console.log(dunit)
+    let id:number = await this.kernel.Table().GetByName(this.schema.name).Insert(dunit)
+    // console.log(id)
+    await this.addToStatics({routineID:id, hours:0})
   }
 
   Delete(unit:any){

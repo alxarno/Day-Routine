@@ -27,6 +27,18 @@ export default class Schema implements StorageSchema.ISchema{
     return finalObj
   }
 
+  SerializationWithoutID(data:any):any{
+    let finalObj:any = {}
+    for(let field in this.schemaBody){
+      if(data.hasOwnProperty(field) || field!='ID'){
+        finalObj[field] = this.schemaBody[field].Serial(data[field])
+      }else{
+        throw "Argument's structure is wrong"
+      }
+    }
+    return finalObj
+  }
+
   Deserialization(data:any):any{
     let finalObj:any = {}
     for(let field in this.schemaBody){

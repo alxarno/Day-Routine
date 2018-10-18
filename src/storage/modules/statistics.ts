@@ -27,7 +27,9 @@ export class Statistics extends StorageModule implements IStatisticsStorage {
   async Add(data:{routineID:number, hours:number}){
     let st:IStatistics;
     let rows:{[key:number]:any} 
+    // console.log(rows)
     rows = await this.kernel.Table().GetByName(this.schema.name).Get({routineID:data.routineID})
+    
     if(Object.keys(rows).length==0){
       st = {
         ID:-1,

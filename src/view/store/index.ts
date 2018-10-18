@@ -1,17 +1,27 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
-import RoutinesModule from './modules/routines.store-module'
-import AppModule from './modules/app.store-module'
-import SettingsModule from './modules/settings.store-module'
-import DeadZonesModule from './modules/dead_zones.store-module'
+import Vuex, { StoreOptions } from 'vuex'
+// import RoutinesModule from './modules/routines/routines.store-module'
+import {app} from './modules/app'
+import {deadZones} from './modules/dead_zones'
+import {routines} from './modules/routines'
+import {schedule} from './modules/schedule'
+import {settings} from './modules/settings'
+// import SettingsModule from './modules/settings/settings.store-module'
+// import DeadZonesModule from './modules/dead_zones/dead_zones.store-module'
+// import ScheduleModule from './modules/schedule/schedule.store-module';
+import { RootState } from './types';
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store: StoreOptions<RootState>={
   modules: {
-    routines: RoutinesModule,
-    app:AppModule,
-    settings: SettingsModule,
-    dead_zones: DeadZonesModule
-  },
-})
+    app,
+    deadZones,
+    routines,
+    schedule,
+    settings
+  }
+}
+
+
+export default new Vuex.Store<RootState>(store)

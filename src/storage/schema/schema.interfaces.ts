@@ -6,6 +6,7 @@ namespace StorageSchema{
     TranspilerToPrimitive:Function
     Serialization:Function
     Deserialization:Function
+    SerializationWithoutID:Function
   }
 
   export interface IScheamBody{
