@@ -35,18 +35,13 @@ export default class NowComponent extends Vue {
   currentTime: string = GetCurrentTime()
   currentTimeMarginTop: number = GetCurrentTimeMarginTop()
   // tasks: Array<NowTask|null> = GetNowTasks()
-  computed(){
-    // this.$store.dispatch('LoadSchedule')
-  }
+
   mounted (){
-    var elem: any= this.$refs.now__body
     this.loadSchedule()
+    var elem: any= this.$refs.now__body
     elem.scrollTop = GetScrollTop()
   }
 
-  beforeCreate () {
-   
-    // console.log("Hello")
-  }
+
 
 }

@@ -29,7 +29,7 @@ const dz:Array<DeadZone> = [
 
 export const state:IDeadZoneState = {
     currentItem: -1,
-    items: dz,
+    items: [],
 }
 
 const namespaced:boolean = true

@@ -15,4 +15,7 @@ export const mutations:MutationTree<IRoutinesState>={
   setCurrentRoutine:(state,{number})=>{
     state.current_routine = number
   },
+  loadedRoutines:(state,{routines})=>{
+    state.items = routines
+  }
 }

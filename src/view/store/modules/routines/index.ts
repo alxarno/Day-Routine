@@ -8,9 +8,9 @@ import {getters} from './getters'
 
 
 export const state:IRoutinesState = {
-  current_routine: -1,
-  routine_settings_open: false,
-  new_routine_open: true,
+  current_routine: 1,
+  routine_settings_open: true,
+  new_routine_open: false,
   items:[]
 }
 

@@ -32,7 +32,9 @@ export class Storage implements IStorage{
     this.kernel = kernel
     
     this.statistics = new Statistics(this.kernel, StatisticsSchema)
-    this.routines = new Routines(this.kernel, RoutinesSchema,  this.statistics.Add.bind(this.statistics))
+    this.routines = new Routines(this.kernel, RoutinesSchema,
+          this.statistics.Add.bind(this.statistics),
+          this.statistics.Delete.bind(this.statistics))
     this.deadZones= new DeadZones(this.kernel, DeadZoneSchema)
   }
 

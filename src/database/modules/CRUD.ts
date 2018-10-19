@@ -23,7 +23,7 @@ export class Crud implements ICRUD{
   }
 
   async Get(){
-    let arg:{[key:string]:any} = {id:-1}
+    let arg:{[key:string]:any} = {ID:-1}
     for (var i = 0; i < arguments.length; i++) {
       arg = arguments[i]
     }
@@ -31,7 +31,7 @@ export class Crud implements ICRUD{
     let requestString = ""
     let requestData = []
 
-    if(arg.id !=-1){
+    if(arg.ID !=-1){
       let fields:Array<string> = this.getFields(arg)
 
       let valueTemplates:Array<any> = fields.map((val)=>{return val+" = ?"})

@@ -1,15 +1,16 @@
 <div class="modals-background"
-      v-if="this.$store.state.app.popup_open">
+      v-if="this.popupOpen">
   <close-button/>
   <settings-component 
-    v-if="this.$store.state.app.settings_open" 
+    v-if="this.settingsOpen" 
     class="modal_body"/>
   <routine-component 
-    v-if="this.$store.state.routines.new_routine_open" 
+    v-if="this.newRoutineOpen" 
     class="modal_body"
     v-bind:routineID="-1"/>
   <routine-component 
-    v-if="this.$store.state.routines.routine_settings_open" 
+    v-if="this.routineSettingsOpen" 
     class="modal_body"
+    v-bind:routineID="this.currentRoutine"
   />
 </div>

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import {Action} from 'src/models/action'
-import {State} from 'vuex-class'
+import {State, Action} from 'vuex-class'
 import SliderComponent from './slider/slider'
 import * as WithRender from './routine.html';
 require('./routine.scss')
@@ -15,9 +14,12 @@ const link = require('assets/internet.svg')
 const pen =require('assets/pen.svg')
 import {colors} from 'src/view/color.themes'
 import { Routine } from 'src/models/routines.routine';
+import { Action as RoutineAction } from 'src/models/action';
 
 const {shell,dialog} = window.require('electron').remote
 let actionBuffer:string;
+
+const namespace:string = "routines"
 
 @WithRender
 @Component({
@@ -29,33 +31,38 @@ let actionBuffer:string;
     DropdownComponent
   }
 })
-export default class RoutineComponent extends Vue {
-  @State(state => state.routines.routines) routines:Array<Routine>
 
-  name:string = ""
-  description:string = ""
-  hours:number = 0;
-  action:Action = Action.File
-  actionBody:string = ""
+// FIX THERE ALL
+export default class RoutineComponent extends Vue {
+  @State("items",{namespace}) routines:Array<Routine>
+
+  @Action('addRoutine', { namespace }) addRoutine: any;
+
+
   colors:Array<string> = Object.keys(colors)
-  colorScheme:string = Object.keys(colors)[0]
+  ID:number = -1
+  currentRoutine:Routine = {
+    ID:-1, name:"",
+    actionBody:"",
+    actionType:RoutineAction.Link,
+    colorScheme:Object.keys(colors)[0],
+    describe:"",hours:0}
 
   nothing:string = nothing
   file:string = file
   link:string = link  
   pen:string = pen
 
+  
+
   created(){
     // console.log("RoutineComponent")
+    // console.log(this.$props.routineID)
+    // console.log(this.routines)
     if(this.$props.routineID != -1){
       this.routines.forEach((element:Routine) => {
         if(element.ID == this.$props.routineID){
-          this.name = element.name
-          this.description = element.describe
-          this.hours = element.hours
-          this.action = element.actionType
-          this.actionBody = element.actionBody
-          this.colorScheme = element.colorScheme;
+          this.currentRoutine = Object.assign({}, element)
         }
       });
 
@@ -91,17 +98,23 @@ export default class RoutineComponent extends Vue {
   }
 
   create(){
-    this.$store.dispatch('addRoutine',{
-      ID:-1,
-      name:this.name,
-      colorScheme: this.colorScheme,
-      describe:this.description,
-      hours: this.hours,
-      actionBody: this.actionBody,
-      actionType: this.action
-    })
+    this.addRoutine(
+      {
+        ID:-1,
+        name:this.name,
+        colorScheme: this.colorScheme,
+        describe:this.description,
+        hours: this.hours,
+        actionBody: this.actionBody,
+        actionType: this.action
+      }
+    )
 
-    this.$store.dispatch('closePopUp')
-    this.$store.dispatch('closeRoutines')
+    // this.$store.dispatch('closePopUp')
+    // this.$store.dispatch('closeRoutines')
+  }
+
+  deleteRoutine(){
+
   }
 }

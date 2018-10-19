@@ -28,11 +28,6 @@ export async function TEST(){
     actionType : Action.File
   })
 
-  //  await storage.Statistics().Add({
-  //   routineID: 3,
-  //   hours: 5
-  // })
-
   // await db.Table().Drop("smuglers")
   // let table = await db.Table().Create("smuglers", {name:String})
   

@@ -7,6 +7,7 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
 
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -19,7 +20,7 @@ function createWindow () {
     minHeight: 800,
     minWidth: 800,
     autoHideMenuBar: true,
-    icon:__dirname+'/res/images/logo.png'
+    icon:__dirname+'/res/images/routinelogo@icon.png'
   };
   mainWindow = new BrowserWindow(params);
 
@@ -43,6 +44,7 @@ function createWindow () {
     mainWindow = null
   })
 }
+
 
 require('electron-reload')(__dirname);
 

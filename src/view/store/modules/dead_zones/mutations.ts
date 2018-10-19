@@ -7,5 +7,8 @@ export const mutations:MutationTree<IDeadZoneState>={
     },
     createNewDeadZone:(state)=>{
 
+    },
+    loadedDeadZones:(state, {deadZones})=>{
+      state.items = deadZones
     }
 }

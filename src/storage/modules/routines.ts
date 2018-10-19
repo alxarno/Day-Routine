@@ -9,10 +9,14 @@ import IStatistics from 'src/models/statistics';
 export class Routines extends StorageModule implements IRoutinesStorage {
 
   private addToStatics:Function;
+  private deleteFromStatics:Function;
 
-  constructor(kernel:IStorageKernel, schema:StorageSchema.ISchema, addToStatics:Function){
+  constructor(kernel:IStorageKernel, schema:StorageSchema.ISchema,
+      addToStatics:Function,
+      deleteFromStatics:Function){
     super(kernel,schema)
     this.addToStatics = addToStatics
+    this.deleteFromStatics = deleteFromStatics
   }
 
   async Get(){
@@ -31,11 +35,14 @@ export class Routines extends StorageModule implements IRoutinesStorage {
     await this.addToStatics({routineID:id, hours:0})
   }
 
-  Delete(unit:any){
+  async Delete(unit:any){
+    let rows:{[key:number]:any} = await this.kernel.Table().GetByName(this.schema.name).Get(unit)
+    if(Object.keys(rows).length==0) return;
+    console.log(rows)
     // We don't use serialization cause serialization
     // doesn't process ID , but we need ID for delete
     // certain row
-    this.kernel.Table().GetByName(this.schema.name).Delete(unit)
+    // this.kernel.Table().GetByName(this.schema.name).Delete(unit)
   }
 
   Update(unit:Routine){

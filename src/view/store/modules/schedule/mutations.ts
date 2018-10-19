@@ -2,7 +2,7 @@ import { IScheduleState } from "./types";
 import { MutationTree } from "vuex";
 
 export const mutations:MutationTree<IScheduleState>={
-  laodedSchedule:(state,{schedule})=>{
+  loadedSchedule:(state,{schedule})=>{
     state.items = schedule 
   }
 }

@@ -11,17 +11,22 @@ import {
 
 import {ScheduleCore} from './modules/schedule'
 import {SettingsCore} from "./modules/settings";
+import { IOS } from "src/interfaces/os";
 
 export class Core implements ICore{
   private Storage:IStorage
   private ScheduleModule:IScheduleCore
   private SettingsModule:ISettingsCore
+  private os:IOS
 
-  constructor(storage: IStorage) {
+  constructor(storage: IStorage, os:IOS) {
     this.Storage = storage;
 
     this.ScheduleModule = new ScheduleCore(this.Storage)
     this.SettingsModule = new SettingsCore(this.Storage)
+    this.os = os
+
+    this.os.ShowNotification("Hello", "My First Notif")
   }
 
   public Routines():IRoutinesCore{

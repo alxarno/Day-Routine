@@ -2,28 +2,28 @@
   <div class="modal-routines-row">
     <div class="modal-routine-input">
       <span>Name</span>
-      <input type="text" class="modal-routine-name" v-model="name"/>
+      <input type="text" class="modal-routine-name" v-model="currentRoutine.name"/>
     </div>
     <div class="modal-routine-input description">
       <span>Description</span>
       <textarea  type="text" class="modal-routine-description"
-             rows="2" v-model="description"/>
+             rows="2" v-model="currentRoutine.description"/>
     </div>
   </div>
 
   <div class="modal-routines-row">
     <div class="modal-routine-action-wrapper">
-      <div v-html="file" class="modal-routine-action"  v-bind:class="[action == 1 ? 'active':'']"
+      <div v-html="file" class="modal-routine-action"  v-bind:class="[currentRoutine.action == 1 ? 'active':'']"
         v-on:click="click(1)"/>
       <div class="modal-routine-separator"/>
-      <div v-html="link" class="modal-routine-action" v-bind:class="[ action == 2 ? 'active':'']"
+      <div v-html="link" class="modal-routine-action" v-bind:class="[currentRoutine.action == 2 ? 'active':'']"
         v-on:click="click(2)"/>
       <div class="modal-routine-separator"/>
-      <div v-html="nothing" class="modal-routine-action" v-bind:class="[action == 3 ? 'active':'']"
+      <div v-html="nothing" class="modal-routine-action" v-bind:class="[currentRoutine.action == 3 ? 'active':'']"
         v-on:click="click(3)"/>
     </div>
     <div class="modal-routine-col-3">
-      <div class="modal-routine-input" v-if="action == 1 ">
+      <div class="modal-routine-input" v-if="currentRoutine.action == 1 ">
         <span>
             File
            <div class="modal-routines-file-body-change button-rec" v-html="pen" @click="chooseFile"/>
@@ -34,9 +34,9 @@
           
         </div>      
       </div>
-      <div class="modal-routine-input" v-if="action == 2 ">
+      <div class="modal-routine-input" v-if="currentRoutine.action == 2 ">
         <span>Link</span>
-        <input type="text" class="modal-routine-name" v-model="actionBody"/>
+        <input type="text" class="modal-routine-name" v-model="currentRoutine.actionBody"/>
       </div>
     </div>
     
@@ -47,12 +47,17 @@
   </div>
   <div class="modal-routines-row">
     <div class="modal-routines-slider-wrapper">
-      <slider-component v-bind:max="20" v-bind:now="5" v-bind="{triggered:sliderTriger}"/>
+      <slider-component v-bind:max="20" v-bind:now="currentRoutine.hours" v-bind="{triggered:sliderTriger}"/>
     </div>
     <span class="modal-routines-hours-caption">h/week</span>
   </div>
   <div class="modal-routines-row">
-    <div class="button-rec modal-routines-save" @click="create"> Create</div>
+    <div v-if="currentRoutine.ID==-1"
+          class="button-rec modal-routines-save"
+         @click="create">Create</div>
+    <div v-if="currentRoutine.ID!=-1"
+         class="button-rec modal-routines-delete"
+        @click="deleteRoutine">Delete</div>
 
   </div>
 </div>

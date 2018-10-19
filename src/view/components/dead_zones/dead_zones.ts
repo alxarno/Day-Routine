@@ -21,13 +21,16 @@ export default class DeadZones extends Vue {
   @State("currentItem", {namespace}) currentItem:any
 
   @Action('setCurrentItem', { namespace }) setCurrentItem: any;
-  // @Action('setMenuItem', { namespace }) setMenuItem: any;
+  @Action('loadDeadZones', { namespace }) loadDeadZones: any;
+  @Action('newDeadZone', {namespace}) newDeadZone:any
 
 
   searchIcon:string = searchIcon
   searchRequest:string = "" 
 
-
+  mounted(){
+    this.loadDeadZones()
+  }
 
   change(index:number){
     if(index == this.currentItem){
@@ -37,7 +40,7 @@ export default class DeadZones extends Vue {
     }
   }
 
-  newDeadZone():void{
-    
+  newDeadZoneHandler():void{
+    this.newDeadZone()
   }
 }

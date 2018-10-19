@@ -10,7 +10,7 @@ export const actions:ActionTree<IAppState, RootState> = {
     commit('changeSettings')
   },    
   closePopUp({commit}):any{
-    commit("DROP")
+    commit("routines/drop", {}, { root: true })
     commit("closeSettings")
     commit("changePopUp")
   },
