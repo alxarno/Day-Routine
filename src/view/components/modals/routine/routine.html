@@ -7,23 +7,23 @@
     <div class="modal-routine-input description">
       <span>Description</span>
       <textarea  type="text" class="modal-routine-description"
-             rows="2" v-model="currentRoutine.description"/>
+             rows="2" v-model="currentRoutine.describe"/>
     </div>
   </div>
 
   <div class="modal-routines-row">
     <div class="modal-routine-action-wrapper">
-      <div v-html="file" class="modal-routine-action"  v-bind:class="[currentRoutine.action == 1 ? 'active':'']"
+      <div v-html="file" class="modal-routine-action"  v-bind:class="[currentRoutine.actionType == 1 ? 'active':'']"
         v-on:click="click(1)"/>
       <div class="modal-routine-separator"/>
-      <div v-html="link" class="modal-routine-action" v-bind:class="[currentRoutine.action == 2 ? 'active':'']"
+      <div v-html="link" class="modal-routine-action" v-bind:class="[currentRoutine.actionType == 2 ? 'active':'']"
         v-on:click="click(2)"/>
       <div class="modal-routine-separator"/>
-      <div v-html="nothing" class="modal-routine-action" v-bind:class="[currentRoutine.action == 3 ? 'active':'']"
+      <div v-html="nothing" class="modal-routine-action" v-bind:class="[currentRoutine.actionType == 3 ? 'active':'']"
         v-on:click="click(3)"/>
     </div>
     <div class="modal-routine-col-3">
-      <div class="modal-routine-input" v-if="currentRoutine.action == 1 ">
+      <div class="modal-routine-input" v-if="currentRoutine.actionType == 1 ">
         <span>
             File
            <div class="modal-routines-file-body-change button-rec" v-html="pen" @click="chooseFile"/>
@@ -34,7 +34,7 @@
           
         </div>      
       </div>
-      <div class="modal-routine-input" v-if="currentRoutine.action == 2 ">
+      <div class="modal-routine-input" v-if="currentRoutine.actionType == 2 ">
         <span>Link</span>
         <input type="text" class="modal-routine-name" v-model="currentRoutine.actionBody"/>
       </div>

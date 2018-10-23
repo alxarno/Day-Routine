@@ -18,13 +18,11 @@ Needs:
 
 
 todo:
-  *Done Storage
-  Done Core
+  - Create routine 
+  Save dead zone change 
+  Save routine change
 
-  
-  UI:
-    Create new DeadZones
-    Delete DeadZones
+  Export data
+  Import data
 
-    Create new Routine action
-    Customize routine modal
+  Clear all data

@@ -1,7 +1,7 @@
 {
-  "name": "WeekRoutine",
+  "name": "Day Routine",
   "version": "1.0.0",
-  "productName": "WeekRoutine",
+  "productName": "Day Routine",
   "description": "",
   "main": "main.js",
   "scripts": {

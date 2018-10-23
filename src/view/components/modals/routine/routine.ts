@@ -16,7 +16,8 @@ import {colors} from 'src/view/color.themes'
 import { Routine } from 'src/models/routines.routine';
 import { Action as RoutineAction } from 'src/models/action';
 
-const {shell,dialog} = window.require('electron').remote
+const {dialog} = (window as any).require('electron').remote
+
 let actionBuffer:string;
 
 const namespace:string = "routines"
@@ -44,9 +45,9 @@ export default class RoutineComponent extends Vue {
   currentRoutine:Routine = {
     ID:-1, name:"",
     actionBody:"",
-    actionType:RoutineAction.Link,
+    actionType: RoutineAction.Link,
     colorScheme:Object.keys(colors)[0],
-    describe:"",hours:0}
+    describe:"",hours:1}
 
   nothing:string = nothing
   file:string = file
@@ -70,20 +71,20 @@ export default class RoutineComponent extends Vue {
   }
 
   colorChange(colorScheme:string){
-    this.colorScheme = colorScheme;
+    this.currentRoutine.colorScheme = colorScheme;
   }
 
   click(index:number){
-    if((index==2 || index==1) && this.action != 3){
-      let l = this.actionBody;
-      this.actionBody = actionBuffer;
+    if((index==2 || index==1) && this.currentRoutine.actionType != 3){
+      let l = this.currentRoutine.actionBody;
+      this.currentRoutine.actionBody = actionBuffer;
       actionBuffer = l;
     }
-    this.action = index
+    this.currentRoutine.actionType = index
   }
 
   sliderTriger(num:number){
-    this.hours = num
+    this.currentRoutine.hours = num
   }
 
   chooseFile(){
@@ -91,27 +92,24 @@ export default class RoutineComponent extends Vue {
       properties: ['openFile']
     });
 
-    if(path[0].length>20){
-      path = "..."+path[0].substring(path[0].length-20, path[0].length-1)
-    }
-    this.actionBody = path;
+    this.currentRoutine.actionBody = path[0];
   }
 
   create(){
     this.addRoutine(
-      {
-        ID:-1,
-        name:this.name,
-        colorScheme: this.colorScheme,
-        describe:this.description,
-        hours: this.hours,
-        actionBody: this.actionBody,
-        actionType: this.action
-      }
+      this.currentRoutine
     )
 
     // this.$store.dispatch('closePopUp')
     // this.$store.dispatch('closeRoutines')
+  }
+
+  get actionBody(){
+    let path =  this.currentRoutine.actionBody
+    if(path.length>20){
+      path = "..."+path.substring(path.length-19, path.length)
+    }
+    return path
   }
 
   deleteRoutine(){

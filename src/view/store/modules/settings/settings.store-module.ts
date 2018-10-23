@@ -11,9 +11,15 @@ const SettingsModule:Module<any,ISettingsModule> = {
    },
   actions:{
     setSettingsMenuItem({commit}, number) {
-      console.log(number)
+      // console.log(number)
       commit('SET_SETTINGS_MENU_ACTIVE_ITEM', number)
     },
+    exportData({commit}){
+
+    },
+    importData({commit}){
+
+    }
   
 
   },

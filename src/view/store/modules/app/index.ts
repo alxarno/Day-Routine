@@ -10,7 +10,7 @@ import {getters} from './getters'
 export const state:IAppState = {
     menu_active_item: 1,
     settings_open: false,
-    popup_open: true
+    popup_open: false
 }
 
 const namespaced:boolean = true

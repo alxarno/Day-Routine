@@ -15,7 +15,7 @@ export default class SliderComponent extends Vue {
 
   dragging:boolean = false
   x:number = 0
-  current:number = 0
+  current:number = 1
   // MINIMAL_STEP = 
   margin:number = 0;
 
@@ -34,6 +34,7 @@ export default class SliderComponent extends Vue {
         this.margin = 0
         this.$props.triggered(this.current)
       }else if(this.margin<=-1*minmargin && this.current>1){
+        if(this.current == 1) return;
         this.current--
         this.margin = 0
         this.$props.triggered(this.current)

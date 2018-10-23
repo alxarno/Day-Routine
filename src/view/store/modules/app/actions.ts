@@ -7,6 +7,7 @@ export const actions:ActionTree<IAppState, RootState> = {
     commit('setMenuActivItem', {number})
   },
   settingsOpenChange({commit}):any {
+    commit("changePopUp")
     commit('changeSettings')
   },    
   closePopUp({commit}):any{

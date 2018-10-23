@@ -25,8 +25,6 @@ export class Core implements ICore{
     this.ScheduleModule = new ScheduleCore(this.Storage)
     this.SettingsModule = new SettingsCore(this.Storage)
     this.os = os
-
-    this.os.ShowNotification("Hello", "My First Notif")
   }
 
   public Routines():IRoutinesCore{
