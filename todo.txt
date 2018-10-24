@@ -19,11 +19,13 @@ Needs:
 
 todo:
   - Save dead zone change
-  Delete dead zone
+  - Delete dead zone
   FIX Auto change day time zone
 
   - Create routine 
   Save routine change
+
+  FIX Activities is empty in Schedule 
   
 
   Export data

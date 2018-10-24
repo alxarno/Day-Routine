@@ -34,6 +34,7 @@ const namespace:string = "deadZones"
 })
 export default class Editor extends Vue {
   @Action('saveChangedDeadZone', { namespace }) saveChangedDeadZone: any;
+  @Action('deleteDeadZone', { namespace }) deleteDeadZone: any;
 
   startTimeZone:TimeHalf = TimeHalf.AM
   doneTimeZone:TimeHalf = TimeHalf.AM
@@ -89,7 +90,10 @@ export default class Editor extends Vue {
   }
 
   deleteClick(){
-    // if(this.se)
+    if(this.deleteSwitch){
+      this.deleteDeadZone(this.$props.zone)
+      return
+    }
     this.deleteSwitch =!this.deleteSwitch
   }
   
