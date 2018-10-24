@@ -27,8 +27,9 @@ export const actions:ActionTree<IRoutinesState, RootState> = {
     commit('drop')
     commit("app/changePopUp",{}, { root: true })
   },
-  async deleteRoutine({commit}, routine:{ID:number}){
-    await GetAPI().Routines().Delete(routine)
+  async deleteRoutine({commit}, routine:Routine){
+    console.log(routine)
+    await GetAPI().Routines().Delete({ID:routine.ID})
     let routines = await GetAPI().Routines().Get()
     commit('loadedRoutines', {routines})
   },
@@ -46,5 +47,10 @@ export const actions:ActionTree<IRoutinesState, RootState> = {
   async loadRoutines({commit}){
       let routines = await GetAPI().Routines().Get()
       commit('loadedRoutines', {routines})
+  },
+  async saveRoutine({commit}, routine:Routine){
+    await GetAPI().Routines().Update(routine)
+    let routines = await GetAPI().Routines().Get()
+    commit('loadedRoutines', {routines})
   }
 }

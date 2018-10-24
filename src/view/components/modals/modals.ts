@@ -5,8 +5,7 @@ import CloseButton from './elements/close/close'
 import SettingsComponent from './settings/settings'
 import RoutineComponent from './routine/routine'
 import RoutineSettingsComponent from './routine_settings/routine_settings'
-import { State } from 'vuex-class';
-
+import { State,Action } from 'vuex-class';
 
 require("./modals.scss")
 
@@ -27,11 +26,13 @@ export default class  extends Vue {
   @State("current_routine", {namespace:routineNamespace}) currentRoutine:any
   @State("new_routine_open", {namespace:routineNamespace}) newRoutineOpen:any
 
+  @Action("closePopUp", {namespace:appNamespace}) closePopUp:any
+
   @State("settings_open", {namespace:appNamespace}) settingsOpen:any
   @State("popup_open", {namespace:appNamespace}) popupOpen:any
    
 
-    close(){
-      this.$store.dispatch("closePopUp")
-    }
+  close(){
+    this.closePopUp()
+  }
 }

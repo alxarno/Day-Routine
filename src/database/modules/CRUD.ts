@@ -129,6 +129,7 @@ export class Crud implements ICRUD{
     let valuesArray =  fields.map((val)=>arg[val])
 
     let requestString = "DELETE FROM "+this.tableName+" WHERE "+valuesTemplatesString
+
     let promise = Request(
       requestString,
       valuesArray,this.DB)

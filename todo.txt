@@ -20,15 +20,15 @@ Needs:
 todo:
   - Save dead zone change
   - Delete dead zone
-  FIX Auto change day time zone
-
+  
   - Create routine 
   Save routine change
-
-  FIX Activities is empty in Schedule 
-  
 
   Export data
   Import data
 
   Clear all data
+
+  FIX Activities is empty in Schedule 
+  FIX Auto change day time zone
+  FIX Combobox

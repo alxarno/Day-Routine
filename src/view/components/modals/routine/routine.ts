@@ -21,6 +21,7 @@ const {dialog} = (window as any).require('electron').remote
 let actionBuffer:string;
 
 const namespace:string = "routines"
+const appNamespace:string = "app"
 
 @WithRender
 @Component({
@@ -38,7 +39,10 @@ export default class RoutineComponent extends Vue {
   @State("items",{namespace}) routines:Array<Routine>
 
   @Action('addRoutine', { namespace }) addRoutine: any;
-
+  @Action('deleteRoutine', { namespace }) deleteRoutine: any;
+  @Action('saveRoutine', { namespace }) saveRoutine: any;
+  @Action("closePopUp", {namespace:appNamespace}) closePopUp:any
+  // saveRoutines
 
   colors:Array<string> = Object.keys(colors)
   ID:number = -1
@@ -112,7 +116,12 @@ export default class RoutineComponent extends Vue {
     return path
   }
 
-  deleteRoutine(){
+  deleteRoutineClick(){
+    this.deleteRoutine(this.currentRoutine)
+    this.closePopUp()
+  }
 
+  beforeDestroy(){
+    this.saveRoutine(this.currentRoutine)
   }
 }
