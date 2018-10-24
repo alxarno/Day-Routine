@@ -94,10 +94,13 @@ export class Crud implements ICRUD{
 
     let querryString = `UPDATE `+this.tableName+` SET `+
       valuesTemplatesString+` WHERE ID=?`
+
     
 
     let valuesArray =  fields.map((val)=>data[val])
     valuesArray =  [...valuesArray, data['ID']]
+
+    
 
     // console.log(querryString)
     // console.log(valuesArray)

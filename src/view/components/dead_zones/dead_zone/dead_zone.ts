@@ -7,8 +7,13 @@ import EditorComponent from './editor/editor'
 import {TimeFormat} from './dead_zone.methods'
 import {DeadZone} from 'src/models/dead_zone'
 
+import { Action } from 'vuex-class';
+
+
 require('./dead_zone.scss') 
 
+
+const namespace:string = "deadZones"
 @WithRender
 @Component({
   components:{
@@ -25,7 +30,7 @@ require('./dead_zone.scss')
   }
 })
 export default class DeadZoneComponent extends Vue {
-  
+  @Action('saveChangedDeadZone', { namespace }) saveChangedDeadZone: any;
 
   get time(){
     return TimeFormat(this.$props.zone.start, this.$props.zone.done)
@@ -39,6 +44,14 @@ export default class DeadZoneComponent extends Vue {
   click(){
     this.$props.changeActive(this.$props.currentIndex)
   }
+
+  checkChange(value:boolean){
+    // console.log(value)
+    this.$props.zone.enable = value
+    this.saveChangedDeadZone(this.$props.zone)
+  }
+
+  
   // computed(){
   //   return{
   //     formated () {

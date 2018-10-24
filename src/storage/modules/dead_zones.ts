@@ -31,6 +31,7 @@ export class DeadZones extends StorageModule  implements IDeadZonesStorage {
   }
 
   Update(unit:DeadZone){
-    this.kernel.Table().GetByName(this.schema.name).Update(unit)
+    this.kernel.Table().GetByName(this.schema.name).
+      Update(this.schema.Serialization(unit))
   }
 }

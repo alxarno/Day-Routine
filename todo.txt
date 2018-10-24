@@ -18,9 +18,13 @@ Needs:
 
 
 todo:
+  - Save dead zone change
+  Delete dead zone
+  FIX Auto change day time zone
+
   - Create routine 
-  Save dead zone change 
   Save routine change
+  
 
   Export data
   Import data

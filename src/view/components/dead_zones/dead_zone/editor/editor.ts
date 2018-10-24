@@ -9,10 +9,13 @@ import SwitchComponent from './switch-time-zone/switch'
 import WeekComponent from './week/week'
 
 import * as WithRender from './editor.html'
+import { Action } from 'vuex-class';
 require('./editor.scss')
 
 const del = require('assets/rubbish-bin-delete-button.svg')
  
+
+const namespace:string = "deadZones"
 @WithRender
 @Component({
   components:{
@@ -30,6 +33,7 @@ const del = require('assets/rubbish-bin-delete-button.svg')
   }
 })
 export default class Editor extends Vue {
+  @Action('saveChangedDeadZone', { namespace }) saveChangedDeadZone: any;
 
   startTimeZone:TimeHalf = TimeHalf.AM
   doneTimeZone:TimeHalf = TimeHalf.AM
@@ -85,7 +89,12 @@ export default class Editor extends Vue {
   }
 
   deleteClick(){
+    // if(this.se)
     this.deleteSwitch =!this.deleteSwitch
   }
   
+  beforeDestroy(){
+    this.saveChangedDeadZone(this.$props.zone)
+    // console.log("Destroy")
+  }
 }

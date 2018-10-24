@@ -9,6 +9,7 @@ export const actions:ActionTree<IDeadZoneState, RootState> = {
       commit('setActiveDeadZone', {number})
     },
     async newDeadZone({commit}) {
+      commit('setActiveDeadZone', {number:-1})
       // HERE
       let deadZone:DeadZone={
         ID:-1,
@@ -23,6 +24,12 @@ export const actions:ActionTree<IDeadZoneState, RootState> = {
       commit('loadedDeadZones', {deadZones})
     },
     async loadDeadZones({commit}){
+      let deadZones = await GetAPI().DeadZones().Get()
+      commit('loadedDeadZones', {deadZones})
+    },
+    async saveChangedDeadZone({commit}, dead_zone:DeadZone){
+      console.log(dead_zone)
+      await GetAPI().DeadZones().Update(dead_zone)
       let deadZones = await GetAPI().DeadZones().Get()
       commit('loadedDeadZones', {deadZones})
     }
