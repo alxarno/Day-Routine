@@ -12,10 +12,16 @@ require("./dropdown.scss")
   }
 })
 export default class DropdownComponent extends Vue {
-  current:any = this.currentItem;
+  current:any = 0;
 
   click(i:number){
     this.current = i;
     this.$props.callback(this.$props.items[i])
   }
+
+  mounted(){
+    this.current = this.$props.currentItem
+  }
+
+ 
 }

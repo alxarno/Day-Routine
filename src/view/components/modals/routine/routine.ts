@@ -58,18 +58,17 @@ export default class RoutineComponent extends Vue {
   pen:string = pen
 
   
+  currentColorIndex():number{
+    return Object.keys(colors).indexOf(this.currentRoutine.colorScheme)
+  }
 
   created(){
-    // console.log("RoutineComponent")
-    // console.log(this.$props.routineID)
-    // console.log(this.routines)
     if(this.$props.routineID != -1){
       this.routines.forEach((element:Routine) => {
         if(element.ID == this.$props.routineID){
           this.currentRoutine = Object.assign({}, element)
         }
       });
-
     }
   }
 
@@ -102,9 +101,6 @@ export default class RoutineComponent extends Vue {
     this.addRoutine(
       this.currentRoutine
     )
-
-    // this.$store.dispatch('closePopUp')
-    // this.$store.dispatch('closeRoutines')
   }
 
   get actionBody(){

@@ -24,6 +24,7 @@ const namespace:string = 'routines'
 })
 export default class RoutinesComponent extends Vue {
   @State(state => state.routines.items) routines:Array<Routine | null>
+  @State(state => state.routines.loaded) loaded:boolean
 
   @Action('newRoutineWindow', { namespace }) newRoutineWindow: any;
   @Action('routineSettingsWindow', { namespace }) routineSettingsWindow: any;

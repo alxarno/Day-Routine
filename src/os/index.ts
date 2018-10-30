@@ -24,7 +24,7 @@ export class OS implements IOS{
 
     if(schedule[date.getHours()] !=null){
       let task:Routine = schedule[date.getHours()] 
-      // return
+      return
       this.showNotification(task.name,
          task.describe)
       switch(task.actionType){

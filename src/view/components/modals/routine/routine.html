@@ -42,7 +42,7 @@
     
     <div class="modal-routine-color">
         <span>Color</span>
-        <dropdown-component v-bind:items="colors" v-bind:currentItem="0" v-bind="{callback:colorChange}"/>
+        <dropdown-component v-bind:items="colors" v-bind:currentItem="currentColorIndex()" v-bind="{callback:colorChange}"/>
     </div>
   </div>
   <div class="modal-routines-row">

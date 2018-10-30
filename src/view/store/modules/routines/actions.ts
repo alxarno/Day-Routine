@@ -45,11 +45,14 @@ export const actions:ActionTree<IRoutinesState, RootState> = {
    
   },
   async loadRoutines({commit}){
+      commit("loaded")
       let routines = await GetAPI().Routines().Get()
       commit('loadedRoutines', {routines})
   },
   async saveRoutine({commit}, routine:Routine){
+    console.log()
     await GetAPI().Routines().Update(routine)
+    commit("loaded")
     let routines = await GetAPI().Routines().Get()
     commit('loadedRoutines', {routines})
   }

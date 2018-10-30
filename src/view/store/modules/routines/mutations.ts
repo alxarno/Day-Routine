@@ -16,6 +16,10 @@ export const mutations:MutationTree<IRoutinesState>={
     state.current_routine = number
   },
   loadedRoutines:(state,{routines})=>{
-    state.items = routines
+    state.items = routines.map((v:any)=>v)
+    state.loaded = true
+  },
+  loaded:(state)=>{
+    state.loaded = false
   }
 }

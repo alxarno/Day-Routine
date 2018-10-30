@@ -66,7 +66,6 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
       // routinesSeqSorted)
         
         if(routine == null) {finalSchedule.push(null); return;}
-        console.log("Work")
         let froutine:Routine = <Routine>routine
         finalSchedule.push({
           name: froutine.name,

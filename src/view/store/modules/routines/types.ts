@@ -4,5 +4,6 @@ export interface IRoutinesState{
   current_routine: number,
   routine_settings_open: boolean,
   new_routine_open: boolean,
+  loaded: boolean,
   items:Array<Routine>
 }
