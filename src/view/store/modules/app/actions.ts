@@ -17,5 +17,6 @@ export const actions:ActionTree<IAppState, RootState> = {
   },
   openPopUp({commit}):any{
     commit("changePopUp")
-  }
+  },
+
 }

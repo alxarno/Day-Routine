@@ -12,6 +12,7 @@ import {
 import {ScheduleCore} from './modules/schedule'
 import {SettingsCore} from "./modules/settings";
 import { IOS } from "src/interfaces/os";
+import { OS } from "src/os";
 
 export class Core implements ICore{
   private Storage:IStorage
@@ -19,12 +20,12 @@ export class Core implements ICore{
   private SettingsModule:ISettingsCore
   private os:IOS
 
-  constructor(storage: IStorage, os:IOS) {
+  constructor(storage: IStorage) {
     this.Storage = storage;
 
     this.ScheduleModule = new ScheduleCore(this.Storage)
     this.SettingsModule = new SettingsCore(this.Storage)
-    this.os = os
+    this.os = new OS(this)
   }
 
   public Routines():IRoutinesCore{

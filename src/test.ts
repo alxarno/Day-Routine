@@ -2,7 +2,6 @@ import {CreateDB} from './database/test/database.test'
 import {CreateStorage} from './storage/test/storage.test'
 
 import {Action} from './models/action'
-import { Core } from './core/core';
 
 export async function TEST(){
   let db = CreateDB()

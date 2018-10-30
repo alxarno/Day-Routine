@@ -14,5 +14,6 @@ export const mutations:MutationTree<IAppState>={
   },
   changePopUp:(state)=>{
     state.popup_open = !state.popup_open
-  }
+  },
+
 }

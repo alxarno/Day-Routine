@@ -18,8 +18,6 @@ import { Action as RoutineAction } from 'src/models/action';
 
 const {dialog} = (window as any).require('electron').remote
 
-let actionBuffer:string;
-
 const namespace:string = "routines"
 const appNamespace:string = "app"
 
@@ -53,6 +51,7 @@ export default class RoutineComponent extends Vue {
     colorScheme:Object.keys(colors)[0],
     describe:"",hours:1}
 
+  actionBuffer:string = ""
   nothing:string = nothing
   file:string = file
   link:string = link  
@@ -81,8 +80,8 @@ export default class RoutineComponent extends Vue {
   click(index:number){
     if((index==2 || index==1) && this.currentRoutine.actionType != 3){
       let l = this.currentRoutine.actionBody;
-      this.currentRoutine.actionBody = actionBuffer;
-      actionBuffer = l;
+      this.currentRoutine.actionBody = this.actionBuffer;
+      this.actionBuffer = l;
     }
     this.currentRoutine.actionType = index
   }

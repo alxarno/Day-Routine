@@ -42,6 +42,7 @@ export class Routines extends StorageModule implements IRoutinesStorage {
     // We don't use serialization cause serialization
     // doesn't process ID , but we need ID for delete
     // certain row
+    this.deleteFromStatics(unit)
     this.kernel.Table().GetByName(this.schema.name).Delete(unit)
   }
 

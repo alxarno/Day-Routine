@@ -8,8 +8,6 @@ import {OS} from './os'
 
 // TEST()
 // let database = ;
-let core = new Core( 
-  new Storage(new DataBase()),
-  new OS());
+let core = new Core(new Storage(new DataBase()));
 let UI = CreateView(core)
 

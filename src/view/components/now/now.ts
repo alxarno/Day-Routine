@@ -29,7 +29,9 @@ const namespace: string = 'schedule';
 export default class NowComponent extends Vue {
 
   @State(state => state.schedule.items) tasks:any
+  // @Staet(dbWasChange => )
   @Action('loadSchedule', { namespace }) loadSchedule: any;
+
 
   time: string[] = GetTimes()
   currentTime: string = GetCurrentTime()

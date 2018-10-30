@@ -33,9 +33,9 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
     let routines:Array<Routine> = await this.storage.Routines().Get()
     let activities:Array<IStatistics> = await this.storage.Statistics().Get();
     let deadZones:Array<DeadZone> = await this.storage.DeadZones().Get();
+    
 
-    if(activities.length==0) throw "Activityes is empty";
-
+    if(activities.length==0 && routines.length == 0) return [...Array(24)].map(()=>null);
     let routineSpentWeek:{[key:number]:number}= RoutinesHoursPerWeekSpent(activities);
     let routineSpentWeekCopy:{[key:number]:number} = Object.assign({},routineSpentWeek)
 
@@ -43,12 +43,13 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
 
     // Sorting routines by "finishing" coefficients
     let routinesSeqSorted:Array<number> = SortRoutinesByFinishingCoefficients(<{[key:number]:number}>Copy(routineSpentWeekCoefficients))
-
+    // console.log(routinesSeqSorted)
     let finalSchedule:Array<NowTask|null> = []
     
     let IsNowDeadZone = this.IsNowDeadZone
 
     let func = function(hour:number){
+      // console.log(IsNowDeadZone(deadZones, hour))
       if(IsNowDeadZone(deadZones, hour)){
         finalSchedule.push(null)
         return
@@ -56,13 +57,16 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
         
         let routine: Routine|null= null;
         routines.forEach((r:Routine)=>{
-          if(routine!=null) return
+          if(r==null) return
           if(r.ID == routinesSeqSorted[0]){
             routine = r
           }
         })
 
-        if(routine === null) {finalSchedule.push(null); return;}
+      // routinesSeqSorted)
+        
+        if(routine == null) {finalSchedule.push(null); return;}
+        console.log("Work")
         let froutine:Routine = <Routine>routine
         finalSchedule.push({
           name: froutine.name,
@@ -77,10 +81,10 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
  
         routineSpentWeekCopy[froutine.ID]++;
         routineSpentWeekCoefficients = GetCoefficients(routines,<{[key:number]:number}>Copy(routineSpentWeekCopy))
-
+        // console.log(routineSpentWeekCoefficients)
         // Rebuild 
         routinesSeqSorted = SortRoutinesByFinishingCoefficients(<{[key:number]:number}>Copy(routineSpentWeekCoefficients))
-        
+        // console.log(routinesSeqSorted)
       }
     }.bind(this)
 

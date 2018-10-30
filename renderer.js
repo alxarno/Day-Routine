@@ -6,7 +6,10 @@ const path = require('path');
 const fs = require("fs")
 const {dialog} = require('electron')
 
+const {shell} = require('electron')
+
 exports.notifAction = (title, message) =>{
+  // return
   notifier.notify(
     {
       title,
@@ -19,7 +22,13 @@ exports.notifAction = (title, message) =>{
 
 exports.fileSelect = async ()=>{
    let promise = new Promise(function(resolve, reject){
-    dialog.showSaveDialog(function (filename) {
+    var d = new Date();
+    dialog.showSaveDialog({
+      defaultPath:"./"+d.getDay()+"_"+d.getMonth()+"_"+d.getFullYear()+".day-routine-data.json",
+      filters: [
+        { name: 'Data', extensions: ['json'] },
+      ]
+    },function (filename) {
         if (filename === undefined) reject();  
         resolve(filename);
       })
@@ -49,4 +58,13 @@ exports.writeToFile = async (path, data)=>{
   })
 
   return await promise;
+}
+
+
+exports.executeFile = (path)=>{
+  shell.openItem(path);
+}
+
+exports.openLink = (url)=>{
+  shell.openExternal(url);
 }
