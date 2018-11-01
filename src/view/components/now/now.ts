@@ -17,10 +17,6 @@ import {NowTask} from 'src/models/now.tasks'
 
 require('./now.scss')
 
-
-
-
-
 const namespace: string = 'schedule';
 @WithRender
 @Component({
@@ -29,14 +25,12 @@ const namespace: string = 'schedule';
 export default class NowComponent extends Vue {
 
   @State(state => state.schedule.items) tasks:any
-  // @Staet(dbWasChange => )
   @Action('loadSchedule', { namespace }) loadSchedule: any;
 
 
   time: string[] = GetTimes()
   currentTime: string = GetCurrentTime()
   currentTimeMarginTop: number = GetCurrentTimeMarginTop()
-  // tasks: Array<NowTask|null> = GetNowTasks()
 
   mounted (){
     this.loadSchedule()

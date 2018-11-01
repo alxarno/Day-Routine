@@ -8,6 +8,7 @@ import {
   IDeadZonesCore
 } from 'src/interfaces/core'
 
+import {ICash} from 'src/interfaces/cash'
 
 import {ScheduleCore} from './modules/schedule'
 import {SettingsCore} from "./modules/settings";
@@ -16,12 +17,15 @@ import { OS } from "src/os";
 
 export class Core implements ICore{
   private Storage:IStorage
+  private Cash:ICash
+
   private ScheduleModule:IScheduleCore
   private SettingsModule:ISettingsCore
   private os:IOS
 
-  constructor(storage: IStorage) {
+  constructor(storage: IStorage, cash:ICash) {
     this.Storage = storage;
+    this.Cash = cash
 
     this.ScheduleModule = new ScheduleCore(this.Storage)
     this.SettingsModule = new SettingsCore(this.Storage)
