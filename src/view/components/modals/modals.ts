@@ -4,7 +4,6 @@ import * as WithRender from './modals.html';
 import CloseButton from './elements/close/close'
 import SettingsComponent from './settings/settings'
 import RoutineComponent from './routine/routine'
-import RoutineSettingsComponent from './routine_settings/routine_settings'
 import { State,Action } from 'vuex-class';
 
 require("./modals.scss")
@@ -17,7 +16,6 @@ const appNamespace:string = "app"
   components:{
     SettingsComponent,
     RoutineComponent,
-    RoutineSettingsComponent,
     CloseButton
   }
 })

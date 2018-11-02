@@ -13,6 +13,9 @@ export const actions:ActionTree<ISettingsState, RootState> = {
   },
   importData({commit}){
     GetAPI().Settings().Import()
+  },
+  clearAll({commit}){
+    GetAPI().Settings().ClearAll()
   }
 
 }

@@ -11,7 +11,7 @@ TODO:
   + Export data
   + Import data
 
-  Clear all data
+  + Clear all data
 
   + Notifications systems
 

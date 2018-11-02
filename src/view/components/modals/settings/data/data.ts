@@ -15,6 +15,7 @@ const scheduleNamespace: string = 'schedule';
 export default class DataComponent extends Vue {
   @Action('exportData', { namespace }) exportData: any;
   @Action('importData', { namespace }) importData: any;
+  @Action('clearAll', {namespace}) clearData:any;
 
   // Need update all data, for fast update
   @Action('loadDeadZones', { namespace:deadZoneNamespace }) loadDeadZones: any;
@@ -34,6 +35,10 @@ export default class DataComponent extends Vue {
     this.loadDeadZones()
     this.loadRoutines()
     this.loadSchedule()
+  }
+
+  deleteClick(){
+    this.clearData()
   }
   
 }

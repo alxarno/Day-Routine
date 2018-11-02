@@ -20,23 +20,8 @@ export class SettingsCore extends CoreModule implements ISettingsCore{
     let data:string = await openFile(path[0])
 
 
-    // Clear old schedule
-    let routines = this.storage.Routines().Get()
-    let dead_zones = this.storage.DeadZones().Get()
+    await this.ClearAll()
   
-    let delQuerys:Array<Promise<void> > = []
-    
-    await Promise.all([routines, dead_zones]).then(result=>{
-      result[0].forEach((element:{ID:string}) => {
-        delQuerys.push(this.storage.Routines().Delete({ID: element.ID}))
-      });
-
-      result[1].forEach((element:{ID:string}) => {
-        delQuerys.push(this.storage.DeadZones().Delete({ID: element.ID}))
-      });
-    })
-
-    await Promise.all(delQuerys)
     let newData:{routines:Array<any>, dead_zones:Array<any>} = JSON.parse(data)
 
     newData.routines.forEach((element:any) => {
@@ -48,8 +33,8 @@ export class SettingsCore extends CoreModule implements ISettingsCore{
     });
   }
 
-  public Delete(){
-
+  public async Delete(){
+    
   }
 
   public async Export(){
@@ -66,7 +51,22 @@ export class SettingsCore extends CoreModule implements ISettingsCore{
     writeFile(fileName, JSON.stringify(final))
   }
 
-  public ClearAll(){
+  public async ClearAll(){
+    let routines = this.storage.Routines().Get()
+    let dead_zones = this.storage.DeadZones().Get()
     
+    let delQuerys:Array<Promise<void> > = []
+      
+    await Promise.all([routines, dead_zones]).then(result=>{
+      result[0].forEach((element:{ID:string}) => {
+        delQuerys.push(this.storage.Routines().Delete({ID: element.ID}))
+      });
+  
+      result[1].forEach((element:{ID:string}) => {
+        delQuerys.push(this.storage.DeadZones().Delete({ID: element.ID}))
+      });
+    })
+  
+    await Promise.all(delQuerys)  
   }
 }
