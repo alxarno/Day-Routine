@@ -7,10 +7,12 @@ import {Request} from './lib'
 export class Crud implements ICRUD{
   private tableName:string
   private DB:IDB
+  private debug:boolean
 
-  constructor(tableName: string, DBConnection:IDB){
+  constructor(tableName: string, DBConnection:IDB, debug:boolean){
     this.tableName = tableName
     this.DB = DBConnection
+    this.debug = debug
   }
 
   private getFields(data:{[key:string]:any}):Array<string>{
@@ -43,9 +45,12 @@ export class Crud implements ICRUD{
     }else{
       requestString = "SELECT * FROM "+this.tableName
     }
-    // console.log("===================")
-    // console.log(requestString)
-    // console.log("===================")
+    if(this.debug){
+      console.log("===================")
+      console.log(requestString)
+      console.log("===================")
+    }
+
     let promise = Request(
       requestString,
       requestData,this.DB)
@@ -66,9 +71,13 @@ export class Crud implements ICRUD{
 
     let querryString = `INSERT INTO `+this.tableName+
     ` (`+fields.toString()+`) VALUES (`+questionMarks.toString()+`)`
-    // console.log("++++++++++++++++++")
-    // console.log(querryString)
-    // console.log("++++++++++++++++++")
+
+    if(this.debug){
+      console.log("++++++++++++++++++")
+      console.log(querryString)
+      console.log("++++++++++++++++++")
+    }
+    
     
     let promise = Request(
       querryString,
@@ -100,7 +109,11 @@ export class Crud implements ICRUD{
     let valuesArray =  fields.map((val)=>data[val])
     valuesArray =  [...valuesArray, data['ID']]
 
-    
+    if(this.debug){
+      console.log("******************")
+      console.log(querryString)
+      console.log("******************")
+    }
 
     // console.log(querryString)
     // console.log(valuesArray)
@@ -129,6 +142,11 @@ export class Crud implements ICRUD{
     let valuesArray =  fields.map((val)=>arg[val])
 
     let requestString = "DELETE FROM "+this.tableName+" WHERE "+valuesTemplatesString
+    if(this.debug){
+      console.log("------------------")
+      console.log(requestString)
+      console.log("------------------")
+    }
 
     let promise = Request(
       requestString,

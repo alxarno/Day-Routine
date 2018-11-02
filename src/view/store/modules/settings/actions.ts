@@ -12,7 +12,7 @@ export const actions:ActionTree<ISettingsState, RootState> = {
     GetAPI().Settings().Export()
   },
   importData({commit}){
-
+    GetAPI().Settings().Import()
   }
 
 }

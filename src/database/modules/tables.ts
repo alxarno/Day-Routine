@@ -9,9 +9,11 @@ import {Request} from './lib'
 export class Table implements ITableMethods{
 
   private DB:IDB
+  private debug:Boolean
 
-  constructor(DBConnection:IDB) {
+  constructor(DBConnection:IDB, debug:Boolean) {
     this.DB = DBConnection
+    this.debug = debug
   }
 
   private DecodeTableSchema(schema:{ [key:string]:any; }):string{
@@ -52,7 +54,7 @@ export class Table implements ITableMethods{
 
     await promise;
     
-    return new Crud(name,this.DB)
+    return new Crud(name,this.DB, this.debug)
   }
 
   async Drop(name:string){
@@ -65,7 +67,7 @@ export class Table implements ITableMethods{
   }
 
   GetByName(name:string):ICRUD{
-    return new Crud(name,this.DB)
+    return new Crud(name,this.DB,  this.debug)
     // let promise = Request(`SELECT name FROM sqlite_master
     //   WHERE type='table'
     //   ORDER BY name;`,

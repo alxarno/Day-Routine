@@ -1,6 +1,6 @@
 TODO:
   + Create Cash for schedule
-  Update activities after each hour
+  + Update activities after each hour
 
   + Save dead zone change
   + Delete dead zone
@@ -9,7 +9,7 @@ TODO:
   + Save routine change
 
   + Export data
-  Import data
+  + Import data
 
   Clear all data
 

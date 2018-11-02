@@ -20,7 +20,7 @@ exports.notifAction = (title, message) =>{
   )
 }
 
-exports.fileSelect = async ()=>{
+exports.saveFile = async ()=>{
    let promise = new Promise(function(resolve, reject){
     var d = new Date();
     dialog.showSaveDialog({
@@ -35,7 +35,24 @@ exports.fileSelect = async ()=>{
    })
 
    return await promise;
+}
 
+exports.chooseFile = async()=>{
+  let promise = new Promise(function(resolve, reject){
+    dialog.showOpenDialog({
+      filters: [
+        { name: 'Data', extensions: ['json'] },
+      ]
+    },function (fileNames) {
+      if(fileNames === undefined){
+        reject()
+      }else{
+        resolve(fileNames)
+      }
+     })
+  })
+
+  return await promise
 }
 
 exports.openFile = async (path)=>{

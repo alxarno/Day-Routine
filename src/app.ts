@@ -5,14 +5,13 @@ import {CashLocalStorage} from './cash'
 import { DataBase as WebSQLDB} from './database';
 import { Storage } from './storage';
 import { Core } from './core';
-import {OS} from './os'
 import { ICash } from './interfaces/cash';
 import { IStorage } from './interfaces/storage';
 
 
 // TEST()
 let cash:ICash = 	new CashLocalStorage()
-let storage:IStorage = new Storage(new WebSQLDB(), cash.Clear.bind(cash))
+let storage:IStorage = new Storage(new WebSQLDB(true), cash.Clear.bind(cash))
 
 let core = new Core(storage,cash);
 let UI = CreateView(core)
