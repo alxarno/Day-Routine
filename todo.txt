@@ -1,5 +1,5 @@
 TODO:
-  Create Cash for schedule
+  + Create Cash for schedule
   Update activities after each hour
 
   + Save dead zone change

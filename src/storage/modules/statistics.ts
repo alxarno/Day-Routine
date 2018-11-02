@@ -5,8 +5,10 @@ import IStatistics from 'src/models/statistics';
 
 export class Statistics extends StorageModule implements IStatisticsStorage {
   
-  constructor(kernel:IStorageKernel, schema:StorageSchema.ISchema){
-    super(kernel,schema)
+  constructor(kernel:IStorageKernel,
+       schema:StorageSchema.ISchema,
+       changeCallback:Function){
+    super(kernel, schema, changeCallback)
   }
 
   private clearSpoiled(st:IStatistics):IStatistics{

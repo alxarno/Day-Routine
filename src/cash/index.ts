@@ -13,15 +13,15 @@ export class CashLocalStorage implements ICash{
 		let day = dateObj.getUTCDate();
 		let year = dateObj.getUTCFullYear();
 
-		return year + "/" + month + "/" + day;
+		return year +""+ month +"" + day+"_";
 	}
 
 	Set(body:string){
-		this.mystorage.setItem(this.getDate+"cash", body)
+		this.mystorage.setItem(this.getDate()+"cash", body)
 	}
 
 	Get():string{
-		 let result = this.mystorage.getItem(this.getDate+"cash")
+		 let result = this.mystorage.getItem(this.getDate()+"cash")
 		 if (result == null) {
 		 	this.Set("{}");
 		 	return this.Get();

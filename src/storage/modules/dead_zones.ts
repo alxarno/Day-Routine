@@ -6,8 +6,10 @@ import { DeadZone } from 'src/models/dead_zone';
 
 export class DeadZones extends StorageModule  implements IDeadZonesStorage {
 
-  constructor(kernel:IStorageKernel, schema:StorageSchema.ISchema){
-    super(kernel,schema)
+  constructor(kernel:IStorageKernel,
+       schema:StorageSchema.ISchema,
+       changeCallback:Function){
+    super(kernel,schema, changeCallback)
   }
 
   async Get(){
@@ -21,6 +23,7 @@ export class DeadZones extends StorageModule  implements IDeadZonesStorage {
   Create(unit:DeadZone){
     let dunit = this.schema.Serialization(unit)
     this.kernel.Table().GetByName(this.schema.name).Insert(dunit)
+    this.changeCallback()
   }
 
   Delete(unit:any){
@@ -28,10 +31,12 @@ export class DeadZones extends StorageModule  implements IDeadZonesStorage {
     // doesn't process ID , but we need ID for delete
     // certain row
     this.kernel.Table().GetByName(this.schema.name).Delete(unit)
+    this.changeCallback()
   }
 
   Update(unit:DeadZone){
     this.kernel.Table().GetByName(this.schema.name).
       Update(this.schema.Serialization(unit))
+    this.changeCallback()
   }
 }

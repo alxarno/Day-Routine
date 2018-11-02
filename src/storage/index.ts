@@ -26,16 +26,19 @@ export class Storage implements IStorage{
   private statistics:IStatisticsStorage
   private routines:IRoutinesStorage
   private deadZones:IDeadZonesStorage
+  public changeCallback:Function
 
 
-  constructor(kernel:IStorageKernel){
+  constructor(kernel:IStorageKernel, changeCallback:Function){
     this.kernel = kernel
-    
-    this.statistics = new Statistics(this.kernel, StatisticsSchema)
+    this.changeCallback = changeCallback
+
+    this.statistics = new Statistics(this.kernel, StatisticsSchema, this.changeCallback)
     this.routines = new Routines(this.kernel, RoutinesSchema,
           this.statistics.Add.bind(this.statistics),
-          this.statistics.Delete.bind(this.statistics))
-    this.deadZones= new DeadZones(this.kernel, DeadZoneSchema)
+          this.statistics.Delete.bind(this.statistics),
+          this.changeCallback)
+    this.deadZones = new DeadZones(this.kernel, DeadZoneSchema,this.changeCallback)
   }
 
   Statistics():IStatisticsStorage{

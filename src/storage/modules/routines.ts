@@ -1,10 +1,9 @@
-import {IRoutinesStorage, IStatisticsStorage} from '../../interfaces/storage'
-import {IStorageKernel, ICRUD} from '../../interfaces/storageKernel'
+import {IRoutinesStorage} from '../../interfaces/storage'
+import {IStorageKernel} from '../../interfaces/storageKernel'
 
 import {Routine} from 'src/models/routines.routine'
 
 import StorageModule from './module'
-import IStatistics from 'src/models/statistics';
 
 export class Routines extends StorageModule implements IRoutinesStorage {
 
@@ -13,8 +12,9 @@ export class Routines extends StorageModule implements IRoutinesStorage {
 
   constructor(kernel:IStorageKernel, schema:StorageSchema.ISchema,
       addToStatics:Function,
-      deleteFromStatics:Function){
-    super(kernel,schema)
+      deleteFromStatics:Function,
+      changeCallback:Function){
+    super(kernel,schema, changeCallback)
     this.addToStatics = addToStatics
     this.deleteFromStatics = deleteFromStatics
   }
@@ -29,10 +29,9 @@ export class Routines extends StorageModule implements IRoutinesStorage {
 
   async Create(unit:Routine){
     let dunit = this.schema.Serialization(unit)
-    // console.log(dunit)
     let id:number = await this.kernel.Table().GetByName(this.schema.name).Insert(dunit)
-    // console.log(id)
     await this.addToStatics({routineID:id, hours:0})
+    this.changeCallback()
   }
 
   async Delete(unit:any){
@@ -44,9 +43,11 @@ export class Routines extends StorageModule implements IRoutinesStorage {
     // certain row
     this.deleteFromStatics(unit)
     this.kernel.Table().GetByName(this.schema.name).Delete(unit)
+    this.changeCallback()
   }
 
   Update(unit:Routine){
     this.kernel.Table().GetByName(this.schema.name).Update(unit)
+    this.changeCallback()
   }
 }

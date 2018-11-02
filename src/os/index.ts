@@ -11,16 +11,27 @@ const ExecFile =  (window as any).require('electron').remote.require('./renderer
 export class OS implements IOS{
   private core:ICore
   private nowTimeout: any
-  constructor(core: ICore){
-    this.core = core
+  private timeOutCallback: Function 
+  private firstCall:boolean
 
+  constructor(core: ICore, callback:Function){
+    this.core = core
+    this.firstCall = true
+    this.timeOutCallback = callback
     this.timerStart()
   }
 
   private async timerStart(){
     // console.log("Hello")
+   
     let schedule = await this.core.Schedule().Get()
     let date:Date = new Date()
+
+    if(!this.firstCall){
+      this.timeOutCallback(date.getHours())
+    }else{
+      this.firstCall = false
+    }
 
     if(schedule[date.getHours()] !=null){
       let task:Routine = schedule[date.getHours()] 

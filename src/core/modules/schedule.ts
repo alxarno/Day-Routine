@@ -7,6 +7,7 @@ import { NowTask } from "src/models/now.tasks";
 import { RoutinesHoursPerWeekSpent,
    GetCoefficients,
    SortRoutinesByFinishingCoefficients } from "./schedule/schedule.methods";
+import { ICash } from "src/interfaces/cash";
 
 function Copy(d:Object):Object{
   return Object.assign({},d)
@@ -30,6 +31,14 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
   }
 
   public async Get():Promise<Array<NowTask|null>>{
+    let cashShedule:string = this.cash.Get()
+    if(cashShedule == "{}") {
+      this.cash.Clear()
+    }else{
+      console.log("Cash Used")
+      return JSON.parse(cashShedule)
+    }
+
     let routines:Array<Routine> = await this.storage.Routines().Get()
     let activities:Array<IStatistics> = await this.storage.Statistics().Get();
     let deadZones:Array<DeadZone> = await this.storage.DeadZones().Get();
@@ -68,6 +77,7 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
         if(routine == null) {finalSchedule.push(null); return;}
         let froutine:Routine = <Routine>routine
         finalSchedule.push({
+          ID:froutine.ID,
           name: froutine.name,
           actionBody:froutine.actionBody,
           actionType:froutine.actionType,
@@ -89,18 +99,8 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
 
     Array.from({length: 24}, (x,i) => i).forEach(func)
 
+    this.cash.Set(JSON.stringify(finalSchedule))
+
     return finalSchedule
   }
-
-  // public Import(){
-
-  // }
-
-  // public Delete(){
-
-  // }
-
-  // public Export(){
-    
-  // }
 }

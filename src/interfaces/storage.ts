@@ -25,4 +25,5 @@ export interface IStorage{
   Statistics:{():IStatisticsStorage}
   Routines:{():IRoutinesStorage}
   DeadZones:{():IDeadZonesStorage}
+  changeCallback:Function
 }
