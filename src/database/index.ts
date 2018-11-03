@@ -1,5 +1,5 @@
 import {IDB} from './interfaces'
-import {IStorageKernel,ITableMethods} from '../interfaces/storageKernel'
+import {IStorageKernel,ITableMethods, IPropsStorageKernel} from '../interfaces/storageKernel'
 
 import {Table} from './modules/tables'
 
@@ -8,12 +8,12 @@ export class DataBase implements IStorageKernel{
   private DB:IDB
   private TableHand:ITableMethods
 
-  constructor(debug:Boolean){
+  constructor(props:IPropsStorageKernel){
     this.DB = openDatabase("DayRoutine", "0.1", "", 2*1024*1024);
     if(!this.DB){
       throw "DB didn't open"
     }
-    this.TableHand = new Table(this.DB, debug)
+    this.TableHand = new Table(this.DB, props.debug)
   }
 
   public Table():ITableMethods{

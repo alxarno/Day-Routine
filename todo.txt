@@ -16,7 +16,7 @@ TODO:
   + Notifications systems
 
   + FIX Activities is empty in Schedule 
-  FIX Auto change day time zone
+  + FIX Auto change day time zone
   + FIX Combobox
   + FIX Delete Statistics after delete routine
 
