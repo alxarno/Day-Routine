@@ -13,33 +13,36 @@ interface IDBEmulator{
   transaction: {(callback:Executor):void}
 }
 
+interface IDBEmulatorProps{
+  correctWork:boolean
+  delay:number
+  print:boolean
+}
+
 export class DBEmulator implements IDBEmulator{
   private delay:number
   private correctWork:boolean
+  private print:boolean
+
   private lastQuery:string
   private lastData:Array<any>
   private result:any
   private error:Error
 
-  constructor(props:{correctWork:boolean, delay:number}){
+
+
+  constructor(props:IDBEmulatorProps){
     this.correctWork = props.correctWork
     this.delay = props.delay
+    this.print = props.print
   }
 
-  public set Query(query:string){
-    this.lastQuery = query
+  public get LastQuery():string{
+    return this.lastQuery
   }
 
-  public set Data(data:Array<any>){
-    this.lastData = data
-  }
-
-  public set Result(result:any){
-    this.result = result
-  }
-
-  public set Error(error:Error){
-    this.error = error
+  public get LastData():any{
+    return this.lastData
   }
 
   public set CorrectWork(correctWork:boolean){
@@ -54,7 +57,17 @@ export class DBEmulator implements IDBEmulator{
     data:any,
     callbackSuccess:{(tx:any, results:any):void},
     callbackError:Function){
-      
+    if(this.print){
+      let printString = "DBEmulator executor print:"
+      printString+="\n"
+      printString+="SQL Query - "+ body
+      printString+= "\n"
+      printString+= "Input data - "+String(data)
+      console.log(printString)
+    } 
+    this.lastData = data
+    this.lastQuery = body
+    
     await new Promise(resolve=>setTimeout(resolve, this.delay))
     if(this.correctWork) callbackSuccess(this, this.result)
     else {

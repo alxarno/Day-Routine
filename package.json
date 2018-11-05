@@ -5,7 +5,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --silent",
     "start": "electron .",
     "watch": "webpack --watch",
     "pack": "electron-builder --dir",
@@ -57,6 +57,7 @@
     }
   },
   "jest": {
+    "verbose": false,
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -67,7 +68,8 @@
     },
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "tsconfig.json"
+        "tsConfig": "tsconfig.json",
+        "diagnostics":false
       }
     },
     "testMatch": [
