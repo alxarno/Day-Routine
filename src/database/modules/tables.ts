@@ -9,9 +9,9 @@ import {Request} from './lib'
 export class Table implements ITableMethods{
 
   private DB:IDB
-  private debug:Boolean
+  private debug:boolean
 
-  constructor(DBConnection:IDB, debug:Boolean) {
+  constructor(DBConnection:IDB, debug:boolean) {
     this.DB = DBConnection
     this.debug = debug
   }

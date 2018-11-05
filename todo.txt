@@ -20,9 +20,11 @@ TODO:
   + FIX Combobox
   + FIX Delete Statistics after delete routine
 
+  Add more colors
+
   Make tests:
     Make test environment and test:
-      Storage
       Database
+      Storage
       Core
       OS

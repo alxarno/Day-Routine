@@ -10,8 +10,12 @@ import { IStorage } from './interfaces/storage';
 
 
 // TEST()
+let db:WebSQLDB = new WebSQLDB(
+  {debug:false},
+  openDatabase("DayRoutine", "0.1", "", 2*1024*1024))
+
 let cash:ICash = 	new CashLocalStorage()
-let storage:IStorage = new Storage(new WebSQLDB({debug:false}), cash.Clear.bind(cash))
+let storage:IStorage = new Storage(db, cash.Clear.bind(cash))
 
 let core = new Core(storage,cash);
 let UI = CreateView(core)

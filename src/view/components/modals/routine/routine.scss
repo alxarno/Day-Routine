@@ -13,10 +13,6 @@
   margin-top: 50px;
 }
 
-// .modal-routines-row{
- 
-// }
-
 .modal-routine-input>span{
   width: 100%;
   display: inline-block;
@@ -32,7 +28,7 @@
   border-radius: 2.5px;
 
   font-family: Roboto-Light;
-  color: $gray;
+  color: darken($gray, 30%);
 }
 
 
@@ -125,7 +121,6 @@
 .modal-routines-hours-caption{
   color: $gray;
 }
-
 
 .modal-routines-save,
 .modal-routines-delete{

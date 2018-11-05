@@ -8,8 +8,8 @@ export class DataBase implements IStorageKernel{
   private DB:IDB
   private TableHand:ITableMethods
 
-  constructor(props:IPropsStorageKernel){
-    this.DB = openDatabase("DayRoutine", "0.1", "", 2*1024*1024);
+  constructor(props:IPropsStorageKernel, DBDriver:IDB){
+    this.DB = DBDriver
     if(!this.DB){
       throw "DB didn't open"
     }

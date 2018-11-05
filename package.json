@@ -5,6 +5,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "test": "jest",
     "start": "electron .",
     "watch": "webpack --watch",
     "pack": "electron-builder --dir",
@@ -24,6 +25,7 @@
     "electron": "~1.7.8",
     "electron-builder": "^19.51.0",
     "electron-installer-windows": "^0.2.0",
+    "jest": "^23.6.0",
     "rimraf": "^2.6.2",
     "ts-loader": "^3.2.0",
     "typescript": "^2.6.2",
@@ -36,6 +38,7 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.19.1",
     "svg-inline-loader": "^0.8.0",
+    "ts-jest": "^23.10.4",
     "vue": "^2.5.17",
     "vue-class-component": "^6.2.0",
     "vue-loader": "^15.4.2",
@@ -52,5 +55,24 @@
     "mac": {
       "category": "organizer"
     }
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.json"
+      }
+    },
+    "testMatch": [
+      "<rootDir>/**/*.test.tsx",
+      "<rootDir>/**/*.test.ts"
+    ]
   }
 }

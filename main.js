@@ -17,10 +17,10 @@ function createWindow () {
   var params = {
     width: 800,
     height: 800,
-    minHeight: 800,
-    minWidth: 800,
+    minHeight: 400,
+    minWidth: 400,
     autoHideMenuBar: true,
-    icon:__dirname+'/res/images/routinelogo@icon.png'
+    icon:__dirname+'/res/images/routinelogo@medium.png'
   };
   mainWindow = new BrowserWindow(params);
 
