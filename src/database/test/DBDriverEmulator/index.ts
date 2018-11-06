@@ -19,7 +19,7 @@ interface IDBEmulatorProps{
   print:boolean
 }
 
-export class DBEmulator implements IDBEmulator{
+export default class DBEmulator implements IDBEmulator{
   private delay:number
   private correctWork:boolean
   private print:boolean

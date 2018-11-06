@@ -1,0 +1,1 @@
+{"version":3,"file":"number.js","sourceRoot":"","sources":["../../../../src/storage/schema/types/number.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO;IACZ;IAEA,CAAC;IAED,MAAM,CAAC,GAAU;QACf,OAAO,GAAG,CAAA;IACZ,CAAC;IAED,QAAQ,CAAC,GAAO;QACd,OAAO,MAAM,CAAC,GAAG,CAAC,CAAA;IACpB,CAAC;IAED,gBAAgB;QACd,OAAO,MAAM,CAAA;IACf,CAAC;CACF"}

@@ -46,44 +46,9 @@ function GetCurrentTimeMarginTop():number{
   return (timeNow*(TASK_ELEMENT_HEIGHT))+TASK_WRAPPER_PADDING_TOP
 }
 
-function GetNowTasks():Array<NowTask|null>{
-  let tasks:Array<NowTask|null> = []
-  for(let i=0;i<24;i++){
-    if(i<=7){
-      tasks.push(null)
-      continue
-    }
 
-    if(i==17){
-      tasks.push({
-        name: 'English',
-        action: "english.pdf",
-        color: "violet",
-        describe: `I learn English to find best company
-                   in the world which can use my skills
-                   to make world better place`,
-        hours: 2,
-        start: i
-      })
-      i++
-      continue
-    }
-
-    tasks.push({
-      name: 'Math',
-      action: "math.pdf",
-      color: "orange",
-      describe: `I learn math to realize world better and ...`,
-      hours: 1,
-      start: i
-    })
-  }
-  
-  return tasks
-}
 
 export {GetTimes,
         GetScrollTop,
         GetCurrentTime,
-        GetCurrentTimeMarginTop,
-        GetNowTasks}
+        GetCurrentTimeMarginTop}

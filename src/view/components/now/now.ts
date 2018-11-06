@@ -10,7 +10,6 @@ import {
   GetScrollTop,
   GetCurrentTime,
   GetCurrentTimeMarginTop,
-  GetNowTasks
 } from './now-methods'
 
 import {NowTask} from 'src/models/now.tasks'

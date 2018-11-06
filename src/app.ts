@@ -1,5 +1,4 @@
 import CreateView from './view/view'
-import {TEST} from './test'
 
 import {CashLocalStorage} from './cash'
 import { DataBase as WebSQLDB} from './database';
@@ -9,7 +8,6 @@ import { ICash } from './interfaces/cash';
 import { IStorage } from './interfaces/storage';
 
 
-// TEST()
 let db:WebSQLDB = new WebSQLDB(
   {debug:false},
   openDatabase("DayRoutine", "0.1", "", 2*1024*1024))

@@ -68,26 +68,5 @@ export class Table implements ITableMethods{
 
   GetByName(name:string):ICRUD{
     return new Crud(name,this.DB,  this.debug)
-    // let promise = Request(`SELECT name FROM sqlite_master
-    //   WHERE type='table'
-    //   ORDER BY name;`,
-    //   [],this.DB)
-
-    // let data = null
-
-    // try{
-    //   data = await promise;
-    // }catch(err){
-    //   throw err
-    // }
-
-    // for(let i =0;i<data.rows.length;i++){
-    //   if(data.rows[i].name == name){
-    //     return new Crud(name,this.DB)
-    //   }
-    // }
-
-    // throw "Table did'nt find"
-
   }
 }

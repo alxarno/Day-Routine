@@ -1,6 +1,6 @@
 import {DataBase} from '../index'
 import {IStorageKernel} from '../../interfaces/storageKernel'
-import { DBEmulator } from './DBEmulator';
+import DBEmulator from './DBDriverEmulator'
 
 
 let DBDriverEmulator = new DBEmulator({

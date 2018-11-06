@@ -22,9 +22,11 @@ TODO:
 
   Add more colors
 
+  Add cache to storage for dont dreact CRUD
+
   Make tests:
     Make test environment and test:
-      Database
+      + Database
       Storage
       Core
       OS
