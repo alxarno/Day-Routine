@@ -37,7 +37,7 @@ export class Crud implements ICRUD{
       let fields:Array<string> = this.getFields(arg)
 
       let valueTemplates:Array<any> = fields.map((val)=>{return val+" = ?"})
-      let valuesTemplatesString:string = valueTemplates.join("AND")
+      let valuesTemplatesString:string = valueTemplates.join(" AND ")
 
       requestData = fields.map((val)=>arg[val])
 
@@ -137,7 +137,7 @@ export class Crud implements ICRUD{
     let questionMarks:Array<any> = fields.map(()=>'?') 
 
     let valueTemplates:Array<any> = fields.map((val)=>{return val+" = ?"})
-    let valuesTemplatesString:string = valueTemplates.join("AND")
+    let valuesTemplatesString:string = valueTemplates.join(" AND ")
 
     let valuesArray =  fields.map((val)=>arg[val])
 

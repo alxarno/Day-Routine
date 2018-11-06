@@ -26,7 +26,7 @@ export class DBEmulator implements IDBEmulator{
 
   private lastQuery:string
   private lastData:Array<any>
-  private result:any
+  private result:Array<any>
   private error:Error
 
 
@@ -49,6 +49,10 @@ export class DBEmulator implements IDBEmulator{
     this.correctWork = correctWork
   }
 
+  public set Answer(rows: Array<any>){
+    this.result = rows
+  }
+
   public async transaction(callback:Executor){
     callback({executeSQL: this.executor.bind(this)})
   }
@@ -69,7 +73,7 @@ export class DBEmulator implements IDBEmulator{
     this.lastQuery = body
     
     await new Promise(resolve=>setTimeout(resolve, this.delay))
-    if(this.correctWork) callbackSuccess(this, this.result)
+    if(this.correctWork) callbackSuccess(this, {rows:this.result})
     else {
       throw "DBEmulator: SQL Error"
     }  
