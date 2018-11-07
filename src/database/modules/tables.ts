@@ -1,6 +1,6 @@
 import { IDB} from '../interfaces'
 
-import {ITableMethods, ICRUD} from '../../interfaces/storageKernel'
+import {ITableMethods, ICRUD} from '../../interfaces/database'
 
 import {Crud} from './CRUD'
 

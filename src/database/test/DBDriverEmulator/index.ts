@@ -6,7 +6,7 @@ interface SQLExecute{
 }
 
 interface Executor{
-   (tx:{executeSQL:SQLExecute}):void
+   (tx:{executeSql:SQLExecute}):void
 }
 
 interface IDBEmulator{
@@ -54,7 +54,7 @@ export default class DBEmulator implements IDBEmulator{
   }
 
   public async transaction(callback:Executor){
-    callback({executeSQL: this.executor.bind(this)})
+    callback({executeSql: this.executor.bind(this)})
   }
 
   private async executor(body:string,

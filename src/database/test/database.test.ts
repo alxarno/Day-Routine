@@ -1,5 +1,5 @@
 import {DataBase} from '../index'
-import {IStorageKernel} from '../../interfaces/storageKernel'
+import {IDataBase} from '../../interfaces/database'
 import DBEmulator from './DBDriverEmulator'
 
 
@@ -9,7 +9,7 @@ let DBDriverEmulator = new DBEmulator({
   print:false
 })
 
-let db:IStorageKernel = new DataBase(
+let db:IDataBase = new DataBase(
   {debug:false},
   DBDriverEmulator
 )

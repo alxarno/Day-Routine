@@ -17,7 +17,8 @@ export default abstract class StorageModule{
   }
 
   private async tableCheck(){
-    await this.kernel.Table().Create(this.schema.name,
+    await this.kernel.TableCreate(
+      this.schema.name,
       this.schema.TranspilerToPrimitive())
   }
 }

@@ -5,8 +5,8 @@ export function Request(body:string, data:any, DB:any):Promise<any>{
 function ForPromise(body:string, data:any, DB:{transaction:Function}):
   {(resolve:Function, reject:Function):void}{
   return (resolve:Function, reject:Function)=>{
-    DB.transaction(function(tx:{executeSQL:Function}){
-      tx.executeSQL(body, 
+    DB.transaction(function(tx:{executeSql:Function}){
+      tx.executeSql(body, 
         data,
         function(tx:any, results:any){
           resolve(results)

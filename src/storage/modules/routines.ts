@@ -20,7 +20,7 @@ export class Routines extends StorageModule implements IRoutinesStorage {
   }
 
   async Get(){
-    let rows:{[key:number]:any} = await this.kernel.Table().GetByName(this.schema.name).Get()
+    let rows:{[key:number]:any} = await this.kernel.Get(this.schema.name)
     if(Object.keys(rows).length==0) return [];
     let crows:Array<any> = Object.keys(rows).map((v,i) => rows[i]);
     let units:Array<Routine> = crows.map((el:Routines)=>this.schema.Deserialization(el))
@@ -29,7 +29,7 @@ export class Routines extends StorageModule implements IRoutinesStorage {
 
   async Create(unit:Routine){
     let dunit = this.schema.Serialization(unit)
-    let id:number = await this.kernel.Table().GetByName(this.schema.name).Insert(dunit)
+    let id:number = await this.kernel.Insert(this.schema.name, dunit)
     await this.addToStatics({routineID:id, hours:0})
     this.changeCallback()
   }
@@ -42,12 +42,12 @@ export class Routines extends StorageModule implements IRoutinesStorage {
     // doesn't process ID , but we need ID for delete
     // certain row
     this.deleteFromStatics(unit)
-    this.kernel.Table().GetByName(this.schema.name).Delete(unit)
+    this.kernel.Delete(this.schema.name, unit) 
     this.changeCallback()
   }
 
   Update(unit:Routine){
-    this.kernel.Table().GetByName(this.schema.name).Update(unit)
+    this.kernel.Update(this.schema.name, unit)
     this.changeCallback()
   }
 }

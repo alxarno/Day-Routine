@@ -13,7 +13,7 @@ export class DeadZones extends StorageModule  implements IDeadZonesStorage {
   }
 
   async Get(){
-    let rows:{[key:number]:any} = await this.kernel.Table().GetByName(this.schema.name).Get()
+    let rows:{[key:number]:any} = await this.kernel.Get(this.schema.name)
     if(Object.keys(rows).length==0) return [];
     let crows:Array<any> = Object.keys(rows).map((v,i) => rows[i]);
     let units:Array<DeadZone> = crows.map((el:DeadZone)=>this.schema.Deserialization(el))
@@ -22,7 +22,7 @@ export class DeadZones extends StorageModule  implements IDeadZonesStorage {
 
   Create(unit:DeadZone){
     let dunit = this.schema.Serialization(unit)
-    this.kernel.Table().GetByName(this.schema.name).Insert(dunit)
+    this.kernel.Insert(this.schema.name, dunit)
     this.changeCallback()
   }
 
@@ -30,13 +30,12 @@ export class DeadZones extends StorageModule  implements IDeadZonesStorage {
     // We don't use serialization cause serialization
     // doesn't process ID , but we need ID for delete
     // certain row
-    this.kernel.Table().GetByName(this.schema.name).Delete(unit)
+    this.kernel.Delete(this.schema.name, unit)
     this.changeCallback()
   }
 
   Update(unit:DeadZone){
-    this.kernel.Table().GetByName(this.schema.name).
-      Update(this.schema.Serialization(unit))
+    this.kernel.Update(this.schema.name, this.schema.Serialization(unit))
     this.changeCallback()
   }
 }

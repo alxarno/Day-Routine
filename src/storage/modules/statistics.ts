@@ -19,7 +19,7 @@ export class Statistics extends StorageModule implements IStatisticsStorage {
   }
 
   async Get(){
-    let rows:{[key:number]:any} = await this.kernel.Table().GetByName(this.schema.name).Get()
+    let rows:{[key:number]:any} = await this.kernel.Get(this.schema.name)
     if(Object.keys(rows).length==0) return [];
     let crows:Array<any> = Object.keys(rows).map((v,i) => rows[i]);
     let units:Array<IStatistics> = crows.map((el:IStatistics)=>this.schema.Deserialization(el))
@@ -30,7 +30,7 @@ export class Statistics extends StorageModule implements IStatisticsStorage {
     let st:IStatistics;
     let rows:{[key:number]:any} 
     // console.log(rows)
-    rows = await this.kernel.Table().GetByName(this.schema.name).Get({routineID:data.routineID})
+    rows = await this.kernel.Get(this.schema.name, {routineID:data.routineID})
     
     if(Object.keys(rows).length==0){
       st = {
@@ -47,15 +47,15 @@ export class Statistics extends StorageModule implements IStatisticsStorage {
     this.clearSpoiled(st)
     st.spent[6] +=data.hours;
     if(st.ID == -1){
-      this.kernel.Table().GetByName(this.schema.name).Insert(this.schema.Serialization(st))  
+      this.kernel.Insert(this.schema.name, this.schema.Serialization(st))
       return
     }
-    this.kernel.Table().GetByName(this.schema.name).Update(this.schema.Serialization(st))
+    this.kernel.Update(this.schema.name, this.schema.Serialization(st))
   }
 
 
   Delete(data:{routineID:number}){
-    this.kernel.Table().GetByName(this.schema.name).Delete(data)
+    this.kernel.Delete(this.schema.name, data)
   }
 
 }

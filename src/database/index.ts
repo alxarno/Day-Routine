@@ -1,14 +1,14 @@
 import {IDB} from './interfaces'
-import {IStorageKernel,ITableMethods, IPropsStorageKernel} from '../interfaces/storageKernel'
+import {IDataBase,ITableMethods, IPropsDataBase} from '../interfaces/database'
 
 import {Table} from './modules/tables'
 
-export class DataBase implements IStorageKernel{
+export class DataBase implements IDataBase{
 
   private DB:IDB
   private TableHand:ITableMethods
 
-  constructor(props:IPropsStorageKernel, DBDriver:IDB){
+  constructor(props:IPropsDataBase, DBDriver:IDB){
     this.DB = DBDriver
     if(!this.DB){
       throw "DB didn't open"

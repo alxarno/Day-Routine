@@ -24,9 +24,11 @@ TODO:
 
   Add cache to storage for dont dreact CRUD
 
+  Storage modules methods to generics 
+
   Make tests:
     Make test environment and test:
       + Database
-      Storage
+      Storage (Change Storage class for easy test)
       Core
       OS

@@ -1,6 +1,6 @@
 import {IDB} from '../interfaces'
 
-import {ICRUD} from '../../interfaces/storageKernel'
+import {ICRUD} from '../../interfaces/database'
 
 import {Request} from './lib'
 
