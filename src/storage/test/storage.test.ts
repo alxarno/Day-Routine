@@ -11,7 +11,8 @@ let warehouse:any = {
     {ID: 2, routineID:3, spent:"[0,1,0,2,3,1,3]", lastUpdate: new Date().getTime()}
   ],
   "routines":[
-    {ID: 1, actionBody: "https://localhost:8080", actionType: 2, colorScheme:"default", describe: "1 desc", hours: 12, name: "Task #1"}
+    {ID: 1, actionBody: "https://localhost:8080", actionType: 2, colorScheme:"default",
+     describe: "1 desc", hours: 12, name: "Task #1"}
   ],
   "dead_zones":[
     {ID:1, name:"Yet", start: 0, done:11, enable: 0, disabled_days:"[]"}

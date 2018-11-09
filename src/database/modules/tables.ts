@@ -10,6 +10,7 @@ export class Table implements ITableMethods{
 
   private DB:IDB
   private debug:boolean
+  private cache:{[key:string]:ICRUD} = {}
 
   constructor(DBConnection:IDB, debug:boolean) {
     this.DB = DBConnection
@@ -67,6 +68,8 @@ export class Table implements ITableMethods{
   }
 
   GetByName(name:string):ICRUD{
-    return new Crud(name,this.DB,  this.debug)
+    if(this.cache.hasOwnProperty(name)) return this.cache[name]
+    this.cache[name] = new Crud(name,this.DB,  this.debug)  
+    return this.cache[name]
   }
 }
