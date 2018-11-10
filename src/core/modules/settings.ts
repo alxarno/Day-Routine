@@ -32,12 +32,12 @@ export class SettingsCore extends CoreModule implements ISettingsCore{
     let dead_zones = this.storage.DeadZones().Get()
     
     let final:{[key:string]:any} = {}
-    Promise.all([routines, dead_zones]).then(result=>{
+    await Promise.all([routines, dead_zones]).then(result=>{
       final["routines"] =result[0]
       final["dead_zones"] = result[1]
     })
     let fileName = await this.os.saveFile()
-    this.os.writeFile(fileName, JSON.stringify(final))
+    await this.os.writeFile(fileName, JSON.stringify(final))
   }
 
   public async ClearAll(){

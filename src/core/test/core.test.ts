@@ -6,9 +6,13 @@ import { ICore } from "../../interfaces/core";
 import { Core } from "..";
 import { CashLocalStorage } from "../../cache";
 import { ICache } from "../../interfaces/cache";
-import { OSEmul } from "./os";
+import { OSEmul, TestOS } from "./os";
 import { IOS } from "../../interfaces/os";
 import { Routine } from "src/models/routines.routine";
+import { DeadZone } from "src/models/dead_zone";
+
+
+
 
 let warehouse:any = {
   "statist":
@@ -40,8 +44,8 @@ let sk:IStorageKernel = new SKEmul(
 
 let cash:ICache = 	new CashLocalStorage()
 let storage:IStorage = new Storage(sk, cash.Clear.bind(cash))
-let os:IOS = new OSEmul({delay:50, print:false})
-let core:ICore = new Core(storage, cash, os)
+let os:TestOS = new OSEmul({delay:50, print:false})
+let core:ICore = new Core(storage, cash, <IOS>os)
 
 
 test("Core: Create",async ()=>{
@@ -59,8 +63,29 @@ test("Core: Get Schedule", async()=>{
   expect(r3>r2).toBe(true)
 })
 
+test("Core: Settings Export", async()=>{
+  await core.Settings().Export()
+  let expected:string = `{"routines":[{"ID":2,"actionBody":"https://localhost:8080","actionType":2,`+
+     `"colorScheme":"default","describe":"1 desc","hours":5,"name":"Task #1"},`+
+     `{"ID":3,"actionBody":"https://localhost:8080","actionType":2,"colorScheme":"orange"`+
+     `,"describe":"2 desc","hours":12,"name":"Task #2"}],"dead_zones":[{"ID":1,"name":"Yet","start"`+
+     `:0,"done":11,"enable":false,"disabled_days":[]}]}`
+  expect(os.Data()).toBe(expected)
+})
+
 test("Core: Settings Clear All", async()=>{
   await core.Settings().ClearAll()
-  
+  let routines:Array<Routine> = await core.Routines().Get()
+  let dead_zones:Array<DeadZone> = await core.DeadZones().Get()
+  expect(routines.length).toBe(0)
+  expect(dead_zones.length).toBe(0)
+})
+
+test("Core: Settings Import", async()=>{
+  let routines:Array<any> = await core.Routines().Get()
+  expect(routines.length).toBe(0)
+  await core.Settings().Import()
+  routines = await core.Routines().Get()
+  expect(routines.length).toBe(2)
 })
 
