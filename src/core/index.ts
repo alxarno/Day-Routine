@@ -8,37 +8,42 @@ import {
   IDeadZonesCore
 } from 'src/interfaces/core'
 
-import {ICash} from 'src/interfaces/cash'
+import {ICache} from 'src/interfaces/cache'
 
 import {ScheduleCore} from './modules/schedule'
 import {SettingsCore} from "./modules/settings";
 import { IOS } from "src/interfaces/os";
 import { OS } from "src/os";
-import Task from "src/view/components/now/task/task";
 import { NowTask } from "src/models/now.tasks";
+import { Routine } from "src/models/routines.routine";
 
 export class Core implements ICore{
   private Storage:IStorage
-  private Cash:ICash
+  private Cache:ICache
 
   private ScheduleModule:IScheduleCore
   private SettingsModule:ISettingsCore
   private os:IOS
 
-  constructor(storage: IStorage, cash:ICash) {
+  constructor(storage: IStorage, cache:ICache, os:IOS) {
     this.Storage = storage;
-    this.Cash = cash
+    this.Cache = cache
 
-    this.ScheduleModule = new ScheduleCore({storage:this.Storage, cash:this.Cash})
-    this.SettingsModule = new SettingsCore({storage:this.Storage})
-    this.os = new OS(this, this.HourIsGone)
+    this.os = os
+    this.os.registerGetCurrentTask(this.GetCurrentTask.bind(this))
+    this.os.registerTimerCallbcak(this.HourIsGone.bind(this))
+
+    this.ScheduleModule = new ScheduleCore({storage:this.Storage, cash:this.Cache})
+    this.SettingsModule = new SettingsCore({storage:this.Storage, os:this.os})
   }
 
-  // private Cash
+  public async GetCurrentTask():Promise<Routine|null>{
+    let schedule:Array<Routine|null> = await this.ScheduleModule.Get()
+    return schedule[new Date().getHours()]
+  }
 
   public HourIsGone(newHour:number){
-    // console.log("Hour is gone")
-    let schedule:Array<NowTask|null> = JSON.parse(this.Cash.Get())
+    let schedule:Array<NowTask|null> = JSON.parse(this.Cache.Get())
     let lastTask:NowTask|null = null
     if(newHour==0){
       if(schedule[23]){

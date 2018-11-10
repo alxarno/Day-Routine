@@ -1,23 +1,12 @@
 import CoreModule from "./module";
 import { ISettingsCore, IRoutinesCore } from "src/interfaces/core";
 import { DeadZone } from "src/models/dead_zone";
-const openFile =  (window as any).require('electron').
-  remote.require('./renderer').openFile
-
-const writeFile =  (window as any).require('electron').
-  remote.require('./renderer').writeToFile
-  
-const saveFile =  (window as any).require('electron').
-  remote.require('./renderer').saveFile
-
-const chooseFile = (window as any).require('electron').
-  remote.require('./renderer').chooseFile
 
 export class SettingsCore extends CoreModule implements ISettingsCore{
 
   public async Import(){
-    let path:string = await chooseFile()
-    let data:string = await openFile(path[0])
+    let path:string = await this.os.chooseFile()
+    let data:string = await this.os.readFile(path[0])
 
 
     await this.ClearAll()
@@ -47,8 +36,8 @@ export class SettingsCore extends CoreModule implements ISettingsCore{
       final["routines"] =result[0]
       final["dead_zones"] = result[1]
     })
-    let fileName = await saveFile()
-    writeFile(fileName, JSON.stringify(final))
+    let fileName = await this.os.saveFile()
+    this.os.writeFile(fileName, JSON.stringify(final))
   }
 
   public async ClearAll(){

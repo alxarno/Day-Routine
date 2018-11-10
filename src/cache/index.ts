@@ -1,6 +1,6 @@
-import {ICash} from 'src/interfaces/cash'
+import {ICache} from 'src/interfaces/cache'
 
-export class CashLocalStorage implements ICash{
+export class CashLocalStorage implements ICache{
 	mystorage:Storage
 
 	constructor(){

@@ -8,51 +8,90 @@ const Notif =  (window as any).require('electron').remote.require('./renderer').
 const OpenLink =  (window as any).require('electron').remote.require('./renderer').openLink
 const ExecFile =  (window as any).require('electron').remote.require('./renderer').executeFile
 
+
+const readFile =  (window as any).require('electron').
+  remote.require('./renderer').openFile
+
+const writeFile =  (window as any).require('electron').
+  remote.require('./renderer').writeToFile
+  
+const saveFile =  (window as any).require('electron').
+  remote.require('./renderer').saveFile
+
+const chooseFile = (window as any).require('electron').
+  remote.require('./renderer').chooseFile
+
 export class OS implements IOS{
-  private core:ICore
+  //private core:ICore
   private nowTimeout: any
   private timeOutCallback: Function 
   private firstCall:boolean
 
-  constructor(core: ICore, callback:Function){
-    this.core = core
+  private getCurrentTask:{():Routine|null}
+
+  constructor(){
+    //this.core = core
     this.firstCall = true
-    this.timeOutCallback = callback
     this.timerStart()
   }
 
+  public registerTimerCallbcak(func:Function){
+    this.timeOutCallback = func
+  }
+
+  public registerGetCurrentTask(func:{():Routine|null}){
+    this.getCurrentTask = func
+  }
+
   private async timerStart(){
-    // console.log("Hello")
-   
-    let schedule = await this.core.Schedule().Get()
+    //let schedule = await this.core.Schedule().Get()
     let date:Date = new Date()
 
+    this.nowTimeout = setTimeout(this.timerStart,
+      (60 - date.getMinutes())*60000)
+    
+    if(!this.getCurrentTask) return
+
+    let task:Routine|null = this.getCurrentTask()
+
     if(!this.firstCall){
-      this.timeOutCallback(date.getHours())
+      if(this.timeOutCallback) this.timeOutCallback(date.getHours())
     }else{
       this.firstCall = false
     }
-
-    if(schedule[date.getHours()] !=null){
-      let task:Routine = schedule[date.getHours()] 
+    if(task != null){
       return
-      this.showNotification(task.name,
-         task.describe)
-      switch(task.actionType){
+      this.showNotification((task as Routine).name, (task as Routine).describe)
+      switch((task as Routine).actionType){
         case Action.File:
-          ExecFile(task.actionBody)
+          ExecFile((task as Routine).actionBody)
           break;
         case Action.Link:
-          OpenLink(task.actionBody)
+          OpenLink((task as Routine).actionBody)
           break;
       }
     }
 
-    this.nowTimeout = setTimeout(this.timerStart,
-    (60 - date.getMinutes())*60000)
   }
 
   private showNotification(t:string, m:string){
     Notif(t,m)
   }
+
+  public saveFile(){
+    return saveFile
+  }
+
+  public chooseFile(){
+    return chooseFile
+  }
+
+  public readFile(path:string){
+    return readFile(path)
+  }
+
+  public writeFile(path:string, data:string){
+    return writeFile(path,data)
+  }
+
 }

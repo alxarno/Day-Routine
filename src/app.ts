@@ -1,13 +1,15 @@
 import CreateView from './view/view'
 
-import {CashLocalStorage} from './cash'
+import {CashLocalStorage} from './cache'
 import { DataBase as WebSQLDB} from './database';
 import { Storage } from './storage';
 import { Core } from './core';
-import { ICash } from './interfaces/cash';
+import { ICache } from './interfaces/cache';
 import { IStorage } from './interfaces/storage';
 import { IStorageKernel } from './interfaces/storageKernel';
 import StorageKernel from './storage_kernel';
+import { OS } from './os';
+import { IOS } from './interfaces/os';
 
 
 let db:WebSQLDB = new WebSQLDB(
@@ -15,10 +17,10 @@ let db:WebSQLDB = new WebSQLDB(
   openDatabase("DayRoutine", "0.1", "", 2*1024*1024))
 
 let sk:IStorageKernel = new StorageKernel(db)
-let cash:ICash = 	new CashLocalStorage()
+let cache:ICache = 	new CashLocalStorage()
+let os:IOS = new OS()
+let storage:IStorage = new Storage(sk, cache.Clear.bind(cache))
 
-let storage:IStorage = new Storage(sk, cash.Clear.bind(cash))
-
-let core = new Core(storage,cash);
+let core = new Core(storage,cache, os);
 let UI = CreateView(core)
 

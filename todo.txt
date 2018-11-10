@@ -22,13 +22,14 @@ TODO:
 
   Add more colors
 
-  Add cache to storage for dont dreact CRUD
+  + Add cache to storage for dont dreact CRUD
+
+  Detach core and os
 
   Storage modules methods to generics 
 
   Make tests:
     Make test environment and test:
       + Database
-      Storage (Change Storage class for easy test)
+      + Storage
       Core
-      OS

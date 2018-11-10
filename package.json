@@ -5,7 +5,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "jest --silent",
+    "test": "jest --runInBand",
     "start": "electron .",
     "watch": "webpack --watch",
     "pack": "electron-builder --dir",
@@ -32,6 +32,7 @@
     "webpack": "^3.10.0"
   },
   "dependencies": {
+    "@types/jest": "^23.3.9",
     "electron-reload": "^1.2.2",
     "node-notifier": "^5.2.1",
     "node-sass": "^4.9.3",
@@ -69,7 +70,7 @@
     "globals": {
       "ts-jest": {
         "tsConfig": "tsconfig.json",
-        "diagnostics":false
+        "diagnostics": false
       }
     },
     "testMatch": [

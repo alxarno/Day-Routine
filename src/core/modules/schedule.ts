@@ -7,7 +7,6 @@ import { NowTask } from "src/models/now.tasks";
 import { RoutinesHoursPerWeekSpent,
    GetCoefficients,
    SortRoutinesByFinishingCoefficients } from "./schedule/schedule.methods";
-import { ICash } from "src/interfaces/cash";
 
 function Copy(d:Object):Object{
   return Object.assign({},d)

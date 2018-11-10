@@ -1,4 +1,4 @@
-export interface ICash {
+export interface ICache {
 	Get:{():string}
 	Set:{(body:string):void}
 	Clear:{():void}
