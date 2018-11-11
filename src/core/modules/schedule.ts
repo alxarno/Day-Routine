@@ -31,10 +31,7 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
 
   public async Get():Promise<Array<NowTask|null>>{
     let cashShedule:string = this.cash.Get()
-    if(cashShedule == "{}") {
-      this.cash.Clear()
-    }else{
-      console.log("Cash Used")
+    if(cashShedule !== "{}") {
       return JSON.parse(cashShedule)
     }
 
@@ -86,7 +83,6 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
           start:hour
         })
         
- 
         routineSpentWeekCopy[froutine.ID]++;
         routineSpentWeekCoefficients = GetCoefficients(routines,<{[key:number]:number}>Copy(routineSpentWeekCopy))
         // console.log(routineSpentWeekCoefficients)

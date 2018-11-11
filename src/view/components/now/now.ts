@@ -12,8 +12,6 @@ import {
   GetCurrentTimeMarginTop,
 } from './now-methods'
 
-import {NowTask} from 'src/models/now.tasks'
-
 require('./now.scss')
 
 const namespace: string = 'schedule';
@@ -22,10 +20,8 @@ const namespace: string = 'schedule';
   components: { TaskComponent}
 })
 export default class NowComponent extends Vue {
-
   @State(state => state.schedule.items) tasks:any
   @Action('loadSchedule', { namespace }) loadSchedule: any;
-
 
   time: string[] = GetTimes()
   currentTime: string = GetCurrentTime()

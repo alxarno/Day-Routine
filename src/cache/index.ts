@@ -30,6 +30,7 @@ export class CashLocalStorage implements ICache{
 	}
 
 	Clear(){
-		this.mystorage.clear()
+    this.mystorage.clear()
+    this.Set("{}");
 	}
 }
