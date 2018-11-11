@@ -49,9 +49,12 @@ export default class Task extends Vue {
 
       if(colors.hasOwnProperty(this.$props.task.color)){
         this.curentColor = colors[this.$props.task.color]
-        this.wrapperStyle = ComputeWrapperStyle(this.curentColor,this.$props.task.hours,
-                                                this.currentActiveTask, this.wrapperStyle)
+      
+      }else{
+        this.curentColor = colors["default"]
       }
+      this.wrapperStyle = ComputeWrapperStyle(this.curentColor,this.$props.task.hours,
+        this.currentActiveTask, this.wrapperStyle)
 
       // Short describe
       this.describe = ShortDescribe(this.$props.task.describe, this.$props.task.hours)

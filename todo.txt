@@ -28,6 +28,8 @@ TODO:
 
   Add more colors
 
+  Add tray
+
   Add build to package.json
 
   Add build paragraph to README.modules

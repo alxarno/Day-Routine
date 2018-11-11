@@ -18,10 +18,22 @@ export let colors:{[key: string]: Color}={
     "upper_average_color": "#9477ff",
     "average_color":"#a087ff"
   },
+  "red":{
+    "passiv_color": "#ffccd9",
+    "active_color": "#ff5338",
+    "upper_average_color": "#ff7870",
+    "average_color":"#ff8b8b"
+  },
+  "blue":{
+    "passiv_color": "#a3ecff",
+    "active_color": "#5d9fea",
+    "upper_average_color": "#56a3e4",
+    "average_color":"#56b6ff"
+  },
   "default":{
-    "passiv_color": "#ffffff",
-    "active_color": "#ffffff",
-    "upper_average_color": "#ffffff",
-    "average_color":"#ffffff" 
+    "passiv_color": "#e2e2e2",
+    "active_color": "#878787",
+    "upper_average_color": "#b5b5b5",
+    "average_color":"#b5b5b5" 
   }
 }
