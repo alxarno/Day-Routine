@@ -21,16 +21,22 @@ const saveFile =  (window as any).require('electron').
 const chooseFile = (window as any).require('electron').
   remote.require('./renderer').chooseFile
 
+interface OSProps{
+  showNotifs:boolean
+}
+
 export class OS implements IOS{
   //private core:ICore
+  private props:OSProps
   private nowTimeout: any
   private timeOutCallback: Function 
   private firstCall:boolean
 
   private getCurrentTask:{():Routine|null}
 
-  constructor(){
+  constructor(_props:OSProps){
     //this.core = core
+    this.props = _props
     this.firstCall = true
     this.timerStart()
   }
@@ -44,7 +50,6 @@ export class OS implements IOS{
   }
 
   private async timerStart(){
-    //let schedule = await this.core.Schedule().Get()
     let date:Date = new Date()
 
     this.nowTimeout = setTimeout(this.timerStart,
@@ -60,7 +65,7 @@ export class OS implements IOS{
       this.firstCall = false
     }
     if(task != null){
-      return
+      if (!this.props.showNotifs) return
       this.showNotification((task as Routine).name, (task as Routine).describe)
       switch((task as Routine).actionType){
         case Action.File:

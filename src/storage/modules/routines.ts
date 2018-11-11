@@ -5,7 +5,7 @@ import {Routine} from 'src/models/routines.routine'
 
 import StorageModule from './module'
 
-export class Routines extends StorageModule implements IRoutinesStorage {
+export class Routines extends StorageModule<Routine> implements IRoutinesStorage {
 
   private addToStatics:Function;
   private deleteFromStatics:Function;
@@ -19,13 +19,6 @@ export class Routines extends StorageModule implements IRoutinesStorage {
     this.deleteFromStatics = deleteFromStatics
   }
 
-  async Get(){
-    let rows:{[key:number]:any} = await this.kernel.Get(this.schema.name)
-    if(Object.keys(rows).length==0) return [];
-    let crows:Array<any> = Object.keys(rows).map((v,i) => rows[i]);
-    let units:Array<Routine> = crows.map((el:Routines)=>this.schema.Deserialization(el))
-    return units
-  }
 
   async Create(unit:Routine){
     let dunit = this.schema.Serialization(unit)
@@ -43,11 +36,6 @@ export class Routines extends StorageModule implements IRoutinesStorage {
     // certain row
     this.deleteFromStatics(unit)
     this.kernel.Delete(this.schema.name, unit) 
-    this.changeCallback()
-  }
-
-  Update(unit:Routine){
-    this.kernel.Update(this.schema.name, unit)
     this.changeCallback()
   }
 }

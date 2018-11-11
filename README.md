@@ -1,6 +1,6 @@
 <img src="https://github.com/AlexeyArno/Day-Routine/blob/master/res/images/routinelogo@small.png?raw=true" align="right"/>
 
-# ![Day-Routine](https://github.com/AlexeyArno/Day-Routine)
+# [Day-Routine](https://github.com/AlexeyArno/Day-Routine)
 
 ![](https://img.shields.io/badge/price-free-%235F2FE1.svg)
 ![](https://img.shields.io/badge/version-1.0.0-green.svg)

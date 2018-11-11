@@ -20,13 +20,17 @@ TODO:
   + FIX Combobox
   + FIX Delete Statistics after delete routine
 
-  Add more colors
-
   + Add cache to storage for dont dreact CRUD
 
   + Detach core and os
 
-  Storage modules methods to generics 
+  + Storage modules methods to generics 
+
+  Add more colors
+
+  Add build to package.json
+
+  Add build paragraph to README.modules
 
   Make tests:
     Make test environment and test:

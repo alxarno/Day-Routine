@@ -3,7 +3,7 @@ import {IStorageKernel} from '../../interfaces/storageKernel'
 import StorageModule from './module';
 import IStatistics from 'src/models/statistics';
 
-export class Statistics extends StorageModule implements IStatisticsStorage {
+export class Statistics extends StorageModule<IStatistics> implements IStatisticsStorage {
   
   constructor(kernel:IStorageKernel,
        schema:StorageSchema.ISchema,
@@ -16,14 +16,6 @@ export class Statistics extends StorageModule implements IStatisticsStorage {
     let daysGone:number = Math.round((now.getTime()-st.lastUpdate.getTime())/(1000*60*60*24)); //Days delta
     st.spent = [...st.spent.slice(daysGone), ...Array.from({length: daysGone}, ()=>0)] // New n values 
     return st
-  }
-
-  async Get(){
-    let rows:{[key:number]:any} = await this.kernel.Get(this.schema.name)
-    if(Object.keys(rows).length==0) return [];
-    let crows:Array<any> = Object.keys(rows).map((v,i) => rows[i]);
-    let units:Array<IStatistics> = crows.map((el:IStatistics)=>this.schema.Deserialization(el))
-    return units
   }
 
   async Add(data:{routineID:number, hours:number}){
@@ -51,11 +43,6 @@ export class Statistics extends StorageModule implements IStatisticsStorage {
       return
     }
     this.kernel.Update(this.schema.name, this.schema.Serialization(st))
-  }
-
-
-  Delete(data:{routineID:number}){
-    this.kernel.Delete(this.schema.name, data)
   }
 
 }

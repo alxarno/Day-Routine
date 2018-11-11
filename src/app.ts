@@ -18,7 +18,7 @@ let db:WebSQLDB = new WebSQLDB(
 
 let sk:IStorageKernel = new StorageKernel(db)
 let cache:ICache = 	new CashLocalStorage()
-let os:IOS = new OS()
+let os:IOS = new OS({showNotifs:true})
 let storage:IStorage = new Storage(sk, cache.Clear.bind(cache))
 
 let core = new Core(storage,cache, os);
