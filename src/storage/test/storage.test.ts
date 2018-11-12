@@ -2,6 +2,7 @@ import { IStorageKernel } from "src/interfaces/storageKernel";
 import SKEmul from "./StorageKernelEmul";
 import { IStorage } from "src/interfaces/storage";
 import {Storage} from '../index'
+import { Routine } from "src/models/routines.routine";
 
 
 let warehouse:any = {
@@ -74,10 +75,16 @@ test("Storage: Routines Create", async()=>{
 })
 
 test("Storage: Routine Update", async()=>{
-  await storage.Routines().Update({
-    ID:1,
-    hours: 10
-  })
+  let routine:Routine = {
+    ID: 1,
+    actionBody: "https://localhost:8080",
+    actionType: 2,
+    colorScheme:"default",
+    describe: "1 desc",
+    hours: 12,
+    name: "Task #1"}
+  routine.hours = 10
+  await storage.Routines().Update(routine)
   let rows:Array<any> = await storage.Routines().Get({ID: 1})
   expect(rows[0]["hours"]).toBe(10)
 })
