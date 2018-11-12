@@ -50,7 +50,8 @@ export default abstract class StorageModule<T>{
   }
 
   Update(unit:T){
-    this.kernel.Update(this.schema.name, unit)
+
+    this.kernel.Update(this.schema.name, this.schema.Serialization(unit))
     this.changeCallback()
   }
 }

@@ -11,7 +11,6 @@ import StorageKernel from './storage_kernel';
 import { OS } from './os';
 import { IOS } from './interfaces/os';
 
-
 let db:WebSQLDB = new WebSQLDB(
   {debug:false},
   openDatabase("DayRoutine", "0.1", "", 2*1024*1024))

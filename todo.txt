@@ -26,13 +26,15 @@ TODO:
 
   + Storage modules methods to generics 
 
-  Add more colors
+  + Add more colors
 
-  Add tray
+  + Add tray
 
-  Add build to package.json
+  + Add DeadZones week check 
 
-  Add build paragraph to README.modules
+  + Add DeadZones enable check
+
+  + Add build paragraph to README.modules
 
   Make tests:
     Make test environment and test:

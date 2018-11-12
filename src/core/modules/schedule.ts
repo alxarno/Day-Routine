@@ -38,6 +38,15 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
     let routines:Array<Routine> = await this.storage.Routines().Get()
     let activities:Array<IStatistics> = await this.storage.Statistics().Get();
     let deadZones:Array<DeadZone> = await this.storage.DeadZones().Get();
+    // 0 is Sunday, but need 0 is Monday
+    let day:number = new Date().getDay()-1
+    if(day<0) day++;
+
+    deadZones = deadZones.filter((dz:DeadZone)=>{
+      if(!dz.enable) return false;
+      if(dz.disabled_days.indexOf(day)!== -1) return false
+      return true 
+    })
     
 
     if(activities.length==0 && routines.length == 0) return [...Array(24)].map(()=>null);
@@ -48,13 +57,11 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
 
     // Sorting routines by "finishing" coefficients
     let routinesSeqSorted:Array<number> = SortRoutinesByFinishingCoefficients(<{[key:number]:number}>Copy(routineSpentWeekCoefficients))
-    // console.log(routinesSeqSorted)
     let finalSchedule:Array<NowTask|null> = []
     
     let IsNowDeadZone = this.IsNowDeadZone
 
     let func = function(hour:number){
-      // console.log(IsNowDeadZone(deadZones, hour))
       if(IsNowDeadZone(deadZones, hour)){
         finalSchedule.push(null)
         return
@@ -85,10 +92,8 @@ export class ScheduleCore extends CoreModule implements IScheduleCore{
         
         routineSpentWeekCopy[froutine.ID]++;
         routineSpentWeekCoefficients = GetCoefficients(routines,<{[key:number]:number}>Copy(routineSpentWeekCopy))
-        // console.log(routineSpentWeekCoefficients)
         // Rebuild 
         routinesSeqSorted = SortRoutinesByFinishingCoefficients(<{[key:number]:number}>Copy(routineSpentWeekCoefficients))
-        // console.log(routinesSeqSorted)
       }
     }.bind(this)
 

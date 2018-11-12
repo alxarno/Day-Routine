@@ -29,10 +29,10 @@ export class OS implements IOS{
   //private core:ICore
   private props:OSProps
   private nowTimeout: any
-  private timeOutCallback: Function 
+  private timeOutCallback: Function = ()=>null
   private firstCall:boolean
 
-  private getCurrentTask:{():Routine|null}
+  private getCurrentTask:{():Routine|null} = ()=>null
 
   constructor(_props:OSProps){
     //this.core = core
@@ -52,21 +52,19 @@ export class OS implements IOS{
   private async timerStart(){
     let date:Date = new Date()
 
-    this.nowTimeout = setTimeout(this.timerStart,
+    this.nowTimeout = setTimeout(this.timerStart.bind(this),
       (60 - date.getMinutes())*60000)
     
     if(!this.getCurrentTask) return
 
-    let task:Routine|null = this.getCurrentTask()
-
+    let task:Routine|null = await this.getCurrentTask()
     if(!this.firstCall){
       if(this.timeOutCallback) this.timeOutCallback(date.getHours())
     }else{
       this.firstCall = false
     }
     if(task != null){
-      if (!this.props.showNotifs) return
-      this.showNotification((task as Routine).name, (task as Routine).describe)
+      if(this.props.showNotifs) this.showNotification((task as Routine).name, (task as Routine).describe)
       switch((task as Routine).actionType){
         case Action.File:
           ExecFile((task as Routine).actionBody)

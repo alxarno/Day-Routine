@@ -3,9 +3,6 @@ import Component from 'vue-class-component'
 import * as WithRender from './switch.html'
 require('./switch.scss') 
 
-import {TimeHalf} from '../interfaces'
-
-
 @WithRender
 @Component({
   props:{
@@ -15,9 +12,8 @@ import {TimeHalf} from '../interfaces'
 })
 export default class SwitchComponent extends Vue {
 
-
   click(){
-    this.changeZone()
+    this.$props.changeZone()
   }
  
 }

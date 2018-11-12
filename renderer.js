@@ -1,6 +1,3 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
 const notifier = require('node-notifier');
 const path = require('path');
 const fs = require("fs")
@@ -9,7 +6,6 @@ const {dialog} = require('electron')
 const {shell} = require('electron')
 
 exports.notifAction = (title, message) =>{
-  // return
   notifier.notify(
     {
       title,
