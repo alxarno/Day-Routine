@@ -1,0 +1,131 @@
+.modal-routin-wrapper{
+  padding: 15px 0px;
+ 
+  // padding-top: 45px;
+  margin-top: 30px;
+}
+
+.modal-routines-row{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0px 40px;
+  margin-top: 50px;
+}
+
+.modal-routine-input>span{
+  width: 100%;
+  display: inline-block;
+}
+
+.modal-routine-input>input,
+.modal-routine-input.description>textarea{
+  border: 0px;
+  font-size: 16px;
+  border: 1px solid $light-gray;
+  background: #ffffff;
+  outline: none;
+  border-radius: 2.5px;
+
+  font-family: Roboto-Light;
+  color: darken($gray, 30%);
+}
+
+
+.modal-routine-input.description>textarea{
+  width: 100%;
+  resize: none;
+}
+
+.modal-routine-action-wrapper{
+  border: 1px solid $light-gray;
+  border-radius: 2.5px;
+  width: 80px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  padding: 0px 10px;
+  justify-content: space-between;
+  position: relative;
+  top: 15px;
+}
+
+.modal-routine-action{
+  fill: $gray;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+}
+
+.modal-routine-separator{
+  width: 1px;
+  height: 15px;
+  position: relative;
+  top: 1.5px;
+  background: $light-gray;
+  margin: 2.5px;
+  margin-top: 0px;
+}
+
+.modal-routine-action.active>svg{
+  fill: $primary-color;
+}
+
+.modal-routine-action-body-wrapper{
+  width: 150px;
+  // margin-top: 20px;
+  
+}
+
+.modal-routine-file-body{
+  color: $gray;
+  // margin-left: -4px;
+}
+
+.modal-routines-file-body-change{
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  display: inline-block;
+  margin-left: 135px;
+
+}
+
+.modal-routines-file-body-change:active{
+  opacity: 0.4;
+}
+
+.modal-routines-file-body-change>svg{
+  fill: #ffffff;
+  position: relative;
+  top: 2px;
+ 
+  width: 15px;
+  height: 15px;
+}
+
+.modal-routine-col-3{
+  width: 190px;
+  height: 45px;
+}
+
+.modal-routine-color{
+  width: 100px;
+}
+
+
+.modal-routines-slider-wrapper{
+  width: calc(100% - 100px);
+}
+
+.modal-routines-hours-caption{
+  color: $gray;
+}
+
+.modal-routines-save,
+.modal-routines-delete{
+  width: 100px;
+  color:#ffffff;
+  font-size: 12px;
+}
+

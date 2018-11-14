@@ -1,0 +1,26 @@
+.drawer{
+  width: 300px;
+  position: fixed;
+  height: 100vh;
+  top: 0px;
+  right: -300px;
+  background: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+
+.drawer.active{
+  right: 0px;
+}
+
+.drawer-wrapper{
+  width: calc(100vw - 300px);
+  position: fixed;
+  top: 0px;
+  height: 100vh;
+  right: -100vw;
+  cursor: pointer;
+}
+
+.drawer-wrapper.active{
+  right: 300px;
+}

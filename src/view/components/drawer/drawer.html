@@ -1,3 +1,26 @@
 <div>
-  Hello
+  <div 
+    class="drawer"
+    v-bind:class="[!this.popupOpen ?'':'active']">
+    <close-button/>
+    <settings-component 
+      v-if="this.settingsOpen" 
+      class="modal_body"/>
+    <routine-component 
+      v-if="this.newRoutineOpen" 
+      class="modal_body"
+      v-bind:routineID="-1"/>
+    <routine-component 
+      v-if="this.routineSettingsOpen" 
+      class="modal_body"
+      v-bind:routineID="this.currentRoutine"
+    />
+  </div>
+  <div
+    class="drawer-wrapper"
+    v-bind:class="[!this.popupOpen ?'':'active']"
+    v-on:click="close"
+  >
+
+  </div>
 </div>

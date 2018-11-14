@@ -1,0 +1,15 @@
+<div class="slider-element-wrapper" ref="slider_element_ref">
+
+  <div class="slider-uptab">
+    <span  v-bind:style="{marginLeft: 'calc('+(current/max)*100+'%' +' - 5px)'}">{{current}}</span>
+  </div>
+  
+  <div class="slider-wrapper">
+    <div class="slider-active" v-bind:style="{width: (current/max)*100+'%'}" @mousedown="startDrag()">
+      <div class="slider-circle">
+        <div class="slider-circle-core"></div>
+      </div>
+    </div>
+  </div>
+
+</div>

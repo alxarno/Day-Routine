@@ -1,5 +1,7 @@
 <div>
-  <div v-bind:style="popup_open?style : {}">
+  <div 
+    v-bind:style="popup_open?style : {}"
+  >
     <header-component/>
     <now-component v-if="menuActiveItem == 0"/>
     <routines-component v-if="menuActiveItem == 1"/>
