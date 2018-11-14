@@ -41,3 +41,9 @@ TODO:
       + Database
       + Storage
       + Core
+
+  Change modals to drawers
+
+  Update build script (create separate dir with final files)
+
+  Add cloud-sync support
