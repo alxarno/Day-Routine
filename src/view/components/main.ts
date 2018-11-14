@@ -8,6 +8,7 @@ import NowComponent from "./now/now";
 import RoutinesComponent from "./routines/routines";
 import DeadZonesComponent from "./dead_zones/dead_zones"
 import ModalsComponent from './modals/modals'
+import DrawerComponent from './drawer'
 
 import * as WithRender from './main.html';
 
@@ -19,7 +20,7 @@ const namespace:string = 'app'
     HeaderComponent,
     NowComponent,
     RoutinesComponent,
-    ModalsComponent,
+    DrawerComponent,
     DeadZonesComponent
   }
 })

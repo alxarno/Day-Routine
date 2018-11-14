@@ -6,7 +6,7 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
 
-var prodEnv = true
+var prodEnv = false
 
 let mainWindow;
 let tray = null
