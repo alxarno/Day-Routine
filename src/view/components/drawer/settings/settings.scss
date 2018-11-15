@@ -1,5 +1,8 @@
+.settingsContentWrapper{
+  width: 100%;
+}
+
 .settings_content{
-  display: flex;
 }
 
 .settings-body__header{
@@ -10,7 +13,7 @@
 .settings-body__wrapper{
   font-family: Roboto-Light;
   padding: 15px;
-  padding-top: 25px;
+  padding-top: 10px;
 }
 
 .settings-body__row{

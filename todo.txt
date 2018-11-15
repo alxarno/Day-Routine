@@ -36,13 +36,14 @@ TODO:
 
   + Add build paragraph to README.modules
 
-  Make tests:
-    Make test environment and test:
-      + Database
-      + Storage
-      + Core
+  + Make tests:
+    + Database
+    + Storage
+    + Core
 
   Change modals to drawers
+    Change settings modal -> drawer
+    Change new routine modal -> drawer
 
   Update build script (create separate dir with final files)
 

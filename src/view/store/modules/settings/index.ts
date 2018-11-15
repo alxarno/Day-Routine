@@ -6,7 +6,6 @@ import {actions} from './actions'
 import {mutations} from './mutations'
 import {getters} from './getters'
 
-
 export const state:ISettingsState = {
     menu_active_item: 0
 }
@@ -18,7 +17,7 @@ export const settings: Module<ISettingsState, RootState>={
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }
 // interface IAppModule{
   //   menu_active_item:number,

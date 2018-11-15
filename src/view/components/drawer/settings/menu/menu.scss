@@ -1,27 +1,43 @@
 .settings-menu__body{
-  width: 160px;
-  display: inline-block;
+  width: 100%;
+
+  //display: inline-block;
   user-select: none;
-  background: lighten($light-gray, 6);
-  padding: 20px 0px 0px 15px;
+  background: $background;
+  //padding: 20px 0px 0px 15px;
+  padding-top: 15px;
   border-radius: 5px 0px 0px 5px;
+}
+
+.settings-menu__slider{
+  width: 100px;
+  top: 33px;
+  position: absolute;
+  height: 2px;
+  background: $primary-color;
+  transition: all 0.2s ease-in-out;
 }
 
 .settings-menu__active-tab,
 .settings-menu__tab{
-  margin-top: 10px;
+  display: inline-block;
+ // margin-top: 10px;
+  margin-left: 10px;
+  padding-left: 10px;
+  padding-right: 15px;
+  position: relative;
+  bottom: 7px;
   cursor: pointer;
   height: 20px;
-  font-size :18px;
 }
 
 .settings-menu__tab{
-  font-family: Roboto-Regular;
-  font-size: 18px;
-  color: $light-gray;
+  font-family: Roboto-Light;
+  font-size: 16px;
+  color: $gray;
   transition: 0.2s;
 }
 .settings-menu__tab:hover{
-  color: #000000 ;
+  color: #494949 ;
 }
 
