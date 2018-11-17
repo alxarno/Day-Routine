@@ -3,7 +3,7 @@ import Component from 'vue-class-component'
 import {State, Action} from 'vuex-class';
 
 
-import HeaderComponent from "./header/header";
+import HeaderComponent from "./header";
 import NowComponent from "./now/now";
 import RoutinesComponent from "./routines/routines";
 import DeadZonesComponent from "./dead_zones/dead_zones"
