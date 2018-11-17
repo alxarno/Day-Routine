@@ -5,6 +5,8 @@
 }
 
 .now-wrapper{
+  padding-top: 30px;
+
   width: 500px;
   margin: auto;
   display: flex;
@@ -17,8 +19,13 @@
 }
 
 .now-hour{
-  line-height: 3;
-  height: 108px;
+  span{
+    position: relative;
+    top: ((105px/2) - 3px);
+  }
+  //line-height: 3;
+  height: 115px;
+  //padding-top: 50px;
   font-family: Roboto-Regular;
   font-size:  12px;
   color: $gray;
@@ -27,9 +34,11 @@
 
 
 
-.now-hour:nth-of-type(1){
-  margin-top: 35px;
-}
+
+
+// .now-hour:nth-of-type(1){
+//   margin-top: 35px;
+// }
 // Main Schedule
 
 .now-schedule__main{
@@ -42,19 +51,21 @@
   width: 350px;
   height: 1px;
   background: $light-gray;
-  margin-top: 106.9px;
+  margin-top: 114px;
 }
 
-.now-separator:first-of-type{
-  margin-top:145px;
-}
+
 // Current Tasks
 
 .now-current__tasks{
   width: 250px;
   position: relative;
   left: -340px;
-  padding-top: 30px;
+  //padding-top: 30px;
+}
+
+.now-current__task{
+  padding: 10px 0px;
 }
 
 // Current Time

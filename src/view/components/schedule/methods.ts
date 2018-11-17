@@ -1,8 +1,5 @@
-const TIME_WRAPPER_PADDING_TOP = 34;
-const TIME_ELEMENT_HEIGHT = 94;
-
-const TASK_ELEMENT_HEIGHT = 107.9;
-const TASK_WRAPPER_PADDING_TOP = 27;
+const TIME_ELEMENT_HEIGHT = 115;
+const TIME_VALUE_ELEMENT_WRONG = 10;
 
 function GetTimes(): string[] {
   const time: string[] = [];
@@ -12,15 +9,13 @@ function GetTimes(): string[] {
     if (i < 10) { hour = "0" + hour; }
     time.push(hour);
   }
-
   return time;
 }
 
 function GetScrollTop(): number {
   const d = new Date();
   const n = d.getHours();
-  return TIME_WRAPPER_PADDING_TOP +
-        ((TIME_ELEMENT_HEIGHT + 15) * (n + 1)) -
+  return ((TIME_ELEMENT_HEIGHT) * (n + 1)) -
         (document.body.clientHeight / 2);
 }
 
@@ -41,7 +36,7 @@ function GetCurrentTimeMarginTop(): number {
   let timeNow = d.getHours();
   const m = d.getMinutes() / 60;
   timeNow += m;
-  return (timeNow * (TASK_ELEMENT_HEIGHT)) + TASK_WRAPPER_PADDING_TOP;
+  return (timeNow * (TIME_ELEMENT_HEIGHT)) - TIME_VALUE_ELEMENT_WRONG;
 }
 
 export {GetTimes,
