@@ -5,7 +5,7 @@ import {State, Action} from 'vuex-class';
 
 import HeaderComponent from "./header";
 import NowComponent from "./now/now";
-import RoutinesComponent from "./routines/routines";
+import RoutinesComponent from "./routines";
 import DeadZonesComponent from "./dead_zones/dead_zones"
 import ModalsComponent from './modals'
 import DrawerComponent from './drawer'
