@@ -1,4 +1,4 @@
-import {WrapperStyleInterface} from "./task.interfaces";
+import {WrapperStyleInterface} from "./interfaces";
 import {Color} from "src/view/color.themes";
 
 export function CheckCurrentTask(start: number, hours: number): boolean {

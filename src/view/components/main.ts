@@ -1,42 +1,39 @@
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import {State, Action} from 'vuex-class';
-
+import Vue from "vue";
+import Component from "vue-class-component";
+import {State, Action} from "vuex-class";
 
 import HeaderComponent from "./header";
-import NowComponent from "./now/now";
+import NowComponent from "./schedule";
 import RoutinesComponent from "./routines";
-import DeadZonesComponent from "./dead_zones/dead_zones"
-import ModalsComponent from './modals'
-import DrawerComponent from './drawer'
+import DeadZonesComponent from "./dead_zones";
+import ModalsComponent from "./modals";
+import DrawerComponent from "./drawer";
 
-import * as WithRender from './main.html';
+import * as WithRender from "./template.html";
 
-const namespace:string = 'app'
+const namespace: string = "app";
 
-@WithRender 
+@WithRender
 @Component({
-  components:{
+  components: {
     HeaderComponent,
     NowComponent,
     RoutinesComponent,
     DrawerComponent,
-    DeadZonesComponent
-  }
+    DeadZonesComponent,
+  },
 })
 export default class MainComponent extends Vue {
-  @State('menu_active_item', {namespace}) menuActiveItem: any;
-  @State('popup_open', {namespace}) popup_open: any;
+  @State("menu_active_item", {namespace}) public menuActiveItem: any;
+  @State("popup_open", {namespace}) public popupOpen: any;
+
+  public style = {
+    filter: "blur(5px)",
+  };
   @Action("closePopUp", {namespace}) private closePopUp: any;
   private clickEnable = false;
 
-  style = {
-    filter: "blur(5px)"
-  }
-
   // @Action('newRoutineWindow', { namespace }) newRoutineWindow: any;
   // @Action('routineSettingsWindow', { namespace }) routineSettingsWindow: any;
-
-
 
 }

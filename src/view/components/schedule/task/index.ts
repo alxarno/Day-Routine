@@ -8,11 +8,11 @@ import {colors, Color} from "src/view/color.themes";
 import {CheckCurrentTask,
         ComputeWrapperStyle,
         ShortDescribe,
-        StartAndDone} from "./task.methods";
-import {WrapperStyleInterface} from "./task.interfaces";
+        StartAndDone} from "./methods";
+import {WrapperStyleInterface} from "./interfaces";
 
-import * as WithRender from "./task.html";
-require("./task.scss");
+import * as WithRender from "./template.html";
+require("./styles.scss");
 
 @WithRender
 @Component({
@@ -42,12 +42,9 @@ export default class Task extends Vue {
       // Change color scheme and style
       this.currentActiveTask = CheckCurrentTask(this.$props.task.start, this.$props.task.hours);
 
-      if (colors.hasOwnProperty(this.$props.task.color)) {
-        this.curentColor = colors[this.$props.task.color];
+      this.curentColor = (colors.hasOwnProperty(this.$props.task.color) ?
+        colors[this.$props.task.color] : colors.default);
 
-      } else {
-        this.curentColor = colors.default;
-      }
       this.wrapperStyle = ComputeWrapperStyle(this.curentColor, this.$props.task.hours,
         this.currentActiveTask, this.wrapperStyle);
 

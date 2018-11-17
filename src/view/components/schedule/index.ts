@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import {State, Action} from "vuex-class";
-import TaskComponent from "./task/task";
+import TaskComponent from "./task";
 
-import * as WithRender from "./index.html";
+import * as WithRender from "./template.html";
 
 import {
   GetTimes,
