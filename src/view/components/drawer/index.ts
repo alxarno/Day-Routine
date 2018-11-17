@@ -1,12 +1,12 @@
-
 import Vue from "vue";
 import Component from "vue-class-component";
 import {Action, State} from "vuex-class";
-import * as WithRender from "./drawer.html";
-import CloseButton from "./elements/close/close";
-import RoutineComponent from "./routine/routine";
-import SettingsComponent from "./settings/settings";
-require("./drawer.scss");
+import CloseButton from "./elements/close";
+import RoutineComponent from "./routine";
+import SettingsComponent from "./settings";
+import * as WithRender from "./template.html";
+
+require("./styles.scss");
 
 const routineNamespace: string = "routines";
 const appNamespace: string = "app";
