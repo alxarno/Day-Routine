@@ -1,0 +1,9 @@
+<div class="week">
+  <div 
+    v-for="(day,index) in days"
+    v-bind:class="getClass(index)"
+    v-on:click="click(index)"
+  >
+    {{day}}
+  </div>
+</div>

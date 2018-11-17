@@ -1,0 +1,15 @@
+<div class="dead_zone-wrapper">
+    <div>
+        <input type="text" class="dead_zones-search__input"
+               placeholder="Search..." v-model="searchRequest"/>
+        <div v-html="searchIcon"
+              class="search-icon"></div>
+    </div>
+  <dead-zone-component v-for="(item, index) in deadZonesItems"
+      v-if="item.name.toLowerCase().includes(searchRequest.toLowerCase())"
+      v-bind:zone="item"
+      v-bind:active="(index == currentItem)"
+      v-bind:currentIndex="index"
+      v-bind="{changeActive: change}"/>
+  <new-button v-bind="{click: newDeadZoneHandler}"/>
+</div>

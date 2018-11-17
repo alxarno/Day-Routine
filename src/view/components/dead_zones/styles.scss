@@ -1,0 +1,17 @@
+.dead_zone-wrapper{
+  width: 500px;
+  margin: auto;
+  padding-top: 35px;
+}
+
+.dead_zones-search__input{
+  width: calc(100% - 30px); 
+  border: 0px;
+  border-bottom: 1px solid $light-gray;
+  background: $background;
+  outline: none;
+  font-size: 20px;
+  font-family: Roboto-Light;
+  color: darken($gray, 20);
+  display: inline-block;
+}

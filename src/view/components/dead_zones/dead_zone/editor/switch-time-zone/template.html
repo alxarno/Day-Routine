@@ -1,0 +1,10 @@
+<div class="settings-switch-time-wrapper">
+  <div v-bind:class="((timeZone=='AM')?'settings-switch-time-zone-body-dark':'settings-switch-time-zone-body')"
+        v-on:click="click">
+    <span>AM</span>
+    <span>PM</span>
+  </div>
+  <div v-bind:class="((timeZone == 'AM')?'settings-switch-time-zone-slider-dark':'settings-switch-time-zone-slider')"
+       v-on:click="click">{{timeZone}}</div>
+</div>
+
