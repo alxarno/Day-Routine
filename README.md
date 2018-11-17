@@ -4,7 +4,7 @@
 
 ![](https://img.shields.io/badge/price-free-%235F2FE1.svg)
 ![](https://img.shields.io/badge/version-1.0.0-green.svg)
-[![CircleCI](https://circleci.com/gh/AlexeyArno/Day-Routine/tree/master.svg?style=svg)](https://circleci.com/gh/AlexeyArno/Day-Routine/tree/master)
+[![CircleCI](https://circleci.com/gh/AlexeyArno/Day-Routine/tree/master.svg?style=shield)](https://circleci.com/gh/AlexeyArno/Day-Routine/tree/master)
 
 > Desktop application is planning routine tasks 
 

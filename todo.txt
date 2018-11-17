@@ -42,9 +42,11 @@ TODO:
     + Core
 
   Change modals to drawers
-    Change settings modal -> drawer
+    + Change settings modal -> drawer
     Change new routine modal -> drawer
 
   Update build script (create separate dir with final files)
+
+  Chnage schedule hours display type
 
   Add cloud-sync support
