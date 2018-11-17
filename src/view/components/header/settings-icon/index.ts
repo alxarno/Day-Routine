@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Component from "vue-class-component";
-import * as WithRender from "./templates.html";
+import * as WithRender from "./template.html";
 import {Action, State} from "vuex-class";
 
 require("./styles.scss");
