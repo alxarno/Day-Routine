@@ -1,52 +1,20 @@
 TODO:
-  + Create Cash for schedule
-  + Update activities after each hour
-
-  + Save dead zone change
-  + Delete dead zone
-  
-  + Create routine 
-  + Save routine change
-
-  + Export data
-  + Import data
-
-  + Clear all data
-
-  + Notifications systems
-
-  + FIX Activities is empty in Schedule 
-  + FIX Auto change day time zone
-  + FIX Combobox
-  + FIX Delete Statistics after delete routine
-
-  + Add cache to storage for dont dreact CRUD
-
-  + Detach core and os
-
-  + Storage modules methods to generics 
-
-  + Add more colors
-
-  + Add tray
-
-  + Add DeadZones week check 
-
-  + Add DeadZones enable check
-
-  + Add build paragraph to README.modules
-
-  + Make tests:
-    + Database
-    + Storage
-    + Core
-
   Change modals to drawers
     + Change settings modal -> drawer
     Change new routine modal -> drawer
 
-  Update build script (create separate dir with final files)
+  + Chnage schedule hours display type
 
-  Chnage schedule hours display type
+  Add slider clicks
+
+  Add dead_zone editor clicks
+
+  Update Current Day every 3 minutes
+
+  Add available free time
 
   Add cloud-sync support
+
+  Update build script (create separate dir with final files)
+
+  

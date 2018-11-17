@@ -13,6 +13,7 @@ export const mutations: MutationTree<IAppState> = {
   },
   drawerClose: (state) => {
     state.drawer = false;
+    state.drawerContent = DrawerContent.Nothing;
   },
   modalOpen: (state, content: ModalContent) => {
      state.modalContent = content;
@@ -20,5 +21,6 @@ export const mutations: MutationTree<IAppState> = {
   },
   modalClose: (state) => {
     state.drawer = false;
+    state.modalContent = ModalContent.Some;
   },
 };

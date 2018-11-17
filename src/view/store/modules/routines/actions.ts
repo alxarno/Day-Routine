@@ -30,19 +30,13 @@ export const actions: ActionTree<IRoutinesState, RootState> = {
     const routines = await GetAPI().Routines().Get();
     commit("loadedRoutines", routines);
   },
-  openRoutineSettings({commit}, id: number) {
-    commit("drop");
-    commit("setCurrentRoutine", id);
-    commit("app/drawerClose", {}, { root: true });
-    commit("routineSettingsWindow");
-
-  },
   async loadRoutines({commit}) {
       commit("loaded");
       const routines = await GetAPI().Routines().Get();
       commit("loadedRoutines", routines);
   },
   async saveRoutine({commit}, routine: Routine) {
+    commit("setCurrentRoutine", -1);
     await GetAPI().Routines().Update(routine);
     commit("loaded");
     const routines = await GetAPI().Routines().Get();

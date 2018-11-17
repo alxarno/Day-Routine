@@ -8,7 +8,6 @@ require("./styles.scss");
   props: {
     max: Number,
     now: Number,
-    triggered: Function,
   },
 })
 export default class SliderComponent extends Vue {
@@ -32,12 +31,12 @@ export default class SliderComponent extends Vue {
       if (this.margin >= minmargin && this.current < this.$props.max) {
         this.current++;
         this.margin = 0;
-        this.$props.triggered(this.current);
+        this.$emit("trigered", this.current);
       } else if (this.margin <= -1 * minmargin && this.current > 1) {
         if (this.current === 1) { return; }
         this.current--;
         this.margin = 0;
-        this.$props.triggered(this.current);
+        this.$emit("trigered", this.current);
       }
     }
     this.x = event.clientX;

@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import {Action, State} from "vuex-class";
-import CloseButton from "./elements/close";
 import RoutineComponent from "./routine";
 import SettingsComponent from "./settings";
 import * as WithRender from "./template.html";
@@ -16,7 +15,6 @@ const appNamespace: string = "app";
   components: {
     SettingsComponent,
     RoutineComponent,
-    CloseButton,
   },
 })
 export default class Drawer extends Vue {

@@ -1,5 +1,6 @@
 enum DrawerContent {
-  Settings = 1,
+  Nothing = 0,
+  Settings,
   Routine,
   RoutineSettings,
 }

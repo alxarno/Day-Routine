@@ -10,8 +10,8 @@ import DropdownComponent from "src/view/default-components/dropdown/dropdown";
 const nothing = require("assets/do-not-disturb-rounded-sign.svg");
 const file = require("assets/file.svg");
 const link = require("assets/internet.svg");
-
 const pen = require("assets/pen.svg");
+
 import {colors} from "src/view/color.themes";
 import { Routine } from "src/models/routines.routine";
 import { Action as RoutineAction } from "src/models/action";
@@ -32,40 +32,43 @@ const appNamespace: string = "app";
   },
 })
 
-// FIX THERE ALL
 export default class RoutineComponent extends Vue {
   @State("items", {namespace}) private routines?: Routine[];
+  @State("current_routine", {namespace}) private currentRoutineIDStore?: number;
 
   @Action("addRoutine", { namespace }) private addRoutine: any;
   @Action("deleteRoutine", { namespace }) private deleteRoutine: any;
   @Action("saveRoutine", { namespace }) private saveRoutine: any;
-  @Action("closePopUp", {namespace: appNamespace}) private closePopUp: any;
-  // saveRoutines
+  @Action("drawerAction", {namespace: appNamespace}) private drawerAction: any;
 
-  private colors: string[] = Object.keys(colors);
-  private ID: number = -1;
-  private currentRoutine: Routine = {
-    ID: -1, name: "",
-    actionBody: "",
-    actionType: RoutineAction.Link,
-    colorScheme: Object.keys(colors)[0],
-    describe: "", hours: 1};
-
-  private actionBuffer: string = "";
+  // Icons
   private nothing: string = nothing;
   private file: string = file;
   private link: string = link;
   private pen: string = pen;
 
+  private actionBuffer: string = "";
+  private colors: string[] = Object.keys(colors);
+  private currentRoutine: Routine = {
+    ID: -1,
+    name: "",
+    actionBody: "",
+    actionType: RoutineAction.Link,
+    colorScheme: Object.keys(colors)[0],
+    describe: "",
+    hours: 1,
+  };
+
   private currentColorIndex(): number {
-    return Object.keys(colors).indexOf(this.currentRoutine.colorScheme);
+     return Object.keys(colors).indexOf(this.currentRoutine.colorScheme);
   }
 
   private created() {
-    if (this.$props.routineID !== -1 && this.routines) {
+    if (this.currentRoutineIDStore !== -1 && this.routines) {
       this.routines.forEach((element: Routine) => {
-        if (element.ID === this.$props.routineID) {
+        if (element.ID === this.currentRoutineIDStore) {
           this.currentRoutine = {...element};
+          return;
         }
       });
     }
@@ -112,7 +115,7 @@ export default class RoutineComponent extends Vue {
 
   private deleteRoutineClick() {
     this.deleteRoutine(this.currentRoutine);
-    this.closePopUp();
+    this.drawerAction(-1);
   }
 
   private beforeDestroy() {

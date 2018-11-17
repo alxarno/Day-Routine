@@ -1,8 +1,10 @@
 .modal-routin-wrapper{
-  padding: 15px 0px;
- 
+
   // padding-top: 45px;
-  margin-top: 30px;
+}
+
+.modal-title{
+  padding-left: 40px;
 }
 
 .modal-routines-row{
@@ -10,7 +12,7 @@
   align-items: flex-start;
   justify-content: space-between;
   padding: 0px 40px;
-  margin-top: 50px;
+  margin-top: 35px;
 }
 
 .modal-routine-input>span{
@@ -115,11 +117,14 @@
 
 
 .modal-routines-slider-wrapper{
-  width: calc(100% - 100px);
+  // width: calc(100% - 100px);
+  width: 100%;
 }
 
 .modal-routines-hours-caption{
   color: $gray;
+  width: 100%;
+  text-align: center;
 }
 
 .modal-routines-save,
