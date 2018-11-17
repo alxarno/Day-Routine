@@ -3,7 +3,7 @@ import Component from "vue-class-component";
 import {Action} from "vuex-class";
 import * as WithRender from "./template.html";
 import CheckBox from "src/view/default-components/checkbox/checkbox";
-import EditorComponent from "./editor";
+import EditorComponent from "./editor/index";
 import {TimeFormat} from "./methods";
 import {DeadZone} from "src/models/dead_zone";
 
