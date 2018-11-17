@@ -7,7 +7,7 @@ import HeaderComponent from "./header";
 import NowComponent from "./now/now";
 import RoutinesComponent from "./routines/routines";
 import DeadZonesComponent from "./dead_zones/dead_zones"
-import ModalsComponent from './modals/modals'
+import ModalsComponent from './modals'
 import DrawerComponent from './drawer'
 
 import * as WithRender from './main.html';
