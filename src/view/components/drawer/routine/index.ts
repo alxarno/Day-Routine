@@ -34,35 +34,35 @@ const appNamespace: string = "app";
 
 // FIX THERE ALL
 export default class RoutineComponent extends Vue {
-  @State("items", {namespace}) public routines: Routine[] = [];
+  @State("items", {namespace}) private routines?: Routine[];
 
-  @Action("addRoutine", { namespace }) public addRoutine: any;
-  @Action("deleteRoutine", { namespace }) public deleteRoutine: any;
-  @Action("saveRoutine", { namespace }) public saveRoutine: any;
-  @Action("closePopUp", {namespace: appNamespace}) public closePopUp: any;
+  @Action("addRoutine", { namespace }) private addRoutine: any;
+  @Action("deleteRoutine", { namespace }) private deleteRoutine: any;
+  @Action("saveRoutine", { namespace }) private saveRoutine: any;
+  @Action("closePopUp", {namespace: appNamespace}) private closePopUp: any;
   // saveRoutines
 
-  public colors: string[] = Object.keys(colors);
-  public ID: number = -1;
-  public currentRoutine: Routine = {
+  private colors: string[] = Object.keys(colors);
+  private ID: number = -1;
+  private currentRoutine: Routine = {
     ID: -1, name: "",
     actionBody: "",
     actionType: RoutineAction.Link,
     colorScheme: Object.keys(colors)[0],
     describe: "", hours: 1};
 
-  public actionBuffer: string = "";
-  public nothing: string = nothing;
-  public file: string = file;
-  public link: string = link;
-  public pen: string = pen;
+  private actionBuffer: string = "";
+  private nothing: string = nothing;
+  private file: string = file;
+  private link: string = link;
+  private pen: string = pen;
 
-  public currentColorIndex(): number {
+  private currentColorIndex(): number {
     return Object.keys(colors).indexOf(this.currentRoutine.colorScheme);
   }
 
-  public created() {
-    if (this.$props.routineID !== -1) {
+  private created() {
+    if (this.$props.routineID !== -1 && this.routines) {
       this.routines.forEach((element: Routine) => {
         if (element.ID === this.$props.routineID) {
           this.currentRoutine = {...element};
@@ -71,11 +71,11 @@ export default class RoutineComponent extends Vue {
     }
   }
 
-  public colorChange(colorScheme: string) {
+  private colorChange(colorScheme: string) {
     this.currentRoutine.colorScheme = colorScheme;
   }
 
-  public click(index: number) {
+  private click(index: number) {
     if ((index === 2 || index === 1) && this.currentRoutine.actionType !== 3) {
       const l = this.currentRoutine.actionBody;
       this.currentRoutine.actionBody = this.actionBuffer;
@@ -84,11 +84,11 @@ export default class RoutineComponent extends Vue {
     this.currentRoutine.actionType = index;
   }
 
-  public sliderTriger(num: number) {
+  private sliderTriger(num: number) {
     this.currentRoutine.hours = num;
   }
 
-  public chooseFile() {
+  private chooseFile() {
     const path = dialog.showOpenDialog({
       properties: ["openFile"],
     });
@@ -96,7 +96,7 @@ export default class RoutineComponent extends Vue {
     this.currentRoutine.actionBody = path[0];
   }
 
-  public create() {
+  private create() {
     this.addRoutine(
       this.currentRoutine,
     );
@@ -110,12 +110,12 @@ export default class RoutineComponent extends Vue {
     return path;
   }
 
-  public deleteRoutineClick() {
+  private deleteRoutineClick() {
     this.deleteRoutine(this.currentRoutine);
     this.closePopUp();
   }
 
-  public beforeDestroy() {
+  private beforeDestroy() {
     this.saveRoutine(this.currentRoutine);
   }
 }

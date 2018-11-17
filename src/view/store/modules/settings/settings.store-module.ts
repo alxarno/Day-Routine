@@ -1,38 +1,36 @@
 import { Module } from "vuex";
 
-interface ISettingsModule{
-  menu_active_item:number
+interface ISettingsModule {
+  menu_active_item: number;
 }
 
-const SettingsModule:Module<any,ISettingsModule> = {
+const SettingsModule: Module<any, ISettingsModule> = {
   state: {
     menu_active_item: 0,
 
    },
-  actions:{
+  actions: {
     setSettingsMenuItem({commit}, number) {
       // console.log(number)
-      commit('SET_SETTINGS_MENU_ACTIVE_ITEM', number)
+      commit("SET_SETTINGS_MENU_ACTIVE_ITEM", number);
     },
-    exportData({commit}){
+    exportData({commit}) {
 
     },
-    importData({commit}){
+    importData({commit}) {
 
-    }
-  
+    },
 
   },
   mutations: {
-    SET_SETTINGS_MENU_ACTIVE_ITEM:(state, {number}) => {
-      state.menu_active_item = number
-    }
+    SET_SETTINGS_MENU_ACTIVE_ITEM: (state, {number}) => {
+      state.menu_active_item = number;
+    },
   },
 
   getters: {
   },
 
-  
-}
+};
 
-export default SettingsModule
+export default SettingsModule;

@@ -1,3 +1,3 @@
-export interface ISettingsState{
-  menu_active_item:number
+export interface ISettingsState {
+  menu_active_item: number;
 }

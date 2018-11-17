@@ -3,9 +3,10 @@
   position: fixed;
   height: 100vh;
   top: 0px;
-  right: -300px;
+  right: -310px;
   background: #ffffff;
   transition: all 0.2s ease-in-out;
+  box-shadow: -10px 0px 39px -19px rgba(0,0,0,0.1);
 }
 
 .drawer.active{

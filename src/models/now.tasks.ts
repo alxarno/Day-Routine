@@ -1,7 +1,7 @@
-import {Action} from './action'
+import {Action} from "./action";
 
-export interface NowTask{
-  ID:number,
+export interface NowTask {
+  ID: number;
   name: string;
   hours: number;
   describe: string;
@@ -10,5 +10,3 @@ export interface NowTask{
   start: number;
   color: string;
 }
-
-

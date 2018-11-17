@@ -6,6 +6,7 @@
         "no-var-requires": false,
         "ordered-imports":false,
         "no-implicit-dependencies": [true, ["src", "assets"]],
-        "no-submodule-imports": [true, "src", "assets"]
+        "no-submodule-imports": [true, "src", "assets"],
+        "no-shadowed-variable": false
     }
 }

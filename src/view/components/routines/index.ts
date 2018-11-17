@@ -23,28 +23,28 @@ const namespace: string = "routines";
   },
 })
 export default class RoutinesComponent extends Vue {
-  @State((state) => state.routines.items) public routines: Array<Routine | null> = [];
-  @State((state) => state.routines.loaded) public loaded: boolean = false;
+  @State((state) => state.routines.items) private routines?: Array<Routine | null>;
+  @State((state) => state.routines.loaded) private loaded?: boolean;
 
-  @Action("newRoutineWindow", { namespace }) public newRoutineWindow: any;
-  @Action("routineSettingsWindow", { namespace }) public routineSettingsWindow: any;
-  @Action("loadRoutines", { namespace }) public loadRoutines: any;
+  @Action("newRoutineWindow", { namespace }) private newRoutineWindow?: () => void;
+  @Action("routineSettingsWindow", { namespace }) private routineSettingsWindow?: () => void;
+  @Action("loadRoutines", { namespace }) private loadRoutines?: () => void;
 
-  public searchRequest: string = "";
+  private searchRequest: string = "";
 
-  public searchIcon: string = searchIcon;
-  public addIcon: string = addIcon;
+  private searchIcon: string = searchIcon;
+  private addIcon: string = addIcon;
 
   public mounted(): void {
-    this.loadRoutines();
+    if (this.loadRoutines) {this.loadRoutines(); }
   }
 
   public newRoutine(): void {
-    this.newRoutineWindow();
+    if (this.newRoutineWindow) {this.newRoutineWindow(); }
   }
 
   public closeSettings(): void {
-    this.routineSettingsWindow();
+    if (this.routineSettingsWindow) {this.routineSettingsWindow(); }
   }
 
 }

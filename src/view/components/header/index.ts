@@ -14,12 +14,12 @@ const namespace: string = "app";
   components: { SettingsComponent},
 })
 export default class Header extends Vue {
-  @Action("setMenuItem", { namespace }) public setMenuItem: any;
-  @State("menu_active_item", {namespace}) public menuActiveItem: any;
+  @Action("setMenuItem", { namespace }) public setMenuItem?: (arg: number) => void;
+  @State("menuActiveItem", {namespace}) public menuActiveItem?: number;
 
   public menu: any =  menu;
 
   public change(val: number): void {
-    this.setMenuItem(val);
+    if (this.setMenuItem) {this.setMenuItem(val); }
   }
 }

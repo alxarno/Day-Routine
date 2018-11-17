@@ -5,10 +5,10 @@ import CloseButton from "./elements/close";
 import RoutineComponent from "./routine";
 import SettingsComponent from "./settings";
 import * as WithRender from "./template.html";
+import {DrawerContent} from "src/view/store/api";
 
 require("./styles.scss");
 
-const routineNamespace: string = "routines";
 const appNamespace: string = "app";
 
 @WithRender
@@ -20,16 +20,12 @@ const appNamespace: string = "app";
   },
 })
 export default class Drawer extends Vue {
-  @State("routine_settings_open", {namespace: routineNamespace}) private routineSettingsOpen: any;
-  @State("current_routine", {namespace: routineNamespace}) private currentRoutine: any;
-  @State("new_routine_open", {namespace: routineNamespace}) private newRoutineOpen: any;
+  @State("drawer", {namespace: appNamespace}) private drawer?: boolean;
+  @State("drawerContent", {namespace: appNamespace}) private drawerContent?: DrawerContent;
+  @Action("drawerAction", {namespace: appNamespace}) private drawerClose?: (arg: number) => void;
 
-  @Action("closePopUp", {namespace: appNamespace}) private closePopUp: any;
-
-  @State("settings_open", {namespace: appNamespace}) private settingsOpen: any;
-  @State("popup_open", {namespace: appNamespace}) private popupOpen: any;
   private close() {
-    this.closePopUp();
+    if (this.drawerClose) {this.drawerClose(-1); }
   }
 
 }

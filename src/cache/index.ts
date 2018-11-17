@@ -1,36 +1,36 @@
-import {ICache} from 'src/interfaces/cache'
+import {ICache} from "src/interfaces/cache";
 
-export class CashLocalStorage implements ICache{
-	mystorage:Storage
+export class CashLocalStorage implements ICache {
+	public mystorage: Storage;
 
-	constructor(){
-		this.mystorage = window.localStorage
+	constructor() {
+		this.mystorage = window.localStorage;
 	}
 
-	private getDate():string{
-		let dateObj = new Date();
-		let month = dateObj.getUTCMonth() + 1; //months from 1-12
-		let day = dateObj.getUTCDate();
-		let year = dateObj.getUTCFullYear();
-
-		return year +""+ month +"" + day+"_";
+	public Set(body: string) {
+		this.mystorage.setItem(this.getDate() + "cash", body);
 	}
 
-	Set(body:string){
-		this.mystorage.setItem(this.getDate()+"cash", body)
-	}
-
-	Get():string{
-		 let result = this.mystorage.getItem(this.getDate()+"cash")
+	public Get(): string {
+		 const result = this.mystorage.getItem(this.getDate() + "cash");
 		 if (result == null) {
 		 	this.Set("{}");
 		 	return this.Get();
-		 };
-		 return result
+		 }
+		 return result;
 	}
 
-	Clear(){
-    this.mystorage.clear()
+	public Clear() {
+    this.mystorage.clear();
     this.Set("{}");
+	}
+
+	private getDate(): string {
+		const dateObj = new Date();
+		const month = dateObj.getUTCMonth() + 1; // months from 1-12
+		const day = dateObj.getUTCDate();
+		const year = dateObj.getUTCFullYear();
+
+		return year + "" + month + "" + day + "_";
 	}
 }

@@ -24,14 +24,13 @@ const namespace: string = "app";
   },
 })
 export default class MainComponent extends Vue {
-  @State("menu_active_item", {namespace}) public menuActiveItem: any;
-  @State("popup_open", {namespace}) public popupOpen: any;
+  @State("menuActiveItem", {namespace}) private menuActiveItem?: number;
+  @State("drawer", {namespace}) private drawer?: boolean;
+  @State("modal", {namespace}) private modal?: boolean;
 
-  public style = {
+  private style = {
     filter: "blur(5px)",
   };
-  @Action("closePopUp", {namespace}) private closePopUp: any;
-  private clickEnable = false;
 
   // @Action('newRoutineWindow', { namespace }) newRoutineWindow: any;
   // @Action('routineSettingsWindow', { namespace }) routineSettingsWindow: any;

@@ -1,6 +1,6 @@
 <div>
   <div 
-    v-bind:style="popupOpen ? style : {}"
+    v-bind:style="drawer || modal? style : {}"
   >
     <header-component/>
     <now-component v-if="menuActiveItem == 0"/>

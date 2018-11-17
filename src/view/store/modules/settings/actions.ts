@@ -4,18 +4,18 @@ import { ISettingsState } from "./types";
 
 import { GetAPI } from "src/view/external.api";
 
-export const actions:ActionTree<ISettingsState, RootState> = {
+export const actions: ActionTree<ISettingsState, RootState> = {
   setSettingsMenuItem({commit}, number) {
-    commit('setSettingsMenuActive', {number})
+    commit("setSettingsMenuActive", {number});
   },
-  exportData({commit}){
-    GetAPI().Settings().Export()
+  exportData({commit}) {
+    GetAPI().Settings().Export();
   },
-  importData({commit}){
-    GetAPI().Settings().Import()
+  importData({commit}) {
+    GetAPI().Settings().Import();
   },
-  clearAll({commit}){
-    GetAPI().Settings().ClearAll()
-  }
+  clearAll({commit}) {
+    GetAPI().Settings().ClearAll();
+  },
 
-}
+};

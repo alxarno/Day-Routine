@@ -1,27 +1,29 @@
 import { Module } from "vuex";
 import { IAppState } from "./types";
 import { RootState } from "../../types";
+import {DrawerContent, ModalContent} from "../../api";
 
-import {actions} from './actions'
-import {mutations} from './mutations'
-import {getters} from './getters'
+import {actions} from "./actions";
+import {mutations} from "./mutations";
+import {getters} from "./getters";
 
+export const state: IAppState = {
+    menuActiveItem: 0,
+    drawer: false,
+    drawerContent: DrawerContent.Settings,
+    modal: false,
+    modalContent: ModalContent.Some,
+};
 
-export const state:IAppState = {
-    menu_active_item: 0,
-    settings_open: false,
-    popup_open: false,
-}
+const namespaced: boolean = true;
 
-const namespaced:boolean = true
-
-export const app: Module<IAppState, RootState>={
+export const app: Module<IAppState, RootState> = {
   namespaced,
   state,
   getters,
   actions,
-  mutations
-}
+  mutations,
+};
 // interface IAppModule{
   //   menu_active_item:number,
   //   settings_open:boolean,
@@ -40,7 +42,7 @@ export const app: Module<IAppState, RootState>={
   //     },
   //     settingsOpenChange({commit}) {
   //       commit('CHANGE_SETTINGS')
-  //     },    
+  //     },
   //     closePopUp({commit}){
   //       commit("DROP")
   //       commit("CLOSE_SETTINGS")
@@ -64,11 +66,11 @@ export const app: Module<IAppState, RootState>={
   //     POP_UP:(state)=>{
   //       state.popup_open = !state.popup_open
   //     }
-    
+
   //   },
 
   //   getters: {
-    
+
   //   }
   // }
 

@@ -1,5 +1,5 @@
-export enum Action{
+export enum Action {
   Link = 1,
   File,
-  None
+  None,
 }

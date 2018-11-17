@@ -1,19 +1,24 @@
 import { IAppState } from "./types";
 import { MutationTree } from "vuex";
+import {DrawerContent, ModalContent} from "../../api";
 
-export const mutations:MutationTree<IAppState>={
-  setMenuActivItem:(state, {number}) => {
+export const mutations: MutationTree<IAppState> = {
+  setMenuActivItem: (state, item) => {
     // console.log(state, number)
-    state.menu_active_item = number
+    state.menuActiveItem = item;
   },
-  changeSettings:(state)=>{
-    state.settings_open = !state.settings_open
+  drawerOpen: (state, content: DrawerContent) => {
+    state.drawerContent = content;
+    state.drawer = true;
   },
-  closeSettings:(state)=>{
-    state.settings_open = false
+  drawerClose: (state) => {
+    state.drawer = false;
   },
-  changePopUp:(state)=>{
-    state.popup_open = !state.popup_open
+  modalOpen: (state, content: ModalContent) => {
+     state.modalContent = content;
+     state.drawer = true;
   },
-
-}
+  modalClose: (state) => {
+    state.drawer = false;
+  },
+};

@@ -11,17 +11,17 @@ import { ICore } from "src/interfaces/core";
 //     return this.dayscheduleRequest()
 //   }
 // }
-let core:ICore;
+let core: ICore;
 
-function RegisterAPI(c:ICore){
-  core = c
+function RegisterAPI(c: ICore) {
+  core = c;
 }
 
-function GetAPI():ICore{
-  if(!core){
-    throw "external.api.ts: Core didn't register"
+function GetAPI(): ICore {
+  if (!core) {
+    throw new Error("external.api.ts: Core didn't register");
   }
-  return core
+  return core;
 }
 
-export {RegisterAPI, GetAPI}
+export {RegisterAPI, GetAPI};

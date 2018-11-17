@@ -2,24 +2,23 @@ import { Module } from "vuex";
 import { IScheduleState } from "./types";
 import { RootState } from "../../types";
 
-import {actions} from './actions'
-import {mutations} from './mutations'
-import {getters} from './getters'
+import {actions} from "./actions";
+import {mutations} from "./mutations";
+import {getters} from "./getters";
 
+export const state: IScheduleState = {
+  items: [],
+};
 
-export const state:IScheduleState = {
-  items:[]
-}
+const namespaced: boolean = true;
 
-const namespaced:boolean = true
-
-export const schedule: Module<IScheduleState, RootState>={
+export const schedule: Module<IScheduleState, RootState> = {
   namespaced,
   state,
   getters,
   actions,
-  mutations
-}
+  mutations,
+};
 // interface IAppModule{
   //   menu_active_item:number,
   //   settings_open:boolean,
@@ -38,7 +37,7 @@ export const schedule: Module<IScheduleState, RootState>={
   //     },
   //     settingsOpenChange({commit}) {
   //       commit('CHANGE_SETTINGS')
-  //     },    
+  //     },
   //     closePopUp({commit}){
   //       commit("DROP")
   //       commit("CLOSE_SETTINGS")
@@ -62,11 +61,11 @@ export const schedule: Module<IScheduleState, RootState>={
   //     POP_UP:(state)=>{
   //       state.popup_open = !state.popup_open
   //     }
-    
+
   //   },
 
   //   getters: {
-    
+
   //   }
   // }
 

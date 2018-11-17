@@ -1,5 +1,9 @@
-export interface IAppState{
-  menu_active_item:number,
-  settings_open:boolean,
-  popup_open:boolean,
+import {DrawerContent, ModalContent} from "../../api";
+
+export interface IAppState {
+  menuActiveItem: number;
+  modal: boolean;
+  modalContent: ModalContent;
+  drawer: boolean;
+  drawerContent: DrawerContent;
 }
