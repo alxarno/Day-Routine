@@ -8,6 +8,7 @@ import {Routine} from "src/models/routines.routine";
 import * as WithRender from "./template.html";
 
 import NewButton from "src/view/default-components/new_button/new_button";
+import FreeHours from "src/view/default-components/free-hours";
 
 require("./styles.scss");
 
@@ -20,6 +21,7 @@ const namespace: string = "routines";
   components: {
     RoutineComponent,
     NewButton,
+    FreeHours,
   },
 })
 export default class RoutinesComponent extends Vue {

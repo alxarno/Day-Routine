@@ -6,4 +6,5 @@ export interface IAppState {
   modalContent: ModalContent;
   drawer: boolean;
   drawerContent: DrawerContent;
+  freeHours: number;
 }

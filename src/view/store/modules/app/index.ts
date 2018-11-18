@@ -8,11 +8,12 @@ import {mutations} from "./mutations";
 import {getters} from "./getters";
 
 export const state: IAppState = {
-    menuActiveItem: 1,
+    menuActiveItem: 0,
     drawer: false,
     drawerContent: DrawerContent.Nothing,
     modal: false,
     modalContent: ModalContent.Some,
+    freeHours: 0,
 };
 
 const namespaced: boolean = true;

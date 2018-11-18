@@ -4,6 +4,7 @@ import {State, Action} from "vuex-class";
 import * as WithRender from "./template.html";
 import DeadZoneComponent from "./dead_zone";
 import NewButton from "src/view/default-components/new_button/new_button";
+import FreeHours from "src/view/default-components/free-hours";
 require("./styles.scss");
 
 const searchIcon = require("assets/search.svg");
@@ -14,6 +15,7 @@ const namespace: string = "deadZones";
   components: {
     DeadZoneComponent,
     NewButton,
+    FreeHours,
   },
 })
 export default class DeadZones extends Vue {

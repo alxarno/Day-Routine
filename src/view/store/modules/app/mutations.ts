@@ -23,4 +23,7 @@ export const mutations: MutationTree<IAppState> = {
     state.drawer = false;
     state.modalContent = ModalContent.Some;
   },
+  setFreeHours: (state, hours: number) => {
+    state.freeHours = hours;
+  },
 };

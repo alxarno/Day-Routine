@@ -9,7 +9,13 @@ TODO:
 
   + Update Current Day time every minute
 
-  Add available free time
+  + Add available free time
+  
+  Make free time auto updateable
+
+  Fix task designe in schedule
+
+  Change interfaces (Function -> () => {})
 
   Add cloud-sync support
 

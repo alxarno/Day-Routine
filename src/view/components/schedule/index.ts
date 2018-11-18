@@ -2,6 +2,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import {State, Action} from "vuex-class";
 import TaskComponent from "./task";
+import FreeHours from "src/view/default-components/free-hours";
 
 import * as WithRender from "./template.html";
 
@@ -17,7 +18,7 @@ require("./styles.scss");
 const namespace: string = "schedule";
 @WithRender
 @Component({
-  components: { TaskComponent},
+  components: { TaskComponent, FreeHours},
 })
 export default class NowComponent extends Vue {
   @State((state) => state.schedule.items) public tasks: any;

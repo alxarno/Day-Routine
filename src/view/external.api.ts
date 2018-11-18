@@ -1,16 +1,5 @@
 import { ICore } from "src/interfaces/core";
 
-// class ExternalAPI{
-//   dayscheduleRequest: Function = function(){}
-
-//   constructor(){
-
-//   }
-
-//   get DaySchedule(){
-//     return this.dayscheduleRequest()
-//   }
-// }
 let core: ICore;
 
 function RegisterAPI(c: ICore) {
