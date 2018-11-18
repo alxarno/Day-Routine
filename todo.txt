@@ -7,9 +7,7 @@ TODO:
 
   + Fix slider sensitivity and add slider clicks
 
-  Add dead_zone editor clicks
-
-  Update Current Day every 3 minutes
+  + Update Current Day time every minute
 
   Add available free time
 

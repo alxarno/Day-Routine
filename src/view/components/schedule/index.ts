@@ -31,6 +31,14 @@ export default class NowComponent extends Vue {
     this.loadSchedule();
     const elem: HTMLElement = (this.$refs.now__body as HTMLScriptElement);
     elem.scrollTop = GetScrollTop();
+    this.TimeMargin();
+  }
+
+  private TimeMargin() {
+    this.currentTime = GetCurrentTime();
+    this.currentTimeMarginTop = GetCurrentTimeMarginTop();
+    const seconds = new Date().getSeconds();
+    setTimeout(this.TimeMargin.bind(this), (60 - seconds) * 1000);
   }
 
 }
