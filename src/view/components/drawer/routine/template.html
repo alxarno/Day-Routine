@@ -73,7 +73,11 @@
 
   <div class="modal-routines-row">
     <div class="modal-routines-slider-wrapper">
-      <slider-component v-bind:max="20" v-bind:now="currentRoutine.hours" @trigered="sliderTriger" />
+      <slider-component 
+        v-bind:max="20" 
+        v-bind:min="1" 
+        v-bind:now="currentRoutine.hours" 
+        @trigered="sliderTriger" />
     </div>
   
   </div>

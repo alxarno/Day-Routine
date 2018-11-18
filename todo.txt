@@ -1,11 +1,11 @@
 TODO:
   Change modals to drawers
     + Change settings modal -> drawer
-    Change new routine modal -> drawer
+    + Change new routine modal -> drawer
 
   + Chnage schedule hours display type
 
-  Add slider clicks
+  + Fix slider sensitivity and add slider clicks
 
   Add dead_zone editor clicks
 

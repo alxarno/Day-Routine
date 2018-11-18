@@ -6,6 +6,8 @@
 .slider-uptab{
   margin-left: -4px;
   width: 100%;
+  position: relative;
+  top: 15px;
   display: inline-block;
 }
 
@@ -20,8 +22,20 @@
   display: inline-block;
   width:100%;
   border-radius: 15px;
-  height: 2px;
+  height: 1px;
   background: lighten($light-gray, 5);
+  //padding: 5px 0px;
+  cursor: pointer;
+}
+
+.slider-click{
+  width: 100%;
+  background: rgba(0,0,0,0);
+  // background: blue;
+  height: 20px;
+  position: relative;
+  top: 25px;
+  cursor: pointer;
 }
 
 .slider-active{
@@ -43,14 +57,9 @@
   left: -7px;
   // transition:  all 0.2s ease-in-out;
   cursor:pointer;
-  background: rgba($primary-color,0.4)
-}
-
-.slider-circle:hover{
-  width: 22px;
-  height: 22px;
-  bottom: 10px;
-  left: -10px;
+  // background: rgba($primary-color,0.4)
+  background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.3);
 }
 
 .slider-circle-core{
