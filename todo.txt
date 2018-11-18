@@ -13,7 +13,7 @@ TODO:
   
   Make free time auto updateable
 
-  Fix task designe in schedule
+  + Fix task designe in schedule
 
   Change interfaces (Function -> () => {})
 

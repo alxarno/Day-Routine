@@ -3,8 +3,10 @@
   user-select: none;
   width: 250px;
   border-radius: 0px 5px 5px 0px;
-  height: 94px;
-  margin: 13.9px 0px;
+  height: 95px;
+  // margin: 10px 0px;
+  position: relative;
+  top: 10px;
 }
 
 .task-task__routine-header{
@@ -56,9 +58,9 @@
   user-select: none;
   width: 250px;
   border-radius: 5px;
-  height: 94px;
-  padding: 0px 1.5px;
-  margin: 13.9px 0px;
+  height: 95px;
+  position: relative;
+  top: 10px;
   --box-shadow-color: palegoldenrod;
   box-shadow: 0px 2.5px 10px 0px var(--box-shadow-color);
 }
