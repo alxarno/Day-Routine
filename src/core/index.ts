@@ -14,9 +14,9 @@ import {ScheduleCore} from "./modules/schedule";
 import {SettingsCore} from "./modules/settings";
 import { IOS } from "src/interfaces/os";
 import { OS } from "src/os";
-import { NowTask } from "src/models/now.tasks";
-import { Routine } from "src/models/routines.routine";
-import { DeadZone } from "src/models/dead_zone";
+import { INowTask } from "src/models/now.tasks";
+import { IRoutine } from "src/models/routines.routine";
+import { IDeadZone } from "src/models/dead_zone";
 
 export class Core implements ICore {
   private Storage: IStorage;
@@ -38,32 +38,32 @@ export class Core implements ICore {
     this.SettingsModule = new SettingsCore({storage: this.Storage, os: this.os});
   }
 
-  public async GetCurrentTask(): Promise<NowTask | null> {
-    const schedule: Array< NowTask | null> = await this.ScheduleModule.Get();
+  public async GetCurrentTask(): Promise<INowTask | null> {
+    const schedule: Array< INowTask | null> = await this.ScheduleModule.Get();
     return schedule[new Date().getHours()];
   }
 
   public HourIsGone(newHour: number) {
-    const schedule: Array<NowTask | null> = JSON.parse(this.Cache.Get());
-    let lastTask: NowTask | null = null;
+    const schedule: Array<INowTask | null> = JSON.parse(this.Cache.Get());
+    let lastTask: INowTask | null = null;
     if (newHour === 0) {
       if (schedule[23]) {
-        lastTask = (schedule[23] as NowTask);
+        lastTask = (schedule[23] as INowTask);
       }
     } else {
       if (schedule[newHour - 1]) {
-        lastTask = (schedule[newHour - 1] as NowTask);
+        lastTask = (schedule[newHour - 1] as INowTask);
       }
     }
     if (lastTask) { this.Storage.Statistics().Add({hours: 1, routineID: lastTask.ID}); }
   }
 
   public async FreeTime(): Promise<number> {
-    const deadZones: DeadZone[] = (await this.DeadZones().Get() as DeadZone[]);
-    const routines: Routine[] = (await this.Routines().Get() as Routine[]);
+    const deadZones: IDeadZone[] = (await this.DeadZones().Get() as IDeadZone[]);
+    const routines: IRoutine[] = (await this.Routines().Get() as IRoutine[]);
     let freeTime: number = 24 * 7;
 
-    deadZones.forEach((val: DeadZone) => {
+    deadZones.forEach((val: IDeadZone) => {
       if (!val.enable) {return; }
       let hoursPerDay: number = 0;
       if (val.start > val.done) {
@@ -74,7 +74,7 @@ export class Core implements ICore {
       freeTime -= hoursPerDay * val.disabled_days.length;
     });
 
-    routines.forEach((val: Routine) => {
+    routines.forEach((val: IRoutine) => {
       freeTime -= val.hours;
     });
     return freeTime;

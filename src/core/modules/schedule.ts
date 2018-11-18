@@ -1,106 +1,111 @@
 import CoreModule from "./module";
 import { IScheduleCore } from "src/interfaces/core";
-import { Routine } from "src/models/routines.routine";
+import { IRoutine } from "src/models/routines.routine";
 import IStatistics from "src/models/statistics";
-import { DeadZone } from "src/models/dead_zone";
-import { NowTask } from "src/models/now.tasks";
+import { IDeadZone } from "src/models/dead_zone";
+import { INowTask } from "src/models/now.tasks";
 import { RoutinesHoursPerWeekSpent,
    GetCoefficients,
    SortRoutinesByFinishingCoefficients } from "./schedule/schedule.methods";
 
-function Copy(d:Object):Object{
-  return Object.assign({},d)
+function Copy(d: object): object {
+  return {...d};
 }
 
-export class ScheduleCore extends CoreModule implements IScheduleCore{
+export class ScheduleCore extends CoreModule implements IScheduleCore {
 
-  private IsNowDeadZone(dzs:Array<DeadZone>, hour:number):boolean{
-    let fin:boolean = false
-
-    dzs.forEach(( dz:DeadZone)=>{
-      if(fin) return;
-      if(dz.start>dz.done){
-        if(hour>=dz.start || hour<dz.done) fin=true 
-      }else{
-        if(hour>=dz.start && hour<dz.done) fin=true
-      }
-    })
-
-    return fin
-  }
-
-  public async Get():Promise<Array<NowTask|null>>{
-    let cashShedule:string = this.cash.Get()
-    if(cashShedule !== "{}") {
-      return JSON.parse(cashShedule)
+  public async Get(): Promise<Array<INowTask | null>> {
+    let cashShedule: string = "{}";
+    if (this.cash) {
+      cashShedule = this.cash.Get();
     }
-
-    let routines:Array<Routine> = await this.storage.Routines().Get()
-    let activities:Array<IStatistics> = await this.storage.Statistics().Get();
-    let deadZones:Array<DeadZone> = await this.storage.DeadZones().Get();
+    if (cashShedule !== "{}") {
+      return JSON.parse(cashShedule);
+    }
+    if (!this.storage) {return []; }
+    const routines: IRoutine[] = await this.storage.Routines().Get();
+    const activities: IStatistics[] = await this.storage.Statistics().Get();
+    let deadZones: IDeadZone[] = await this.storage.DeadZones().Get();
     // 0 is Sunday, but need 0 is Monday
-    let day:number = new Date().getDay()-1
-    if(day<0) day++;
+    let day: number = new Date().getDay() - 1;
+    if (day < 0) { day++; }
 
-    deadZones = deadZones.filter((dz:DeadZone)=>{
-      if(!dz.enable) return false;
-      if(dz.disabled_days.indexOf(day)!== -1) return false
-      return true 
-    })
-    
+    deadZones = deadZones.filter((dz: IDeadZone) => {
+      if (!dz.enable) { return false; }
+      if (dz.disabled_days.indexOf(day) !== -1) { return false; }
+      return true;
+    });
 
-    if(activities.length==0 && routines.length == 0) return [...Array(24)].map(()=>null);
-    let routineSpentWeek:{[key:number]:number}= RoutinesHoursPerWeekSpent(activities);
-    let routineSpentWeekCopy:{[key:number]:number} = Object.assign({},routineSpentWeek)
+    if (activities.length === 0 && routines.length === 0) { return [...Array(24)].map(() => null); }
+    const routineSpentWeek: {[key: number]: number} = RoutinesHoursPerWeekSpent(activities);
+    const routineSpentWeekCopy: {[key: number]: number} = {...routineSpentWeek};
 
-    let routineSpentWeekCoefficients:{[key:number]:number} = GetCoefficients(routines, <{[key:number]:number}>Copy(routineSpentWeek))
+    let routineSpentWeekCoefficients: {[key: number]: number} =
+       GetCoefficients(routines, Copy(routineSpentWeek) as {[key: number]: number});
 
     // Sorting routines by "finishing" coefficients
-    let routinesSeqSorted:Array<number> = SortRoutinesByFinishingCoefficients(<{[key:number]:number}>Copy(routineSpentWeekCoefficients))
-    let finalSchedule:Array<NowTask|null> = []
-    
-    let IsNowDeadZone = this.IsNowDeadZone
+    let routinesSeqSorted: number[] =
+       SortRoutinesByFinishingCoefficients(Copy(routineSpentWeekCoefficients) as {[key: number]: number});
+    const finalSchedule: Array<INowTask | null> = [];
 
-    let func = function(hour:number){
-      if(IsNowDeadZone(deadZones, hour)){
-        finalSchedule.push(null)
-        return
-      }else{ 
-        
-        let routine: Routine|null= null;
-        routines.forEach((r:Routine)=>{
-          if(r==null) return
-          if(r.ID == routinesSeqSorted[0]){
-            routine = r
+    const IsNowDeadZone = this.IsNowDeadZone;
+
+    const func = function(hour: number) {
+      if (IsNowDeadZone(deadZones, hour)) {
+        finalSchedule.push(null);
+        return;
+      } else {
+
+        let routine: IRoutine | null = null;
+        routines.forEach((r: IRoutine) => {
+          if (r == null) { return; }
+          if (r.ID === routinesSeqSorted[0]) {
+            routine = r;
           }
-        })
+        });
 
       // routinesSeqSorted)
-        
-        if(routine == null) {finalSchedule.push(null); return;}
-        let froutine:Routine = <Routine>routine
+
+        if (routine == null) {finalSchedule.push(null); return; }
+        const froutine: IRoutine = routine as IRoutine;
         finalSchedule.push({
-          ID:froutine.ID,
+          ID: froutine.ID,
           name: froutine.name,
-          actionBody:froutine.actionBody,
-          actionType:froutine.actionType,
-          color:froutine.colorScheme,
-          describe:froutine.describe,
-          hours:1,
-          start:hour
-        })
-        
+          actionBody: froutine.actionBody,
+          actionType: froutine.actionType,
+          color: froutine.colorScheme,
+          describe: froutine.describe,
+          hours: 1,
+          start: hour,
+        });
+
         routineSpentWeekCopy[froutine.ID]++;
-        routineSpentWeekCoefficients = GetCoefficients(routines,<{[key:number]:number}>Copy(routineSpentWeekCopy))
-        // Rebuild 
-        routinesSeqSorted = SortRoutinesByFinishingCoefficients(<{[key:number]:number}>Copy(routineSpentWeekCoefficients))
+        routineSpentWeekCoefficients = GetCoefficients(routines, Copy(routineSpentWeekCopy) as {[key: number]: number});
+        // Rebuild
+        routinesSeqSorted =
+           SortRoutinesByFinishingCoefficients(Copy(routineSpentWeekCoefficients) as {[key: number]: number});
       }
-    }.bind(this)
+    }.bind(this);
 
-    Array.from({length: 24}, (x,i) => i).forEach(func)
+    Array.from({length: 24}, (x, i) => i).forEach(func);
+    if (this.cash) {
+      this.cash.Set(JSON.stringify(finalSchedule));
+    }
+    return finalSchedule;
+  }
 
-    this.cash.Set(JSON.stringify(finalSchedule))
+  private IsNowDeadZone(dzs: IDeadZone[], hour: number): boolean {
+    let fin: boolean = false;
 
-    return finalSchedule
+    dzs.forEach((dz: IDeadZone) => {
+      if (fin) { return; }
+      if (dz.start > dz.done) {
+        if (hour >= dz.start || hour < dz.done) { fin = true; }
+      } else {
+        if (hour >= dz.start && hour < dz.done) { fin = true; }
+      }
+    });
+
+    return fin;
   }
 }

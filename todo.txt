@@ -15,6 +15,8 @@ TODO:
 
   + Fix task designe in schedule
 
+  Add to settings notification on/off
+
   Change interfaces (Function -> () => {})
 
   Add cloud-sync support

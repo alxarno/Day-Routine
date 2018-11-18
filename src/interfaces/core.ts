@@ -1,6 +1,6 @@
-import {Routine} from "src/models/routines.routine";
-import { DeadZone } from "src/models/dead_zone";
-import { NowTask } from "src/models/now.tasks";
+import {IRoutine} from "src/models/routines.routine";
+import { IDeadZone } from "src/models/dead_zone";
+import { INowTask } from "src/models/now.tasks";
 
 export interface ISettingsCore {
   Import: () => void;
@@ -9,29 +9,29 @@ export interface ISettingsCore {
 }
 
 export interface IScheduleCore {
-  Get: () => Promise< Array<NowTask | null> >;
+  Get: () => Promise< Array<INowTask | null> >;
 }
 
 export interface IDeadZonesCore {
-  // Get: () => Promise< DeadZone | DeadZone[]> ;
-  // Create: () => void;
-  // Delete: () => void;
-  // Update: () => void;
-  Get: Function;
-  Create: Function;
-  Update: Function;
-  Delete: Function;
+  Get: () => Promise< IDeadZone[]>;
+  Create: (zone: IDeadZone) => void;
+  Update: (unit: any) => Promise<void>;
+  Delete: (unit: any) => Promise<void>;
+  // Get: Function;
+  // Create: Function;
+  // Update: Function;
+  // Delete: Function;
 }
 
 export interface IRoutinesCore {
-  // Get: () => Promise< Routine | Routine[]>;
-  // Create: () => void;
-  // Delete: () => void;
-  // Update: () => void;
-  Get: Function;
-  Create: Function;
-  Update: Function;
-  Delete: Function;
+  Get: () => Promise< IRoutine[]>;
+  Create: (routine: IRoutine) => void;
+  Delete: (unit: any) => Promise<void>;
+  Update: (unit: IRoutine) => void;
+  // Get: Function;
+  // Create: Function;
+  // Update: Function;
+  // Delete: Function;
 }
 
 export interface ICore {

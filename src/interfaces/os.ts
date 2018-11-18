@@ -1,4 +1,4 @@
-import { Routine } from "src/models/routines.routine";
+import { IRoutine } from "src/models/routines.routine";
 
 export interface IOS {
   readFile: (path: string) => Promise<any>;
@@ -6,6 +6,6 @@ export interface IOS {
   chooseFile: () => Promise<any>;
   saveFile: () => Promise<string>;
 
-  registerTimerCallbcak: (f: Function) => void;
-  registerGetCurrentTask: (func: {() =>Routine | null =>void
-}; 
+  registerTimerCallbcak: (f: () => void) => void;
+  registerGetCurrentTask: (func: () => IRoutine | null) => void;
+}

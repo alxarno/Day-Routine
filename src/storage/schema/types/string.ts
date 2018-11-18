@@ -1,18 +1,13 @@
-export default class ShcemaString implements StorageSchema.IString{
-  
-  constructor() {
-    
+export default class ShcemaString implements StorageSchema.IString {
+  public Serial(val: string): any {
+    return val;
   }
 
-  Serial(val:string):any{
-    return val
+  public Deserial(val: any): string {
+    return String(val);
   }
 
-  Deserial(val:any):String{
-    return String(val)
-  }
-
-  SchemaNativeType():any{
-    return String
+  public SchemaNativeType(): any {
+    return String;
   }
 }

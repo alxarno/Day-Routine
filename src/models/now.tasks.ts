@@ -1,6 +1,6 @@
 import {Action} from "./action";
 
-export interface NowTask {
+export interface INowTask {
   ID: number;
   name: string;
   hours: number;

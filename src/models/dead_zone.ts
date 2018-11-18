@@ -1,4 +1,4 @@
-export interface DeadZone {
+export interface IDeadZone {
   name: string;
   start: number;
   done: number;

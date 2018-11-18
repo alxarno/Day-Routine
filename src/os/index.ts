@@ -1,7 +1,7 @@
 import { IOS } from "src/interfaces/os";
 import { IStorage } from "src/interfaces/storage";
 import { ICore } from "src/interfaces/core";
-import { Routine } from "src/models/routines.routine";
+import { IRoutine } from "src/models/routines.routine";
 import { Action } from "src/models/action";
 // const notifier = window.require('node-notifier')
 const Notif =  (window as any).require("electron").remote.require("./renderer").notifAction;
@@ -20,28 +20,28 @@ const saveFile =  (window as any).require("electron").
 const chooseFile = (window as any).require("electron").
   remote.require("./renderer").chooseFile;
 
-interface OSProps {
+interface IOSProps {
   showNotifs: boolean;
 }
 
 export class OS implements IOS {
   // private core:ICore
-  private props: OSProps;
+  private props: IOSProps;
   private nowTimeout: any;
   private firstCall: boolean;
 
-  constructor(_props: OSProps) {
+  constructor(props: IOSProps) {
     // this.core = core
-    this.props = _props;
+    this.props = props;
     this.firstCall = true;
     this.timerStart();
   }
 
-  public registerTimerCallbcak(func: Function) {
+  public registerTimerCallbcak(func: () => void) {
     this.timeOutCallback = func;
   }
 
-  public registerGetCurrentTask(func: () => Routine | null) {
+  public registerGetCurrentTask(func: () => IRoutine | null) {
     this.getCurrentTask = func;
   }
 
@@ -60,9 +60,9 @@ export class OS implements IOS {
   public writeFile(path: string, data: string) {
     return writeFile(path, data);
   }
-  private timeOutCallback: Function = () => null;
+  private timeOutCallback: (hours: number) => void = () => null;
 
-  private getCurrentTask: () => Routine | null = () => null;
+  private getCurrentTask: () => IRoutine | null = () => null;
 
   private async timerStart() {
     const date: Date = new Date();
@@ -72,20 +72,20 @@ export class OS implements IOS {
 
     if (!this.getCurrentTask) { return; }
 
-    const task: Routine | null = await this.getCurrentTask();
+    const task: IRoutine | null = await this.getCurrentTask();
     if (!this.firstCall) {
       if (this.timeOutCallback) { this.timeOutCallback(date.getHours()); }
     } else {
       this.firstCall = false;
     }
     if (task != null) {
-      if (this.props.showNotifs) { this.showNotification((task as Routine).name, (task as Routine).describe); }
-      switch ((task as Routine).actionType) {
+      if (this.props.showNotifs) { this.showNotification((task as IRoutine).name, (task as IRoutine).describe); }
+      switch ((task as IRoutine).actionType) {
         case Action.File:
-          ExecFile((task as Routine).actionBody);
+          ExecFile((task as IRoutine).actionBody);
           break;
         case Action.Link:
-          OpenLink((task as Routine).actionBody);
+          OpenLink((task as IRoutine).actionBody);
           break;
       }
     }

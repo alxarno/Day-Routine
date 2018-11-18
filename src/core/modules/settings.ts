@@ -1,61 +1,57 @@
 import CoreModule from "./module";
 import { ISettingsCore, IRoutinesCore } from "src/interfaces/core";
-import { DeadZone } from "src/models/dead_zone";
+import { IDeadZone } from "src/models/dead_zone";
+import { IRoutine } from "src/models/routines.routine";
 
-export class SettingsCore extends CoreModule implements ISettingsCore{
+export class SettingsCore extends CoreModule implements ISettingsCore {
 
-  public async Import(){
-    let path:string = await this.os.chooseFile()
-    let data:string = await this.os.readFile(path[0])
+  public async Import() {
+    if (!this.os || !this.storage) {return; }
+    const path: string = await this.os.chooseFile();
+    const data: string = await this.os.readFile(path[0]);
+    await this.ClearAll();
+    const newData: {routines: any[], dead_zones: any[]} = JSON.parse(data);
 
-
-    await this.ClearAll()
-  
-    let newData:{routines:Array<any>, dead_zones:Array<any>} = JSON.parse(data)
-
-    newData.routines.forEach((element:any) => {
-      this.storage.Routines().Create(element)
+    newData.routines.forEach((element: any) => {
+      this.storage!.Routines().Create(element);
     });
 
-    newData.dead_zones.forEach((element:DeadZone) => {
-      this.storage.DeadZones().Create(element)
+    newData.dead_zones.forEach((element: IDeadZone) => {
+      this.storage!.DeadZones().Create(element);
     });
   }
 
-  public async Delete(){
-    
+  public async Delete() {
+    return;
   }
 
-  public async Export(){
-    
-    let routines = this.storage.Routines().Get()
-    let dead_zones = this.storage.DeadZones().Get()
-    
-    let final:{[key:string]:any} = {}
-    await Promise.all([routines, dead_zones]).then(result=>{
-      final["routines"] =result[0]
-      final["dead_zones"] = result[1]
-    })
-    let fileName = await this.os.saveFile()
-    await this.os.writeFile(fileName, JSON.stringify(final))
+  public async Export() {
+    if (!this.os || !this.storage) {return; }
+    const routines: Promise<IRoutine[]> = this.storage!.Routines().Get();
+    const deadZones: Promise<IDeadZone[]> = this.storage.DeadZones().Get();
+    const final: {[key: string]: any} = {};
+    await Promise.all([routines, deadZones]).then((result: {0: any, 1: any}) => {
+      /* tslint:disable:no-string-literal */
+      final["routines"] = result[0];
+      final["dead_zones"] = result[1];
+      /* tslint:enable:no-string-literal */
+    });
+    const fileName: string = await this.os.saveFile();
+    await this.os.writeFile(fileName, JSON.stringify(final));
   }
 
-  public async ClearAll(){
-    let routines = this.storage.Routines().Get()
-    let dead_zones = this.storage.DeadZones().Get()
-    
-    let delQuerys:Array<Promise<void> > = []
-      
-    await Promise.all([routines, dead_zones]).then(result=>{
-      result[0].forEach((element:{ID:string}) => {
-        delQuerys.push(this.storage.Routines().Delete({ID: element.ID}))
+  public async ClearAll() {
+    const routines: Promise<IRoutine[]> = this.storage!.Routines().Get();
+    const deadZones: Promise<IDeadZone[]> = this.storage!.DeadZones().Get();
+    const delQuerys: Array< Promise<void> > = [];
+    await Promise.all([routines, deadZones]).then((result: {0: any[], 1: any[]}) => {
+      result[0].forEach((element: {ID: string}) => {
+        delQuerys.push(this.storage!.Routines().Delete({ID: element.ID}));
       });
-  
-      result[1].forEach((element:{ID:string}) => {
-        delQuerys.push(this.storage.DeadZones().Delete({ID: element.ID}))
+      result[1].forEach((element: {ID: string}) => {
+        delQuerys.push(this.storage!.DeadZones().Delete({ID: element.ID}));
       });
-    })
-  
-    await Promise.all(delQuerys)  
+    });
+    await Promise.all(delQuerys);
   }
 }

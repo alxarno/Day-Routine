@@ -1,8 +1,8 @@
 export interface ICRUD {
-  Get: Function;
+  Get: () => Promise<any | any[]>;
   Insert: (data: {[key: string]: any}) => Promise<number>;
-  Update: Function;
-  Delete: Function;
+  Update: (a: any) => Promise<void>;
+  Delete: () => Promise<void>;
 }
 
 export type ITableGet = (name: string) => ICRUD;
@@ -14,7 +14,7 @@ export interface IPropsDataBase {
 }
 export interface ITableMethods {
   Create: ITableCreate;
-  Drop: Function;
+  Drop: (name: string) => Promise<void>;
   GetByName: ITableGet;
 }
 
