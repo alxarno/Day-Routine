@@ -13,7 +13,7 @@ const link = require("assets/internet.svg");
 const pen = require("assets/pen.svg");
 
 import {colors} from "src/view/color.themes";
-import { Routine } from "src/models/routines.routine";
+import { IRoutine } from "src/models/routines.routine";
 import { Action as RoutineAction } from "src/models/action";
 
 const {dialog} = (window as any).require("electron").remote;
@@ -33,7 +33,7 @@ const appNamespace: string = "app";
 })
 
 export default class RoutineComponent extends Vue {
-  @State("items", {namespace}) private routines?: Routine[];
+  @State("items", {namespace}) private routines?: IRoutine[];
   @State("current_routine", {namespace}) private currentRoutineIDStore?: number;
 
   @Action("addRoutine", { namespace }) private addRoutine: any;
@@ -49,7 +49,7 @@ export default class RoutineComponent extends Vue {
 
   private actionBuffer: string = "";
   private colors: string[] = Object.keys(colors);
-  private currentRoutine: Routine = {
+  private currentRoutine: IRoutine = {
     ID: -1,
     name: "",
     actionBody: "",
@@ -65,7 +65,7 @@ export default class RoutineComponent extends Vue {
 
   private created() {
     if (this.currentRoutineIDStore !== -1 && this.routines) {
-      this.routines.forEach((element: Routine) => {
+      this.routines.forEach((element: IRoutine) => {
         if (element.ID === this.currentRoutineIDStore) {
           this.currentRoutine = {...element};
           return;

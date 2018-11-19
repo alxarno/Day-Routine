@@ -4,11 +4,10 @@ import { IScheduleState } from "./types";
 import { GetAPI } from "src/view/external.api";
 
 export const actions: ActionTree<IScheduleState, RootState> = {
-  async loadSchedule({commit}) {
+  async loadSchedule({commit, dispatch}) {
     commit("clearSchedule");
-    const freeHours = await GetAPI().FreeTime();
     const schedule = await GetAPI().Schedule().Get();
     commit("loadedSchedule", {schedule});
-    commit("app/setFreeHours", freeHours, {root: true});
+    dispatch("app/setFreeHours", {}, {root: true});
   },
 };

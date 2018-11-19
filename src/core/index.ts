@@ -62,7 +62,6 @@ export class Core implements ICore {
     const deadZones: IDeadZone[] = (await this.DeadZones().Get() as IDeadZone[]);
     const routines: IRoutine[] = (await this.Routines().Get() as IRoutine[]);
     let freeTime: number = 24 * 7;
-
     deadZones.forEach((val: IDeadZone) => {
       if (!val.enable) {return; }
       let hoursPerDay: number = 0;
@@ -71,7 +70,7 @@ export class Core implements ICore {
       } else if (val.done > val.start) {
         hoursPerDay = val.done - val.start;
       }
-      freeTime -= hoursPerDay * val.disabled_days.length;
+      freeTime -= hoursPerDay * (7 - val.disabled_days.length);
     });
 
     routines.forEach((val: IRoutine) => {

@@ -2,6 +2,7 @@ import { ActionTree } from "vuex";
 import { RootState } from "../../types";
 import { IAppState } from "./types";
 import {DrawerContent, ModalContent} from "../../api";
+import { GetAPI } from "src/view/external.api";
 
 export const actions: ActionTree<IAppState, RootState> = {
   setMenuItem({commit}, val): any {
@@ -20,5 +21,9 @@ export const actions: ActionTree<IAppState, RootState> = {
     } else {
       commit("modalOpen", val);
     }
+  },
+  async setFreeHours({commit}) {
+    const freeHours = await GetAPI().FreeTime();
+    commit("setFreeHours", freeHours);
   },
 };

@@ -11,13 +11,15 @@ TODO:
 
   + Add available free time
   
-  Make free time auto updateable
+  + Make free time auto updateable
 
   + Fix task designe in schedule
 
+  Test schedule gen algorithm
+
   Add to settings notification on/off
 
-  Change interfaces (Function -> () => {})
+  + Change interfaces (Function -> () => {})
 
   Add cloud-sync support
 

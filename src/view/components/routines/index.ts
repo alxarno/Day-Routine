@@ -3,7 +3,7 @@ import Component from "vue-class-component";
 import {Action, State} from "vuex-class";
 import RoutineComponent from "./routine";
 
-import {Routine} from "src/models/routines.routine";
+import {IRoutine} from "src/models/routines.routine";
 
 import * as WithRender from "./template.html";
 
@@ -25,7 +25,7 @@ const namespace: string = "routines";
   },
 })
 export default class RoutinesComponent extends Vue {
-  @State((state) => state.routines.items) private routines?: Array<Routine | null>;
+  @State((state) => state.routines.items) private routines?: Array<IRoutine | null>;
   @State((state) => state.routines.loaded) private loaded?: boolean;
 
   @Action("newRoutineWindow", { namespace }) private newRoutineWindow?: () => void;
