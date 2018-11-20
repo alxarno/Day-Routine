@@ -11,16 +11,16 @@
 }
 
 .settings-body__wrapper{
-  font-family: Roboto-Light;
-  padding: 15px;
-  padding-top: 10px;
+ 
 }
 
 .settings-body__row{
+  font-family: Roboto-Light;
   display: block;
   width: 100%;
   margin: 25px 0px;
   color: $gray;
+  padding: 0px 20px;
 }
 
 .settings-body__action{
