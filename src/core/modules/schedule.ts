@@ -15,12 +15,12 @@ function Copy(d: object): object {
 export class ScheduleCore extends CoreModule implements IScheduleCore {
 
   public async Get(): Promise<Array<INowTask | null>> {
-    let cashShedule: string = "{}";
+    let cashShedule: any[] = [];
     if (this.cash) {
       cashShedule = this.cash.Get();
     }
-    if (cashShedule !== "{}") {
-      return JSON.parse(cashShedule);
+    if (cashShedule.length !== 0) {
+      return cashShedule;
     }
     if (!this.storage) {return []; }
     const routines: IRoutine[] = await this.storage.Routines().Get();
@@ -89,7 +89,7 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
 
     Array.from({length: 24}, (x, i) => i).forEach(func);
     if (this.cash) {
-      this.cash.Set(JSON.stringify(finalSchedule));
+      this.cash.Set(finalSchedule);
     }
     return finalSchedule;
   }

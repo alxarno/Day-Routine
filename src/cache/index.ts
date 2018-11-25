@@ -1,5 +1,10 @@
 import {ICache} from "src/interfaces/cache";
 
+interface IPacket {
+  date: string;
+  body: any;
+}
+
 export class CashLocalStorage implements ICache {
 public mystorage: Storage;
 
@@ -7,22 +12,31 @@ constructor() {
   this.mystorage = window.localStorage;
 }
 
-public Set(body: string) {
-  this.mystorage.setItem(this.getDate() + "cash", body);
+public Set(body: any) {
+  const data: IPacket = {
+    date: this.getDate(),
+    body,
+  };
+  this.mystorage.setItem("cash", JSON.stringify(data));
 }
 
 public Get(): string {
-  const result = this.mystorage.getItem(this.getDate() + "cash");
-  if (result == null) {
-    this.Set("{}");
+  const result = this.mystorage.getItem("cash");
+  if (result == null || result === "") {
+    this.Clear();
     return this.Get();
   }
-  return result;
+  const data: IPacket = JSON.parse(result);
+  if (data.date !== this.getDate()) {
+    this.Clear();
+    return this.Get();
+  } else {
+    return data.body;
+  }
 }
 
 public Clear() {
-   // this.mystorage.clear();
-   this.Set("{}");
+   this.Set([]);
 }
 
 private getDate(): string {
@@ -31,6 +45,6 @@ private getDate(): string {
   const day = dateObj.getUTCDate();
   const year = dateObj.getUTCFullYear();
 
-  return year + "" + month + "" + day + "_";
+  return year + "" + month + "" + day;
 }
 }

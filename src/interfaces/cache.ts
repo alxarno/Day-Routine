@@ -1,5 +1,5 @@
 export interface ICache {
-  Get: () => string;
-  Set: (body: string) => void;
+  Get: () => any;
+  Set: (body: any) => void;
   Clear: () => void;
 }
