@@ -17,6 +17,7 @@ import { OS } from "src/os";
 import { INowTask } from "src/models/now.tasks";
 import { IRoutine } from "src/models/routines.routine";
 import { IDeadZone } from "src/models/dead_zone";
+import { ISettingsStore, ISettings } from "src/interfaces/settingsStore";
 
 export class Core implements ICore {
   private Storage: IStorage;
@@ -26,7 +27,7 @@ export class Core implements ICore {
   private SettingsModule: ISettingsCore;
   private os: IOS;
 
-  constructor(storage: IStorage, cache: ICache, os: IOS) {
+  constructor(storage: IStorage, cache: ICache, os: IOS, settingsStore: ISettingsStore) {
     this.Storage = storage;
     this.Cache = cache;
 
@@ -35,7 +36,13 @@ export class Core implements ICore {
     this.os.registerTimerCallbcak(this.HourIsGone.bind(this));
 
     this.ScheduleModule = new ScheduleCore({storage: this.Storage, cash: this.Cache});
-    this.SettingsModule = new SettingsCore({storage: this.Storage, os: this.os});
+    this.SettingsModule = new SettingsCore(
+      {
+        storage: this.Storage,
+        os: this.os,
+        settings_storage: settingsStore,
+        settings_apply: this.settingsApply.bind(this),
+      });
   }
 
   public async GetCurrentTask(): Promise<INowTask | null> {
@@ -93,5 +100,10 @@ export class Core implements ICore {
 
   public Settings(): ISettingsCore {
     return this.SettingsModule;
+  }
+
+  private settingsApply(settings: ISettings): void {
+    this.os.setSettings({Notifications: settings.Notifications});
+    return;
   }
 }

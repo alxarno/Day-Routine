@@ -1,11 +1,14 @@
 import {IRoutine} from "src/models/routines.routine";
 import { IDeadZone } from "src/models/dead_zone";
 import { INowTask } from "src/models/now.tasks";
+import { ISettings } from "./settingsStore";
 
 export interface ISettingsCore {
   Import: () => void;
   Export: () => void;
   ClearAll: () => void;
+  Get: () => ISettings;
+  Put: (s: ISettings) => void;
 }
 
 export interface IScheduleCore {

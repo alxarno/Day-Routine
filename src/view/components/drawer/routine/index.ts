@@ -5,7 +5,7 @@ import SliderComponent from "./slider";
 import * as WithRender from "./template.html";
 require("./styles.scss");
 
-import DropdownComponent from "src/view/default-components/dropdown/dropdown";
+import DropdownComponent from "src/view/default-components/dropdown";
 
 const nothing = require("assets/do-not-disturb-rounded-sign.svg");
 const file = require("assets/file.svg");

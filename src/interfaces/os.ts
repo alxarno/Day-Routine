@@ -1,5 +1,9 @@
 import { IRoutine } from "src/models/routines.routine";
 
+export interface IOSSettings {
+  Notifications: boolean;
+}
+
 export interface IOS {
   readFile: (path: string) => Promise<any>;
   writeFile: (path: string, data: string) => Promise<any>;
@@ -8,4 +12,5 @@ export interface IOS {
 
   registerTimerCallbcak: (f: () => void) => void;
   registerGetCurrentTask: (func: () => IRoutine | null) => void;
+  setSettings: (s: IOSSettings) => void;
 }

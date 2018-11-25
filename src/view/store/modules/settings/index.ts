@@ -8,6 +8,9 @@ import {getters} from "./getters";
 
 export const state: ISettingsState = {
     menu_active_item: 0,
+    data: {
+      Notifications: false,
+    },
 };
 
 const namespaced: boolean = true;

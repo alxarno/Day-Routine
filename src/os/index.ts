@@ -1,4 +1,4 @@
-import { IOS } from "src/interfaces/os";
+import { IOS, IOSSettings } from "src/interfaces/os";
 import { IStorage } from "src/interfaces/storage";
 import { ICore } from "src/interfaces/core";
 import { IRoutine } from "src/models/routines.routine";
@@ -26,13 +26,13 @@ interface IOSProps {
 
 export class OS implements IOS {
   // private core:ICore
-  private props: IOSProps;
+  private settings: IOSSettings;
   private nowTimeout: any;
   private firstCall: boolean;
 
-  constructor(props: IOSProps) {
+  constructor(settings: IOSSettings) {
     // this.core = core
-    this.props = props;
+    this.settings = settings;
     this.firstCall = true;
     this.timerStart();
   }
@@ -57,6 +57,10 @@ export class OS implements IOS {
     return readFile(path);
   }
 
+  public setSettings(s: IOSSettings): void {
+    this.settings = s;
+  }
+
   public writeFile(path: string, data: string) {
     return writeFile(path, data);
   }
@@ -79,7 +83,7 @@ export class OS implements IOS {
       this.firstCall = false;
     }
     if (task != null) {
-      if (this.props.showNotifs) { this.showNotification((task as IRoutine).name, (task as IRoutine).describe); }
+      if (this.settings.Notifications) { this.showNotification((task as IRoutine).name, (task as IRoutine).describe); }
       switch ((task as IRoutine).actionType) {
         case Action.File:
           ExecFile((task as IRoutine).actionBody);

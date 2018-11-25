@@ -28,9 +28,15 @@ export default class MainComponent extends Vue {
   @State("drawer", {namespace}) private drawer?: boolean;
   @State("modal", {namespace}) private modal?: boolean;
 
+  @Action("getSettings", {namespace: "settings"}) private getSettings: any;
+
   private style = {
     filter: "blur(5px)",
   };
+
+  private created() {
+    this.getSettings();
+  }
 
   // @Action('newRoutineWindow', { namespace }) newRoutineWindow: any;
   // @Action('routineSettingsWindow', { namespace }) routineSettingsWindow: any;

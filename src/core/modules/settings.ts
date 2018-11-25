@@ -2,6 +2,7 @@ import CoreModule from "./module";
 import { ISettingsCore, IRoutinesCore } from "src/interfaces/core";
 import { IDeadZone } from "src/models/dead_zone";
 import { IRoutine } from "src/models/routines.routine";
+import { ISettings } from "src/interfaces/settingsStore";
 
 export class SettingsCore extends CoreModule implements ISettingsCore {
 
@@ -53,5 +54,15 @@ export class SettingsCore extends CoreModule implements ISettingsCore {
       });
     });
     await Promise.all(delQuerys);
+  }
+
+  public Get(): ISettings {
+    const settings: ISettings = this.settingsStorage!.Get();
+    return settings;
+  }
+
+  public Put(s: ISettings): void {
+    this.settingsStorage!.Put(s);
+    this.settingsApply!(s);
   }
 }

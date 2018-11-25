@@ -31,13 +31,13 @@ export default class DataComponent extends Vue {
   }
 
   public beforeDestroy() {
-    this.loadDeadZones();
-    this.loadRoutines();
     this.loadSchedule();
   }
 
   public deleteClick() {
     this.clearData();
+    this.loadDeadZones();
+    this.loadRoutines();
   }
 
 }
