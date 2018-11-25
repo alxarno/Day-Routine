@@ -15,11 +15,11 @@ TODO:
 
   + Fix task designe in schedule
 
-  Test schedule gen algorithm
-
   Add to settings notification on/off
 
   + Change interfaces (Function -> () => {})
+
+  Test schedule gen algorithm
 
   Add cloud-sync support
 

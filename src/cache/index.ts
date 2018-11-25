@@ -21,7 +21,7 @@ public Get(): string {
 }
 
 public Clear() {
-   this.mystorage.clear();
+   // this.mystorage.clear();
    this.Set("{}");
 }
 
