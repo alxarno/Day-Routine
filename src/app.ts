@@ -20,7 +20,7 @@ const db: WebSQLDB = new WebSQLDB(
 const sk: IStorageKernel = new StorageKernel(db);
 const cache: ICache = 	new CashLocalStorage();
 const settingsStore: ISettingsStore = new SettingsStore();
-const os: IOS = new OS({showNotifs: true});
+const os: IOS = new OS(settingsStore);
 const storage: IStorage = new Storage(sk, cache.Clear.bind(cache));
 
 const core = new Core(storage, cache, os, settingsStore);

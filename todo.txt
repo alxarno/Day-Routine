@@ -15,11 +15,16 @@ TODO:
 
   + Fix task designe in schedule
 
-  Add to settings notification on/off
+  + Add to settings notification on/off
 
   + Change interfaces (Function -> () => {})
 
-  Test schedule gen algorithm
+  + Dead Zone active/disable doesn't save
+
+  Add history line to routines (past hours/necessary)
+
+  Test schedule gen algorithm:
+    Have tested without history 
 
   Add cloud-sync support
 

@@ -28,7 +28,9 @@
       </div>
     </div>
     <div class="dead-zone_element-body-checker">
-      <check-box v-bind="{callback: checkChange, state: this.$props.zone.enable}"/>
+      <check-box 
+        @callback="checkChange"
+        v-bind:state="this.$props.zone.enable"/>
     </div>
   </div>
 

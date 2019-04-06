@@ -27,6 +27,7 @@ export class SettingsCore extends CoreModule implements ISettingsCore {
   }
 
   public async Export() {
+
     if (!this.os || !this.storage) {return; }
     const routines: Promise<IRoutine[]> = this.storage!.Routines().Get();
     const deadZones: Promise<IDeadZone[]> = this.storage.DeadZones().Get();
@@ -37,6 +38,7 @@ export class SettingsCore extends CoreModule implements ISettingsCore {
       final["dead_zones"] = result[1];
       /* tslint:enable:no-string-literal */
     });
+
     const fileName: string = await this.os.saveFile();
     await this.os.writeFile(fileName, JSON.stringify(final));
   }

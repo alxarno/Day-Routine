@@ -10,6 +10,7 @@ export const actions: ActionTree<ISettingsState, RootState> = {
     commit("setSettingsMenuActive", val);
   },
   exportData({commit}) {
+
     GetAPI().Settings().Export();
   },
   importData({commit}) {

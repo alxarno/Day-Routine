@@ -8,8 +8,8 @@ import {mutations} from "./mutations";
 import {getters} from "./getters";
 
 export const state: IAppState = {
-    menuActiveItem: 1,
-    drawer: true,
+    menuActiveItem: 2,
+    drawer: false,
     drawerContent: DrawerContent.Settings,
     modal: false,
     modalContent: ModalContent.Some,

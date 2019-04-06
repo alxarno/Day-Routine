@@ -19,9 +19,9 @@ export function GetCoefficients(
 
   routines.forEach((e: IRoutine) => {
     if (routinesSpentHoursPerWeek.hasOwnProperty(e.ID)) {
-      // console.log("+++++++++++++++++")
-      // console.log(routinesSpentHoursPerWeek[e.ID], e.hours,e.ID)
-      // console.log("+++++++++++++++++")
+      // console.log("+++++++++++++++++");
+      // console.log(routinesSpentHoursPerWeek[e.ID], e.hours, e.ID);
+      // console.log("+++++++++++++++++");
       if (routinesSpentHoursPerWeek[e.ID] > e.hours) {
         routinesSpentHoursPerWeek[e.ID] = routinesSpentHoursPerWeek[e.ID] - e.hours;
         return;

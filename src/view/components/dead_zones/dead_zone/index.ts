@@ -42,7 +42,7 @@ export default class DeadZoneComponent extends Vue {
   }
 
   public checkChange(value: boolean) {
-    // console.log(value)
+    // console.log(this.$props.zone);
     this.$props.zone.enable = value;
     this.saveChangedDeadZone(this.$props.zone);
   }

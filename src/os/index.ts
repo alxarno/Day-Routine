@@ -3,6 +3,7 @@ import { IStorage } from "src/interfaces/storage";
 import { ICore } from "src/interfaces/core";
 import { IRoutine } from "src/models/routines.routine";
 import { Action } from "src/models/action";
+import { ISettingsStore } from "src/interfaces/settingsStore";
 // const notifier = window.require('node-notifier')
 const Notif =  (window as any).require("electron").remote.require("./renderer").notifAction;
 const OpenLink =  (window as any).require("electron").remote.require("./renderer").openLink;
@@ -26,13 +27,15 @@ interface IOSProps {
 
 export class OS implements IOS {
   // private core:ICore
-  private settings: IOSSettings;
+  private settingsStore: ISettingsStore;
+  // private settings: IOSSettings;
   private nowTimeout: any;
   private firstCall: boolean;
 
-  constructor(settings: IOSSettings) {
+  constructor(settingsStore: ISettingsStore) {
     // this.core = core
-    this.settings = settings;
+    this.settingsStore = settingsStore;
+    // this.settings = settings;
     this.firstCall = true;
     this.timerStart();
   }
@@ -46,11 +49,11 @@ export class OS implements IOS {
   }
 
   public saveFile() {
-    return saveFile;
+    return saveFile();
   }
 
   public chooseFile() {
-    return chooseFile;
+    return chooseFile();
   }
 
   public readFile(path: string) {
@@ -58,7 +61,7 @@ export class OS implements IOS {
   }
 
   public setSettings(s: IOSSettings): void {
-    this.settings = s;
+    // this.settings = s;
   }
 
   public writeFile(path: string, data: string) {
@@ -83,8 +86,10 @@ export class OS implements IOS {
       this.firstCall = false;
     }
     if (task != null) {
-      if (this.settings.Notifications) { this.showNotification((task as IRoutine).name, (task as IRoutine).describe); }
-      switch ((task as IRoutine).actionType) {
+      // if (this.settingsStore.Get().Notifications) {
+        this.showNotification((task as IRoutine).name, (task as IRoutine).describe);
+      // }
+        switch ((task as IRoutine).actionType) {
         case Action.File:
           ExecFile((task as IRoutine).actionBody);
           break;
@@ -97,7 +102,9 @@ export class OS implements IOS {
   }
 
   private showNotification(t: string, m: string) {
-    Notif(t, m);
+    if (this.settingsStore.Get().Notifications) {
+      Notif(t, m);
+    }
   }
 
 }

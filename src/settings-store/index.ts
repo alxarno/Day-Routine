@@ -3,8 +3,11 @@ import { ISettingsStore, ISettings } from "src/interfaces/settingsStore";
 export class SettingsStore implements ISettingsStore {
   private mystorage: Storage;
   private defaults: ISettings;
+  // private changeCallbacks: Array<(() => void)>;
+
   constructor() {
     this.mystorage = window.localStorage;
+    // this.changeCallbacks = [];
     this.defaults = {
       Notifications: true,
     };
@@ -21,6 +24,7 @@ export class SettingsStore implements ISettingsStore {
 
   public Put(s: ISettings): void {
     this.mystorage.setItem("settings", JSON.stringify(s));
+    // this.ExecCallbacks();
     return;
   }
 
@@ -29,4 +33,26 @@ export class SettingsStore implements ISettingsStore {
     return;
   }
 
+  // public SetChangeCallback(f: () => void): void {
+  //   this.changeCallbacks.push(f);
+  // }
+
+  // public DelChangeCallback(f: () => void): void {
+  //   this.changeCallbacks = this.changeCallbacks.filter((v: (() => void)) => {
+  //     return (v !== f);
+  //   });
+  // }
+
+  // private async ExecCallbacks() {
+  //   await new Promise((resolve: () => void , reject: () => void) => {
+  //     try {
+  //       this.changeCallbacks.forEach((v: (() => void)) => {
+  //         v ();
+  //       });
+  //     } catch (e) {
+  //       reject();
+  //     }
+  //     resolve();
+  //   });
+  // }
 }
