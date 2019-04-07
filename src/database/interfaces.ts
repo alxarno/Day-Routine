@@ -17,5 +17,5 @@
 // }
 
 export interface IDB {
-  transaction: Function;
+  transaction: () => void;
 }

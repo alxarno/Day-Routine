@@ -15,16 +15,16 @@ export class Crud implements ICRUD {
     this.debug = debug;
   }
 
-  public async Get() {
+  public async Get(args?: any) {
     let arg: {[key: string]: any} = {ID: -1};
-    for (let i = 0; i < arguments.length; i++) {
-      arg = arguments[i];
+    for (const a of arguments) {
+      arg = a;
     }
 
     let requestString = "";
     let requestData = [];
 
-    if (arg.ID != -1) {
+    if (arg.ID !== -1) {
       const fields: string[] = this.getFields(arg);
 
       const valueTemplates: any[] = fields.map((val) => val + " = ?");
@@ -100,9 +100,6 @@ export class Crud implements ICRUD {
       console.log("******************");
     }
 
-    // console.log(querryString)
-    // console.log(valuesArray)
-
     const promise = Request(
       querryString,
       valuesArray,
@@ -111,10 +108,10 @@ export class Crud implements ICRUD {
     await promise;
   }
 
-  public async Delete() {
+  public async Delete(args?: any) {
     let arg: {[key: string]: any} = {id: -1};
-    for (let i = 0; i < arguments.length; i++) {
-      arg = arguments[i];
+    for (const a of arguments) {
+      arg = a;
     }
 
     const fields: string[] = this.getFields(arg);

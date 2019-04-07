@@ -1,4 +1,5 @@
 import { IRoutine } from "src/models/routines.routine";
+import { INowTask } from "src/models/now.tasks";
 
 export interface IOSSettings {
   Notifications: boolean;
@@ -10,7 +11,7 @@ export interface IOS {
   chooseFile: () => Promise<any>;
   saveFile: () => Promise<string>;
 
-  registerTimerCallbcak: (f: () => void) => void;
-  registerGetCurrentTask: (func: () => IRoutine | null) => void;
+  registerTimerCallbcak: (f: (newHour: number) => void) => void;
+  registerGetCurrentTask: (func: () => Promise<INowTask | null>) => void;
   setSettings: (s: IOSSettings) => void;
 }

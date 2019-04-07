@@ -7,9 +7,33 @@
   height: 50px;
   font-family: Roboto-Regular;
   display: flex;
-  align-items: center;
+  // align-items: center;
+  flex-direction: column;
+  position:relative;
+
+  
+  
 }
 
+.routines-routine>div:nth-child(1){
+  display: flex;
+  align-items: center;
+  width: 500px;
+  height: 45px;
+}
+
+.routines-routine>div:nth-child(2){
+  width: 500px;
+  background: $light-gray;
+  height: 2px;
+  margin-top: 3px;
+  border-radius: 0px 0px 5px 5px;
+
+  div{
+    height: 2px;
+    border-radius: 0px 0px 5px 5px;
+  }
+}
 
 .routines-routine__name{
   margin-left: 10px;

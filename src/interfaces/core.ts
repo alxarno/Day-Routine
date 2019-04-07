@@ -2,6 +2,7 @@ import {IRoutine} from "src/models/routines.routine";
 import { IDeadZone } from "src/models/dead_zone";
 import { INowTask } from "src/models/now.tasks";
 import { ISettings } from "./settingsStore";
+import IStatistics from "src/models/statistics";
 
 export interface ISettingsCore {
   Import: () => void;
@@ -37,10 +38,15 @@ export interface IRoutinesCore {
   // Delete: Function;
 }
 
+export interface IStatisticCore {
+  Get: () => Promise< IStatistics[]>;
+}
+
 export interface ICore {
   Routines: () => IRoutinesCore;
   Schedule: () => IScheduleCore;
   DeadZones: () => IDeadZonesCore;
   Settings: () => ISettingsCore;
   FreeTime: () => Promise<number>;
+  Statistics: () => IStatisticCore;
 }

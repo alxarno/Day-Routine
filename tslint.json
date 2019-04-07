@@ -9,6 +9,8 @@
         "no-submodule-imports": [true, "src", "assets"],
         "no-shadowed-variable": false,
         "no-namespace": [true, "allow-declarations"],
-        "only-arrow-functions": false
+        "only-arrow-functions": false,
+        "no-console": false,
+        "forin": false
     }
 }

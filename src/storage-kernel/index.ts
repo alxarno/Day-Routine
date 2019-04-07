@@ -4,8 +4,8 @@ import { IStorageKernel } from "src/interfaces/storageKernel";
 export default class StorageKernel implements IStorageKernel {
   public database: IDataBase;
 
-  constructor(_database: IDataBase) {
-    this.database = _database;
+  constructor(database: IDataBase) {
+    this.database = database;
   }
 
   public Get(table: string, data?: any) {
@@ -25,7 +25,7 @@ export default class StorageKernel implements IStorageKernel {
     return this.database.Table().GetByName(table).Delete(data);
   }
 
-  public async TableCreate(name: string, schema: {[key: string]: Object}) {
+  public async TableCreate(name: string, schema: {[key: string]: any}) {
     return this.database.Table().Create(name, schema);
   }
 }

@@ -4,6 +4,7 @@ import { IRoutinesState } from "./types";
 import { IRoutine } from "src/models/routines.routine";
 import { GetAPI } from "src/view/external.api";
 import {DrawerContent, ModalContent} from "../../api";
+import IStatistics from "src/models/statistics";
 
 export const actions: ActionTree<IRoutinesState, RootState> = {
   newRoutineWindow({commit}) {
@@ -35,6 +36,14 @@ export const actions: ActionTree<IRoutinesState, RootState> = {
   async loadRoutines({commit}) {
       commit("loaded");
       const routines = await GetAPI().Routines().Get();
+      const statistics = await GetAPI().Statistics().Get();
+      routines.forEach((v: IRoutine) => {
+        statistics.forEach((s: IStatistics) => {
+          if (v.ID === s.ID) {
+            v.hoursSpended = s.spent.reduce((x, y) => x + y);
+          }
+        });
+      });
       commit("loadedRoutines", routines);
   },
   async saveRoutine({commit, dispatch}, routine: IRoutine) {

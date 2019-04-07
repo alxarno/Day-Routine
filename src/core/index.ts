@@ -6,6 +6,7 @@ import {
   ISettingsCore,
   IRoutinesCore,
   IDeadZonesCore,
+  IStatisticCore,
 } from "src/interfaces/core";
 
 import {ICache} from "src/interfaces/cache";
@@ -51,7 +52,8 @@ export class Core implements ICore {
   }
 
   public HourIsGone(newHour: number) {
-    const schedule: Array<INowTask | null> = JSON.parse(this.Cache.Get());
+    // console.log(this.Cache.Get());
+    const schedule: Array<INowTask | null> = this.Cache.Get();
     let lastTask: INowTask | null = null;
     if (newHour === 0) {
       if (schedule[23]) {
@@ -84,6 +86,10 @@ export class Core implements ICore {
       freeTime -= val.hours;
     });
     return freeTime;
+  }
+
+  public Statistics(): IStatisticCore {
+    return this.Storage.Statistics();
   }
 
   public Routines(): IRoutinesCore {

@@ -1,8 +1,8 @@
 export interface ICRUD {
-  Get: () => Promise<any | any[]>;
+  Get: (args?: any) => Promise<any | any[]>;
   Insert: (data: {[key: string]: any}) => Promise<number>;
   Update: (a: any) => Promise<void>;
-  Delete: () => Promise<void>;
+  Delete: (args?: any) => Promise<void>;
 }
 
 export type ITableGet = (name: string) => ICRUD;

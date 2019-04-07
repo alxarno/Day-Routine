@@ -1,9 +1,7 @@
 import { IOS, IOSSettings } from "src/interfaces/os";
-import { IStorage } from "src/interfaces/storage";
-import { ICore } from "src/interfaces/core";
-import { IRoutine } from "src/models/routines.routine";
 import { Action } from "src/models/action";
 import { ISettingsStore } from "src/interfaces/settingsStore";
+import { INowTask } from "src/models/now.tasks";
 // const notifier = window.require('node-notifier')
 const Notif =  (window as any).require("electron").remote.require("./renderer").notifAction;
 const OpenLink =  (window as any).require("electron").remote.require("./renderer").openLink;
@@ -26,25 +24,23 @@ interface IOSProps {
 }
 
 export class OS implements IOS {
-  // private core:ICore
   private settingsStore: ISettingsStore;
-  // private settings: IOSSettings;
   private nowTimeout: any;
   private firstCall: boolean;
+  private getCurrentTask: ((() => Promise<INowTask | null>) | null);
 
   constructor(settingsStore: ISettingsStore) {
-    // this.core = core
     this.settingsStore = settingsStore;
-    // this.settings = settings;
+    this.getCurrentTask = null;
     this.firstCall = true;
     this.timerStart();
   }
 
-  public registerTimerCallbcak(func: () => void) {
+  public registerTimerCallbcak(func: (newHour: number) => void) {
     this.timeOutCallback = func;
   }
 
-  public registerGetCurrentTask(func: () => IRoutine | null) {
+  public registerGetCurrentTask(func: () => Promise<INowTask | null>) {
     this.getCurrentTask = func;
   }
 
@@ -69,8 +65,6 @@ export class OS implements IOS {
   }
   private timeOutCallback: (hours: number) => void = () => null;
 
-  private getCurrentTask: () => IRoutine | null = () => null;
-
   private async timerStart() {
     const date: Date = new Date();
 
@@ -79,26 +73,28 @@ export class OS implements IOS {
 
     if (!this.getCurrentTask) { return; }
 
-    const task: IRoutine | null = await this.getCurrentTask();
+    const task: INowTask | null = await this.getCurrentTask();
+
     if (!this.firstCall) {
       if (this.timeOutCallback) { this.timeOutCallback(date.getHours()); }
     } else {
       this.firstCall = false;
     }
     if (task != null) {
-      // if (this.settingsStore.Get().Notifications) {
-        this.showNotification((task as IRoutine).name, (task as IRoutine).describe);
-      // }
-        switch ((task as IRoutine).actionType) {
-        case Action.File:
-          ExecFile((task as IRoutine).actionBody);
-          break;
-        case Action.Link:
-          OpenLink((task as IRoutine).actionBody);
-          break;
-      }
+        this.showNotification((task as INowTask).name, (task as INowTask).describe);
+        this.execAction((task as INowTask).actionType, (task as INowTask).actionBody);
     }
+  }
 
+  private execAction(type: Action, body: string) {
+    switch (type) {
+      case Action.File:
+        ExecFile(body);
+        break;
+      case Action.Link:
+        OpenLink(body);
+        break;
+    }
   }
 
   private showNotification(t: string, m: string) {

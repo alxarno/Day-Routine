@@ -3,7 +3,7 @@ import Component from "vue-class-component";
 
 import {colors, IColor} from "src/view/color.themes";
 
-import {Routine} from "src/models/routines.routine";
+import {IRoutine} from "src/models/routines.routine";
 
 import * as WithRender from "./template.html";
 import { Action } from "vuex-class";
@@ -16,33 +16,31 @@ const namespace: string = "routines";
 @Component({
   props: {
     routine: {
-      type: Object as () => Routine,
+      type: Object as () => IRoutine,
     },
   },
 })
 export default class RoutineComponent extends Vue {
   @Action("currentRoutineChange", { namespace }) public currentRoutineChange?: (arg: number) => void;
   @Action("routineSettingsWindow", { namespace }) public routineSettingsWindow?: () => void;
-  // @Action('routineSettingsWindow', { namespace }) routineSettingsWindow: any;
-  // @Action('loadRoutines', { namespace }) loadRoutines: any;
 
-  public curentColor: IColor = colors.default;
+  public currentColor: IColor = colors.default;
+  public downLineWidth: number = 0;
   public settingsIcon: string = icon;
 
   public created(): void {
     if (colors.hasOwnProperty(this.$props.routine.colorScheme)) {
-      this.curentColor = colors[this.$props.routine.colorScheme];
+      this.currentColor = colors[this.$props.routine.colorScheme];
+      this.downLineWidth = (this.$props.routine as IRoutine).hoursSpended /
+      (this.$props.routine as IRoutine).hours * 100;
+      this.downLineWidth = (this.downLineWidth > 100 ? 100 : this.downLineWidth);
     }
   }
 
   public settings(): void {
-    // console.log("Settings ", this.$props.routine.ID)
    if (this.currentRoutineChange && this.routineSettingsWindow) {
     this.currentRoutineChange(this.$props.routine.ID);
     this.routineSettingsWindow();
    }
-    // this.$store.dispatch("openPopUp")
-    // this.$store.dispatch("currentRoutineChange", {number: this.$props.routine.id})
-    // this.$store.dispatch('routineSettingsWindow')
   }
 }

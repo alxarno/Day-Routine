@@ -21,7 +21,7 @@ TODO:
 
   + Dead Zone active/disable doesn't save
 
-  Add history line to routines (past hours/necessary)
+  + Add history line to routines (past hours/necessary)
 
   Test schedule gen algorithm:
     Have tested without history 
