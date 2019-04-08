@@ -23,7 +23,7 @@ TODO:
 
   + Add history line to routines (past hours/necessary)
 
-  Update build script (create separate dir with final files)
+  + Update build script (create separate dir with final files)
 
   Test schedule gen algorithm:
     Have tested without history 
