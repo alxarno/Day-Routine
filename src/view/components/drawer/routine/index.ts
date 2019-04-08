@@ -57,6 +57,7 @@ export default class RoutineComponent extends Vue {
     colorScheme: Object.keys(colors)[0],
     describe: "",
     hours: 1,
+    hoursSpended: 0,
   };
 
   private currentColorIndex(): number {

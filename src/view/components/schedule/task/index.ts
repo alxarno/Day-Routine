@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 
-import {NowTask} from "src/models/now.tasks";
+import {INowTask} from "src/models/now.tasks";
 
-import {colors, Color} from "src/view/color.themes";
+import {colors, IColor} from "src/view/color.themes";
 
 import {CheckCurrentTask,
         ComputeWrapperStyle,
@@ -18,14 +18,14 @@ require("./styles.scss");
 @Component({
   props: {
     task: {
-      type: Object as () => NowTask,
+      type: Object as () => INowTask,
     },
   },
 })
 export default class Task extends Vue {
 
   public activeTask: number = 9;
-  public curentColor: Color = colors.default;
+  public curentColor: IColor = colors.default;
   public describe: string = "";
   public taskStart: string = "00:00";
   public taskDone: string = "00:00";

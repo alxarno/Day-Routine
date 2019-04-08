@@ -7,11 +7,11 @@ import { Core } from "./core";
 import { ICache } from "./interfaces/cache";
 import { IStorage } from "./interfaces/storage";
 import { IStorageKernel } from "./interfaces/storageKernel";
-import StorageKernel from "./storage-kernel";
+import StorageKernel from "./storage/kernel";
 import { OS } from "./os";
 import { IOS } from "./interfaces/os";
 import { ISettingsStore } from "./interfaces/settingsStore";
-import { SettingsStore } from "./settings-store";
+import { SettingsStore } from "./settings";
 
 const db: WebSQLDB = new WebSQLDB(
   {debug: false},

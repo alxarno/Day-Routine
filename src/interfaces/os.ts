@@ -13,5 +13,4 @@ export interface IOS {
 
   registerTimerCallbcak: (f: (newHour: number) => void) => void;
   registerGetCurrentTask: (func: () => Promise<INowTask | null>) => void;
-  setSettings: (s: IOSSettings) => void;
 }

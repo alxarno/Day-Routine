@@ -1,7 +1,7 @@
-import {Routine} from "src/models/routines.routine";
+import {IRoutine} from "src/models/routines.routine";
 
-export function GetRoutines(): Routine[] {
-  const routines: Routine[] = [];
+export function GetRoutines(): IRoutine[] {
+  const routines: IRoutine[] = [];
 
   for (let i = 0; i < 20; i++) {
     routines.push({
@@ -14,6 +14,7 @@ export function GetRoutines(): Routine[] {
       to make world better place`,
       hours: 7,
       name: "English",
+      hoursSpended: 2,
     });
   }
   return routines;

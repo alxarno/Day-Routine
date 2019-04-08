@@ -56,9 +56,9 @@ export class OS implements IOS {
     return readFile(path);
   }
 
-  public setSettings(s: IOSSettings): void {
-    // this.settings = s;
-  }
+  // public setSettings(s: IOSSettings): void {
+  //   // this.settings = s;
+  // }
 
   public writeFile(path: string, data: string) {
     return writeFile(path, data);

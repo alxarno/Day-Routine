@@ -17,5 +17,5 @@
 // }
 
 export interface IDB {
-  transaction: () => void;
+  transaction: ((() => void) | ((callback: any) => Promise<void>));
 }

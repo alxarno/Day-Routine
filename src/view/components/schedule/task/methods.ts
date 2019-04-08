@@ -1,5 +1,5 @@
 import {WrapperStyleInterface} from "./interfaces";
-import {Color} from "src/view/color.themes";
+import {IColor} from "src/view/color.themes";
 
 export function CheckCurrentTask(start: number, hours: number): boolean {
   const d = new Date();
@@ -12,7 +12,7 @@ export function CheckCurrentTask(start: number, hours: number): boolean {
 }
 
 export function ComputeWrapperStyle(
-  taskColor: Color,
+  taskColor: IColor,
   taskHours: number,
   currentTaskActive: boolean,
   wrapperStyleBase: WrapperStyleInterface,
@@ -32,11 +32,15 @@ export function ComputeWrapperStyle(
 export function ShortDescribe(describe: string, hours: number): string {
   const lettersPerHour: number = 35;
   let finalDescribe: string = "";
-  if (describe.length >= hours * lettersPerHour) {
-    finalDescribe = describe.substring(0, lettersPerHour * Math.pow(hours, 2)) + "...";
-  } else {
-    finalDescribe = describe;
-  }
+  finalDescribe = (describe.length >= hours * lettersPerHour ?
+    describe.substring(0, lettersPerHour * Math.pow(hours, 2)) + "..." :
+    describe
+  );
+  // if (describe.length >= hours * lettersPerHour) {
+  //   finalDescribe = describe.substring(0, lettersPerHour * Math.pow(hours, 2)) + "...";
+  // } else {
+  //   finalDescribe = describe;
+  // }
   return finalDescribe;
 }
 

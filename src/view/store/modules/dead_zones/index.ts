@@ -1,5 +1,5 @@
 import { Module } from "vuex";
-import {DeadZone} from "src/models/dead_zone";
+import {IDeadZone} from "src/models/dead_zone";
 import { IDeadZoneState } from "./types";
 
 import {getters} from "./getters";
@@ -7,24 +7,24 @@ import {actions} from "./actions";
 import {mutations} from "./mutations";
 import { RootState } from "../../types";
 
-const dz: DeadZone[] = [
-  {
-    ID: 0,
-    start: 0,
-    done: 10,
-    enable: true,
-    name: "Sleep",
-    disabled_days: [0, 3],
-  },
-  {
-    ID: 1,
-    start: 13,
-    done: 14,
-    enable: false,
-    name: "Deener",
-    disabled_days: [],
-  },
-];
+// const dz: IDeadZone[] = [
+//   {
+//     ID: 0,
+//     start: 0,
+//     done: 10,
+//     enable: true,
+//     name: "Sleep",
+//     disabled_days: [0, 3],
+//   },
+//   {
+//     ID: 1,
+//     start: 13,
+//     done: 14,
+//     enable: false,
+//     name: "Deener",
+//     disabled_days: [],
+//   },
+// ];
 
 export const state: IDeadZoneState = {
     currentItem: -1,

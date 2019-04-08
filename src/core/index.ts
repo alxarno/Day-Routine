@@ -14,7 +14,6 @@ import {ICache} from "src/interfaces/cache";
 import {ScheduleCore} from "./modules/schedule";
 import {SettingsCore} from "./modules/settings";
 import { IOS } from "src/interfaces/os";
-import { OS } from "src/os";
 import { INowTask } from "src/models/now.tasks";
 import { IRoutine } from "src/models/routines.routine";
 import { IDeadZone } from "src/models/dead_zone";
@@ -109,7 +108,7 @@ export class Core implements ICore {
   }
 
   private settingsApply(settings: ISettings): void {
-    this.os.setSettings({Notifications: settings.Notifications});
+    // this.os.setSettings({Notifications: settings.Notifications});
     return;
   }
 }

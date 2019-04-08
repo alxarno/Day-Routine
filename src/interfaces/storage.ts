@@ -21,7 +21,7 @@ export interface IStatisticsStorage {
 }
 
 export interface IRoutinesStorage {
-  Get: () => Promise< IRoutine[]>;
+  Get: (args?: any) => Promise< IRoutine[]>;
   Create: (routine: IRoutine) => void;
   Delete: (unit: any) => Promise<void>;
   Update: (unit: any) => void;

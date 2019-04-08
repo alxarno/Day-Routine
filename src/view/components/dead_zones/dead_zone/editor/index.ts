@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Component from "vue-class-component";
-import {DeadZone} from "src/models/dead_zone";
+import {IDeadZone} from "src/models/dead_zone";
 import {Times, TimeHalf} from "./interfaces";
 import CircleComponent from "./circle";
 import SwitchComponent from "./switch-time-zone";
@@ -22,7 +22,7 @@ const namespace: string = "deadZones";
   },
   props: {
     zone: {
-      type: Object as () => DeadZone,
+      type: Object as () => IDeadZone,
     },
     time: {
       type: Object as () => Times,
