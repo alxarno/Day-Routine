@@ -49,12 +49,7 @@ For auto rebuild webpack execute `watch.dev.sh`
 
 Build available by [electron-packager](https://github.com/electron-userland/electron-packager)
 
-You can execute `build.sh` to build for current platform or for [certain](https://github.com/electron-userland/electron-packager#from-the-command-line) execute code below
-
-```
-webpack
-electron-packager ./ Day-Routine —icon="./res/images/routinelogo@medium.png" --platform=<platform> --arch=<arch>
-```
+You can execute `build.sh` to build for current platform or for [certain](https://github.com/electron-userland/electron-packager#from-the-command-line) 
 
 License
 ----
