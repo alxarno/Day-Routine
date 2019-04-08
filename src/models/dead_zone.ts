@@ -1,8 +1,8 @@
-export interface DeadZone{
+export interface IDeadZone {
   name: string;
-  start:number;
+  start: number;
   done: number;
-  enable:boolean;
-  disabled_days: Array<number>;
-  ID:number;
+  enable: boolean;
+  disabled_days: number[];
+  ID: number;
 }

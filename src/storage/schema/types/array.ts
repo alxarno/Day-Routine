@@ -1,18 +1,13 @@
-export default class ShcemaArray implements StorageSchema.IArray{
-  
-  constructor() {
-    
+export default class ShcemaArray implements StorageSchema.IArray {
+  public Serial(val: any[]): string {
+    return JSON.stringify(val);
   }
 
-  Serial(val:Array<any>):string{
-    return JSON.stringify(val)
+  public Deserial(val: string): any[] {
+    return JSON.parse(val);
   }
 
-  Deserial(val:string):Array<any>{
-    return JSON.parse(val)
-  }
-
-  SchemaNativeType():any{
-    return String
+  public SchemaNativeType(): any {
+    return String;
   }
 }

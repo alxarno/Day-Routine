@@ -1,0 +1,94 @@
+.now-body{
+  width: 100vw;
+  height: calc(100vh - 42px);
+  overflow-y: auto; 
+}
+
+.now-wrapper{
+  padding-top: 30px;
+
+  width: 500px;
+  margin: auto;
+  display: flex;
+}
+
+// Time
+.now-time__line{
+  // padding-top: 70px;
+  width: 40px;
+}
+
+.now-hour{
+  span{
+    position: relative;
+    top: ((105px/2) - 3px);
+  }
+  //line-height: 3;
+  height: 115px;
+  //padding-top: 50px;
+  font-family: Roboto-Regular;
+  font-size:  12px;
+  color: $gray;
+}
+
+
+
+
+
+
+// .now-hour:nth-of-type(1){
+//   margin-top: 35px;
+// }
+// Main Schedule
+
+.now-schedule__main{
+  width: 370px;
+  display: inline-block;
+  margin-left: 50px;
+}
+
+.now-separator{
+  width: 350px;
+  height: 1px;
+  background: $light-gray;
+  margin-top: 114px;
+}
+
+
+// Current Tasks
+
+.now-current__tasks{
+  width: 250px;
+  position: relative;
+  left: -340px;
+  //padding-top: 30px;
+}
+
+.now-current__task{
+  // padding: 10px 0px;
+  height: 115px;
+}
+
+// Current Time
+
+.now-current__time{
+  font-family: Roboto-Regular;
+  font-size:  12px;
+  color: $primary-color;
+  display: flex;
+  align-items: center;
+  height: 20px;
+  position: relative;
+  left: -330px;
+}
+
+.now-current__time-line{
+  width: 80px;
+  height: 1px;
+  display: inline-block;
+  background:$primary-color
+}
+
+.now-current__time-value{
+  margin-left: 50px;
+}

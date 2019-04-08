@@ -1,43 +1,35 @@
 TODO:
-  + Create Cash for schedule
-  + Update activities after each hour
+  Change modals to drawers
+    + Change settings modal -> drawer
+    + Change new routine modal -> drawer
 
-  + Save dead zone change
-  + Delete dead zone
+  + Chnage schedule hours display type
+
+  + Fix slider sensitivity and add slider clicks
+
+  + Update Current Day time every minute
+
+  + Add available free time
   
-  + Create routine 
-  + Save routine change
+  + Make free time auto updateable
 
-  + Export data
-  + Import data
+  + Fix task designe in schedule
 
-  + Clear all data
+  + Add to settings notification on/off
 
-  + Notifications systems
+  + Change interfaces (Function -> () => {})
 
-  + FIX Activities is empty in Schedule 
-  + FIX Auto change day time zone
-  + FIX Combobox
-  + FIX Delete Statistics after delete routine
+  + Dead Zone active/disable doesn't save
 
-  + Add cache to storage for dont dreact CRUD
+  + Add history line to routines (past hours/necessary)
 
-  + Detach core and os
+  + Update build script (create separate dir with final files)
 
-  + Storage modules methods to generics 
+  Test schedule gen algorithm:
+    Have tested without history 
 
-  + Add more colors
+  Add cloud-sync support
 
-  + Add tray
+  
 
-  + Add DeadZones week check 
-
-  + Add DeadZones enable check
-
-  + Add build paragraph to README.modules
-
-  Make tests:
-    Make test environment and test:
-      + Database
-      + Storage
-      + Core
+  

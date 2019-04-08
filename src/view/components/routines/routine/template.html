@@ -1,0 +1,20 @@
+<div class="routines-routine">
+  <div>
+      <div class="routines-routine__name"
+      v-bind:style="{color: currentColor.active_color}">
+      {{this.$props.routine.name}}
+    </div>
+    <div class="routines-routine__describe">
+        {{this.$props.routine.describe}}
+      </div>
+    <div class="routines-routine__hours">
+      {{this.$props.routine.hours+"h"}}
+    </div>
+    <div class="routines-routine__settings"
+          v-html="settingsIcon" 
+          v-on:click="settings"/>
+  </div>
+  <div>
+    <div v-bind:style="{background: currentColor.active_color, width: downLineWidth+'%'}"></div>
+  </div>
+</div>

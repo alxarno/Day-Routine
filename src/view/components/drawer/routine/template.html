@@ -1,0 +1,95 @@
+<div class="drawer-routin-wrapper">
+  <h3 class="drawer-title" v-if="currentRoutine.ID==-1">New Routine</h3>
+  <h3 class="drawer-title" v-if="currentRoutine.ID!=-1">Routine Customs</h3>
+  <div class="drawer-routines-row">
+    <div class="drawer-routine-input">
+      <span>Name</span>
+      <input type="text" class="drawer-routine-name" v-model="currentRoutine.name"/>
+    </div>
+  </div>
+  <div class="drawer-routines-row">
+    <div class="drawer-routine-input description">
+      <span>Description</span>
+        <textarea  type="text" class="drawer-routine-description"
+          rows="2" v-model="currentRoutine.describe"/>
+    </div>
+  </div>
+
+  <div class="drawer-routines-row">
+    <div class="drawer-routine-action-wrapper">
+      <div 
+        v-html="file" class="drawer-routine-action"  
+        v-bind:class="[currentRoutine.actionType == 1 ? 'active':'']"
+        v-on:click="click(1)"/>
+      <div class="drawer-routine-separator"/>
+      <div 
+        v-html="link" class="drawer-routine-action" 
+        v-bind:class="[currentRoutine.actionType == 2 ? 'active':'']"
+        v-on:click="click(2)"/>
+      <div class="drawer-routine-separator"/>
+      <div 
+        v-html="nothing" class="drawer-routine-action" 
+        v-bind:class="[currentRoutine.actionType == 3 ? 'active':'']"
+        v-on:click="click(3)"/>
+    </div>
+  </div>
+
+  <div class="drawer-routines-row">
+    <div class="drawer-routine-col-3">
+      <div 
+        class="drawer-routine-input" 
+        v-if="currentRoutine.actionType == 1 ">
+        <span>
+            File
+           <div 
+            class="drawer-routines-file-body-change button-rec" 
+            v-html="pen" 
+            @click="chooseFile"/>
+        </span>
+        
+        <div class="drawer-routine-file-body">
+          {{currentRoutine.actionBody}}
+        </div>      
+      </div>
+      <div class="drawer-routine-input" 
+        v-if="currentRoutine.actionType == 2 ">
+        <span>Link</span>
+        <input type="text" class="drawer-routine-name" 
+          v-model="currentRoutine.actionBody"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="drawer-routines-row">
+    <div class="drawer-routine-color">
+        <span>Color</span>
+        <p/>
+        <dropdown-component 
+          v-bind:items="colors" 
+          v-bind:currentItem="currentColorIndex()" 
+          v-bind="{callback: colorChange}"/>
+    </div>
+  </div>
+
+  <div class="drawer-routines-row">
+    <div class="drawer-routines-slider-wrapper">
+      <slider-component 
+        v-bind:max="20" 
+        v-bind:min="1" 
+        v-bind:now="currentRoutine.hours" 
+        @trigered="sliderTriger" />
+    </div>
+  
+  </div>
+  <div class="drawer-routines-hours-caption">hours / week</div>
+
+  <div class="drawer-routines-row">
+    <div v-if="currentRoutine.ID == -1"
+          class="button-rec drawer-routines-save"
+         @click="create">Create</div>
+    <div v-if="currentRoutine.ID != -1"
+         class="button-rec drawer-routines-delete"
+        @click="deleteRoutineClick">Delete</div>
+
+  </div>
+</div>

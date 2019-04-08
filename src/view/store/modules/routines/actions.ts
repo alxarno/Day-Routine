@@ -1,58 +1,57 @@
 import { ActionTree } from "vuex";
 import { RootState } from "../../types";
 import { IRoutinesState } from "./types";
-import { Routine } from "src/models/routines.routine";
+import { IRoutine } from "src/models/routines.routine";
 import { GetAPI } from "src/view/external.api";
+import {DrawerContent, ModalContent} from "../../api";
+import IStatistics from "src/models/statistics";
 
-export const actions:ActionTree<IRoutinesState, RootState> = {
+export const actions: ActionTree<IRoutinesState, RootState> = {
   newRoutineWindow({commit}) {
-    commit("app/changePopUp", {}, { root: true })
-    commit("drop")
-    commit('newRoutineWindow')
+    commit("app/drawerOpen", DrawerContent.Routine,  { root: true });
   },
-  routineSettingsWindow({commit}){
-    commit("app/changePopUp",{}, { root: true })
-    commit("drop")
-    commit('routineSettingsWindow')
+  routineSettingsWindow({commit}) {
+    commit("app/drawerOpen", DrawerContent.RoutineSettings,  { root: true });
   },
-  currentRoutineChange({commit}, number:number){
-    commit('setCurrentRoutine', {number})
+  currentRoutineChange({commit}, val: number) {
+    commit("setCurrentRoutine", val);
   },
-  async addRoutine({commit},routine:Routine){
-    await GetAPI().Routines().Create(routine)
-    let routines = await GetAPI().Routines().Get()
-    commit('loadedRoutines', {routines})
+  async addRoutine({commit, dispatch}, routine: IRoutine) {
+    await GetAPI().Routines().Create(routine);
+    const routines = await GetAPI().Routines().Get();
+    commit("loadedRoutines", routines);
 
-    commit('setCurrentRoutine', {number:-1})
-    commit('drop')
-    commit("app/changePopUp",{}, { root: true })
+    commit("setCurrentRoutine",  -1);
+    commit("drop");
+    commit("app/drawerClose", {}, { root: true });
+    dispatch("app/setFreeHours", {}, {root: true});
   },
-  async deleteRoutine({commit}, routine:Routine){
-    console.log(routine)
-    await GetAPI().Routines().Delete({ID:routine.ID})
-    let routines = await GetAPI().Routines().Get()
-    commit('loadedRoutines', {routines})
+  async deleteRoutine({commit, dispatch}, routine: IRoutine) {
+    // console.log(routine);
+    await GetAPI().Routines().Delete({ID: routine.ID});
+    const routines = await GetAPI().Routines().Get();
+    commit("loadedRoutines", routines);
+    dispatch("app/setFreeHours", {}, {root: true});
   },
-  // closeRoutines({commit}){
-  //   commit('setCurrentRoutine', {number:-1})
-  //   commit('drop')
-  // },
-  openRoutineSettings({commit}, id:number){
-    commit("drop")
-    commit('setCurrentRoutine', {number:id})
-    commit("app/changePopUp",{}, { root: true })
-    commit('routineSettingsWindow')
-   
+  async loadRoutines({commit}) {
+      commit("loaded");
+      const routines = await GetAPI().Routines().Get();
+      const statistics = await GetAPI().Statistics().Get();
+      routines.forEach((v: IRoutine) => {
+        statistics.forEach((s: IStatistics) => {
+          if (v.ID === s.ID) {
+            v.hoursSpended = s.spent.reduce((x, y) => x + y);
+          }
+        });
+      });
+      commit("loadedRoutines", routines);
   },
-  async loadRoutines({commit}){
-      commit("loaded")
-      let routines = await GetAPI().Routines().Get()
-      commit('loadedRoutines', {routines})
+  async saveRoutine({commit, dispatch}, routine: IRoutine) {
+    commit("setCurrentRoutine", -1);
+    await GetAPI().Routines().Update(routine);
+    commit("loaded");
+    const routines = await GetAPI().Routines().Get();
+    commit("loadedRoutines", routines);
+    dispatch("app/setFreeHours", {}, {root: true});
   },
-  async saveRoutine({commit}, routine:Routine){
-    await GetAPI().Routines().Update(routine)
-    commit("loaded")
-    let routines = await GetAPI().Routines().Get()
-    commit('loadedRoutines', {routines})
-  }
-}
+};

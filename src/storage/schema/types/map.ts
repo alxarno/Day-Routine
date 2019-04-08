@@ -1,18 +1,13 @@
-export default class SchemaMap implements StorageSchema.IMap{
-  
-  constructor() {
-    
+export default class SchemaMap implements StorageSchema.IMap {
+  public Serial(val: object): any {
+    return JSON.stringify(val);
   }
 
-  Serial(val:Object):any{
-    return JSON.stringify(val)
+  public Deserial(val: any): object {
+    return JSON.parse(val);
   }
 
-  Deserial(val:any):Object{
-    return JSON.parse(val)
-  }
-
-  SchemaNativeType():any{
-    return String
+  public SchemaNativeType(): any {
+    return String;
   }
 }

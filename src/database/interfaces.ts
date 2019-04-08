@@ -16,6 +16,6 @@
 //   Delete:Function;
 // }
 
-export interface IDB{
-  transaction:Function
+export interface IDB {
+  transaction: ((() => void) | ((callback: any) => Promise<void>));
 }

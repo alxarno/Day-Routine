@@ -1,0 +1,27 @@
+<div class="now-body" ref="now__body">
+  <div class="now-wrapper">
+    <div class="now-time__line">
+      <div v-for="hour in time"
+            class="now-hour">
+      <span>{{hour}}</span>
+      </div>
+    </div>
+    <div class="now-schedule__main">
+      <div v-for="hour in time"
+           class="now-separator"></div>
+      <div>
+      </div>
+    </div>
+    <div class="now-current__tasks">
+      <task-component class="now-current__task"
+            v-for="task in tasks" v-bind:task="task"/>        
+    </div>
+    <div class="now-current__time"
+         v-bind:style="{ marginTop: currentTimeMarginTop + 'px' }">
+      <div class="now-current__time-line"></div>
+      <div class="now-current__time-value">{{currentTime}}</div>
+    
+    </div>
+  </div> 
+  <free-hours/>
+</div>  

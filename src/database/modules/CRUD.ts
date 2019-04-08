@@ -1,158 +1,149 @@
-import {IDB} from '../interfaces'
+import {IDB} from "../interfaces";
 
-import {ICRUD} from '../../interfaces/database'
+import {ICRUD} from "../../interfaces/database";
 
-import {Request} from './lib'
+import {Request} from "./lib";
 
-export class Crud implements ICRUD{
-  private tableName:string
-  private DB:IDB
-  private debug:boolean
+export class Crud implements ICRUD {
+  private tableName: string;
+  private DB: IDB;
+  private debug: boolean;
 
-  constructor(tableName: string, DBConnection:IDB, debug:boolean){
-    this.tableName = tableName
-    this.DB = DBConnection
-    this.debug = debug
+  constructor(tableName: string, DBConnection: IDB, debug: boolean) {
+    this.tableName = tableName;
+    this.DB = DBConnection;
+    this.debug = debug;
   }
 
-  private getFields(data:{[key:string]:any}):Array<string>{
-    let fields:Array<string> = []
-    for(let field in data){
-      fields.push(field)
+  public async Get(args?: any) {
+    let arg: {[key: string]: any} = {ID: -1};
+    for (const a of arguments) {
+      arg = a;
     }
 
-    return fields
-  }
+    let requestString = "";
+    let requestData = [];
 
-  async Get(){
-    let arg:{[key:string]:any} = {ID:-1}
-    for (var i = 0; i < arguments.length; i++) {
-      arg = arguments[i]
+    if (arg.ID !== -1) {
+      const fields: string[] = this.getFields(arg);
+
+      const valueTemplates: any[] = fields.map((val) => val + " = ?");
+      const valuesTemplatesString: string = valueTemplates.join(" AND ");
+
+      requestData = fields.map((val) => arg[val]);
+
+      requestString = "SELECT * FROM " + this.tableName + " WHERE " + valuesTemplatesString;
+    } else {
+      requestString = "SELECT * FROM " + this.tableName;
+    }
+    if (this.debug) {
+      console.log("===================");
+      console.log(requestString);
+      console.log("===================");
     }
 
-    let requestString = ""
-    let requestData = []
-
-    if(arg.ID !=-1){
-      let fields:Array<string> = this.getFields(arg)
-
-      let valueTemplates:Array<any> = fields.map((val)=>{return val+" = ?"})
-      let valuesTemplatesString:string = valueTemplates.join(" AND ")
-
-      requestData = fields.map((val)=>arg[val])
-
-      requestString = "SELECT * FROM "+this.tableName+" WHERE "+valuesTemplatesString
-    }else{
-      requestString = "SELECT * FROM "+this.tableName
-    }
-    if(this.debug){
-      console.log("===================")
-      console.log(requestString)
-      console.log("===================")
-    }
-
-    let promise = Request(
+    const promise = Request(
       requestString,
-      requestData,this.DB)
+      requestData, this.DB);
 
-    let data = await promise
+    const data = await promise;
 
-    return data.rows
+    return data.rows;
   }
 
-  async Insert(data:{[key:string]:any}):Promise<number>{
-    let fields:Array<string> = this.getFields(data)
+  public async Insert(data: {[key: string]: any}): Promise<number> {
+    const fields: string[] = this.getFields(data);
     fields.splice(fields.indexOf("ID"), 1);
-   
 
-    let values:Array<any> = fields.map((val)=>data[val])
-    let questionMarks:Array<any> = fields.map(()=>'?')
+    const values: any[] = fields.map((val) => data[val]);
+    const questionMarks: any[] = fields.map(() => "?");
 
+    const querryString = `INSERT INTO ` + this.tableName +
+    ` (` + fields.toString() + `) VALUES (` + questionMarks.toString() + `)`;
 
-    let querryString = `INSERT INTO `+this.tableName+
-    ` (`+fields.toString()+`) VALUES (`+questionMarks.toString()+`)`
-
-    if(this.debug){
-      console.log("++++++++++++++++++")
-      console.log(querryString)
-      console.log("++++++++++++++++++")
+    if (this.debug) {
+      console.log("++++++++++++++++++");
+      console.log(querryString);
+      console.log("++++++++++++++++++");
     }
-    
-    
-    let promise = Request(
+
+    const promise = Request(
       querryString,
       values,
-      this.DB)
-    
-    let somedata = await promise
-    return somedata.insertId
+      this.DB);
+
+    const somedata = await promise;
+    return somedata.insertId;
   }
 
-
-  async Update(data:{[key:string]:any}){
-    if(!data.hasOwnProperty('ID')){
-      throw "Argument haven't ID property"
+  public async Update(data: {[key: string]: any}) {
+    if (!data.hasOwnProperty("ID")) {
+      throw new Error("Argument haven't ID property");
     }
 
-    let fields:Array<string> = this.getFields(data)
+    const fields: string[] = this.getFields(data);
 
-    fields.splice(fields.indexOf('ID'),1)
+    fields.splice(fields.indexOf("ID"), 1);
 
-    let valueTemplates:Array<any> = fields.map((val)=>{return val+" = ?"})
-    let valuesTemplatesString:string = valueTemplates.join(",")
+    const valueTemplates: any[] = fields.map((val) => val + " = ?");
+    const valuesTemplatesString: string = valueTemplates.join(",");
 
-    let querryString = `UPDATE `+this.tableName+` SET `+
-      valuesTemplatesString+` WHERE ID=?`
+    const querryString = `UPDATE ` + this.tableName + ` SET ` +
+      valuesTemplatesString + ` WHERE ID=?`;
 
-    
+    let valuesArray =  fields.map((val) => data[val]);
+    valuesArray =  [...valuesArray, data.ID];
 
-    let valuesArray =  fields.map((val)=>data[val])
-    valuesArray =  [...valuesArray, data['ID']]
-
-    if(this.debug){
-      console.log("******************")
-      console.log(querryString)
-      console.log("******************")
+    if (this.debug) {
+      console.log("******************");
+      console.log(querryString);
+      console.log("******************");
     }
 
-    // console.log(querryString)
-    // console.log(valuesArray)
-
-    let promise = Request(
+    const promise = Request(
       querryString,
       valuesArray,
-      this.DB)
+      this.DB);
 
-    await promise
+    await promise;
   }
 
-  async Delete(){
-    let arg:{[key:string]:any} = {id:-1}
-    for (var i = 0; i < arguments.length; i++) {
-      arg = arguments[i]
+  public async Delete(args?: any) {
+    let arg: {[key: string]: any} = {id: -1};
+    for (const a of arguments) {
+      arg = a;
     }
 
-    let fields:Array<string> = this.getFields(arg)
+    const fields: string[] = this.getFields(arg);
 
-    let questionMarks:Array<any> = fields.map(()=>'?') 
+    const questionMarks: any[] = fields.map(() => "?");
 
-    let valueTemplates:Array<any> = fields.map((val)=>{return val+" = ?"})
-    let valuesTemplatesString:string = valueTemplates.join(" AND ")
+    const valueTemplates: any[] = fields.map((val) => val + " = ?");
+    const valuesTemplatesString: string = valueTemplates.join(" AND ");
 
-    let valuesArray =  fields.map((val)=>arg[val])
+    const valuesArray =  fields.map((val) => arg[val]);
 
-    let requestString = "DELETE FROM "+this.tableName+" WHERE "+valuesTemplatesString
-    if(this.debug){
-      console.log("------------------")
-      console.log(requestString)
-      console.log("------------------")
+    const requestString = "DELETE FROM " + this.tableName + " WHERE " + valuesTemplatesString;
+    if (this.debug) {
+      console.log("------------------");
+      console.log(requestString);
+      console.log("------------------");
     }
 
-    let promise = Request(
+    const promise = Request(
       requestString,
-      valuesArray,this.DB)
+      valuesArray, this.DB);
 
-    await promise
+    await promise;
+  }
+
+  private getFields(data: {[key: string]: any}): string[] {
+    const fields: string[] = [];
+    for (const field in data) {
+      fields.push(field);
+    }
+
+    return fields;
   }
 
 }

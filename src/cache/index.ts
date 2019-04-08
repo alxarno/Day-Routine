@@ -1,36 +1,50 @@
-import {ICache} from 'src/interfaces/cache'
+import {ICache} from "src/interfaces/cache";
 
-export class CashLocalStorage implements ICache{
-	mystorage:Storage
+interface IPacket {
+  date: string;
+  body: any;
+}
 
-	constructor(){
-		this.mystorage = window.localStorage
-	}
+export class CashLocalStorage implements ICache {
+public mystorage: Storage;
 
-	private getDate():string{
-		let dateObj = new Date();
-		let month = dateObj.getUTCMonth() + 1; //months from 1-12
-		let day = dateObj.getUTCDate();
-		let year = dateObj.getUTCFullYear();
+constructor() {
+  this.mystorage = window.localStorage;
+}
 
-		return year +""+ month +"" + day+"_";
-	}
+public Set(body: any) {
+  const data: IPacket = {
+    date: this.getDate(),
+    body,
+  };
+  this.mystorage.setItem("cash", JSON.stringify(data));
+}
 
-	Set(body:string){
-		this.mystorage.setItem(this.getDate()+"cash", body)
-	}
+public Get(): string {
+  const result = this.mystorage.getItem("cash");
+  if (result == null || result === "") {
+    this.Clear();
+    return this.Get();
+  }
+  const data: IPacket = JSON.parse(result);
+  if (data.date !== this.getDate()) {
+    this.Clear();
+    return this.Get();
+  } else {
+    return data.body;
+  }
+}
 
-	Get():string{
-		 let result = this.mystorage.getItem(this.getDate()+"cash")
-		 if (result == null) {
-		 	this.Set("{}");
-		 	return this.Get();
-		 };
-		 return result
-	}
+public Clear() {
+   this.Set([]);
+}
 
-	Clear(){
-    this.mystorage.clear()
-    this.Set("{}");
-	}
+private getDate(): string {
+  const dateObj = new Date();
+  const month = dateObj.getUTCMonth() + 1; // months from 1-12
+  const day = dateObj.getUTCDate();
+  const year = dateObj.getUTCFullYear();
+
+  return year + "" + month + "" + day;
+}
 }

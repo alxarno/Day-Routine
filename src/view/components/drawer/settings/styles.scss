@@ -1,0 +1,42 @@
+.settingsContentWrapper{
+  width: 100%;
+  padding: 0px 10px;
+  display: inline;
+}
+
+.settings_content{
+}
+
+.settings-body__header{
+  
+  font-size: 20px;
+}
+
+.settings-body__wrapper{
+ 
+}
+
+.settings-body__row{
+  font-family: Roboto-Light;
+  display: block;
+  // width: 100%;
+  margin: 25px 0px;
+  color: $gray;
+  padding: 0px 20px;
+}
+
+.settings-body__action{
+  color: $primary-color;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.settings-body__action:hover{
+  color: lighten($primary-color, 10);
+
+}
+
+.settings-body__value{
+  font-size: 18px;
+  color: #000000;
+}

@@ -1,5 +1,5 @@
-import { NowTask } from "src/models/now.tasks";
+import { INowTask } from "src/models/now.tasks";
 
-export interface IScheduleState{
-  items:Array<NowTask|null>
+export interface IScheduleState {
+  items: Array<INowTask | null>;
 }

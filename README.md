@@ -4,7 +4,7 @@
 
 ![](https://img.shields.io/badge/price-free-%235F2FE1.svg)
 ![](https://img.shields.io/badge/version-1.0.0-green.svg)
-[![CircleCI](https://circleci.com/gh/AlexeyArno/Day-Routine/tree/master.svg?style=svg)](https://circleci.com/gh/AlexeyArno/Day-Routine/tree/master)
+[![CircleCI](https://circleci.com/gh/AlexeyArno/Day-Routine/tree/master.svg?style=shield)](https://circleci.com/gh/AlexeyArno/Day-Routine/tree/master)
 
 > Desktop application is planning routine tasks 
 
@@ -49,12 +49,7 @@ For auto rebuild webpack execute `watch.dev.sh`
 
 Build available by [electron-packager](https://github.com/electron-userland/electron-packager)
 
-You can execute `build.sh` to build for current platform or for [certain](https://github.com/electron-userland/electron-packager#from-the-command-line) execute code below
-
-```
-webpack
-electron-packager ./ Day-Routine —icon="./res/images/routinelogo@medium.png" --platform=<platform> --arch=<arch>
-```
+You can execute `build.sh` to build for current platform or for [certain](https://github.com/electron-userland/electron-packager#from-the-command-line) 
 
 License
 ----

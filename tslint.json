@@ -1,13 +1,16 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
-    ],
-    "jsRules": {},
+    "extends": ["tslint:latest"],
     "rules": {
-      "max-line-length": {
-        "options": [70]
-    },
-    },
-    "rulesDirectory": []
+        "jsx-wrap-multiline": false,
+        "object-literal-sort-keys": false,
+        "no-var-requires": false,
+        "ordered-imports":false,
+        "no-implicit-dependencies": [true, ["src", "assets"]],
+        "no-submodule-imports": [true, "src", "assets"],
+        "no-shadowed-variable": false,
+        "no-namespace": [true, "allow-declarations"],
+        "only-arrow-functions": false,
+        "no-console": false,
+        "forin": false
+    }
 }

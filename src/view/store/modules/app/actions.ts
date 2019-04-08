@@ -1,22 +1,29 @@
 import { ActionTree } from "vuex";
 import { RootState } from "../../types";
 import { IAppState } from "./types";
+import {DrawerContent, ModalContent} from "../../api";
+import { GetAPI } from "src/view/external.api";
 
-export const actions:ActionTree<IAppState, RootState> = {
-  setMenuItem({commit}, number):any {
-    commit('setMenuActivItem', {number})
+export const actions: ActionTree<IAppState, RootState> = {
+  setMenuItem({commit}, val): any {
+    commit("setMenuActivItem",  val);
   },
-  settingsOpenChange({commit}):any {
-    commit("changePopUp")
-    commit('changeSettings')
-  },    
-  closePopUp({commit}):any{
-    commit("routines/drop", {}, { root: true })
-    commit("closeSettings")
-    commit("changePopUp")
+  drawerAction({commit}, val: DrawerContent | -1): void {
+    if (val === -1) {
+      commit("drawerClose");
+    } else {
+      commit("drawerOpen", val);
+    }
   },
-  openPopUp({commit}):any{
-    commit("changePopUp")
+  modalAction({commit}, val: ModalContent | -1): void {
+    if (val === -1) {
+      commit("modalClose");
+    } else {
+      commit("modalOpen", val);
+    }
   },
-
-}
+  async setFreeHours({commit}) {
+    const freeHours = await GetAPI().FreeTime();
+    commit("setFreeHours", freeHours);
+  },
+};

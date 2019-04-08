@@ -1,17 +1,16 @@
 import Vue from "vue";
-import { mapGetters } from 'vuex'
-import store from './store/index'
+import { mapGetters } from "vuex";
+import store from "./store/index";
 import { ICore } from "src/interfaces/core";
 import { RegisterAPI } from "./external.api";
-import MainComponent from './components/main'
+import MainComponent from "./components/main";
 
 // import Vuebar from 'vuebar';
 
 // Vue.use(Vuebar);
 
-
-var CreateView = function(core:ICore){
-  RegisterAPI(core)
+const CreateView = (core: ICore) => {
+  RegisterAPI(core);
   return new Vue({
     el: "#app",
     template: `
@@ -20,24 +19,20 @@ var CreateView = function(core:ICore){
     </div>`,
     store,
     components: {
-      MainComponent
+      MainComponent,
     },
-    data:{
-      style:{
-        filter: "blur(5px)"
-      }
+    data: {
+      style: {
+        filter: "blur(5px)",
+      },
     },
-  
-    methods:{
-      blurShow:function():boolean{
-        return this.$store.state.app.popup_open
+
+    methods: {
+      blurShow(): boolean {
+        return this.$store.state.app.popup_open;
       },
     },
 });
-}
+};
 
-export default CreateView
-
-
-
-
+export default CreateView;

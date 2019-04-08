@@ -2,41 +2,42 @@ import { ActionTree } from "vuex";
 import { RootState } from "../../types";
 import { IDeadZoneState } from "./types";
 import { GetAPI } from "src/view/external.api";
-import { DeadZone } from "src/models/dead_zone";
+import { IDeadZone } from "src/models/dead_zone";
 
-export const actions:ActionTree<IDeadZoneState, RootState> = {
-    setCurrentItem({commit}, number:number) {
-      commit('setActiveDeadZone', {number})
+export const actions: ActionTree<IDeadZoneState, RootState> = {
+    setCurrentItem({commit}, val: number) {
+      commit("setActiveDeadZone",  val);
     },
-    async newDeadZone({commit}) {
-      commit('setActiveDeadZone', {number:-1})
-      // HERE
-      let deadZone:DeadZone={
-        ID:-1,
+    async newDeadZone({commit, dispatch}) {
+      commit("setActiveDeadZone", -1);
+      const deadZone: IDeadZone = {
+        ID: -1,
         name: "Yet another DZ",
-        start:0,
+        start: 0,
         done: 1,
-        enable:false,
-        disabled_days:[]
-      }
-      await GetAPI().DeadZones().Create(deadZone)
-      let deadZones = await GetAPI().DeadZones().Get()
-      commit('loadedDeadZones', {deadZones})
+        enable: false,
+        disabled_days: [],
+      };
+      await GetAPI().DeadZones().Create(deadZone);
+      const deadZones = await GetAPI().DeadZones().Get();
+      commit("loadedDeadZones", deadZones);
+      dispatch("app/setFreeHours", {}, {root: true});
     },
-    async loadDeadZones({commit}){
-      let deadZones = await GetAPI().DeadZones().Get()
-      commit('loadedDeadZones', {deadZones})
+    async loadDeadZones({commit}) {
+      const deadZones = await GetAPI().DeadZones().Get();
+      commit("loadedDeadZones", deadZones);
     },
-    async saveChangedDeadZone({commit}, dead_zone:DeadZone){
-      // console.log(dead_zone)
-      await GetAPI().DeadZones().Update(dead_zone)
-      let deadZones = await GetAPI().DeadZones().Get()
-      commit('loadedDeadZones', {deadZones})
+    async saveChangedDeadZone({commit, dispatch}, deadZone: IDeadZone) {
+      await GetAPI().DeadZones().Update(deadZone);
+      const deadZones = await GetAPI().DeadZones().Get();
+      commit("loadedDeadZones", deadZones);
+      dispatch("app/setFreeHours", {}, {root: true});
     },
-    async deleteDeadZone({commit}, dead_zone:DeadZone){
-      commit('setActiveDeadZone', {number:-1})
-      await GetAPI().DeadZones().Delete({ID:dead_zone.ID})
-      let deadZones = await GetAPI().DeadZones().Get()
-      commit('loadedDeadZones', {deadZones})
-    }
-}
+    async deleteDeadZone({commit, dispatch}, deadZone: IDeadZone) {
+      commit("setActiveDeadZone",  -1);
+      await GetAPI().DeadZones().Delete({ID: deadZone.ID});
+      const deadZones = await GetAPI().DeadZones().Get();
+      commit("loadedDeadZones", deadZones);
+      dispatch("app/setFreeHours", {}, {root: true});
+    },
+};

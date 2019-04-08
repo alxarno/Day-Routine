@@ -1,38 +1,44 @@
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import {State} from 'vuex-class'
+import Vue from "vue";
+import Component from "vue-class-component";
+import {State, Action} from "vuex-class";
 
+import HeaderComponent from "./header";
+import NowComponent from "./schedule";
+import RoutinesComponent from "./routines";
+import DeadZonesComponent from "./dead_zones";
+import ModalsComponent from "./modals";
+import DrawerComponent from "./drawer";
 
-import HeaderComponent from "./header/header";
-import NowComponent from "./now/now";
-import RoutinesComponent from "./routines/routines";
-import DeadZonesComponent from "./dead_zones/dead_zones"
-import ModalsComponent from './modals/modals'
+import * as WithRender from "./template.html";
 
-import * as WithRender from './main.html';
+const namespace: string = "app";
 
-const namespace:string = 'app'
-
-@WithRender 
+@WithRender
 @Component({
-  components:{
+  components: {
     HeaderComponent,
     NowComponent,
     RoutinesComponent,
-    ModalsComponent,
-    DeadZonesComponent
-  }
+    DrawerComponent,
+    DeadZonesComponent,
+  },
 })
 export default class MainComponent extends Vue {
-  @State('menu_active_item', {namespace}) menuActiveItem: any;
-  @State('popup_open', {namespace}) popup_open: any;
+  @State("menuActiveItem", {namespace}) private menuActiveItem?: number;
+  @State("drawer", {namespace}) private drawer?: boolean;
+  @State("modal", {namespace}) private modal?: boolean;
 
-  style = {
-    filter: "blur(5px)"
+  @Action("getSettings", {namespace: "settings"}) private getSettings: any;
+
+  private style = {
+    filter: "blur(5px)",
+  };
+
+  private created() {
+    this.getSettings();
   }
+
   // @Action('newRoutineWindow', { namespace }) newRoutineWindow: any;
   // @Action('routineSettingsWindow', { namespace }) routineSettingsWindow: any;
-
-
 
 }

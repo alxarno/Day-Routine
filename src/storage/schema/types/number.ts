@@ -1,17 +1,13 @@
-export default class SchemaNumber implements StorageSchema.INumber{
-  constructor() {
-    
+export default class SchemaNumber implements StorageSchema.INumber {
+  public Serial(val: number): any {
+    return val;
   }
 
-  Serial(val:number):any{
-    return val
+  public Deserial(val: any): number {
+    return Number(val);
   }
 
-  Deserial(val:any):Number{
-    return Number(val)
-  }
-
-  SchemaNativeType():any{
-    return Number
+  public SchemaNativeType(): any {
+    return Number;
   }
 }
