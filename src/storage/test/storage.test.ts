@@ -68,6 +68,7 @@ test("Storage: Routines Create", async () => {
     hours: 14,
     name: "Task #2",
     hoursSpended: 2,
+    minDurationHours: 1,
   });
   const results: any[] = await storage.Routines().Get();
   expect(results.length).toBe(2);
@@ -83,6 +84,7 @@ test("Storage: Routine Update", async () => {
     hours: 12,
     name: "Task #1",
     hoursSpended: 0,
+    minDurationHours: 1,
   };
   routine.hours = 10;
   await storage.Routines().Update(routine);

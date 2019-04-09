@@ -17,10 +17,10 @@ TODO:
 
   + Review the schedule creating alghoritm
 
-  + Update cache for holding yerstaday schedules
+  + Update cache for holding yesterday schedules
 
-  Add to build script arch choose and deleting build directory
+  + Add to build script arch choose and deleting build directory
 
   + Update current day page after hour done
 
-  Critical warnings in github
+  ? Critical warnings in github
