@@ -9,4 +9,5 @@ export interface IRoutine {
   actionBody: string;
   actionType: Action;
   hoursSpended: number;
+  minDurationHours: number;
 }

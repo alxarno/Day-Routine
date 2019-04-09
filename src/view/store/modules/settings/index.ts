@@ -1,6 +1,6 @@
 import { Module } from "vuex";
 import { ISettingsState } from "./types";
-import { RootState } from "../../types";
+import { IRootState } from "../../types";
 
 import {actions} from "./actions";
 import {mutations} from "./mutations";
@@ -15,7 +15,7 @@ export const state: ISettingsState = {
 
 const namespaced: boolean = true;
 
-export const settings: Module<ISettingsState, RootState> = {
+export const settings: Module<ISettingsState, IRootState> = {
   namespaced,
   state,
   getters,

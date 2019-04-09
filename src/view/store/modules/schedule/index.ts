@@ -1,6 +1,6 @@
 import { Module } from "vuex";
 import { IScheduleState } from "./types";
-import { RootState } from "../../types";
+import { IRootState } from "../../types";
 
 import {actions} from "./actions";
 import {mutations} from "./mutations";
@@ -12,7 +12,7 @@ export const state: IScheduleState = {
 
 const namespaced: boolean = true;
 
-export const schedule: Module<IScheduleState, RootState> = {
+export const schedule: Module<IScheduleState, IRootState> = {
   namespaced,
   state,
   getters,

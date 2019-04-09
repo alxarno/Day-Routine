@@ -1,12 +1,22 @@
 #!/bin/bash
 echo "# Starting webpack builder ..."
+
+while getopts p:a: option
+  do
+    case "${option}"
+      in
+        p) PLATFORM=${OPTARG};;
+        a) ARCH=${OPTARG};;
+      esac
+done
+
 export NODE_ENV='production' && webpack
 buildDir="./build"
 if [ -e "$buildDir" ]; then
   while true; do
     read -p "Directory $buildDir already exist, clear it? " yn
     case $yn in
-        [Yy]* ) rm -rfv $buildDir; break;;
+        [Yy]* ) rm -rf $buildDir; break;;
         [Nn]* ) exit;;
         * ) echo "Please answer yes or no.";;
     esac
@@ -45,4 +55,7 @@ mkdir $buildDir/res
 cp -r ./res/* $buildDir/res
 echo "# Copied all source files"
 echo "# Starting electron-packager ..."
-electron-packager $buildDir Day-Routine —icon='./res/images/routinelogo@medium.png'
+electron-packager $buildDir Day-Routine —icon='./res/images/routinelogo@medium.png' --platform=$PLATFORM --arch=$ARCH
+echo "# Clearing temp directory $buildDir"
+rm -rf $buildDir;
+echo "# Done"

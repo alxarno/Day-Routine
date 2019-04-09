@@ -5,7 +5,7 @@ import { IDeadZoneState } from "./types";
 import {getters} from "./getters";
 import {actions} from "./actions";
 import {mutations} from "./mutations";
-import { RootState } from "../../types";
+import { IRootState } from "../../types";
 
 // const dz: IDeadZone[] = [
 //   {
@@ -33,7 +33,7 @@ export const state: IDeadZoneState = {
 
 const namespaced: boolean = true;
 
-export const deadZones: Module<IDeadZoneState, RootState> = {
+export const deadZones: Module<IDeadZoneState, IRootState> = {
   namespaced,
   state,
   getters,

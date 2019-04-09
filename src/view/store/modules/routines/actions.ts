@@ -1,12 +1,12 @@
 import { ActionTree } from "vuex";
-import { RootState } from "../../types";
+import { IRootState } from "../../types";
 import { IRoutinesState } from "./types";
 import { IRoutine } from "src/models/routines.routine";
 import { GetAPI } from "src/view/external.api";
 import {DrawerContent, ModalContent} from "../../api";
 import IStatistics from "src/models/statistics";
 
-export const actions: ActionTree<IRoutinesState, RootState> = {
+export const actions: ActionTree<IRoutinesState, IRootState> = {
   newRoutineWindow({commit}) {
     commit("app/drawerOpen", DrawerContent.Routine,  { root: true });
   },
@@ -44,14 +44,13 @@ export const actions: ActionTree<IRoutinesState, RootState> = {
           }
         });
       });
+      // console.log("LoadedRoutines");
       commit("loadedRoutines", routines);
   },
   async saveRoutine({commit, dispatch}, routine: IRoutine) {
     commit("setCurrentRoutine", -1);
     await GetAPI().Routines().Update(routine);
-    commit("loaded");
-    const routines = await GetAPI().Routines().Get();
-    commit("loadedRoutines", routines);
+    dispatch("loadRoutines", {});
     dispatch("app/setFreeHours", {}, {root: true});
   },
 };

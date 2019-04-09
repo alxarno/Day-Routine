@@ -51,19 +51,29 @@ export class Core implements ICore {
   }
 
   public HourIsGone(newHour: number) {
-    // console.log(this.Cache.Get());
-    const schedule: Array<INowTask | null> = this.Cache.Get();
-    let lastTask: INowTask | null = null;
+    let schedule: Array<INowTask | null> = this.Cache.Get();
+
+    let lastTaskID: number = -1;
     if (newHour === 0) {
-      if (schedule[23]) {
-        lastTask = (schedule[23] as INowTask);
+      schedule = this.Cache.GetYesterday();
+      if (schedule.length === 0) {return; }
+      if (schedule[schedule.length - 1] != null) {
+        lastTaskID = (schedule[schedule.length - 1] as INowTask).ID;
       }
     } else {
-      if (schedule[newHour - 1]) {
-        lastTask = (schedule[newHour - 1] as INowTask);
-      }
+      schedule.forEach((t) => {
+        const lastHour = newHour - 1;
+        if (t !== null) {
+          if (t.start >= lastHour && lastHour < t.start + t.hours) {
+            lastTaskID = t.ID;
+          }
+        }
+      });
     }
-    if (lastTask) { this.Storage.Statistics().Add({hours: 1, routineID: lastTask.ID}); }
+
+    if (lastTaskID !== -1) {
+      this.Storage.Statistics().Add({hours: 1, routineID: lastTaskID});
+    }
   }
 
   public async FreeTime(): Promise<number> {

@@ -1,3 +1,4 @@
-export interface RootState {
+// tslint:disable-next-line
+export interface IRootState {
 
 }

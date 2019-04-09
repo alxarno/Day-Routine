@@ -3,42 +3,34 @@
         v-bind:style="wrapperStyle"> 
     <div class="task-task__routine-header">
       <div class="task-task__routine-header__name"
-           v-bind:style="{ color: curentColor.active_color}">
-          {{this.$props.task.name}}
-      </div>
+           v-bind:style="{ color: curentColor.active_color}"
+      >{{this.$props.task.name}}</div>
       <div class="task-task__routine-header__time"
             v-bind:style="{ color: curentColor.active_color}">
         {{taskStart+"-"+taskDone}}
       </div>
     </div>
     <div class="task-task__routine-describe"
-        v-bind:style="{ color: curentColor.average_color}">
-      {{describe}}
-    </div>
-    <div class="task-task__routine-action"
-    v-bind:style="{ color: curentColor.upper_average_color}">
-        {{this.$props.task.action}}
-    </div>
+        v-bind:style="{ color: curentColor.average_color}">{{describe}}</div>
+    <!-- <div class="task-task__routine-action"
+    v-bind:style="{ color: curentColor.upper_average_color}">{{this.$props.task.actionBody}}</div> -->
   </div>
 
   <div v-if="task && currentActiveTask" class="task-task__routine-active"
         v-bind:style="wrapperStyle"> 
     <div class="task-task__routine-header">
       <div class="task-task__routine-header__name"
-         >
-          {{this.$props.task.name}}
+         >{{this.$props.task.name}}
       </div>
       <div class="task-task__routine-header__time"
             >
         {{taskStart+"-"+taskDone}}
       </div>
     </div>
-    <div class="task-task__routine-describe">
-      {{describe}}
+    <div class="task-task__routine-describe"
+    >{{describe}}
     </div>
-    <div class="task-task__routine-action">
-        {{this.$props.task.action}}
-    </div>
+    <!-- <div class="task-task__routine-action">{{this.$props.task.actionBody}}</div> -->
   </div>
 
 

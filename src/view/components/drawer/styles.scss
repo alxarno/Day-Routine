@@ -105,6 +105,11 @@
 
 .drawer-routine-file-body{
   color: $gray;
+  white-space: nowrap;
+  overflow: hidden;
+  /* padding: 5px; */
+  text-overflow: ellipsis;
+  margin-top: 10px;
   // margin-left: -4px;
 }
 
@@ -150,6 +155,7 @@
   color: $gray;
   width: 100%;
   text-align: center;
+  margin-top: 10px;
 }
 
 .drawer-routines-save,

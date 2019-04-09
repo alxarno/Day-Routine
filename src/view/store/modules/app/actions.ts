@@ -1,10 +1,10 @@
 import { ActionTree } from "vuex";
-import { RootState } from "../../types";
+import { IRootState } from "../../types";
 import { IAppState } from "./types";
 import {DrawerContent, ModalContent} from "../../api";
 import { GetAPI } from "src/view/external.api";
 
-export const actions: ActionTree<IAppState, RootState> = {
+export const actions: ActionTree<IAppState, IRootState> = {
   setMenuItem({commit}, val): any {
     commit("setMenuActivItem",  val);
   },

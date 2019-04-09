@@ -15,25 +15,22 @@ export function RoutinesHoursPerWeekSpent(activities: IStatistics[]): {[key: num
 
 export function GetCoefficients(
   routines: IRoutine[],
-  routinesSpentHoursPerWeek: {[key: number]: number}): {[key: number]: number} {
+  rtSpentHours: {[key: number]: number}): {[key: number]: number} {
 
   routines.forEach((e: IRoutine) => {
-    if (routinesSpentHoursPerWeek.hasOwnProperty(e.ID)) {
-      // console.log("+++++++++++++++++");
-      // console.log(routinesSpentHoursPerWeek[e.ID], e.hours, e.ID);
-      // console.log("+++++++++++++++++");
-      if (routinesSpentHoursPerWeek[e.ID] > e.hours) {
-        routinesSpentHoursPerWeek[e.ID] = routinesSpentHoursPerWeek[e.ID] - e.hours;
+    if (rtSpentHours.hasOwnProperty(e.ID)) {
+
+      // Reducing activity history for endless scheduling
+      if (rtSpentHours[e.ID] > e.hours) {
+        rtSpentHours[e.ID] = rtSpentHours[e.ID] - e.hours;
         return;
       }
-      // console.log(routinesSpentHoursPerWeek[e.ID]/e.hours)
-      // console.log(routinesSpentHoursPerWeek[e.ID],e.hours, e.ID)
-      routinesSpentHoursPerWeek[e.ID] = routinesSpentHoursPerWeek[e.ID] / e.hours;
-      // console.log(routinesSpentHoursPerWeek[e.ID])
+
+      rtSpentHours[e.ID] = rtSpentHours[e.ID] / e.hours;
     }
   });
 
-  return routinesSpentHoursPerWeek;
+  return rtSpentHours;
 }
 
 export function SortRoutinesByFinishingCoefficients(

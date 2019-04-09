@@ -20,7 +20,7 @@ exports.saveFile = async ()=>{
    let promise = new Promise(function(resolve, reject){
     var d = new Date();
     dialog.showSaveDialog({
-      defaultPath:"./"+d.getDay()+"_"+d.getMonth()+"_"+d.getFullYear()+".day-routine-data.json",
+      defaultPath:"./"+d.getDate()+"_"+(d.getMonth()+1)+"_"+d.getFullYear()+".day-routine-data.json",
       filters: [
         { name: 'Data', extensions: ['json'] },
       ]

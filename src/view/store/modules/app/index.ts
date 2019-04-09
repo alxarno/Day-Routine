@@ -1,6 +1,6 @@
 import { Module } from "vuex";
 import { IAppState } from "./types";
-import { RootState } from "../../types";
+import { IRootState } from "../../types";
 import {DrawerContent, ModalContent} from "../../api";
 
 import {actions} from "./actions";
@@ -10,7 +10,7 @@ import {getters} from "./getters";
 export const state: IAppState = {
     menuActiveItem: 0,
     drawer: false,
-    drawerContent: DrawerContent.Settings,
+    drawerContent: DrawerContent.Routine,
     modal: false,
     modalContent: ModalContent.Some,
     freeHours: 0,
@@ -18,7 +18,7 @@ export const state: IAppState = {
 
 const namespaced: boolean = true;
 
-export const app: Module<IAppState, RootState> = {
+export const app: Module<IAppState, IRootState> = {
   namespaced,
   state,
   getters,

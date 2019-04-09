@@ -15,6 +15,7 @@ export function GetRoutines(): IRoutine[] {
       hours: 7,
       name: "English",
       hoursSpended: 2,
+      minDurationHours: 1,
     });
   }
   return routines;

@@ -1,6 +1,6 @@
 import { Module } from "vuex";
 import { IRoutinesState } from "./types";
-import { RootState } from "../../types";
+import { IRootState } from "../../types";
 
 import {actions} from "./actions";
 import {mutations} from "./mutations";
@@ -16,7 +16,7 @@ export const state: IRoutinesState = {
 
 const namespaced: boolean = true;
 
-export const routines: Module<IRoutinesState, RootState> = {
+export const routines: Module<IRoutinesState, IRootState> = {
   namespaced,
   state,
   getters,

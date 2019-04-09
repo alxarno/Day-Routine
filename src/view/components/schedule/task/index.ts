@@ -9,7 +9,7 @@ import {CheckCurrentTask,
         ComputeWrapperStyle,
         ShortDescribe,
         StartAndDone} from "./methods";
-import {WrapperStyleInterface} from "./interfaces";
+import {IWrapperStyleInterface} from "./interfaces";
 
 import * as WithRender from "./template.html";
 require("./styles.scss");
@@ -29,7 +29,7 @@ export default class Task extends Vue {
   public describe: string = "";
   public taskStart: string = "00:00";
   public taskDone: string = "00:00";
-  public wrapperStyle: WrapperStyleInterface =  {
+  public wrapperStyle: IWrapperStyleInterface =  {
     "borderLeft": "3px solid ",
     "height": "94px",
     "background": "#ffffff",

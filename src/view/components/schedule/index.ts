@@ -25,6 +25,8 @@ export default class NowComponent extends Vue {
   @Action("loadSchedule", { namespace }) public loadSchedule: any;
 
   public time: string[] = GetTimes();
+  // Key for refresh component every hour
+  public key: number = 0;
   public currentTime: string = GetCurrentTime();
   public currentTimeMarginTop: number = GetCurrentTimeMarginTop();
 
@@ -40,6 +42,9 @@ export default class NowComponent extends Vue {
     this.currentTimeMarginTop = GetCurrentTimeMarginTop();
     const seconds = new Date().getSeconds();
     setTimeout(this.TimeMargin.bind(this), (60 - seconds) * 1000);
+    if (new Date().getMinutes() === 0) {
+      this.key++;
+    }
   }
 
 }

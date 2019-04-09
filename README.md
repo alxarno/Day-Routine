@@ -11,7 +11,7 @@
 Application build day's plan according to your free time and needs
 
 ## Capabilities
-- Create tasks (Rotuines)
+- Create tasks (Routines)
 - Create free time (Dead Zones) 
 - Auto produce day's plan
 - Auto open links/files when task will have began
@@ -49,7 +49,15 @@ For auto rebuild webpack execute `watch.dev.sh`
 
 Build available by [electron-packager](https://github.com/electron-userland/electron-packager)
 
-You can execute `build.sh` to build for current platform or for [certain](https://github.com/electron-userland/electron-packager#from-the-command-line) 
+You can execute `build.sh` to build for current 
+
+```
+./build.sh
+```
+or for certain [arch](https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#arch) and [platform](https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#platform)
+```
+./build.sh -p win32 -a x64
+```
 
 License
 ----

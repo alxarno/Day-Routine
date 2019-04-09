@@ -44,16 +44,10 @@ export default class Editor extends Vue {
   }
 
   public triggeredRight(hour: number) {
-    if (this.doneTimeZone === TimeHalf.PM) {
-      hour += 12;
-    }
     this.$props.zone.done = hour;
   }
 
   public trigerredLeft(hour: number) {
-    if (this.startTimeZone === TimeHalf.PM) {
-      hour += 12;
-    }
     this.$props.zone.start = hour;
   }
 

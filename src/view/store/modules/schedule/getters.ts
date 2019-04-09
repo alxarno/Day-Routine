@@ -1,7 +1,7 @@
 import { GetterTree } from "vuex";
 import { IScheduleState } from "./types";
-import { RootState } from "../../types";
+import { IRootState } from "../../types";
 
-export const getters: GetterTree<IScheduleState, RootState> = {
+export const getters: GetterTree<IScheduleState, IRootState> = {
 
 };

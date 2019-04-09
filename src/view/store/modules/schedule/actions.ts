@@ -1,9 +1,9 @@
 import { ActionTree } from "vuex";
-import { RootState } from "../../types";
+import { IRootState } from "../../types";
 import { IScheduleState } from "./types";
 import { GetAPI } from "src/view/external.api";
 
-export const actions: ActionTree<IScheduleState, RootState> = {
+export const actions: ActionTree<IScheduleState, IRootState> = {
   async loadSchedule({commit, dispatch}) {
     commit("clearSchedule");
     const schedule = await GetAPI().Schedule().Get();

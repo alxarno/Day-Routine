@@ -1,10 +1,10 @@
 import { ActionTree } from "vuex";
-import { RootState } from "../../types";
+import { IRootState } from "../../types";
 import { IDeadZoneState } from "./types";
 import { GetAPI } from "src/view/external.api";
 import { IDeadZone } from "src/models/dead_zone";
 
-export const actions: ActionTree<IDeadZoneState, RootState> = {
+export const actions: ActionTree<IDeadZoneState, IRootState> = {
     setCurrentItem({commit}, val: number) {
       commit("setActiveDeadZone",  val);
     },

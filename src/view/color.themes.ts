@@ -30,6 +30,12 @@ export let colors: {[key: string]: IColor} = {
     upper_average_color: "#56a3e4",
     average_color: "#56b6ff",
   },
+  Green: {
+    passiv_color: "#d7ffcc",
+    active_color: "#8ec738",
+    upper_average_color: "#8eec70",
+    average_color: "#a6e547",
+  },
   Default: {
     passiv_color: "#e2e2e2",
     active_color: "#878787",

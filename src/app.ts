@@ -1,6 +1,6 @@
 import CreateView from "./view/view";
 
-import {CashLocalStorage} from "./cache";
+import {CacheLocalStorage} from "./cache";
 import { DataBase as WebSQLDB} from "./database";
 import { Storage } from "./storage";
 import { Core } from "./core";
@@ -18,7 +18,7 @@ const db: WebSQLDB = new WebSQLDB(
   openDatabase("DayRoutine", "0.1", "", 2 * 1024 * 1024));
 
 const sk: IStorageKernel = new StorageKernel(db);
-const cache: ICache = 	new CashLocalStorage();
+const cache: ICache = 	new CacheLocalStorage();
 const settingsStore: ISettingsStore = new SettingsStore();
 const os: IOS = new OS(settingsStore);
 const storage: IStorage = new Storage(sk, cache.Clear.bind(cache));

@@ -18,7 +18,6 @@ export default class CircleComponent extends Vue {
   public x: number = 0;
   public y: number = 0;
   public margin: number = 0;
-  // currentHour: number = 0
 
   public startDrag() {
     this.dragging = true;
@@ -27,7 +26,6 @@ export default class CircleComponent extends Vue {
     this.dragging = false;
   }
   public doDrag(event: MouseEvent) {
-    // console.log("Drag")
     if (this.dragging) {
       const avgX =  event.clientX - this.x;
       this.margin += (avgX / this.MINIMAL_STEP);

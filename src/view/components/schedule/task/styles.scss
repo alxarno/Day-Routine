@@ -3,10 +3,11 @@
   user-select: none;
   width: 250px;
   border-radius: 0px 5px 5px 0px;
-  height: 95px;
   // margin: 10px 0px;
-  position: relative;
-  top: 10px;
+  // height: 95px;
+  // margin: 10px 0px;
+  // position: relative;
+  // top: 10px;
 }
 
 .task-task__routine-header{
@@ -20,6 +21,7 @@
 .task-task__routine-header__name{
   display: inline-block;
   font-size: 18px;
+  padding-left: 5px;
 }
 
 .task-task__routine-header__time{ 
@@ -35,21 +37,26 @@
   font-family: Roboto-Regular;
   font-size: 11px;
   width: 180px;
-  padding-left: 5px;
+  padding-left: 10px;
   min-height: calc(100% - 40px);
   height: auto !important;
   height: calc(100% - 40px);
-  margin: 0 3px -20px; 
+  margin: 0 0px -20px; 
 }
 
 .task-task__routine-action{
-  padding-left: 5px;
-  width: max-content;
+  width: 180px;
+  padding-left: 10px;
+  // width: max-content;
   font-size: 12px;
   text-decoration: underline;
   cursor: pointer;
   height: 20px;
   font-family: Roboto-Regular;
+  white-space: nowrap;
+  overflow: hidden;
+  // padding: 5px;
+  text-overflow: ellipsis;
 }
 
 // Task Routine Current Active
@@ -59,8 +66,8 @@
   width: 250px;
   border-radius: 5px;
   height: 95px;
-  position: relative;
-  top: 10px;
+  // position: relative;
+  // top: 10px;
   --box-shadow-color: palegoldenrod;
   box-shadow: 0px 2.5px 10px 0px var(--box-shadow-color);
 }
@@ -83,6 +90,7 @@
   user-select: none;
   width: 250px;
   height: 95px;
+  // margin: 10px 0px;
   //margin: 13.9px 0px;
   background: linear-gradient(
     45deg,

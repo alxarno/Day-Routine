@@ -4,7 +4,7 @@ import SKEmul from "../../storage/test/StorageKernelEmul";
 import { IStorageKernel } from "../../interfaces/storageKernel";
 import { ICore } from "../../interfaces/core";
 import { Core } from "..";
-import { CashLocalStorage } from "../../cache";
+import { CacheLocalStorage } from "../../cache";
 import { ICache } from "../../interfaces/cache";
 import { OSEmul, ITestOS } from "./os";
 import { IOS } from "../../interfaces/os";
@@ -42,7 +42,7 @@ const sk: IStorageKernel = new SKEmul(
   warehouse,
 );
 
-const cash: ICache = 	new CashLocalStorage();
+const cash: ICache = 	new CacheLocalStorage();
 const storage: IStorage = new Storage(sk, cash.Clear.bind(cash));
 const os: ITestOS = new OSEmul({delay: 50, print: false});
 const settings: ISettingsStore = new SettingsStoreEmul();

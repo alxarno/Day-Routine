@@ -1,37 +1,36 @@
 import {ICache} from "src/interfaces/cache";
+import { INowTask } from "src/models/now.tasks";
 
-interface IPacket {
-  date: string;
-  body: any;
-}
+const cacheName = "cache_";
 
-export class CashLocalStorage implements ICache {
+export class CacheLocalStorage implements ICache {
 public mystorage: Storage;
 
 constructor() {
   this.mystorage = window.localStorage;
 }
 
-public Set(body: any) {
-  const data: IPacket = {
-    date: this.getDate(),
-    body,
-  };
-  this.mystorage.setItem("cash", JSON.stringify(data));
+public Set(body: Array<INowTask | null>) {
+  this.mystorage.setItem(this.getDateName(new Date()), JSON.stringify(body));
 }
 
-public Get(): string {
-  const result = this.mystorage.getItem("cash");
+public Get(): Array<INowTask | null> {
+  const result = this.mystorage.getItem(this.getDateName(new Date()));
   if (result == null || result === "") {
     this.Clear();
     return this.Get();
   }
-  const data: IPacket = JSON.parse(result);
-  if (data.date !== this.getDate()) {
-    this.Clear();
-    return this.Get();
+  return JSON.parse(result);
+}
+
+public GetYesterday(): Array<INowTask | null> {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  const result = this.mystorage.getItem(this.getDateName(d));
+  if (result == null || result === "") {
+    return [];
   } else {
-    return data.body;
+    return JSON.parse(result);
   }
 }
 
@@ -39,12 +38,11 @@ public Clear() {
    this.Set([]);
 }
 
-private getDate(): string {
-  const dateObj = new Date();
+private getDateName(dateObj: Date): string {
   const month = dateObj.getUTCMonth() + 1; // months from 1-12
   const day = dateObj.getUTCDate();
   const year = dateObj.getUTCFullYear();
 
-  return year + "" + month + "" + day;
+  return cacheName + year + "_" + month + "_" + day;
 }
 }
