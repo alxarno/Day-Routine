@@ -12,8 +12,8 @@
       <div>
       </div>
     </div>
-    <div class="now-current__tasks">
-      <task-component class="now-current__task"
+    <div class="now-current__tasks" :key="key">
+      <task-component class="now-current__task" 
             v-for="task in tasks" v-bind:task="task"/>        
     </div>
     <div class="now-current__time"

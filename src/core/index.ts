@@ -51,21 +51,25 @@ export class Core implements ICore {
   }
 
   public HourIsGone(newHour: number) {
-    const schedule: Array<INowTask | null> = this.Cache.Get();
-    // REFACTOR!!!! If  new hour is 0 then lasthour was last day then we need lastDay schedule not today!!!
-    if (newHour === 0) {
-      return;
-    }
-    let lastTaskID: number = -1;
+    let schedule: Array<INowTask | null> = this.Cache.Get();
 
-    schedule.forEach((t) => {
-      const lastHour = newHour - 1;
-      if (t !== null) {
-        if (t.start >= lastHour && lastHour < t.start + t.hours) {
-          lastTaskID = t.ID;
-        }
+    let lastTaskID: number = -1;
+    if (newHour === 0) {
+      schedule = this.Cache.GetYesterday();
+      if (schedule.length === 0) {return; }
+      if (schedule[schedule.length - 1] != null) {
+        lastTaskID = (schedule[schedule.length - 1] as INowTask).ID;
       }
-    });
+    } else {
+      schedule.forEach((t) => {
+        const lastHour = newHour - 1;
+        if (t !== null) {
+          if (t.start >= lastHour && lastHour < t.start + t.hours) {
+            lastTaskID = t.ID;
+          }
+        }
+      });
+    }
 
     if (lastTaskID !== -1) {
       this.Storage.Statistics().Add({hours: 1, routineID: lastTaskID});

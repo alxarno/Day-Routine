@@ -13,15 +13,14 @@ TODO:
 
   + Add few hours sequence of a routine
 
-  Change max hours/routine to max free time (now it's 20 hours/routine)
+  ? Change max hours/routine to max free time (now it's 20 hours/routine)
 
   + Review the schedule creating alghoritm
 
-  Update cash for holding yerstaday schedules
+  + Update cache for holding yerstaday schedules
 
   Add to build script arch choose and deleting build directory
 
-  Update current day page after hour done
+  + Update current day page after hour done
 
-  Test schedule gen algorithm:
-    Have tested without history 
+  Critical warnings in github
