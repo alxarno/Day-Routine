@@ -5,7 +5,7 @@ TODO:
 
   + Export data name(now week day, but need month day)
 
-  Fix the template in routine card description (description margin left in first row)
+  + Fix the template in routine card description (description margin left in first row)
 
   Test that a routine go to statistics after hour done
 

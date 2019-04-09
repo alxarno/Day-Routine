@@ -1,4 +1,4 @@
-export interface WrapperStyleInterface {
+export interface IWrapperStyleInterface {
   borderLeft: string;
   height: string;
   background: string;

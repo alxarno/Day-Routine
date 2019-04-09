@@ -7,7 +7,7 @@ import {IRoutine} from "src/models/routines.routine";
 
 import * as WithRender from "./template.html";
 
-import NewButton from "src/view/default-components/new_button";
+import NewButton from "src/view/default-components/new-button";
 import FreeHours from "src/view/default-components/free-hours";
 
 require("./styles.scss");

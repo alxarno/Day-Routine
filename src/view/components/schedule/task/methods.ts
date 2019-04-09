@@ -1,4 +1,4 @@
-import {WrapperStyleInterface} from "./interfaces";
+import {IWrapperStyleInterface} from "./interfaces";
 import {IColor} from "src/view/color.themes";
 
 export function CheckCurrentTask(start: number, hours: number): boolean {
@@ -15,8 +15,8 @@ export function ComputeWrapperStyle(
   taskColor: IColor,
   taskHours: number,
   currentTaskActive: boolean,
-  wrapperStyleBase: WrapperStyleInterface,
-): WrapperStyleInterface {
+  wrapperStyleBase: IWrapperStyleInterface,
+): IWrapperStyleInterface {
   if (currentTaskActive) {
     wrapperStyleBase.borderLeft = "none";
     wrapperStyleBase.background = taskColor.active_color;
