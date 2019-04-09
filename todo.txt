@@ -3,7 +3,7 @@ TODO:
 
   + Test schedule cash (now schedule is reassemble every hour)
 
-  Export data name(now week day, but need month day)
+  + Export data name(now week day, but need month day)
 
   Fix the template in routine card description (description margin left in first row)
 
