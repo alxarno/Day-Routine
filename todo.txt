@@ -1,35 +1,25 @@
 TODO:
-  Change modals to drawers
-    + Change settings modal -> drawer
-    + Change new routine modal -> drawer
+  + Fix the dead zone editor time selectors 
 
-  + Chnage schedule hours display type
+  Test schedule cash (now schedule is reassemble every hour)
 
-  + Fix slider sensitivity and add slider clicks
+  Export data name(now week day, but need month day)
 
-  + Update Current Day time every minute
+  Fix the template in routine card description (description margin left in first row)
 
-  + Add available free time
-  
-  + Make free time auto updateable
+  Test that a routine go to statistics after hour done
 
-  + Fix task designe in schedule
+  Add few hours sequence of a routine
 
-  + Add to settings notification on/off
+  Add colors to routines
 
-  + Change interfaces (Function -> () => {})
+  Change max hours/routine to max free time (now it's 20 hours/routine)
 
-  + Dead Zone active/disable doesn't save
+  Review the schedule creating alghoritm
 
-  + Add history line to routines (past hours/necessary)
+  Add to build script arch choose and deleting build directory
 
-  + Update build script (create separate dir with final files)
+  Update current day page after hour done
 
   Test schedule gen algorithm:
     Have tested without history 
-
-  Add cloud-sync support
-
-  
-
-  
