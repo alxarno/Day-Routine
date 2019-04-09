@@ -44,14 +44,13 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
           }
         });
       });
+      // console.log("LoadedRoutines");
       commit("loadedRoutines", routines);
   },
   async saveRoutine({commit, dispatch}, routine: IRoutine) {
     commit("setCurrentRoutine", -1);
     await GetAPI().Routines().Update(routine);
-    commit("loaded");
-    const routines = await GetAPI().Routines().Get();
-    commit("loadedRoutines", routines);
+    dispatch("loadRoutines", {});
     dispatch("app/setFreeHours", {}, {root: true});
   },
 };

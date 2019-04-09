@@ -25,7 +25,7 @@ export function ComputeWrapperStyle(
     wrapperStyleBase.background = taskColor.passiv_color;
     wrapperStyleBase.borderLeft += taskColor.active_color;
   }
-  wrapperStyleBase.height = String(taskHours * 94 + taskHours * (taskHours > 1 ? 7 : 0)) + "px";
+  wrapperStyleBase.height = String(taskHours * 94 + (taskHours - 1) * (taskHours > 1 ? 22 : 0)) + "px";
   return wrapperStyleBase;
 }
 
@@ -36,11 +36,6 @@ export function ShortDescribe(describe: string, hours: number): string {
     describe.substring(0, lettersPerHour * Math.pow(hours, 2)) + "..." :
     describe
   );
-  // if (describe.length >= hours * lettersPerHour) {
-  //   finalDescribe = describe.substring(0, lettersPerHour * Math.pow(hours, 2)) + "...";
-  // } else {
-  //   finalDescribe = describe;
-  // }
   return finalDescribe;
 }
 

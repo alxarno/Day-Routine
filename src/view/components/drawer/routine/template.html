@@ -39,17 +39,16 @@
       <div 
         class="drawer-routine-input" 
         v-if="currentRoutine.actionType == 1 ">
-        <span>
-            File
+        <span
+        >File
            <div 
             class="drawer-routines-file-body-change button-rec" 
             v-html="pen" 
             @click="chooseFile"/>
         </span>
         
-        <div class="drawer-routine-file-body">
-          {{currentRoutine.actionBody}}
-        </div>      
+        <div class="drawer-routine-file-body"
+        >{{currentRoutine.actionBody}}</div>      
       </div>
       <div class="drawer-routine-input" 
         v-if="currentRoutine.actionType == 2 ">
@@ -81,7 +80,19 @@
     </div>
   
   </div>
-  <div class="drawer-routines-hours-caption">hours / week</div>
+  <div class="drawer-routines-hours-caption">Hours / Week</div>
+
+  <div class="drawer-routines-row">
+    <div class="drawer-routines-slider-wrapper">
+      <slider-component 
+        v-bind:max="8" 
+        v-bind:min="1" 
+        v-bind:now="currentRoutine.minDurationHours" 
+        @trigered="minimalHoursSequenceTriger" />
+    </div>
+  
+  </div>
+  <div class="drawer-routines-hours-caption">Minimal hours sequence</div>
 
   <div class="drawer-routines-row">
     <div v-if="currentRoutine.ID == -1"

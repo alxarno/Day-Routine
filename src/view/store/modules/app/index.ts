@@ -10,7 +10,7 @@ import {getters} from "./getters";
 export const state: IAppState = {
     menuActiveItem: 0,
     drawer: false,
-    drawerContent: DrawerContent.Settings,
+    drawerContent: DrawerContent.Routine,
     modal: false,
     modalContent: ModalContent.Some,
     freeHours: 0,

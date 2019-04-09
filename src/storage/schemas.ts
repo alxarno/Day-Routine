@@ -15,6 +15,7 @@ const RoutinesSchema: StorageSchema.ISchema  = new Schema("routines", {
   colorScheme: new SchemaString(),
   describe: new SchemaString(),
   hours: new SchemaNumber(),
+  minDurationHours: new SchemaNumber(),
   name: new SchemaString(),
 });
 

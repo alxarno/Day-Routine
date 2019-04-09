@@ -58,6 +58,7 @@ export default class RoutineComponent extends Vue {
     describe: "",
     hours: 1,
     hoursSpended: 0,
+    minDurationHours: 1,
   };
 
   private currentColorIndex(): number {
@@ -90,6 +91,10 @@ export default class RoutineComponent extends Vue {
 
   private sliderTriger(num: number) {
     this.currentRoutine.hours = num;
+  }
+
+  private minimalHoursSequenceTriger(num: number) {
+    this.currentRoutine.minDurationHours = num;
   }
 
   private chooseFile() {

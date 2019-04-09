@@ -7,15 +7,17 @@ TODO:
 
   + Fix the template in routine card description (description margin left in first row)
 
-  Test that a routine go to statistics after hour done
+  + Test that a routine go to statistics after hour done
 
-  Add few hours sequence of a routine
+  + Add colors to routines
 
-  Add colors to routines
+  + Add few hours sequence of a routine
 
   Change max hours/routine to max free time (now it's 20 hours/routine)
 
-  Review the schedule creating alghoritm
+  + Review the schedule creating alghoritm
+
+  Update cash for holding yerstaday schedules
 
   Add to build script arch choose and deleting build directory
 

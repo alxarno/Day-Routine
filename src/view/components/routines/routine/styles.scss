@@ -19,14 +19,14 @@
   display: flex;
   align-items: center;
   width: 500px;
-  height: 45px;
+  height: 46px;
+  margin-top:2px; 
 }
 
 .routines-routine>div:nth-child(2){
   width: 500px;
   background: $light-gray;
   height: 2px;
-  margin-top: 3px;
   border-radius: 0px 0px 5px 5px;
 
   div{
@@ -38,7 +38,9 @@
 .routines-routine__name{
   margin-left: 10px;
   flex-grow: 3;
-  max-width: 163px;
+  font-size: 14px;
+  max-width: 140px;
+  padding-left: 25px;
 }
 
 .routines-routine__hours{

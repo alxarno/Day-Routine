@@ -35,7 +35,6 @@ export default class RoutineComponent extends Vue {
       (this.$props.routine as IRoutine).hours * 100;
       this.downLineWidth = (this.downLineWidth > 100 ? 100 : this.downLineWidth);
     }
-    // console.log((this.$props.routine as IRoutine).describe);
   }
 
   public settings(): void {
