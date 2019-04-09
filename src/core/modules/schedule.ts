@@ -15,9 +15,9 @@ function Copy(d: object): object {
 export class ScheduleCore extends CoreModule implements IScheduleCore {
 
   public async Get(): Promise<Array<INowTask | null>> {
-    const cashShedule: any[] = [];
+    let cashShedule: any[] = [];
     if (this.cash) {
-      // cashShedule = this.cash.Get();
+      cashShedule = this.cash.Get();
     }
     if (cashShedule.length !== 0) {
       return cashShedule;
@@ -50,7 +50,7 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
 
     const IsNowDeadZone = this.IsNowDeadZone;
 
-    const func = function(hour: number) {
+    const func = (hour: number) => {
       if (IsNowDeadZone(deadZones, hour)) {
         finalSchedule.push(null);
         return;
@@ -85,21 +85,12 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
         routinesSeqSorted =
            SortRoutinesByFinishingCoefficients(Copy(routineSpentWeekCoefficients) as {[key: number]: number});
       }
-    }.bind(this);
+    };
 
     Array.from({length: 24}, (x, i) => i).forEach(func);
     if (this.cash) {
       this.cash.Set(finalSchedule);
     }
-    // const abc: Map<number, number> = new Map<number, number>();
-    // for (const t of finalSchedule) {
-    //   if (abc.has((t as any).ID)) {
-    //     abc.set((t as any).ID, (abc.get((t as any).ID) + 1 as any));
-    //   } else {
-    //     abc.set((t as any).ID, 1);
-    //   }
-    // }
-    // console.log(abc);
     return finalSchedule;
   }
 

@@ -1,11 +1,11 @@
 import { ActionTree } from "vuex";
-import { RootState } from "../../types";
+import { IRootState } from "../../types";
 import { ISettingsState } from "./types";
 
 import { GetAPI } from "src/view/external.api";
 import { ISettings } from "src/interfaces/settingsStore";
 
-export const actions: ActionTree<ISettingsState, RootState> = {
+export const actions: ActionTree<ISettingsState, IRootState> = {
   setSettingsMenuItem({commit}, val: number) {
     commit("setSettingsMenuActive", val);
   },

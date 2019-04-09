@@ -1,7 +1,7 @@
 TODO:
   + Fix the dead zone editor time selectors 
 
-  Test schedule cash (now schedule is reassemble every hour)
+  + Test schedule cash (now schedule is reassemble every hour)
 
   Export data name(now week day, but need month day)
 

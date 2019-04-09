@@ -1,8 +1,9 @@
 import {ICache} from "src/interfaces/cache";
+import { INowTask } from "src/models/now.tasks";
 
 interface IPacket {
   date: string;
-  body: any;
+  body: Array<INowTask | null>;
 }
 
 export class CashLocalStorage implements ICache {
@@ -12,7 +13,7 @@ constructor() {
   this.mystorage = window.localStorage;
 }
 
-public Set(body: any) {
+public Set(body: Array<INowTask | null>) {
   const data: IPacket = {
     date: this.getDate(),
     body,
@@ -20,7 +21,7 @@ public Set(body: any) {
   this.mystorage.setItem("cash", JSON.stringify(data));
 }
 
-public Get(): string {
+public Get(): Array<INowTask | null> {
   const result = this.mystorage.getItem("cash");
   if (result == null || result === "") {
     this.Clear();
