@@ -1,12 +1,13 @@
 const electron = require('electron');
 const {Tray} = require('electron')
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+
+const { app, BrowserWindow } = require('electron');
 
 const path = require('path');
 const url = require('url');
 
-var prodEnv = false
+const prodEnv = false
+const htmlPath = "final/index.html";
 
 let mainWindow;
 let tray = null
@@ -19,17 +20,20 @@ function createWindow () {
     minHeight: 540,
     minWidth: 690,
     autoHideMenuBar: true,
-    icon:__dirname+'/res/images/routinelogo@small.png'
+    icon:__dirname+'/final/res/images/routinelogo@small.png',
+    nodeIntegration: true
   };
   mainWindow = new BrowserWindow(params);
 
   mainWindow.setMenu(null);
 
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'final/index.html'),
+    pathname: path.join(__dirname, htmlPath),
     protocol: 'file:',
     slashes: true
   }));
+
+  // mainWindow.loadURL(`file://${__dirname}/final/index.html`)
 
   // Open the DevTools.
 
@@ -43,7 +47,7 @@ function createWindow () {
     mainWindow = null
   })
 
-  tray = new Tray(__dirname+'/res/images/routinelogo@small.png')
+  tray = new Tray(__dirname+'/final/res/images/routinelogo@small.png')
 
   tray.setToolTip('Day-Routine')
   tray.on("click", ()=>{

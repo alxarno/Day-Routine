@@ -1,0 +1,46 @@
+{
+  "name": "day-routine",
+  "version": "1.0.2",
+  "productName": "Day Routine",
+  "description": "Day's schedule organizer",
+  "main": "main.js",
+  "repository": "https://github.com/AlexeyArno/Day-Routine",
+  "author": "AlexeyArno",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "~1.7.8"
+  },
+  "dependencies": {
+    "node-notifier": "^5.2.1"
+  },
+  "build": {
+    "appId": "DayRoutine",
+    "directories":{
+      "output": "../dist"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "portable",
+      "icon": "res/routinelogo@medium.ico"
+    }
+  }
+}

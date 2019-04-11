@@ -34,20 +34,16 @@ Install the dependencies and devDependencies and start the server.
 ```sh
 git clone https://github.com/AlexeyArno/Day-Routine
 cd Day-Routine
-npm install --save-dev 
+yarn
 electron .
 ```
 For automatic open devTools and hot-realod change variable `prodEnv` in `main.js` file.
-Do not forget to change it before building. Also don't forget delete your test information before distribution.
-
 
 For auto rebuild webpack execute `watch.dev.sh` 
 
->Yarn. Use `npm` because electron-packager wrong use dependencies installed by Yarn
-
 ## Build 
 
-Build available by [electron-packager](https://github.com/electron-userland/electron-packager)
+Build available by [electron-builder](https://github.com/electron-userland/electron-builder)
 
 You can execute `build.sh` to build for current 
 
@@ -58,6 +54,7 @@ or for certain [arch](https://github.com/electron-userland/electron-packager/blo
 ```
 ./build.sh -p win32 -a x64
 ```
+Result will appear in `dist` folder
 
 License
 ----

@@ -1,23 +1,16 @@
-import { IOS, IOSSettings } from "src/interfaces/os";
+import { IOS } from "src/interfaces/os";
 import { Action } from "src/models/action";
 import { ISettingsStore } from "src/interfaces/settingsStore";
 import { INowTask } from "src/models/now.tasks";
-// const notifier = window.require('node-notifier')
-const Notif =  (window as any).require("electron").remote.require("./renderer").notifAction;
-const OpenLink =  (window as any).require("electron").remote.require("./renderer").openLink;
-const ExecFile =  (window as any).require("electron").remote.require("./renderer").executeFile;
 
-const readFile =  (window as any).require("electron").
-  remote.require("./renderer").openFile;
-
-const writeFile =  (window as any).require("electron").
-  remote.require("./renderer").writeToFile;
-
-const saveFile =  (window as any).require("electron").
-  remote.require("./renderer").saveFile;
-
-const chooseFile = (window as any).require("electron").
-  remote.require("./renderer").chooseFile;
+import {
+  NotifAction,
+  SaveFile,
+  ChooseFile,
+  OpenFile,
+  WriteToFile,
+  ExecuteFile,
+  OpenLink} from "./methods";
 
 interface IOSProps {
   showNotifs: boolean;
@@ -45,15 +38,15 @@ export class OS implements IOS {
   }
 
   public saveFile() {
-    return saveFile();
+    return SaveFile();
   }
 
   public chooseFile() {
-    return chooseFile();
+    return ChooseFile();
   }
 
   public readFile(path: string) {
-    return readFile(path);
+    return OpenFile(path);
   }
 
   // public setSettings(s: IOSSettings): void {
@@ -61,7 +54,7 @@ export class OS implements IOS {
   // }
 
   public writeFile(path: string, data: string) {
-    return writeFile(path, data);
+    return WriteToFile(path, data);
   }
   private timeOutCallback: (hours: number) => void = () => null;
 
@@ -89,7 +82,7 @@ export class OS implements IOS {
   private execAction(type: Action, body: string) {
     switch (type) {
       case Action.File:
-        ExecFile(body);
+        ExecuteFile(body);
         break;
       case Action.Link:
         OpenLink(body);
@@ -99,7 +92,7 @@ export class OS implements IOS {
 
   private showNotification(t: string, m: string) {
     if (this.settingsStore.Get().Notifications) {
-      Notif(t, m);
+      NotifAction(t, m);
     }
   }
 
