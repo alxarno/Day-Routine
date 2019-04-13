@@ -1,4 +1,4 @@
-<img src="https://github.com/AlexeyArno/Day-Routine/blob/master/res/images/routinelogo@small.png?raw=true" align="right"/>
+<img src="https://github.com/AlexeyArno/Day-Routine/blob/master/final/res/images/routinelogo@small.png?raw=true" align="right"/>
 
 # [Day-Routine](https://github.com/AlexeyArno/Day-Routine)
 
