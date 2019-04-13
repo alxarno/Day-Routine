@@ -12,7 +12,7 @@ const warehouse: any = {
   ],
   routines: [
     {ID: 1, actionBody: "https://localhost:8080", actionType: 2, colorScheme: "default",
-     describe: "1 desc", hours: 12, name: "Task #1"},
+     describe: "1 desc", hours: 12, name: "Task #1", hoursSpended: 3, minDurationHours: 2},
   ],
   dead_zones: [
     {ID: 1, name: "Yet", start: 0, done: 11, enable: 0, disabled_days: "[]"},
@@ -53,6 +53,7 @@ test("Storage: Statistics Delete", async () => {
   // 2 because we added new object early
   expect(rows.length).toBe(2);
 });
+
 test("Storage: Routines Get", async () => {
   const result: any[] = await storage.Routines().Get();
   expect(result.length).toBe(warehouse.routines.length);
