@@ -40,7 +40,7 @@
     },
     "win": {
       "target": "portable",
-      "icon": "res/routinelogo@medium.ico"
+      "icon": "/final/res/images/icon.ico"
     }
   }
 }

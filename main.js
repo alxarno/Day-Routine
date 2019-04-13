@@ -20,7 +20,7 @@ function createWindow () {
     minHeight: 540,
     minWidth: 690,
     autoHideMenuBar: true,
-    icon:__dirname+'/final/res/images/routinelogo@small.png',
+    icon:__dirname+'/final/res/images/icon.png',
     nodeIntegration: true
   };
   mainWindow = new BrowserWindow(params);
@@ -47,7 +47,7 @@ function createWindow () {
     mainWindow = null
   })
 
-  tray = new Tray(__dirname+'/final/res/images/routinelogo@small.png')
+  tray = new Tray(__dirname+'/final/res/images/icon.png')
 
   tray.setToolTip('Day-Routine')
   tray.on("click", ()=>{
