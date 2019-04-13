@@ -1,22 +1,57 @@
 {
-  "name": "Day_Routine",
-  "version": "1.0.1",
+  "name": "day-routine",
+  "version": "1.0.2",
   "productName": "Day Routine",
   "description": "",
   "main": "main.js",
   "scripts": {
     "test": "jest --runInBand",
-    "start": "electron .",
+    "start": "electron-forge start",
     "watch": "webpack --watch"
   },
   "repository": "https://github.com/AlexeyArno/Day-Routine",
   "author": "AlexeyArno",
   "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "dir": "./build"
+      },
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb",
+          "rpm"
+        ]
+      },
+      "electronPackagerConfig": {
+        "packageManager": "yarn"
+      },
+      "electronWinstallerConfig": {
+        "name": "day-routine"
+      },
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "AlexeyArno",
+        "name": ""
+      },
+      "windowsStoreConfig": {
+        "packageName": "",
+        "name": "day-routine"
+      }
+    }
+  },
   "devDependencies": {
     "css-loader": "^0.28.7",
     "electron": "~1.7.8",
-    "electron-builder": "^19.51.0",
-    "electron-installer-windows": "^0.2.0",
+    "electron-forge": "^5.2.4",
+    "electron-prebuilt-compile": "4.0.0",
     "jest": "^23.6.0",
     "rimraf": "^2.6.2",
     "ts-loader": "^3.2.0",
@@ -25,10 +60,13 @@
   },
   "dependencies": {
     "@types/jest": "^23.3.9",
-    "@types/node": "^10.12.5",
+    "@types/node": "^11.13.2",
     "dotenv": "^6.1.0",
     "dotenv-webpack": "^1.5.7",
+    "electron-builder": "^20.39.0",
+    "electron-compile": "^6.4.4",
     "electron-reload": "^1.2.2",
+    "electron-squirrel-startup": "^1.0.0",
     "node-notifier": "^5.2.1",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
@@ -48,10 +86,11 @@
     "vuex-class": "^0.3.1"
   },
   "build": {
-    "appId": "Day Routine",
-    "mac": {
-      "category": "organizer"
-    }
+    "productName": "Day-Routine",
+    "appId": "org.develar.ElectronReact",
+    "files": [
+      "build/"
+    ]
   },
   "jest": {
     "verbose": false,

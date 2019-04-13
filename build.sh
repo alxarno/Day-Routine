@@ -1,5 +1,11 @@
 #!/bin/bash
-echo "# Starting webpack builder ..."
+buildDir="./build"
+mainJSTargetPath="$buildDir/main.js"
+
+#Colors
+PURPLE='\033[0;35m'
+NC='\033[0m'
+
 
 while getopts p:a: option
   do
@@ -10,8 +16,10 @@ while getopts p:a: option
       esac
 done
 
+printf "${PURPLE}# Starting webpack builder...${NC} \n"
+
 export NODE_ENV='production' && webpack
-buildDir="./build"
+
 if [ -e "$buildDir" ]; then
   while true; do
     read -p "Directory $buildDir already exist, clear it? " yn
@@ -22,40 +30,23 @@ if [ -e "$buildDir" ]; then
     esac
   done
 fi
-echo "# Creating $buildDir directory"
+printf "${PURPLE}# Creating $buildDir directory${NC} \n"
 mkdir $buildDir
-echo "# Copying basic source files"
+printf "${PURPLE}# Copying basic source files${NC} \n"
 cp -r ./final $buildDir
 cp main.js $buildDir
-cp renderer.js $buildDir
-echo "{
-  \"name\": \"dayroutine\",
-  \"version\": \"1.0.1\",
-  \"productName\": \"Day Routine\",
-  \"main\": \"main.js\",
-  \"license\": \"MIT\",
-  \"dependencies\": {
-    \"node-notifier\": \"^5.2.1\"
-  },
-  \"build\": {
-    \"appId\": \"Day Routine\",
-    \"mac\": {
-      \"category\": \"organizer\"
-    }
-  }
-}" > $buildDir/package.json
-echo "# Installing dependencies"
+cp $buildDir/final/package.json $buildDir
+rm -rf $buildDir/final/package.json
+printf "${PURPLE}# Installing dependencies${NC} \n"
 cd $buildDir
 npm install
 cd ..
-echo "# main.js switching to production mode"
-sed -i 's/var prodEnv = false/var prodEnv = true/g' $buildDir/main.js
-echo "# Copying resources"
-mkdir $buildDir/res
-cp -r ./res/* $buildDir/res
-echo "# Copied all source files"
-echo "# Starting electron-packager ..."
-electron-packager $buildDir Day-Routine —icon='./res/images/routinelogo@medium.png' --platform=$PLATFORM --arch=$ARCH
-echo "# Clearing temp directory $buildDir"
+printf "${PURPLE}# main.js switching to production mode${NC} \n"
+sed -i 's/const prodEnv = false/const prodEnv = true/g' $mainJSTargetPath
+# sed -i 's$final/index.html$index.html$g' $mainJSTargetPath
+printf "${PURPLE}# Copied all source files${NC} \n"
+printf "${PURPLE}# Starting electron-packager...${NC} \n"
+./node_modules/.bin/electron-builder build --projectDir=$buildDir
+printf "${PURPLE}# Clearing temp directory ${buildDir} ${NC} \n"
 rm -rf $buildDir;
-echo "# Done"
+printf "${PURPLE}# Done${NC} \n"

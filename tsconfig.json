@@ -9,6 +9,10 @@
     "experimentalDecorators": true,
     "target": "es6",
     "baseUrl": "./",
+    "types": [
+      "jest",
+      "node"
+    ],
     "paths": {
        "src/*":["./src/*"]
      }

@@ -13,19 +13,19 @@
 
 @font-face {
   font-family: Roboto-Light;
-  src: url(../res/fonts/Roboto/Roboto-Light.ttf); 
+  src: url(./res/fonts/Roboto/Roboto-Light.ttf); 
 }
 @font-face {
   font-family: Roboto-Medium; 
-  src: url(../res/fonts/Roboto/Roboto-Medium.ttf); 
+  src: url(./res/fonts/Roboto/Roboto-Medium.ttf); 
 }
 @font-face {
   font-family: Roboto-Regular; 
-  src: url(../res/fonts/Roboto/Roboto-Regular.ttf); 
+  src: url(./res/fonts/Roboto/Roboto-Regular.ttf); 
 }
 @font-face {
   font-family: Roboto-Bold; 
-  src: url(../res/fonts/Roboto/Roboto-Bold.ttf); 
+  src: url(./res/fonts/Roboto/Roboto-Bold.ttf); 
 }
 
 body{
