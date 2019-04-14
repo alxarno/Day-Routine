@@ -23,6 +23,7 @@ Application build day's plan according to your free time and needs
 * [Electron](https://electronjs.org/)
 * [SASS](https://sass-lang.com/)
 * [JEST](https://jestjs.io/)
+* [Webpack](https://github.com/webpack)
 
 
 ## Installation and Run
@@ -39,7 +40,7 @@ electron .
 ```
 For automatic open devTools and hot-realod change variable `prodEnv` in `main.js` file.
 
-For auto rebuild webpack execute `watch.dev.sh` 
+For auto rebuild source files by [Webpack](https://github.com/webpack) execute `watch.dev.sh` 
 
 ## Build 
 
@@ -55,6 +56,8 @@ or for certain [arch](https://github.com/electron-userland/electron-packager/blo
 ./build.sh -p win32 -a x64
 ```
 Result will appear in `dist` folder
+
+> If you want change some build params for [electron-builder](https://github.com/electron-userland/electron-builder), change them in [final/package.json](https://github.com/AlexeyArno/Day-Routine/blob/master/final/package.json)
 
 License
 ----
