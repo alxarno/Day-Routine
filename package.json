@@ -12,44 +12,9 @@
   "repository": "https://github.com/AlexeyArno/Day-Routine",
   "author": "AlexeyArno",
   "license": "MIT",
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "dir": "./build"
-      },
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
-      },
-      "electronPackagerConfig": {
-        "packageManager": "yarn"
-      },
-      "electronWinstallerConfig": {
-        "name": "day-routine"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "AlexeyArno",
-        "name": ""
-      },
-      "windowsStoreConfig": {
-        "packageName": "",
-        "name": "day-routine"
-      }
-    }
-  },
   "devDependencies": {
     "css-loader": "^0.28.7",
-    "electron": "~1.7.8",
+    "electron": "^4.1.4",
     "electron-forge": "^5.2.4",
     "electron-prebuilt-compile": "4.0.0",
     "jest": "^23.6.0",
@@ -84,13 +49,6 @@
     "vuebar": "^0.0.20",
     "vuex": "^3.0.1",
     "vuex-class": "^0.3.1"
-  },
-  "build": {
-    "productName": "Day-Routine",
-    "appId": "org.develar.ElectronReact",
-    "files": [
-      "build/"
-    ]
   },
   "jest": {
     "verbose": false,
