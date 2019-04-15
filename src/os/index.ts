@@ -19,13 +19,11 @@ interface IOSProps {
 export class OS implements IOS {
   private settingsStore: ISettingsStore;
   private nowTimeout: any;
-  private firstCall: boolean;
   private getCurrentTask: ((() => Promise<INowTask | null>) | null);
 
   constructor(settingsStore: ISettingsStore) {
     this.settingsStore = settingsStore;
     this.getCurrentTask = null;
-    this.firstCall = true;
     this.timerStart();
   }
 
@@ -67,15 +65,13 @@ export class OS implements IOS {
     if (!this.getCurrentTask) { return; }
 
     const task: INowTask | null = await this.getCurrentTask();
-
-    if (!this.firstCall) {
-      if (this.timeOutCallback) { this.timeOutCallback(date.getHours()); }
-    } else {
-      this.firstCall = false;
-    }
+    if (this.timeOutCallback) { this.timeOutCallback(date.getHours()); }
     if (task != null) {
-        this.showNotification((task as INowTask).name, (task as INowTask).describe);
-        this.execAction((task as INowTask).actionType, (task as INowTask).actionBody);
+        // If tasks is just starting and not continuing
+        if (task.start === date.getHours()) {
+          this.showNotification((task as INowTask).name, (task as INowTask).describe);
+          this.execAction((task as INowTask).actionType, (task as INowTask).actionBody);
+        }
     }
   }
 

@@ -1,26 +1,4 @@
 TODO:
-  + Fix the dead zone editor time selectors 
+  + Fix notification bug (Execute not current task, maybe cause minHours update)
 
-  + Test schedule cash (now schedule is reassemble every hour)
-
-  + Export data name(now week day, but need month day)
-
-  + Fix the template in routine card description (description margin left in first row)
-
-  + Test that a routine go to statistics after hour done
-
-  + Add colors to routines
-
-  + Add few hours sequence of a routine
-
-  ? Change max hours/routine to max free time (now it's 20 hours/routine)
-
-  + Review the schedule creating alghoritm
-
-  + Update cache for holding yesterday schedules
-
-  + Add to build script arch choose and deleting build directory
-
-  + Update current day page after hour done
-
-  ? Critical warnings in github
+  + Fix icon in notification

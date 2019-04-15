@@ -41,10 +41,10 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
   }
 
   public async Get(): Promise<Array<INowTask | null>> {
-    const cashShedule: any[] = [];
+    let cashShedule: any[] = [];
     // Checking already created schedule in cash
     if (this.cash) {
-      // cashShedule = this.cash.Get();
+      cashShedule = this.cash.Get();
     }
     if (cashShedule.length !== 0) {
       return cashShedule;

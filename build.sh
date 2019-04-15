@@ -43,7 +43,7 @@ npm install
 cd ..
 printf "${PURPLE}# main.js switching to production mode${NC} \n"
 sed -i 's/const prodEnv = false/const prodEnv = true/g' $mainJSTargetPath
-# sed -i 's$final/index.html$index.html$g' $mainJSTargetPath
+sed -i 's/const build = false/const build = true/g' $mainJSTargetPath
 printf "${PURPLE}# Copied all source files${NC} \n"
 printf "${PURPLE}# Starting electron-packager...${NC} \n"
 ./node_modules/.bin/electron-builder build --projectDir=$buildDir

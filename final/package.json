@@ -18,6 +18,15 @@
     "directories":{
       "output": "../dist"
     },
+    "extraFiles": [
+      {
+        "from": "final/res/images",
+        "to": "resources",
+        "filter":[
+          "**/*"
+        ]
+      }
+    ],
     "dmg": {
       "contents": [
         {
