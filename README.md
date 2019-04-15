@@ -17,6 +17,8 @@ Application build day's plan according to your free time and needs
 - Auto open links/files when task will have began
 - Support electron notifications and tray
 
+<img src="https://i.imgur.com/WXHdX2T.png"/>
+
 ## Built With
 * [Typescript](http://www.typescriptlang.org/)
 * [Vue](https://vuejs.org/) 
@@ -58,6 +60,15 @@ or for certain [arch](https://github.com/electron-userland/electron-packager/blo
 Result will appear in `dist` folder
 
 > If you want change some build params for [electron-builder](https://github.com/electron-userland/electron-builder), change them in [final/package.json](https://github.com/AlexeyArno/Day-Routine/blob/master/final/package.json)
+
+## Screens
+<img src="https://i.imgur.com/dueRhix.png"/>
+<img src="https://i.imgur.com/CRe9CMR.png"/>
+<img src="https://i.imgur.com/IwqQGww.png"/>
+<img src="https://i.imgur.com/NXpTsEi.png"/>
+<img src="https://i.imgur.com/NXpTsEi.png"/>
+<img src="https://i.imgur.com/uzkimBz.png"/>
+<img src="https://i.imgur.com/UHJNl36.png"/>
 
 License
 ----

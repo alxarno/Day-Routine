@@ -32,8 +32,6 @@ export class Core implements ICore {
     this.Cache = cache;
 
     this.os = os;
-    this.os.registerGetCurrentTask(this.GetCurrentTask.bind(this));
-    this.os.registerTimerCallbcak(this.HourIsGone.bind(this));
 
     this.ScheduleModule = new ScheduleCore({storage: this.Storage, cash: this.Cache});
     this.SettingsModule = new SettingsCore(
@@ -43,11 +41,33 @@ export class Core implements ICore {
         settings_storage: settingsStore,
         settings_apply: this.settingsApply.bind(this),
       });
+    // REGISTER ALL CALLBACKS AFTER SCHEDULE AND SETTINGS MODULE CREATING
+    // CAUSE FUNCS BELOW USE THE MODULES
+    this.os.registerGetCurrentTask(this.GetCurrentTask.bind(this));
+    this.os.registerTimerCallbcak(this.HourIsGone.bind(this));
   }
 
   public async GetCurrentTask(): Promise<INowTask | null> {
     const schedule: Array< INowTask | null> = await this.ScheduleModule.Get();
-    return schedule[new Date().getHours()];
+
+    const targetHOUR = new Date().getHours();
+    let hourCounter = 0;
+    let answer: INowTask | null = null;
+
+    schedule.forEach((v) => {
+      if (hourCounter > targetHOUR) {return; }
+      if (v != null) {
+        if (v.start <= targetHOUR && targetHOUR < v.start + v.hours) {
+          answer = v;
+        }
+        hourCounter += v.hours;
+        return;
+      } else {
+        if (hourCounter === targetHOUR) {answer = null; }
+      }
+      hourCounter++;
+    });
+    return answer;
   }
 
   public HourIsGone(newHour: number) {
@@ -61,10 +81,10 @@ export class Core implements ICore {
         lastTaskID = (schedule[schedule.length - 1] as INowTask).ID;
       }
     } else {
+      const lastHour = newHour - 1;
       schedule.forEach((t) => {
-        const lastHour = newHour - 1;
         if (t !== null) {
-          if (t.start >= lastHour && lastHour < t.start + t.hours) {
+          if (t.start <= lastHour && lastHour < t.start + t.hours) {
             lastTaskID = t.ID;
           }
         }

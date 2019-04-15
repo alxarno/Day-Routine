@@ -1,22 +1,27 @@
 const electron = (window as any).require("electron");
 const req = electron.remote;
 
+const {notif} = req.getGlobal("CONFIG");
+
 const notifier = req.require("node-notifier");
 
 const path = req.require("path");
 const fs = req.require("fs");
 const {dialog, shell} = req;
 
-export const NotifAction = (title: string, message: string) => {
-  notifier.notify(
-    {
-      title,
-      message,
-      icon:  path.join(__dirname, "/res/images/routinelogo@medium.png"),
-      sound: true,
-    },
-  );
-};
+// const {notif} = (window as any).require("electron").remote.getGlobal("CONFIG");
+
+export const NotifAction = notif;
+// (title: string, message: string) => {
+//   notifier.notify(
+//     {
+//       title,
+//       message,
+//       icon: ICON,
+//       sound: true,
+//     },
+//   );
+// };
 
 export const SaveFile = async () => {
    const promise: Promise<string> = new Promise(function(resolve, reject) {

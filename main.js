@@ -1,17 +1,35 @@
 const electron = require('electron');
 const {Tray} = require('electron')
+const notifier = require("node-notifier");
 
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow } = electron;
 
 const path = require('path');
 const url = require('url');
 
 const prodEnv = false
+const build = false
+
 const htmlPath = "final/index.html";
+let ICON = __dirname+'/final/res/images/icon.png';
+ICON = (build ? path.join(process.resourcesPath, "icon.png"): ICON)
+
 
 let mainWindow;
 let tray = null
 
+const NotifAction = (title, message) => {
+  notifier.notify(
+    {
+      title,
+      message,
+      icon: ICON,
+      sound: true,
+    },
+  );
+}
+
+global.CONFIG={PROD: prodEnv, ICON, notif: NotifAction}
 
 function createWindow () {
   var params = {
@@ -20,11 +38,10 @@ function createWindow () {
     minHeight: 540,
     minWidth: 690,
     autoHideMenuBar: true,
-    icon:__dirname+'/final/res/images/icon.png',
+    icon: ICON,
     nodeIntegration: true
   };
   mainWindow = new BrowserWindow(params);
-
   mainWindow.setMenu(null);
 
   mainWindow.loadURL(url.format({
@@ -33,21 +50,19 @@ function createWindow () {
     slashes: true
   }));
 
-  // mainWindow.loadURL(`file://${__dirname}/final/index.html`)
 
   // Open the DevTools.
 
   if (!prodEnv) {
       mainWindow.webContents.openDevTools()
   }
-  // throw new Error(JSON.stringify({env:process.env.NODE_ENV, dev:process.env.DEV_TOOLS}))
 
 
   mainWindow.on('closed', function () {
     mainWindow = null
   })
 
-  tray = new Tray(__dirname+'/final/res/images/icon.png')
+  tray = new Tray(ICON)
 
   tray.setToolTip('Day-Routine')
   tray.on("click", ()=>{
@@ -61,7 +76,7 @@ function createWindow () {
   })
 }
 
-if (!prodEnv) {
+if (!build) {
   require('electron-reload')(__dirname);
 }
 
