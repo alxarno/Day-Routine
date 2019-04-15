@@ -66,7 +66,6 @@ Result will appear in `dist` folder
 <img src="https://i.imgur.com/CRe9CMR.png"/>
 <img src="https://i.imgur.com/IwqQGww.png"/>
 <img src="https://i.imgur.com/NXpTsEi.png"/>
-<img src="https://i.imgur.com/NXpTsEi.png"/>
 <img src="https://i.imgur.com/uzkimBz.png"/>
 <img src="https://i.imgur.com/UHJNl36.png"/>
 
