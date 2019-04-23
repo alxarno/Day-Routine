@@ -40,7 +40,7 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
       routines.forEach((v: IRoutine) => {
         statistics.forEach((s: IStatistics) => {
           if (v.ID === s.ID) {
-            v.hoursSpended = s.spent.reduce((x, y) => x + y);
+            v.hoursSpended = s.spent;
           }
         });
       });

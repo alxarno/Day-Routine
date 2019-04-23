@@ -12,7 +12,7 @@ const warehouse: any = {
   ],
   routines: [
     {ID: 1, actionBody: "https://localhost:8080", actionType: 2, colorScheme: "default",
-     describe: "1 desc", hours: 12, name: "Task #1", hoursSpended: 3, minDurationHours: 2},
+     describe: "1 desc", hours: 12, name: "Task #1", hoursSpended: [1, 1, 1, 0, 0, 0, 0], minDurationHours: 2},
   ],
   dead_zones: [
     {ID: 1, name: "Yet", start: 0, done: 11, enable: 0, disabled_days: "[]"},
@@ -68,7 +68,7 @@ test("Storage: Routines Create", async () => {
     describe: "2 desc",
     hours: 14,
     name: "Task #2",
-    hoursSpended: 2,
+    hoursSpended: [1, 1, 0, 0, 0, 0, 0],
     minDurationHours: 1,
   });
   const results: any[] = await storage.Routines().Get();
@@ -84,7 +84,7 @@ test("Storage: Routine Update", async () => {
     describe: "1 desc",
     hours: 12,
     name: "Task #1",
-    hoursSpended: 0,
+    hoursSpended: [0, 0, 0, 0, 0, 0, 0],
     minDurationHours: 1,
   };
   routine.hours = 10;

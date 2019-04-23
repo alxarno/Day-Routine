@@ -22,9 +22,9 @@ const warehouse: any = {
   ],
   routines: [
     {ID: 2, actionBody: "https://localhost:8080", actionType: 2, colorScheme: "default",
-     describe: "1 desc", hours: 5, name: "Task #1", hoursSpended: 3, minDurationHours: 2},
+     describe: "1 desc", hours: 5, name: "Task #1", hoursSpended: [1, 1, 1, 0, 0, 0, 0], minDurationHours: 2},
     {ID: 3, actionBody: "https://localhost:8080", actionType: 2, colorScheme: "orange",
-     describe: "2 desc", hours: 12, name: "Task #2", hoursSpended: 7, minDurationHours: 3},
+     describe: "2 desc", hours: 12, name: "Task #2", hoursSpended: [1, 1, 1, 1, 1, 1, 1], minDurationHours: 3},
   ],
   dead_zones: [
     {ID: 1, name: "Yet", start: 0, done: 11, enable: 0, disabled_days: "[]"},

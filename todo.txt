@@ -5,7 +5,7 @@ TODO:
 
   + Delete update callbacks in storage
 
-  Draw graphs in routine settings
+  Draw graphs in routine's 
 
   Munis hours in statistics
   

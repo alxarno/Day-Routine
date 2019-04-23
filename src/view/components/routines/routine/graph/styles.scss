@@ -1,0 +1,22 @@
+.routines-routine__graph{
+  margin-right: 25px;
+  cursor: pointer;
+}
+
+.routines-routine__graph>svg{
+  width: 40px;
+  height: 20px;
+}
+
+.routines-routine__graph:hover{
+  svg>path{
+    // transform-origin: 0px 0px;
+    opacity: 0.4;
+  }
+}
+
+
+.routine-svg__path{
+  transition: all 0.3s;
+  
+}

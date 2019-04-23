@@ -14,7 +14,7 @@ export function GetRoutines(): IRoutine[] {
       to make world better place`,
       hours: 7,
       name: "English",
-      hoursSpended: 2,
+      hoursSpended: [1, 1, 0, 0, 0, 0, 0],
       minDurationHours: 1,
     });
   }
