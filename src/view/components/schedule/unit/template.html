@@ -4,7 +4,7 @@
     <div class="task-task__routine-header">
       <div class="task-task__routine-header__name"
            v-bind:style="{ color: curentColor.active_color}"
-      >{{this.$props.task.name}}</div>
+      >{{this.$props.unit.data.name}}</div>
       <div class="task-task__routine-header__time"
             v-bind:style="{ color: curentColor.active_color}">
         {{taskStart+"-"+taskDone}}
@@ -18,7 +18,7 @@
         v-bind:style="wrapperStyle"> 
     <div class="task-task__routine-header">
       <div class="task-task__routine-header__name"
-         >{{this.$props.task.name}}
+         >{{this.$props.unit.data.name}}
       </div>
       <div class="task-task__routine-header__time"
             >
@@ -32,7 +32,7 @@
 
 
   <div v-if="!isItTask" class="task-dead__zone">
-    {{this.$props.task}}
+    {{this.$props.unit.data.name}}
   </div>
 
 

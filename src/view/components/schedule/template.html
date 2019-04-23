@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="now-current__tasks" :key="key">
-      <task-component class="now-current__task" 
-            v-for="task in tasks" v-bind:task="task"/>        
+      <schedule-unit class="now-current__task" 
+            v-for="unit in units" v-bind:unit="unit"/>
     </div>
     <div class="now-current__time"
          v-bind:style="{ marginTop: currentTimeMarginTop + 'px' }">

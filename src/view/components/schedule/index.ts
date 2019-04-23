@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Component from "vue-class-component";
 import {State, Action} from "vuex-class";
-import TaskComponent from "./task";
+import ScheduleUnit from "./unit";
 import FreeHours from "src/view/default-components/free-hours";
 
 import * as WithRender from "./template.html";
@@ -21,10 +21,10 @@ require("./styles.scss");
 const namespace: string = "schedule";
 @WithRender
 @Component({
-  components: { TaskComponent, FreeHours, RefreshButton},
+  components: { ScheduleUnit, FreeHours, RefreshButton},
 })
 export default class NowComponent extends Vue {
-  @State((state) => state.schedule.items) public tasks: any;
+  @State((state) => state.schedule.items) public units: any;
   @Action("loadSchedule", { namespace }) public loadSchedule: any;
   @Action("recreateSchedule", { namespace }) public recreateSchedule: any;
 
@@ -41,11 +41,9 @@ export default class NowComponent extends Vue {
     const elem: HTMLElement = (this.$refs.now__body as HTMLScriptElement);
     elem.scrollTop = GetScrollTop();
     this.TimeMargin();
-    console.log(this.$props);
   }
 
   public refresh(): void {
-    // console.log("refresh");
     this.recreateSchedule();
   }
 

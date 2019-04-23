@@ -3,14 +3,25 @@ import { IScheduleCore } from "src/interfaces/core";
 import { IRoutine } from "src/models/routines.routine";
 import IStatistics from "src/models/statistics";
 import { IDeadZone } from "src/models/dead_zone";
-import { INowTask } from "src/models/now.tasks";
-import { RoutinesHoursPerWeekSpent,
-   GetCoefficients,
-   SortRoutinesByFinishingCoefficients } from "./schedule.methods";
+import { IScheduleUnit, ScheduleUnitType } from "src/models/schedule.unit";
+import {
+  RoutinesHoursPerWeekSpent,
+  GetCoefficients,
+  SortRoutinesByFinishingCoefficients,
+} from "./schedule.methods";
 
 function Copy(d: object): object {
   return {...d};
 }
+
+const defaultDeadZone: IDeadZone = {
+  ID: -1,
+  disabled_days: [],
+  done: 24,
+  start: 0,
+  enable: true,
+  name: "✔️Empty",
+};
 
 export class ScheduleCore extends CoreModule implements IScheduleCore {
   private lastTaskHourSpending: number;
@@ -18,7 +29,7 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
   private rtnSpentWeekCopy: {[key: number]: number};
   private rtnSpentCoefficients: {[key: number]: number};
   private rtnsSeqSorted: number[];
-  private finalSchedule: Array<INowTask | string>;
+  private finalSchedule: IScheduleUnit[];
 
   private routines: IRoutine[];
   private activities: IStatistics[];
@@ -45,7 +56,7 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
     }
   }
 
-  public async Get(): Promise<Array<INowTask | string>> {
+  public async Get(): Promise<IScheduleUnit[]> {
     let cashShedule: any[] = [];
     // Checking already created schedule in cash
     if (this.cache) {
@@ -74,7 +85,11 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
       return true;
     });
     // console.log(this.activities, this.routines);
-    if (this.activities.length === 0 && this.routines.length === 0) { return [...Array(24)].map(() => "Empty"); }
+    if (this.activities.length === 0 && this.routines.length === 0) {
+      return [...Array(24)].map(() => {
+        return {data: defaultDeadZone, _type: ScheduleUnitType.DeadZone};
+      });
+    }
 
     // Get map when {[routine id]: spented hours in last week}
     this.rtnSpentWeek = RoutinesHoursPerWeekSpent(this.activities);
@@ -86,7 +101,10 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
     // Sorting routines by "finishing" coefficients
     this.rtnsSeqSorted  =
        SortRoutinesByFinishingCoefficients(Copy(this.rtnSpentCoefficients) as {[key: number]: number});
-    Array.from({length: 24}, (x, i) => i).forEach(this.taskFromHour.bind(this));
+    // Array.from({length: 24}, (x, i) => i).forEach(this.taskFromHour.bind(this));
+    for (let i = 0; i < 24; i++) {
+      this.taskFromHour(i);
+    }
     if (this.cache) {
       this.cache.Set(this.finalSchedule);
     }
@@ -98,9 +116,10 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
       this.lastTaskHourSpending--;
       return;
     }
-    if (this.isNowDeadZone(hour).found) {
-      this.finalSchedule.push(this.isNowDeadZone(hour).name);
-      return;
+    const nowDeadZone: (IDeadZone | null) = this.isNowDeadZone(hour);
+    if (nowDeadZone) {
+      this.finalSchedule.push({data: nowDeadZone, _type: ScheduleUnitType.DeadZone});
+      return ;
     } else {
       const hoursBeforeDeadZone = this.hoursBeforeDeadZone(hour);
       let routine: IRoutine | null = null;
@@ -122,18 +141,24 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
       };
       finRoutines();
 
-      if (routine == null) {this.finalSchedule.push("Routine didn't find"); return; }
-      console.log("Routine found");
+      if (routine == null) {
+        this.finalSchedule.push({data: defaultDeadZone, _type: ScheduleUnitType.DeadZone});
+        return;
+      }
+      // console.log("Routine found");
       const froutine: IRoutine = routine as IRoutine;
       this.finalSchedule.push({
-        ID: froutine.ID,
-        name: froutine.name,
-        actionBody: froutine.actionBody,
-        actionType: froutine.actionType,
-        color: froutine.colorScheme,
-        describe: froutine.describe,
-        hours: froutine.minDurationHours,
-        start: hour,
+        data: {
+          ID: froutine.ID,
+          name: froutine.name,
+          actionBody: froutine.actionBody,
+          actionType: froutine.actionType,
+          color: froutine.colorScheme,
+          describe: froutine.describe,
+          hours: froutine.minDurationHours,
+          start: hour,
+        },
+        _type: ScheduleUnitType.Task,
       });
 
       this.rtnSpentWeekCopy[froutine.ID]++;
@@ -159,26 +184,25 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
     this.deadZones = [];
   }
 
-  private isNowDeadZone(hour: number): {name: string, found: boolean} {
-    let fin: boolean = false;
-    let result: string = "";
+  private isNowDeadZone(hour: number): (IDeadZone | null) {
+    let result: (IDeadZone | null) = null;
 
     this.deadZones.forEach((dz: IDeadZone) => {
-      if (fin) { return; }
+      if (result) { return; }
       if (dz.start > dz.done) {
-        if (hour >= dz.start || hour < dz.done) { fin = true; result = dz.name; }
+        if (hour >= dz.start || hour < dz.done) { result = dz; }
       } else {
-        if (hour >= dz.start && hour < dz.done) { fin = true; result = dz.name; }
+        if (hour >= dz.start && hour < dz.done) { result = dz; }
       }
     });
 
-    return {name: result, found: fin};
+    return result;
   }
 
   private hoursBeforeDeadZone(hour: number): number {
     let hoursBefore = 0;
     for (let i = hour; i < 23; i++) {
-      if (!this.isNowDeadZone(i).found) {
+      if (!this.isNowDeadZone(i)) {
         hoursBefore++;
       } else {
         return hoursBefore;

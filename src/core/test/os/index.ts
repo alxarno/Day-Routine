@@ -1,6 +1,7 @@
 import { IOS } from "src/interfaces/os";
 import { IRoutine } from "src/models/routines.routine";
 import { INowTask } from "src/models/now.tasks";
+import { IScheduleUnit } from "src/models/schedule.unit";
 
 interface IOSEmulProps {
   print: boolean;
@@ -17,7 +18,7 @@ export interface ITestOS {
   saveFile: () => Promise<string>;
 
   registerTimerCallbcak: (f: (newHour: number) => void) => void;
-  registerGetCurrentTask: (func: () => Promise<INowTask | null>) => void;
+  registerGetCurrentTask: (func: () => Promise<IScheduleUnit>) => void;
 }
 
 export class OSEmul implements ITestOS {
@@ -33,7 +34,7 @@ export class OSEmul implements ITestOS {
     //
   }
 
-  public registerGetCurrentTask(func: () => Promise<INowTask | null>) {
+  public registerGetCurrentTask(func: () => Promise<IScheduleUnit>) {
     //
   }
 

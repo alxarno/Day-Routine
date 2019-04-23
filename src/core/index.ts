@@ -18,6 +18,7 @@ import { INowTask } from "src/models/now.tasks";
 import { IRoutine } from "src/models/routines.routine";
 import { IDeadZone } from "src/models/dead_zone";
 import { ISettingsStore, ISettings } from "src/interfaces/settingsStore";
+import { IScheduleUnit, ScheduleUnitType } from "src/models/schedule.unit";
 
 export class Core implements ICore {
   private Storage: IStorage;
@@ -45,27 +46,35 @@ export class Core implements ICore {
     // CAUSE FUNCS BELOW USE THE MODULES
     this.os.registerGetCurrentTask(this.GetCurrentTask.bind(this));
     this.os.registerTimerCallbcak(this.HourIsGone.bind(this));
+    // this.GetCurrentTask().then((v) => console.log(v));
   }
 
-  public async GetCurrentTask(): Promise<INowTask | null> {
-    const schedule: Array< INowTask | null> = await this.ScheduleModule.Get();
+  public async GetCurrentTask(): Promise<IScheduleUnit> {
+    const schedule: IScheduleUnit[] = await this.ScheduleModule.Get();
 
     const targetHOUR = new Date().getHours();
     let hourCounter = 0;
-    let answer: INowTask | null = null;
+    let answer: IScheduleUnit = {
+      data: {
+        ID: -1,
+        disabled_days: [],
+        done: 24,
+        start: 0,
+        enable: true,
+        name: "Empty",
+      },
+      _type: ScheduleUnitType.DeadZone,
+    };
 
     schedule.forEach((v) => {
       if (hourCounter > targetHOUR) {return; }
-      if (v != null) {
-        if (v.start <= targetHOUR && targetHOUR < v.start + v.hours) {
+
+      const hours: number = (v._type === ScheduleUnitType.DeadZone ? 1 : (v.data as INowTask).hours);
+      if (v.data.start <= targetHOUR && targetHOUR < v.data.start + hours) {
           answer = v;
         }
-        hourCounter += v.hours;
-        return;
-      } else {
-        if (hourCounter === targetHOUR) {answer = null; }
-      }
-      hourCounter++;
+      hourCounter += hours;
+      return;
     });
     return answer;
   }

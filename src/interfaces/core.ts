@@ -3,6 +3,7 @@ import { IDeadZone } from "src/models/dead_zone";
 import { INowTask } from "src/models/now.tasks";
 import { ISettings } from "./settingsStore";
 import IStatistics from "src/models/statistics";
+import { IScheduleUnit } from "src/models/schedule.unit";
 
 export interface ISettingsCore {
   Import: () => void;
@@ -13,7 +14,7 @@ export interface ISettingsCore {
 }
 
 export interface IScheduleCore {
-  Get: () => Promise< Array<INowTask | string> >;
+  Get: () => Promise< IScheduleUnit[] >;
   Clear: () => void;
 }
 
