@@ -9,6 +9,7 @@ import * as WithRender from "./template.html";
 
 import NewButton from "src/view/default-components/new-button";
 import FreeHours from "src/view/default-components/free-hours";
+import { TooltipsPositions } from "src/view/default-components/interfaces";
 
 require("./styles.scss");
 
@@ -36,6 +37,8 @@ export default class RoutinesComponent extends Vue {
 
   private searchIcon: string = searchIcon;
   private addIcon: string = addIcon;
+  private tooltipText: string = "Create new routine";
+  private tooltipPosition: string = TooltipsPositions.Left;
 
   public mounted(): void {
     if (this.loadRoutines) {this.loadRoutines(); }

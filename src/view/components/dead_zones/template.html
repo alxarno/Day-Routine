@@ -11,6 +11,10 @@
       v-bind:active="(index == currentItem)"
       v-bind:currentIndex="index"
       v-bind="{changeActive: change}"/>
-  <new-button v-bind="{click: newDeadZoneHandler}"/>
+  <new-button
+   v-bind:tooltipText="tooltipText"
+   v-bind:click="newDeadZoneHandler"
+   v-bind:tooltipPosition="tooltipPosition"
+  />
   <free-hours/>
 </div>

@@ -5,7 +5,7 @@ import { ISettings, ISettingsStore } from "src/interfaces/settingsStore";
 
 export default abstract class CoreModule {
   protected storage?: IStorage;
-  protected cash?: ICache;
+  protected cache?: ICache;
   protected os?: IOS;
   protected settingsStorage?: ISettingsStore;
   protected settingsApply?: (s: ISettings) => void;
@@ -14,8 +14,8 @@ export default abstract class CoreModule {
     if (props.hasOwnProperty("storage")) {
       this.storage = props.storage;
     }
-    if (props.hasOwnProperty("cash")) {
-      this.cash = props.cash;
+    if (props.hasOwnProperty("cache")) {
+      this.cache = props.cache;
     }
     if (props.hasOwnProperty("os")) {
       this.os = props.os;

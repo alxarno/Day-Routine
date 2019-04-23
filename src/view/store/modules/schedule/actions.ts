@@ -10,4 +10,9 @@ export const actions: ActionTree<IScheduleState, IRootState> = {
     commit("loadedSchedule", {schedule});
     dispatch("app/setFreeHours", {}, {root: true});
   },
+
+  async recreateSchedule({commit, dispatch}) {
+    GetAPI().Schedule().Clear();
+    dispatch("loadSchedule", {});
+  },
 };

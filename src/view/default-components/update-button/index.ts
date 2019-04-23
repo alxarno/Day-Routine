@@ -2,7 +2,9 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import * as WithRender from "./template.html";
 require("./styles.scss");
-const addIcon = require("assets/add.svg");
+const refreshIcon = require("assets/refresh.svg");
+
+import {TooltipsPositions} from "../interfaces";
 
 @WithRender
 @Component({
@@ -12,8 +14,8 @@ const addIcon = require("assets/add.svg");
     tooltipPosition: String,
   },
 })
-export default class ButtonComponent extends Vue {
-  public addIcon: string = addIcon;
+export default class UpdateButtonComponent extends Vue {
+  private refreshIcon: string = refreshIcon;
   private tText: string = "";
   private tPos: string = "";
 
@@ -22,7 +24,7 @@ export default class ButtonComponent extends Vue {
     this.tPos = this.$props.tooltipPosition;
   }
 
-  public onclick(): void {
+  private onclick(): void {
     this.$props.click();
   }
 }

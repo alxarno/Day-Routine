@@ -21,7 +21,8 @@ const sk: IStorageKernel = new StorageKernel(db);
 const cache: ICache = 	new CacheLocalStorage();
 const settingsStore: ISettingsStore = new SettingsStore();
 const os: IOS = new OS(settingsStore);
-const storage: IStorage = new Storage(sk, cache.Clear.bind(cache));
+// const storage: IStorage = new Storage(sk, cache.Clear.bind(cache));
+const storage: IStorage = new Storage(sk, () => {/**/});
 
 const core = new Core(storage, cache, os, settingsStore);
 CreateView(core);

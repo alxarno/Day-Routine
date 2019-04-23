@@ -33,7 +33,7 @@ export class Core implements ICore {
 
     this.os = os;
 
-    this.ScheduleModule = new ScheduleCore({storage: this.Storage, cash: this.Cache});
+    this.ScheduleModule = new ScheduleCore({storage: this.Storage, cache: this.Cache});
     this.SettingsModule = new SettingsCore(
       {
         storage: this.Storage,

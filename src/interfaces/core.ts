@@ -14,6 +14,7 @@ export interface ISettingsCore {
 
 export interface IScheduleCore {
   Get: () => Promise< Array<INowTask | null> >;
+  Clear: () => void;
 }
 
 export interface IDeadZonesCore {

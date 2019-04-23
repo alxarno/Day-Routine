@@ -40,11 +40,17 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
     this.deadZones = [];
   }
 
+  public Clear() {
+    if (this.cache) {
+      this.cache.Clear();
+    }
+  }
+
   public async Get(): Promise<Array<INowTask | null>> {
     let cashShedule: any[] = [];
     // Checking already created schedule in cash
-    if (this.cash) {
-      cashShedule = this.cash.Get();
+    if (this.cache) {
+      cashShedule = this.cache.Get();
     }
     if (cashShedule.length !== 0) {
       return cashShedule;
@@ -82,8 +88,8 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
     this.rtnsSeqSorted  =
        SortRoutinesByFinishingCoefficients(Copy(this.rtnSpentCoefficients) as {[key: number]: number});
     Array.from({length: 24}, (x, i) => i).forEach(this.taskFromHour.bind(this));
-    if (this.cash) {
-      this.cash.Set(this.finalSchedule);
+    if (this.cache) {
+      this.cache.Set(this.finalSchedule);
     }
     return [...this.finalSchedule];
   }

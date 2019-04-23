@@ -36,7 +36,7 @@
   align-items: flex-start;
   justify-content: space-between;
   padding: 0px 20px;
-  margin-top: 35px;
+  margin-top: 25px;
 }
 
 .drawer-routine-input>span{
@@ -72,8 +72,9 @@
   align-items: center;
   padding: 0px 10px;
   justify-content: space-between;
-  position: relative;
-  top: 15px;
+  // position: relative;
+  // top: 15px;
+  margin: auto;
 }
 
 .drawer-routine-action{
@@ -118,7 +119,8 @@
   height: 20px;
   text-align: center;
   display: inline-block;
-  margin-left: 135px;
+  // margin-left: 135px;
+  float: right;
 
 }
 
@@ -136,7 +138,7 @@
 }
 
 .drawer-routine-col-3{
-  width: 190px;
+  width: 100%;
   height: 45px;
 }
 
@@ -155,7 +157,8 @@
   color: $gray;
   width: 100%;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 5px;
+  font-size: 14px;
 }
 
 .drawer-routines-save,
