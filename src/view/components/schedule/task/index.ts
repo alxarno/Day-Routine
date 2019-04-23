@@ -17,13 +17,10 @@ require("./styles.scss");
 @WithRender
 @Component({
   props: {
-    task: {
-      type: Object as () => INowTask,
-    },
+    task: [Object, String],
   },
 })
 export default class Task extends Vue {
-
   public activeTask: number = 9;
   public curentColor: IColor = colors.default;
   public describe: string = "";
@@ -36,9 +33,13 @@ export default class Task extends Vue {
     "--box-shadow-color": "#ffffff",
   };
   public currentActiveTask: boolean = false;
+  private isItTask: boolean = false;
 
   public created() {
-    if (this.$props.task) {
+    // console.log(typeof(this.$props.task));
+    this.isItTask = (typeof(this.$props.task) !== "string");
+    console.log(this.isItTask);
+    if (this.isItTask) {
       // Change color scheme and style
       this.currentActiveTask = CheckCurrentTask(this.$props.task.start, this.$props.task.hours);
 

@@ -7,7 +7,6 @@ import { INowTask } from "src/models/now.tasks";
 import { RoutinesHoursPerWeekSpent,
    GetCoefficients,
    SortRoutinesByFinishingCoefficients } from "./schedule.methods";
-import { routines } from "src/view/store/modules/routines";
 
 function Copy(d: object): object {
   return {...d};
@@ -19,7 +18,7 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
   private rtnSpentWeekCopy: {[key: number]: number};
   private rtnSpentCoefficients: {[key: number]: number};
   private rtnsSeqSorted: number[];
-  private finalSchedule: Array<INowTask | null>;
+  private finalSchedule: Array<INowTask | string>;
 
   private routines: IRoutine[];
   private activities: IStatistics[];
@@ -46,7 +45,7 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
     }
   }
 
-  public async Get(): Promise<Array<INowTask | null>> {
+  public async Get(): Promise<Array<INowTask | string>> {
     let cashShedule: any[] = [];
     // Checking already created schedule in cash
     if (this.cache) {
@@ -74,8 +73,8 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
       if (dz.disabled_days.indexOf(day) !== -1) { return false; }
       return true;
     });
-
-    if (this.activities.length === 0 && this.routines.length === 0) { return [...Array(24)].map(() => null); }
+    // console.log(this.activities, this.routines);
+    if (this.activities.length === 0 && this.routines.length === 0) { return [...Array(24)].map(() => "Empty"); }
 
     // Get map when {[routine id]: spented hours in last week}
     this.rtnSpentWeek = RoutinesHoursPerWeekSpent(this.activities);
@@ -99,8 +98,8 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
       this.lastTaskHourSpending--;
       return;
     }
-    if (this.isNowDeadZone(hour)) {
-      this.finalSchedule.push(null);
+    if (this.isNowDeadZone(hour).found) {
+      this.finalSchedule.push(this.isNowDeadZone(hour).name);
       return;
     } else {
       const hoursBeforeDeadZone = this.hoursBeforeDeadZone(hour);
@@ -123,8 +122,8 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
       };
       finRoutines();
 
-      if (routine == null) {this.finalSchedule.push(null); return; }
-
+      if (routine == null) {this.finalSchedule.push("Routine didn't find"); return; }
+      console.log("Routine found");
       const froutine: IRoutine = routine as IRoutine;
       this.finalSchedule.push({
         ID: froutine.ID,
@@ -160,25 +159,26 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
     this.deadZones = [];
   }
 
-  private isNowDeadZone(hour: number): boolean {
+  private isNowDeadZone(hour: number): {name: string, found: boolean} {
     let fin: boolean = false;
+    let result: string = "";
 
     this.deadZones.forEach((dz: IDeadZone) => {
       if (fin) { return; }
       if (dz.start > dz.done) {
-        if (hour >= dz.start || hour < dz.done) { fin = true; }
+        if (hour >= dz.start || hour < dz.done) { fin = true; result = dz.name; }
       } else {
-        if (hour >= dz.start && hour < dz.done) { fin = true; }
+        if (hour >= dz.start && hour < dz.done) { fin = true; result = dz.name; }
       }
     });
 
-    return fin;
+    return {name: result, found: fin};
   }
 
   private hoursBeforeDeadZone(hour: number): number {
     let hoursBefore = 0;
     for (let i = hour; i < 23; i++) {
-      if (!this.isNowDeadZone(i)) {
+      if (!this.isNowDeadZone(i).found) {
         hoursBefore++;
       } else {
         return hoursBefore;

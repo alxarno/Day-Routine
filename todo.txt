@@ -17,4 +17,4 @@ TODO:
 
   + Update schedule button in `Current Day`
 
-  Change 'DeadZone' to deadzone's name in `Current Day`
+  + Change 'DeadZone' to deadzone's name in `Current Day`

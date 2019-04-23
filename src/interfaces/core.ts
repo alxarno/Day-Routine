@@ -13,7 +13,7 @@ export interface ISettingsCore {
 }
 
 export interface IScheduleCore {
-  Get: () => Promise< Array<INowTask | null> >;
+  Get: () => Promise< Array<INowTask | string> >;
   Clear: () => void;
 }
 
@@ -22,10 +22,6 @@ export interface IDeadZonesCore {
   Create: (zone: IDeadZone) => void;
   Update: (unit: any) => Promise<void>;
   Delete: (unit: any) => Promise<void>;
-  // Get: Function;
-  // Create: Function;
-  // Update: Function;
-  // Delete: Function;
 }
 
 export interface IRoutinesCore {
@@ -33,10 +29,6 @@ export interface IRoutinesCore {
   Create: (routine: IRoutine) => void;
   Delete: (unit: any) => Promise<void>;
   Update: (unit: IRoutine) => void;
-  // Get: Function;
-  // Create: Function;
-  // Update: Function;
-  // Delete: Function;
 }
 
 export interface IStatisticCore {

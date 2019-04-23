@@ -41,6 +41,7 @@ export default class NowComponent extends Vue {
     const elem: HTMLElement = (this.$refs.now__body as HTMLScriptElement);
     elem.scrollTop = GetScrollTop();
     this.TimeMargin();
+    console.log(this.$props);
   }
 
   public refresh(): void {

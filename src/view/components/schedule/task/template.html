@@ -1,5 +1,5 @@
 <div>
-  <div v-if="task && !currentActiveTask" class="task-task__routine"
+  <div v-if="isItTask && !currentActiveTask" class="task-task__routine"
         v-bind:style="wrapperStyle"> 
     <div class="task-task__routine-header">
       <div class="task-task__routine-header__name"
@@ -12,11 +12,9 @@
     </div>
     <div class="task-task__routine-describe"
         v-bind:style="{ color: curentColor.average_color}">{{describe}}</div>
-    <!-- <div class="task-task__routine-action"
-    v-bind:style="{ color: curentColor.upper_average_color}">{{this.$props.task.actionBody}}</div> -->
   </div>
 
-  <div v-if="task && currentActiveTask" class="task-task__routine-active"
+  <div v-if="isItTask && currentActiveTask" class="task-task__routine-active"
         v-bind:style="wrapperStyle"> 
     <div class="task-task__routine-header">
       <div class="task-task__routine-header__name"
@@ -30,12 +28,11 @@
     <div class="task-task__routine-describe"
     >{{describe}}
     </div>
-    <!-- <div class="task-task__routine-action">{{this.$props.task.actionBody}}</div> -->
   </div>
 
 
-  <div v-if="!task" class="task-dead__zone">
-      DeadZone
+  <div v-if="!isItTask" class="task-dead__zone">
+    {{this.$props.task}}
   </div>
 
 
