@@ -34,6 +34,7 @@ export interface IRoutinesCore {
 
 export interface IStatisticCore {
   Get: () => Promise< IStatistics[]>;
+  ChangeSpent: (data: {routineID: number, spent: number[]}) => Promise< boolean>;
 }
 
 export interface ICore {

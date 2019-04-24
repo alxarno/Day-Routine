@@ -4,7 +4,7 @@
   background: #ffffff;
   margin-bottom: 15px;
   box-shadow: 0px 1px 10px -5px rgba(0,0,0,0.5);
-  height: 50px;
+  // height: 50px;
   font-family: Roboto-Regular;
   display: flex;
   // align-items: center;
@@ -15,7 +15,7 @@
   
 }
 
-.routines-routine>div:nth-child(1){
+.routines-routine__name-wrapper{
   display: flex;
   align-items: center;
   width: 500px;
@@ -23,7 +23,7 @@
   margin-top:2px; 
 }
 
-.routines-routine>div:nth-child(2){
+.routine-down-line__wrapper{
   width: 500px;
   background: $light-gray;
   height: 2px;
@@ -41,6 +41,12 @@
   font-size: 14px;
   max-width: 140px;
   padding-left: 25px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.routines-routine__name:hover{
+  opacity: 0.6;
 }
 
 .routines-routine__hours{
@@ -73,4 +79,8 @@
 
 .routines-routine__settings:hover{
   fill: $light-gray;
+}
+
+.routine-down-line__wrapper{
+  height: 2px;
 }

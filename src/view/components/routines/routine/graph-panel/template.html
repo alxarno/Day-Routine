@@ -1,0 +1,87 @@
+<div class="routines-routine__graph-panel">
+  <svg 
+    :key="updateKey"
+    width=500
+    height=180
+    viewBox="0 0 500 180" version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+
+    <defs>
+      <linearGradient 
+        v-bind:id="colortheme.active_color+'graph_panel'"
+        gradientTransform="rotate(-90)"
+        gradientUnits="objectBoundingBox"
+        spreadMethod="reflect">
+        <stop offset="5%"   v-bind:stop-color="colortheme.active_color" stop-opacity="1"/>
+        <stop offset="95%" v-bind:stop-color="colortheme.passiv_color" stop-opacity="1"/>
+      </linearGradient>
+    </defs>
+    <path 
+      v-bind:d="innerSvg" 
+      v-bind:fill="`url(#`+colortheme.active_color+`graph_panel)`" 
+      stroke="none"
+      class="routine-panel-svg-inner__path"
+    />
+    <path 
+      v-bind:d="svg" 
+      fill="none" 
+      stroke-width="4"
+      v-bind:stroke="colortheme.active_color"
+      class="routine-panel-svg__path"
+    />
+    <path 
+      v-bind:d="necessaryLine" 
+      fill="none" 
+      stroke-width="2"
+      stroke="rgba(224, 224, 224, 0.7)"
+      stroke-dasharray="5,5"
+      class="routine-panel-svg__path"
+    />
+    <circle 
+      @mousedown="(event) => { mousedown(event, index) }"
+      class="routine-panel-svg__point"
+      v-for="(point, index) in points"
+      v-bind:cx="point[0]"
+      v-bind:cy="point[1]"
+      r="6"
+      v-bind:fill="colortheme.active_color"
+      stroke-width="2"
+      stroke="rgba(255,255,255,0.9)"
+      v-bind:svg-tooltip-target="`svg_tooltip_point_`+index"
+    />
+
+    <g 
+      v-for="(point, index) in points" 
+      v-bind:svg-tooltip="`svg_tooltip_point_`+index"
+      class="routine-panel-svg__tooltip-wrapper"
+      id="abc"
+    >
+        <rect
+        class="routine-panel-svg__tooltip-rec"
+        v-bind:x="point[0] + (point[0] > 50? (point[0] > 450? - 13: -13) : -10)"
+        v-bind:y="point[1] + (point[1] > 90 ? -30:10)" 
+        rx="5" ry="5"
+        width="20" 
+        height="20"/>
+      <text
+        class="routine-panel-svg__tooltip"
+        width="60" 
+        v-bind:x="point[0] - (point[0] > 50?  3.5: 0)"
+        v-bind:y="point[1] + (point[1] > 90 ? -15:25)"
+       >
+       {{pointsO[index] + (pointsO[index]>=10?``:" ")}}
+      </text>
+     
+    </g>
+
+  </svg>
+</div>
+
+<!-- v-bind:tooltip="$props.stat[index]+' - hours'" -->
+      <!-- v-bind:tooltip-position="(index == 0 ? `right`: (index == points.length-1 ? 'left': `top`))" -->
+
+<!-- v-bind:stroke="`url(#`+colortheme.active_color+`graph_panel)`"  -->
+<!-- v-bind:tooltipText="point" -->
+<!--  -->
+<!-- {{this.pointO[index]}} -->

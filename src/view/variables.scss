@@ -40,12 +40,14 @@ $background: #f9f9f9;
   min-width: 80px;
   border-radius: 5px;
   pointer-events: none;
+  display: inline-block;
 }
 
 [tooltip]:hover::after{
   opacity: 1;
 }
 [tooltip-position='left']::before{
+  display: inline-block;
   left:0%;
   top:50%;
   margin-left:-12px;

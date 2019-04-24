@@ -1,5 +1,7 @@
 import { IRoutinesState } from "./types";
 import { MutationTree } from "vuex";
+import { IRoutine } from "src/models/routines.routine";
+import { routines } from ".";
 
 export const mutations: MutationTree<IRoutinesState> = {
   newRoutineWindow: (state) => {
@@ -21,5 +23,11 @@ export const mutations: MutationTree<IRoutinesState> = {
   },
   loaded: (state) => {
     state.loaded = false;
+  },
+  setCurrentGraphPanel: (state, val) => {
+    state.routineGraph = val;
+  },
+  setRoutine: (state, data: {index: number, routine: IRoutine}) => {
+    state.items[data.index] = data.routine;
   },
 };

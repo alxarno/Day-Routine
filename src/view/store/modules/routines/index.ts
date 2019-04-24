@@ -10,6 +10,7 @@ export const state: IRoutinesState = {
   current_routine: -1,
   routine_settings_open: false,
   new_routine_open: false,
+  routineGraph: -1,
   loaded: false,
   items: [],
 };
