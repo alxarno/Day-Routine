@@ -21,6 +21,7 @@ export class Routines extends StorageModule<IRoutine> implements IRoutinesStorag
 
   public async Create(unit: IRoutine) {
     const dunit = this.schema.Serialization(unit);
+    // console.log(dunit);
     const id: number = await this.kernel.Insert(this.schema.name, dunit);
     await this.addToStatics({routineID: id, hours: 0});
     this.changeCallback();

@@ -35,20 +35,22 @@
   </div>
 
   <div class="drawer-routines-row">
-    <div class="drawer-routine-col-3">
+    <div class="drawer-routine-col-3 drawer-routine-action-body">
       <div 
         class="drawer-routine-input" 
         v-if="currentRoutine.actionType == 1 ">
         <span
         >File
-           <div 
+        </span>
+        <div class="drawer-routine-file-input-wrapper">
+          <div class="drawer-routine-file-body"
+          >{{currentRoutine.actionBody}}</div>
+          <div 
             class="drawer-routines-file-body-change button-rec" 
             v-html="pen" 
             @click="chooseFile"/>
-        </span>
-        
-        <div class="drawer-routine-file-body"
-        >{{currentRoutine.actionBody}}</div>      
+        </div>
+       
       </div>
       <div class="drawer-routine-input" 
         v-if="currentRoutine.actionType == 2 ">
@@ -92,6 +94,20 @@
   
   </div>
   <div class="drawer-routines-hours-caption">Minimal hours sequence</div>
+  <div class="drawer-routines-row">
+    <div class="drawer-routines__day-zone">
+      <div class="drawer-routines__day-zone__background">
+        <div @click="() => {changeDayZones(1)}">1/3</div>
+        <div @click="() => {changeDayZones(2)}">2/3</div>
+        <div @click="() => {changeDayZones(3)}">3/3</div>
+      </div>
+      <div 
+        class="drawer-routines__day-zone__checker" 
+        v-bind:style="{left: 50 * (currentRoutine.dayZone - 1)+'px'}"
+      >{{currentRoutine.dayZone}}/3</div>
+    </div>
+  </div>
+  <div class="drawer-routines-hours-caption">Active day's zone</div>
 
   <div class="drawer-routines-row">
     <div v-if="currentRoutine.ID == -1"

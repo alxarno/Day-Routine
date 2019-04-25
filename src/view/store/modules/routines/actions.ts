@@ -66,6 +66,7 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
   },
 
   async updateCurrentRoutine({commit, dispatch}, routineID: number) {
+
     const routines = await GetAPI().Routines().Get();
     const statistics = await GetAPI().Statistics().Get();
     routines.forEach((r, i) => {

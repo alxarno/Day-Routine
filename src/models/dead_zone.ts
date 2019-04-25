@@ -3,6 +3,6 @@ export interface IDeadZone {
   start: number;
   done: number;
   enable: boolean;
-  disabled_days: number[];
+  disabledDays: number[];
   ID: number;
 }

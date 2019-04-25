@@ -12,6 +12,7 @@
     <graph-min
       v-bind:stat="this.$props.routine.hoursSpended"
       v-bind:color="currentColor"
+      v-bind:routineID="this.$props.routine.ID"
     />
     <div class="routines-routine__settings"
           v-html="settingsIcon" 

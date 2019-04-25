@@ -1,4 +1,5 @@
 import {Action} from "./action";
+import { DayZone } from "./dayzone";
 
 export interface IRoutine {
   ID: number;
@@ -10,4 +11,5 @@ export interface IRoutine {
   actionType: Action;
   hoursSpended: number[];
   minDurationHours: number;
+  dayZone: DayZone;
 }

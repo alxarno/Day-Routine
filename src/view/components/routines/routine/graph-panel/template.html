@@ -1,6 +1,5 @@
-<div class="routines-routine__graph-panel">
+<div class="routines-routine__graph-panel" v-bind:ref="'routine_graph_panel'+this.$props.routineID">
   <svg 
-    :key="updateKey"
     width=500
     height=180
     viewBox="0 0 500 180" version="1.1"
@@ -39,7 +38,7 @@
       class="routine-panel-svg__path"
     />
     <circle 
-      @mousedown="(event) => { mousedown(event, index) }"
+      @mousedown="function(event){ mousedown(event, index)}.bind(this)"
       class="routine-panel-svg__point"
       v-for="(point, index) in points"
       v-bind:cx="point[0]"

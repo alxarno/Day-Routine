@@ -11,7 +11,10 @@ function ForPromise(body: string, data: any, DB: {transaction: Function}):
         function(tx: any, results: any) {
           resolve(results);
         },
-        reject);
+        function(tx: any, res: any){
+          console.log(res)
+          reject()
+        });
       });
   };
 }

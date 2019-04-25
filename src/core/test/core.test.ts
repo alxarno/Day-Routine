@@ -21,13 +21,13 @@ const warehouse: any = {
     {ID: 2, routineID: 3, spent: "[0,1,0,2,3,1,3]", lastUpdate: new Date().getTime()},
   ],
   routines: [
-    {ID: 2, actionBody: "https://localhost:8080", actionType: 2, colorScheme: "default",
+    {ID: 2, actionBody: "https://localhost:8080", actionType: 2, colorScheme: "default", dayZone: 1,
      describe: "1 desc", hours: 5, name: "Task #1", hoursSpended: [1, 1, 1, 0, 0, 0, 0], minDurationHours: 2},
-    {ID: 3, actionBody: "https://localhost:8080", actionType: 2, colorScheme: "orange",
+    {ID: 3, actionBody: "https://localhost:8080", actionType: 2, colorScheme: "orange", dayZone: 1,
      describe: "2 desc", hours: 12, name: "Task #2", hoursSpended: [1, 1, 1, 1, 1, 1, 1], minDurationHours: 3},
   ],
   dead_zones: [
-    {ID: 1, name: "Yet", start: 0, done: 11, enable: 0, disabled_days: "[]"},
+    {ID: 1, name: "Yet", start: 0, done: 11, enable: 0, disabledDays: "[]"},
   ],
 };
 

@@ -24,16 +24,15 @@ const namespace: string = "routines";
 export default class RoutineStatGraphPanel extends Vue {
   @Action("changeStatistics", { namespace}) public changeStatistics?:
     (data: {routineID: number, spent: number[]}) => void;
-  // @Action("updateCurrentRoutine", {namespace}) public updateCurrentRoutine?:
-  // (routineID: number) => void;
 
-  private mouseD: number = -1;
   private pointsO: number[] = [0, 0, 0, 0, 0, 0, 0];
-  private updateKey: number = 0;
-  // routineGraph
-  // private color: IColor = ;
+
+  // public mounted() {
+  //   // console.log(this.$refs.routine_graph_panel.offsetTop);
+  // }
 
   public created() {
+
     this.pointsO = this.$props.stat;
     document.addEventListener("mouseup", this.upListener.bind(this));
     document.addEventListener("mousemove", this.moveListener.bind(this));
@@ -52,11 +51,14 @@ export default class RoutineStatGraphPanel extends Vue {
 
   public moveListener(event: MouseEvent) {
     if (mouseDown !== -1) {
-      let newHours = Math.round(10 - (event.clientY - 160) / 18);
+      const elem = this.$refs[`routine_graph_panel${this.$props.routineID}`];
+      if (!elem) {return; }
+      const pos = (elem as HTMLElement).getBoundingClientRect();
+      let newHours = Math.round(10 - (event.clientY - pos.top) / 18);
       newHours = (newHours >= 0 ? newHours : 0);
       newHours = (newHours > 10 ? 10 : newHours);
-      if (this.pointsO[mouseDown] === newHours) {return; }
-      this.pointsO = this.pointsO.map((v, i) => (i === mouseDown ? newHours : v));
+      if (this.pointsO[mouseDown ] === newHours) {return; }
+      this.pointsO = this.pointsO.map((v, i) => (i === mouseDown  ? newHours : v));
       this.changeStatistics!({routineID: this.$props.routineID, spent: this.pointsO});
       // this.updateKey += 1;
       // this.$forceUpdate();

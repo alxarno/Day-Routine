@@ -5,9 +5,9 @@ TODO:
 
   + Delete update callbacks in storage
 
-  Draw graphs in routine's 
+  + Draw graphs in routine's 
 
-  Munis hours in statistics
+  + Munis hours in statistics
   
   + Notification about dead zone
 
@@ -18,3 +18,7 @@ TODO:
   + Update schedule button in `Current Day`
 
   + Change 'DeadZone' to deadzone's name in `Current Day`
+
+  Create comparison mechanisms for updates prevents
+
+  Create routines hours part's conditions in schedule creation

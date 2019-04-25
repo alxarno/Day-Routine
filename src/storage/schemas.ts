@@ -17,6 +17,7 @@ const RoutinesSchema: StorageSchema.ISchema  = new Schema("routines", {
   hours: new SchemaNumber(),
   minDurationHours: new SchemaNumber(),
   name: new SchemaString(),
+  dayZone: new SchemaNumber(),
 });
 
 const DeadZoneSchema: StorageSchema.ISchema = new Schema("dead_zones", {
@@ -25,7 +26,7 @@ const DeadZoneSchema: StorageSchema.ISchema = new Schema("dead_zones", {
   start: new SchemaNumber(),
   done: new SchemaNumber(),
   enable: new SchemaBoolean(),
-  disabled_days: new SchemaArray(),
+  disabledDays: new SchemaArray(),
 });
 
 const StatisticsSchema: StorageSchema.ISchema = new Schema("statist", {

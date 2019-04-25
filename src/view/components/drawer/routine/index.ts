@@ -59,6 +59,7 @@ export default class RoutineComponent extends Vue {
     hours: 1,
     hoursSpended: [0, 0, 0, 0, 0, 0, 0],
     minDurationHours: 1,
+    dayZone: 1,
   };
 
   private currentColorIndex(): number {
@@ -122,6 +123,10 @@ export default class RoutineComponent extends Vue {
   private deleteRoutineClick() {
     this.deleteRoutine(this.currentRoutine);
     this.drawerAction(-1);
+  }
+
+  private changeDayZones(newDayZone: number) {
+    this.currentRoutine.dayZone = newDayZone;
   }
 
   private beforeDestroy() {

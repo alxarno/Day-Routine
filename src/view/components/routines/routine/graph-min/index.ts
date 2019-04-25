@@ -2,6 +2,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import * as WithRender from "./template.html";
 import { colors, IColor } from "src/view/color.themes";
+import { Action, State } from "vuex-class";
 require("./styles.scss");
 
 enum commands {
@@ -14,13 +15,15 @@ enum commands {
   props: {
     stat: Array,
     color: Object,
+    routineID: Number,
   },
 })
 export default class RoutineStatGraph extends Vue {
-  // private color: IColor = ;
+  @State((state) => state.routines.routineGraph) public currRoutine?: number;
+  @Action("setRoutineGraph", { namespace: "routines" }) public setCurrentGraphPanel?: (arg: number) => void;
 
   public onClick(): void {
-    // window.alert(this.message);
+    this.setCurrentGraphPanel!((this.currRoutine === this.$props.routineID ? -1 : this.$props.routineID));
   }
 
   public get colortheme() {
@@ -31,8 +34,8 @@ export default class RoutineStatGraph extends Vue {
     let original: number[] = this.$props.stat;
     // Reducing numbers (8-v) because we follow a rule - (more hours - higher curve point)
     // But the zero point of coordinate is left-up corner
-    original = original.map((v) => (v > 10 ? 0 : 8 - v));
-    const points: number[][] = original.map((value: number, index: number) => [index * 4 + 1, value * 2 + 1]);
+    original = original.map((v) => (v > 10 ? 2 : 8 - v));
+    const points: number[][] = original.map((value: number, index: number) => [index * 5 + 1, value * 2 + 10]);
 
     return this.svgPath(points, this.bezier);
   }

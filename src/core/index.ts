@@ -11,7 +11,7 @@ import {
 
 import {ICache} from "src/interfaces/cache";
 
-import {ScheduleCore} from "./modules/schedule";
+import {ScheduleCore, defaultDeadZone} from "./modules/schedule";
 import {SettingsCore} from "./modules/settings";
 import { IOS } from "src/interfaces/os";
 import { INowTask } from "src/models/now.tasks";
@@ -55,14 +55,7 @@ export class Core implements ICore {
     const targetHOUR = new Date().getHours();
     let hourCounter = 0;
     let answer: IScheduleUnit = {
-      data: {
-        ID: -1,
-        disabled_days: [],
-        done: 24,
-        start: 0,
-        enable: true,
-        name: "Empty",
-      },
+      data: defaultDeadZone,
       _type: ScheduleUnitType.DeadZone,
     };
 
@@ -117,7 +110,7 @@ export class Core implements ICore {
       } else if (val.done > val.start) {
         hoursPerDay = val.done - val.start;
       }
-      freeTime -= hoursPerDay * (7 - val.disabled_days.length);
+      freeTime -= hoursPerDay * (7 - val.disabledDays.length);
     });
 
     routines.forEach((val: IRoutine) => {

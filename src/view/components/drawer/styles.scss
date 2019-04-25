@@ -44,19 +44,6 @@
   display: inline-block;
 }
 
-.drawer-routine-input>input,
-.drawer-routine-input.description>textarea{
-  border: 0px;
-  font-size: 16px;
-  border: 1px solid $light-gray;
-  background: #ffffff;
-  outline: none;
-  border-radius: 2.5px;
-
-  font-family: Roboto-Light;
-  color: darken($gray, 30%);
-}
-
 
 .drawer-routine-input.description>textarea{
   width: 100%;
@@ -104,38 +91,7 @@
   
 }
 
-.drawer-routine-file-body{
-  color: $gray;
-  white-space: nowrap;
-  overflow: hidden;
-  /* padding: 5px; */
-  text-overflow: ellipsis;
-  margin-top: 10px;
-  // margin-left: -4px;
-}
 
-.drawer-routines-file-body-change{
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  display: inline-block;
-  // margin-left: 135px;
-  float: right;
-
-}
-
-.drawer-routines-file-body-change:active{
-  opacity: 0.4;
-}
-
-.drawer-routines-file-body-change>svg{
-  fill: #ffffff;
-  position: relative;
-  top: 2px;
- 
-  width: 15px;
-  height: 15px;
-}
 
 .drawer-routine-col-3{
   width: 100%;

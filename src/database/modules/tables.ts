@@ -19,8 +19,24 @@ export class Table implements ITableMethods {
 
   public async Create(name: string, schema: any) {
     let sqlBody = this.DecodeTableSchema(schema);
+
+    // Сomparison of old schema and new schema
+    const columns  = `SELECT sql FROM sqlite_master
+    WHERE tbl_name = '${name}' AND type = 'table'`;
+
+    const currentTable = (await Request(columns, [], this.DB));
+    if (currentTable.rows.length > 0) {
+      const innerSQL = currentTable.rows[0].sql.substring(
+        currentTable.rows[0].sql.lastIndexOf("(") + 1,
+        currentTable.rows[0].sql.lastIndexOf(")"),
+      );
+      if (innerSQL !== sqlBody) {
+        await this.Drop(name);
+     }
+
+    }
+
     sqlBody = "CREATE TABLE IF NOT EXISTS " + name + "(" + sqlBody + ")";
-    // console.log(sqlBody)
     const promise = Request(sqlBody, [], this.DB);
 
     await promise;
