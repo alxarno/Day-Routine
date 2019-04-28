@@ -16,7 +16,7 @@ export const actions: ActionTree<IDeadZoneState, IRootState> = {
         start: 0,
         done: 1,
         enable: false,
-        disabled_days: [],
+        disabledDays: [],
       };
       await GetAPI().DeadZones().Create(deadZone);
       const deadZones = await GetAPI().DeadZones().Get();

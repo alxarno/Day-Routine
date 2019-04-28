@@ -66,7 +66,6 @@ export class Crud implements ICRUD {
       console.log(querryString);
       console.log("++++++++++++++++++");
     }
-    console.log(values);
     const promise = Request(
       querryString,
       values,

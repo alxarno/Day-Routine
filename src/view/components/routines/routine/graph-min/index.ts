@@ -72,7 +72,7 @@ export default class RoutineStatGraph extends Vue {
     const p: number[] = prev || curr;
     const n: number[] = next || curr;
 
-    const smothing = 0.2;
+    const smothing = 0.3;
 
     const o = this.lineForBezie(p, n);
 

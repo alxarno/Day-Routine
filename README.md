@@ -3,7 +3,7 @@
 # [Day-Routine](https://github.com/AlexeyArno/Day-Routine)
 
 ![](https://img.shields.io/badge/price-free-%235F2FE1.svg)
-![](https://img.shields.io/badge/version-1.0.0-green.svg)
+![](https://img.shields.io/badge/version-1.1.0-green.svg)
 [![CircleCI](https://circleci.com/gh/AlexeyArno/Day-Routine/tree/master.svg?style=shield)](https://circleci.com/gh/AlexeyArno/Day-Routine/tree/master)
 
 > Desktop application is planning routine tasks 
@@ -17,7 +17,7 @@ Application build day's plan according to your free time and needs
 - Auto open links/files when task will have began
 - Support electron notifications and tray
 
-<img src="https://i.imgur.com/WXHdX2T.png"/>
+<img src="https://i.imgur.com/eTREU6R.png"/>
 
 ## Built With
 * [Typescript](http://www.typescriptlang.org/)
@@ -62,12 +62,12 @@ Result will appear in `dist` folder
 > If you want change some build params for [electron-builder](https://github.com/electron-userland/electron-builder), change them in [final/package.json](https://github.com/AlexeyArno/Day-Routine/blob/master/final/package.json)
 
 ## Screens
-<img src="https://i.imgur.com/dueRhix.png"/>
-<img src="https://i.imgur.com/CRe9CMR.png"/>
-<img src="https://i.imgur.com/IwqQGww.png"/>
-<img src="https://i.imgur.com/NXpTsEi.png"/>
-<img src="https://i.imgur.com/uzkimBz.png"/>
-<img src="https://i.imgur.com/UHJNl36.png"/>
+<img src="https://i.imgur.com/tLL7wtq.png"/>
+<img src="https://i.imgur.com/t0TRwNa.png"/>
+<img src="https://i.imgur.com/b35gwIp.png"/>
+<img src="https://i.imgur.com/vXhvUCt.png"/>
+<img src="https://i.imgur.com/ApSirb5.png"/>
+<img src="https://i.imgur.com/La3gvPr.png"/>
 
 License
 ----

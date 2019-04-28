@@ -12,10 +12,11 @@ const warehouse: any = {
   ],
   routines: [
     {ID: 1, actionBody: "https://localhost:8080", actionType: 2, colorScheme: "default",
-     describe: "1 desc", hours: 12, name: "Task #1", hoursSpended: [1, 1, 1, 0, 0, 0, 0], minDurationHours: 2},
+     describe: "1 desc", hours: 12, name: "Task #1", hoursSpended: [1, 1, 1, 0, 0, 0, 0],
+     minDurationHours: 2, dayZone: 1},
   ],
   dead_zones: [
-    {ID: 1, name: "Yet", start: 0, done: 11, enable: 0, disabled_days: "[]"},
+    {ID: 1, name: "Yet", start: 0, done: 11, enable: 0, disabledDays: "[]"},
   ],
 };
 

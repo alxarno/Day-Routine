@@ -1,6 +1,6 @@
 {
   "name": "day-routine",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "productName": "Day Routine",
   "description": "Day's schedule organizer",
   "main": "main.js",
