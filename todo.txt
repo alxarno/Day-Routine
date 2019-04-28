@@ -2,3 +2,23 @@ TODO:
   + Fix notification bug (Execute not current task, maybe cause minHours update)
 
   + Fix icon in notification
+
+  + Delete update callbacks in storage
+
+  + Draw graphs in routine's 
+
+  + Munis hours in statistics
+  
+  + Notification about dead zone
+
+  + Redesign Routine settings window
+
+  + Create tooltips to main buttons
+
+  + Update schedule button in `Current Day`
+
+  + Change 'DeadZone' to deadzone's name in `Current Day`
+
+  + Create routines hours part's conditions in schedule creation
+
+  Create adjusting day zones (day zones times relatives to NOT deadZone's time)

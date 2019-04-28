@@ -1,5 +1,6 @@
 export interface ISettings {
   Notifications: boolean;
+  DeadZoneNotifications: boolean;
 }
 
 export interface ISettingsStore {

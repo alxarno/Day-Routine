@@ -12,10 +12,11 @@ const warehouse: any = {
   ],
   routines: [
     {ID: 1, actionBody: "https://localhost:8080", actionType: 2, colorScheme: "default",
-     describe: "1 desc", hours: 12, name: "Task #1", hoursSpended: 3, minDurationHours: 2},
+     describe: "1 desc", hours: 12, name: "Task #1", hoursSpended: [1, 1, 1, 0, 0, 0, 0],
+     minDurationHours: 2, dayZone: 1},
   ],
   dead_zones: [
-    {ID: 1, name: "Yet", start: 0, done: 11, enable: 0, disabled_days: "[]"},
+    {ID: 1, name: "Yet", start: 0, done: 11, enable: 0, disabledDays: "[]"},
   ],
 };
 
@@ -68,8 +69,9 @@ test("Storage: Routines Create", async () => {
     describe: "2 desc",
     hours: 14,
     name: "Task #2",
-    hoursSpended: 2,
+    hoursSpended: [1, 1, 0, 0, 0, 0, 0],
     minDurationHours: 1,
+    dayZone: 1,
   });
   const results: any[] = await storage.Routines().Get();
   expect(results.length).toBe(2);
@@ -84,8 +86,9 @@ test("Storage: Routine Update", async () => {
     describe: "1 desc",
     hours: 12,
     name: "Task #1",
-    hoursSpended: 0,
+    hoursSpended: [0, 0, 0, 0, 0, 0, 0],
     minDurationHours: 1,
+    dayZone: 1,
   };
   routine.hours = 10;
   await storage.Routines().Update(routine);
@@ -108,13 +111,13 @@ test("Storage: DeadZone Get", async () => {
 });
 
 test("Storage: DeadZone Create", async () => {
-  await storage.DeadZones().Create({ID: 0, name: "Yet 2", start: 2, done: 15, enable: true, disabled_days: []});
+  await storage.DeadZones().Create({ID: 0, name: "Yet 2", start: 2, done: 15, enable: true, disabledDays: []});
   const deadZones: any[] = await storage.DeadZones().Get();
   expect(deadZones.length).toBe(2);
 });
 
 test("Stoarge: DeadZone Update", async () => {
-  await storage.DeadZones().Update({ID: 1, name: "Yet 25", start: 0, done: 11, enable: 0, disabled_days: "[]"});
+  await storage.DeadZones().Update({ID: 1, name: "Yet 25", start: 0, done: 11, enable: 0, disabledDays: "[]"});
   const deadZones: any[] = await storage.DeadZones().Get();
   expect(deadZones[0].name).toBe("Yet 25");
 });

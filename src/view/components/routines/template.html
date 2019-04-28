@@ -9,6 +9,10 @@
     <routine-component v-for="routine in routines" v-bind:routine="routine"
       v-if="routine.name.toLowerCase().includes(searchRequest.toLowerCase()) && loaded"/>
   </div>
-  <new-button v-bind="{click: newRoutine}"/>
+  <new-button
+    v-bind:tooltipText="tooltipText"
+    v-bind:click="newRoutine"
+    v-bind:tooltipPosition="tooltipPosition"
+  />  
   <free-hours/>
 </div>

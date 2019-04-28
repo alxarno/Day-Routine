@@ -1,0 +1,66 @@
+.routines-routine__graph-panel{
+  margin-right: 25px;
+  // cursor: pointer;
+  height: 180px;
+}
+
+.routine-panel-svg__point{
+  cursor: pointer;
+  // transition: 1s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+.routine-panel-svg__point:hover{
+  stroke-width: 0;
+}
+
+.routine-panel-svg__point:hover ~ #abc{
+  
+  transition: stroke-width, opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+.routine-panel-svg__point:active{
+  stroke-width: 0;
+  r: 7;
+  box-shadow: 0px 0px 42px -9px rgba(0,0,0,0.75);
+  transition: stroke-width 0.3s ease-in-out;
+}
+
+.routine-panel-svg-inner__path{
+  opacity: 0.9;
+}
+
+.routine-panel-svg__tooltip{
+  font-size: 12px;
+  fill:#ffffff;
+  text-anchor: middle;
+  // text-align: center;
+  // position: relative;
+  // left: 10px;
+}
+
+.routine-panel-svg__tooltip-rec{
+  fill: rgba(0,0,0,.5)
+}
+
+.routine-panel-svg__tooltip-wrapper{
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+}
+// .routines-routine__graph>svg{
+//   width: 40px;
+//   height: 20px;
+// }
+
+// .routines-routine__graph:hover{
+//   svg>path{
+//     // transform-origin: 0px 0px;
+//     opacity: 0.4;
+//   }
+// }
+
+
+// .routine-svg__path{
+//   transition: all 0.3s;
+  
+// }

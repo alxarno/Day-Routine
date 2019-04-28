@@ -3,6 +3,7 @@ import { IDeadZone } from "src/models/dead_zone";
 import { INowTask } from "src/models/now.tasks";
 import { ISettings } from "./settingsStore";
 import IStatistics from "src/models/statistics";
+import { IScheduleUnit } from "src/models/schedule.unit";
 
 export interface ISettingsCore {
   Import: () => void;
@@ -13,7 +14,8 @@ export interface ISettingsCore {
 }
 
 export interface IScheduleCore {
-  Get: () => Promise< Array<INowTask | null> >;
+  Get: () => Promise< IScheduleUnit[] >;
+  Clear: () => void;
 }
 
 export interface IDeadZonesCore {
@@ -21,10 +23,6 @@ export interface IDeadZonesCore {
   Create: (zone: IDeadZone) => void;
   Update: (unit: any) => Promise<void>;
   Delete: (unit: any) => Promise<void>;
-  // Get: Function;
-  // Create: Function;
-  // Update: Function;
-  // Delete: Function;
 }
 
 export interface IRoutinesCore {
@@ -32,14 +30,11 @@ export interface IRoutinesCore {
   Create: (routine: IRoutine) => void;
   Delete: (unit: any) => Promise<void>;
   Update: (unit: IRoutine) => void;
-  // Get: Function;
-  // Create: Function;
-  // Update: Function;
-  // Delete: Function;
 }
 
 export interface IStatisticCore {
   Get: () => Promise< IStatistics[]>;
+  ChangeSpent: (data: {routineID: number, spent: number[]}) => Promise< boolean>;
 }
 
 export interface ICore {

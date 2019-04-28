@@ -11,13 +11,14 @@ import {
 
 import {ICache} from "src/interfaces/cache";
 
-import {ScheduleCore} from "./modules/schedule";
+import {ScheduleCore, defaultDeadZone} from "./modules/schedule";
 import {SettingsCore} from "./modules/settings";
 import { IOS } from "src/interfaces/os";
 import { INowTask } from "src/models/now.tasks";
 import { IRoutine } from "src/models/routines.routine";
 import { IDeadZone } from "src/models/dead_zone";
 import { ISettingsStore, ISettings } from "src/interfaces/settingsStore";
+import { IScheduleUnit, ScheduleUnitType } from "src/models/schedule.unit";
 
 export class Core implements ICore {
   private Storage: IStorage;
@@ -33,7 +34,7 @@ export class Core implements ICore {
 
     this.os = os;
 
-    this.ScheduleModule = new ScheduleCore({storage: this.Storage, cash: this.Cache});
+    this.ScheduleModule = new ScheduleCore({storage: this.Storage, cache: this.Cache});
     this.SettingsModule = new SettingsCore(
       {
         storage: this.Storage,
@@ -45,27 +46,28 @@ export class Core implements ICore {
     // CAUSE FUNCS BELOW USE THE MODULES
     this.os.registerGetCurrentTask(this.GetCurrentTask.bind(this));
     this.os.registerTimerCallbcak(this.HourIsGone.bind(this));
+    // this.GetCurrentTask().then((v) => console.log(v));
   }
 
-  public async GetCurrentTask(): Promise<INowTask | null> {
-    const schedule: Array< INowTask | null> = await this.ScheduleModule.Get();
+  public async GetCurrentTask(): Promise<IScheduleUnit> {
+    const schedule: IScheduleUnit[] = await this.ScheduleModule.Get();
 
     const targetHOUR = new Date().getHours();
     let hourCounter = 0;
-    let answer: INowTask | null = null;
+    let answer: IScheduleUnit = {
+      data: defaultDeadZone,
+      _type: ScheduleUnitType.DeadZone,
+    };
 
     schedule.forEach((v) => {
       if (hourCounter > targetHOUR) {return; }
-      if (v != null) {
-        if (v.start <= targetHOUR && targetHOUR < v.start + v.hours) {
+
+      const hours: number = (v._type === ScheduleUnitType.DeadZone ? 1 : (v.data as INowTask).hours);
+      if (v.data.start <= targetHOUR && targetHOUR < v.data.start + hours) {
           answer = v;
         }
-        hourCounter += v.hours;
-        return;
-      } else {
-        if (hourCounter === targetHOUR) {answer = null; }
-      }
-      hourCounter++;
+      hourCounter += hours;
+      return;
     });
     return answer;
   }
@@ -108,7 +110,7 @@ export class Core implements ICore {
       } else if (val.done > val.start) {
         hoursPerDay = val.done - val.start;
       }
-      freeTime -= hoursPerDay * (7 - val.disabled_days.length);
+      freeTime -= hoursPerDay * (7 - val.disabledDays.length);
     });
 
     routines.forEach((val: IRoutine) => {

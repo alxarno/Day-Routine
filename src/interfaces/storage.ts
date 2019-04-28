@@ -17,6 +17,7 @@ export interface IDeadZonesStorage {
 export interface IStatisticsStorage {
   Add: (data: {routineID: number, hours: number}) => void;
   Get: () => Promise< IStatistics[]>;
+  ChangeSpent: (data: {routineID: number, spent: number[]}) => Promise< boolean>;
   Delete: (unit: any) => Promise<void>;
 }
 

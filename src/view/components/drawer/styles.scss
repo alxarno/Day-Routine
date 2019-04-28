@@ -36,25 +36,12 @@
   align-items: flex-start;
   justify-content: space-between;
   padding: 0px 20px;
-  margin-top: 35px;
+  margin-top: 25px;
 }
 
 .drawer-routine-input>span{
   width: 100%;
   display: inline-block;
-}
-
-.drawer-routine-input>input,
-.drawer-routine-input.description>textarea{
-  border: 0px;
-  font-size: 16px;
-  border: 1px solid $light-gray;
-  background: #ffffff;
-  outline: none;
-  border-radius: 2.5px;
-
-  font-family: Roboto-Light;
-  color: darken($gray, 30%);
 }
 
 
@@ -72,8 +59,9 @@
   align-items: center;
   padding: 0px 10px;
   justify-content: space-between;
-  position: relative;
-  top: 15px;
+  // position: relative;
+  // top: 15px;
+  margin: auto;
 }
 
 .drawer-routine-action{
@@ -103,40 +91,10 @@
   
 }
 
-.drawer-routine-file-body{
-  color: $gray;
-  white-space: nowrap;
-  overflow: hidden;
-  /* padding: 5px; */
-  text-overflow: ellipsis;
-  margin-top: 10px;
-  // margin-left: -4px;
-}
 
-.drawer-routines-file-body-change{
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  display: inline-block;
-  margin-left: 135px;
-
-}
-
-.drawer-routines-file-body-change:active{
-  opacity: 0.4;
-}
-
-.drawer-routines-file-body-change>svg{
-  fill: #ffffff;
-  position: relative;
-  top: 2px;
- 
-  width: 15px;
-  height: 15px;
-}
 
 .drawer-routine-col-3{
-  width: 190px;
+  width: 100%;
   height: 45px;
 }
 
@@ -151,12 +109,7 @@
   width: 100%;
 }
 
-.drawer-routines-hours-caption{
-  color: $gray;
-  width: 100%;
-  text-align: center;
-  margin-top: 10px;
-}
+
 
 .drawer-routines-save,
 .drawer-routines-delete{

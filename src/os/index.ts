@@ -11,6 +11,8 @@ import {
   WriteToFile,
   ExecuteFile,
   OpenLink} from "./methods";
+import { IScheduleUnit, ScheduleUnitType } from "src/models/schedule.unit";
+import { IDeadZone } from "src/models/dead_zone";
 
 interface IOSProps {
   showNotifs: boolean;
@@ -19,7 +21,7 @@ interface IOSProps {
 export class OS implements IOS {
   private settingsStore: ISettingsStore;
   private nowTimeout: any;
-  private getCurrentTask: ((() => Promise<INowTask | null>) | null);
+  private getCurrentTask: ((() => Promise<IScheduleUnit>) | null);
 
   constructor(settingsStore: ISettingsStore) {
     this.settingsStore = settingsStore;
@@ -31,7 +33,7 @@ export class OS implements IOS {
     this.timeOutCallback = func;
   }
 
-  public registerGetCurrentTask(func: () => Promise<INowTask | null>) {
+  public registerGetCurrentTask(func: () => Promise<IScheduleUnit>) {
     this.getCurrentTask = func;
   }
 
@@ -64,14 +66,16 @@ export class OS implements IOS {
 
     if (!this.getCurrentTask) { return; }
 
-    const task: INowTask | null = await this.getCurrentTask();
+    const task: IScheduleUnit = await this.getCurrentTask();
     if (this.timeOutCallback) { this.timeOutCallback(date.getHours()); }
-    if (task != null) {
-        // If tasks is just starting and not continuing
-        if (task.start === date.getHours()) {
-          this.showNotification((task as INowTask).name, (task as INowTask).describe);
-          this.execAction((task as INowTask).actionType, (task as INowTask).actionBody);
-        }
+    // If tasks is just starting and not continuing
+    if (task.data.start === date.getHours()) {
+      if (task._type === ScheduleUnitType.Task) {
+        this.showNotification((task.data as INowTask).name, (task.data as INowTask).describe);
+        this.execAction((task.data as INowTask).actionType, (task.data as INowTask).actionBody);
+      } else {
+        this.showDeadZonesNotification((task.data as IDeadZone).name);
+      }
     }
   }
 
@@ -89,6 +93,12 @@ export class OS implements IOS {
   private showNotification(t: string, m: string) {
     if (this.settingsStore.Get().Notifications) {
       NotifAction(t, m);
+    }
+  }
+
+  private showDeadZonesNotification(t: string) {
+    if (this.settingsStore.Get().DeadZoneNotifications) {
+      NotifAction(t, "Time to relax...");
     }
   }
 

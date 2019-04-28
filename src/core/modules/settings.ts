@@ -11,9 +11,11 @@ export class SettingsCore extends CoreModule implements ISettingsCore {
     const path: string = await this.os.chooseFile();
     const data: string = await this.os.readFile(path[0]);
     await this.ClearAll();
-    const newData: {routines: any[], dead_zones: any[]} = JSON.parse(data);
-
-    newData.routines.forEach((element: any) => {
+    const newData: {routines: IRoutine[], dead_zones: IDeadZone[]} = JSON.parse(data);
+    // console.log(newData);
+    newData.routines.forEach((element: IRoutine) => {
+      // console.log(element);
+      // this.storage!.
       this.storage!.Routines().Create(element);
     });
 

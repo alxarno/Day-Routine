@@ -5,6 +5,7 @@ import * as WithRender from "./template.html";
 import DeadZoneComponent from "./dead_zone";
 import NewButton from "src/view/default-components/new-button";
 import FreeHours from "src/view/default-components/free-hours";
+import { TooltipsPositions } from "src/view/default-components/interfaces";
 require("./styles.scss");
 
 const searchIcon = require("assets/search.svg");
@@ -28,6 +29,8 @@ export default class DeadZones extends Vue {
 
   public searchIcon: string = searchIcon;
   public searchRequest: string = "";
+  private tooltipText: string = "Create new dead-zone";
+  private tooltipPosition: string = TooltipsPositions.Left;
 
   public mounted() {
     this.loadDeadZones();

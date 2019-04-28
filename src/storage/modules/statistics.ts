@@ -2,6 +2,7 @@ import {IStatisticsStorage} from "../../interfaces/storage";
 import {IStorageKernel} from "../../interfaces/storageKernel";
 import StorageModule from "./module";
 import IStatistics from "src/models/statistics";
+import { routines } from "src/view/store/modules/routines";
 
 export class Statistics extends StorageModule<IStatistics> implements IStatisticsStorage {
 
@@ -36,6 +37,16 @@ export class Statistics extends StorageModule<IStatistics> implements IStatistic
       return;
     }
     this.kernel.Update(this.schema.name, this.schema.Serialization(st));
+  }
+
+  public async ChangeSpent(data: {routineID: number, spent: number[]}): Promise<boolean> {
+    let rows: IStatistics[] =  await this.Get();
+    rows = rows.filter((r) => r.routineID === data.routineID);
+
+    if (rows.length === 0) {return false; }
+    rows[0].spent = data.spent;
+    this.kernel.Update(this.schema.name, this.schema.Serialization(rows[0]));
+    return true;
   }
 
   private clearSpoiled(st: IStatistics): IStatistics {

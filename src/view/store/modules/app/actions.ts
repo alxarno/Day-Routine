@@ -5,8 +5,9 @@ import {DrawerContent, ModalContent} from "../../api";
 import { GetAPI } from "src/view/external.api";
 
 export const actions: ActionTree<IAppState, IRootState> = {
-  setMenuItem({commit}, val): any {
+  setMenuItem({commit, dispatch}, val): any {
     commit("setMenuActivItem",  val);
+    dispatch("routines/setRoutineGraph", -1 , {root: true});
   },
   drawerAction({commit}, val: DrawerContent | -1): void {
     if (val === -1) {

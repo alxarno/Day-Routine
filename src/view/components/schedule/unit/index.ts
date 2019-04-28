@@ -12,18 +12,18 @@ import {CheckCurrentTask,
 import {IWrapperStyleInterface} from "./interfaces";
 
 import * as WithRender from "./template.html";
+import { IScheduleUnit, ScheduleUnitType } from "src/models/schedule.unit";
 require("./styles.scss");
 
 @WithRender
 @Component({
   props: {
-    task: {
-      type: Object as () => INowTask,
+    unit: {
+      type: Object as () => IScheduleUnit,
     },
   },
 })
-export default class Task extends Vue {
-
+export default class ScheduleUnit extends Vue {
   public activeTask: number = 9;
   public curentColor: IColor = colors.default;
   public describe: string = "";
@@ -36,23 +36,27 @@ export default class Task extends Vue {
     "--box-shadow-color": "#ffffff",
   };
   public currentActiveTask: boolean = false;
+  private isItTask: boolean = false;
 
   public created() {
-    if (this.$props.task) {
+    // console.log(typeof(this.$props.task));
+    this.isItTask = ((this.$props.unit as IScheduleUnit)._type === ScheduleUnitType.Task);
+    if (this.isItTask) {
+      const task: INowTask = (this.$props.unit.data as INowTask);
       // Change color scheme and style
-      this.currentActiveTask = CheckCurrentTask(this.$props.task.start, this.$props.task.hours);
+      this.currentActiveTask = CheckCurrentTask(task.start, task.hours);
 
-      this.curentColor = (colors.hasOwnProperty(this.$props.task.color) ?
-        colors[this.$props.task.color] : colors.default);
+      this.curentColor = (colors.hasOwnProperty(task.color) ?
+        colors[task.color] : colors.default);
 
-      this.wrapperStyle = ComputeWrapperStyle(this.curentColor, this.$props.task.hours,
+      this.wrapperStyle = ComputeWrapperStyle(this.curentColor, task.hours,
         this.currentActiveTask, this.wrapperStyle);
 
       // Short describe
-      this.describe = ShortDescribe(this.$props.task.describe, this.$props.task.hours);
+      this.describe = ShortDescribe(task.describe, task.hours);
 
       // Calculate start and done time
-      const times = StartAndDone(this.$props.task.start, this.$props.task.hours);
+      const times = StartAndDone(task.start, task.hours);
       this.taskStart = times.taskStart;
       this.taskDone = times.taskDone;
 

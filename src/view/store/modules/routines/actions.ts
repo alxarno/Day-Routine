@@ -5,6 +5,7 @@ import { IRoutine } from "src/models/routines.routine";
 import { GetAPI } from "src/view/external.api";
 import {DrawerContent, ModalContent} from "../../api";
 import IStatistics from "src/models/statistics";
+import { routines } from ".";
 
 export const actions: ActionTree<IRoutinesState, IRootState> = {
   newRoutineWindow({commit}) {
@@ -40,7 +41,7 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
       routines.forEach((v: IRoutine) => {
         statistics.forEach((s: IStatistics) => {
           if (v.ID === s.ID) {
-            v.hoursSpended = s.spent.reduce((x, y) => x + y);
+            v.hoursSpended = s.spent;
           }
         });
       });
@@ -53,4 +54,42 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
     dispatch("loadRoutines", {});
     dispatch("app/setFreeHours", {}, {root: true});
   },
+  async changeStatistics({commit, dispatch}, data: {routineID: number, spent: number[]}) {
+    await GetAPI().Statistics().ChangeSpent(data);
+    dispatch("updateCurrentRoutine", data.routineID);
+    // console.log(updateRes);
+    // dispatch("loadRoutines", {});
+  },
+  setRoutineGraph({commit, dispatch}, routineID: number) {
+    commit("setCurrentGraphPanel", routineID);
+    dispatch("loadRoutines", {});
+  },
+
+  async updateCurrentRoutine({commit, dispatch}, routineID: number) {
+
+    const routines = await GetAPI().Routines().Get();
+    const statistics = await GetAPI().Statistics().Get();
+    routines.forEach((r, i) => {
+      if (r.ID === routineID) {
+        r.hoursSpended = statistics.reduce((a, s) => {
+          if (s.routineID === routineID) {
+            return s.spent;
+          } else {
+            return a;
+          }
+        }, r.hoursSpended);
+        // console.log(r);
+        commit("setRoutine", {routine: r, index: i});
+      }
+    });
+    // const routine = routines.reduce((a: IRoutine, v: IRoutine) => {
+    //   if (v.ID === routineID) {
+    //     return v;
+    //   } else {
+    //     return a;
+    //   }
+    // });
+    // console.log(routine);
+  },
+
 };

@@ -5,4 +5,10 @@
         class="other-settings__notif_check"
         v-bind:state="data.Notifications"/>
     </div>
+    <div class="settings-body__row">Show dead zone's notifications
+      <check-box-component
+       @callback="deadZoneNotificationCall"
+       class="other-settings__notif_check"
+       v-bind:state="data.DeadZoneNotifications"/>
+    </div>
 </div>

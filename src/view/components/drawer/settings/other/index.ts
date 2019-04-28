@@ -22,4 +22,10 @@ export default class OthersComponent extends Vue {
     return;
   }
 
+  private deadZoneNotificationCall(val: boolean) {
+    this.data!.DeadZoneNotifications = val;
+    this.saveSettings!(this.data!);
+    return;
+  }
+
 }

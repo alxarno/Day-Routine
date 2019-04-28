@@ -34,6 +34,7 @@ public GetYesterday(): Array<INowTask | null> {
   }
 }
 
+// Clear today's caching schedule
 public Clear() {
    this.Set([]);
 }

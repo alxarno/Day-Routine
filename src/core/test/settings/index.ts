@@ -8,6 +8,7 @@ export class SettingsStoreEmul implements ISettingsStore {
     this.mystorage = new Map<string, string>();
     this.defaults = {
       Notifications: true,
+      DeadZoneNotifications: true,
     };
   }
 

@@ -8,6 +8,7 @@ export class SettingsStore implements ISettingsStore {
     this.mystorage = window.localStorage;
     this.defaults = {
       Notifications: true,
+      DeadZoneNotifications: true,
     };
   }
 

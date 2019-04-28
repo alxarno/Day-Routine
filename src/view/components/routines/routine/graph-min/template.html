@@ -1,0 +1,21 @@
+<div class="routines-routine__graph">
+  <svg 
+    width=30
+    height=30
+    viewBox="0 0 30 30" version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    @click="onClick"
+  >
+    <defs>
+     <linearGradient v-bind:id="colortheme.active_color+'1'">
+       <stop offset="0%"   v-bind:stop-color="colortheme.active_color"/>
+       <stop offset="100%" v-bind:stop-color="colortheme.active_color"/>
+    </linearGradient>
+    <linearGradient v-bind:id="colortheme.active_color+'2'" x1="0" x2="0" y1="0" y2="1"
+      v-bind:xlink:href="'#' +colortheme.active_color+'1'"/>
+    </defs>
+    <path v-bind:d="svg" fill="none" v-bind:stroke="colortheme.active_color" class="routine-svg__path"/>
+  </svg>
+</div>
+
+<!-- `url(#`+colortheme.active_color+`2)` -->

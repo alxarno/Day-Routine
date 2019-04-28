@@ -3,11 +3,6 @@
   user-select: none;
   width: 250px;
   border-radius: 0px 5px 5px 0px;
-  // margin: 10px 0px;
-  // height: 95px;
-  // margin: 10px 0px;
-  // position: relative;
-  // top: 10px;
 }
 
 .task-task__routine-header{
@@ -90,8 +85,6 @@
   user-select: none;
   width: 250px;
   height: 95px;
-  // margin: 10px 0px;
-  //margin: 13.9px 0px;
   background: linear-gradient(
     45deg,
     rgba(0, 0, 0, 0) 53.9%,
@@ -105,4 +98,5 @@
   // height		: 100px;
   line-height	: 94px;
   padding-left: 8px;
+  color: rgba(0,0,0,0.6)
 }
