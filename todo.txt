@@ -19,6 +19,6 @@ TODO:
 
   + Change 'DeadZone' to deadzone's name in `Current Day`
 
-  Create comparison mechanisms for updates prevents
+  + Create routines hours part's conditions in schedule creation
 
-  Create routines hours part's conditions in schedule creation
+  Create adjusting day zones (day zones times relatives to NOT deadZone's time)
