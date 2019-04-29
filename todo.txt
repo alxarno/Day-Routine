@@ -1,24 +1,18 @@
 TODO:
-  + Fix notification bug (Execute not current task, maybe cause minHours update)
+  + Changes for linux
 
-  + Fix icon in notification
+  + Fix schedule tempalate
 
-  + Delete update callbacks in storage
+  Preloads for creating table
 
-  + Draw graphs in routine's 
+  Review build and run system
 
-  + Munis hours in statistics
-  
-  + Notification about dead zone
+  Create sync in local network
 
-  + Redesign Routine settings window
+    Generating key
 
-  + Create tooltips to main buttons
+    Timestamps for data
 
-  + Update schedule button in `Current Day`
+    UDP broadcast requests
 
-  + Change 'DeadZone' to deadzone's name in `Current Day`
-
-  + Create routines hours part's conditions in schedule creation
-
-  Create adjusting day zones (day zones times relatives to NOT deadZone's time)
+    Table for external public keys

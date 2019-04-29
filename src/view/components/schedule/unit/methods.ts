@@ -25,7 +25,7 @@ export function ComputeWrapperStyle(
     wrapperStyleBase.background = taskColor.passiv_color;
     wrapperStyleBase.borderLeft += taskColor.active_color;
   }
-  wrapperStyleBase.height = String(taskHours * 94 + (taskHours - 1) * (taskHours > 1 ? 22 : 0)) + "px";
+  wrapperStyleBase.height = String(taskHours * 95 + (taskHours - 1) * (taskHours > 1 ? 19.90 : 0)) + "px";
   return wrapperStyleBase;
 }
 

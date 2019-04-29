@@ -18,7 +18,7 @@ done
 
 printf "${PURPLE}# Starting webpack builder...${NC} \n"
 
-export NODE_ENV='production' && webpack
+export NODE_ENV='production' && ./node_modules/.bin/webpack
 
 if [ -e "$buildDir" ]; then
   while true; do

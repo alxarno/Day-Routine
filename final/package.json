@@ -5,7 +5,10 @@
   "description": "Day's schedule organizer",
   "main": "main.js",
   "repository": "https://github.com/AlexeyArno/Day-Routine",
-  "author": "AlexeyArno",
+  "author": {
+    "email": "ledssssa@gmail.com",
+    "name": "Alexey Arno"
+  },
   "license": "MIT",
   "devDependencies": {
     "electron": "^4.1.4"
@@ -45,7 +48,8 @@
       "target": [
         "AppImage",
         "deb"
-      ]
+      ],
+      "icon": "./res/images/icon.png"
     },
     "win": {
       "target": "portable",
