@@ -19,6 +19,8 @@ import { IRoutine } from "src/models/routines.routine";
 import { IDeadZone } from "src/models/dead_zone";
 import { ISettingsStore, ISettings } from "src/interfaces/settingsStore";
 import { IScheduleUnit, ScheduleUnitType } from "src/models/schedule.unit";
+import { INetwork, INetworkData } from "src/interfaces/network";
+import IStatistics from "src/models/statistics";
 
 export class Core implements ICore {
   private Storage: IStorage;
@@ -27,10 +29,12 @@ export class Core implements ICore {
   private ScheduleModule: IScheduleCore;
   private SettingsModule: ISettingsCore;
   private os: IOS;
+  private Network: INetwork;
 
-  constructor(storage: IStorage, cache: ICache, os: IOS, settingsStore: ISettingsStore) {
+  constructor(storage: IStorage, cache: ICache, os: IOS, settingsStore: ISettingsStore, network: INetwork) {
     this.Storage = storage;
     this.Cache = cache;
+    this.Network = network;
 
     this.os = os;
 
@@ -94,7 +98,8 @@ export class Core implements ICore {
     }
 
     if (lastTaskID !== -1) {
-      this.Storage.Statistics().Add({hours: 1, routineID: lastTaskID});
+      // this.Storage.Statistics().Add({hours: 1, routineID: lastTaskID});
+      this.updateStatistics(1, lastTaskID);
     }
   }
 
@@ -137,6 +142,21 @@ export class Core implements ICore {
 
   public Settings(): ISettingsCore {
     return this.SettingsModule;
+  }
+
+  private async updateStatistics(hours: number, routineID: number): Promise<void> {
+    await this.Storage.Statistics().Add({hours, routineID});
+    const deadZones: IDeadZone[] = (await this.DeadZones().Get() as IDeadZone[]);
+    const routines: IRoutine[] = (await this.Routines().Get() as IRoutine[]);
+    const statistics: IStatistics[] = (await this.Statistics().Get() as IStatistics[]);
+    const sData: INetworkData = {
+      dbSchemaVersion: this.Storage.SchemaVersion(),
+      deadZones,
+      routines,
+      statistics,
+    };
+    await this.Network.Broadcast(sData);
+    // this.Network.Request
   }
 
   private settingsApply(settings: ISettings): void {

@@ -36,4 +36,10 @@ const StatisticsSchema: StorageSchema.ISchema = new Schema("statist", {
   lastUpdate: new SchemaDate(),
 });
 
-export {RoutinesSchema, DeadZoneSchema, StatisticsSchema};
+const SyncDevicesSchema: StorageSchema.ISchema = new Schema("sync_devices", {
+  ID: new SchemaNumber(),
+  name: new SchemaString(),
+  key: new SchemaString(),
+});
+
+export {RoutinesSchema, DeadZoneSchema, StatisticsSchema, SyncDevicesSchema};

@@ -12,9 +12,16 @@ import { OS } from "./os";
 import { IOS } from "./interfaces/os";
 import { ISettingsStore } from "./interfaces/settingsStore";
 import { SettingsStore } from "./settings";
+import Network from "./network";
+
+const electron = (window as any).require("electron");
+const {PROD} = electron.remote.getGlobal("CONFIG");
+
+const DEBUG = !PROD;
+const PORT = 22814;
 
 const db: WebSQLDB = new WebSQLDB(
-  {debug: false},
+  {debug: DEBUG},
   openDatabase("DayRoutine", "0.1", "", 2 * 1024 * 1024));
 
 const sk: IStorageKernel = new StorageKernel(db);
@@ -24,5 +31,6 @@ const os: IOS = new OS(settingsStore);
 // const storage: IStorage = new Storage(sk, cache.Clear.bind(cache));
 const storage: IStorage = new Storage(sk, () => {/**/});
 
-const core = new Core(storage, cache, os, settingsStore);
+const network = new Network(storage.SchemaVersion(), settingsStore.Get, DEBUG, PORT);
+const core = new Core(storage, cache, os, settingsStore, network);
 CreateView(core);

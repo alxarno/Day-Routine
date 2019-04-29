@@ -9,6 +9,7 @@ export class SettingsStore implements ISettingsStore {
     this.defaults = {
       Notifications: true,
       DeadZoneNotifications: true,
+      UsersKey: "",
     };
   }
 

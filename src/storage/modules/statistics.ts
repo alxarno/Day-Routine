@@ -12,7 +12,7 @@ export class Statistics extends StorageModule<IStatistics> implements IStatistic
      super(kernel, schema, changeCallback);
   }
 
-  public async Add(data: {routineID: number, hours: number}) {
+  public async Add(data: {routineID: number, hours: number}): Promise<void> {
     let st: IStatistics;
     let rows: {[key: number]: any};
     // console.log(rows)

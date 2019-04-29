@@ -44,16 +44,46 @@
         }
       ]
     },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
     "linux": {
+      "category": "GNOME;GTK;Network;Utility",
+      "packageCategory": "GNOME;GTK;Network;Utility",
+      "description": "Day's Routines Creator",
       "target": [
+        "deb",
+        "zip",
         "AppImage",
-        "deb"
+        "snap"
       ],
-      "icon": "./res/images/icon.png"
+      "maintainer": "Alexey Arno <ledssssa@gmail.com>",
+      "icon": "./res/images/icon.png",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "deb": {
+      "synopsis": "Day-Routine Desktop App"
+    },
+    "snap": {
+      "synopsis": "Day-Routine Desktop App"
     },
     "win": {
-      "target": "portable",
-      "icon": "/final/res/images/icon.ico"
+      "target": [
+        "portable",
+        {
+          "target": "nsis-web",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
+      "icon": "/final/res/images/icon.ico",
+      "publisherName": "Alexey Arno"
+    },
+    "nsis": {
+      "allowToChangeInstallationDirectory": true
     }
   }
 }

@@ -3,9 +3,17 @@ TODO:
 
   + Fix schedule tempalate
 
+  Develop update system
+
+  Update tests
+
+  On close to tray
+
   Preloads for creating table
 
   Review build and run system
+
+  Create internal processes notififcation in UI
 
   Create sync in local network
 

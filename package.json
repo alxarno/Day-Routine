@@ -6,8 +6,8 @@
   "main": "main.js",
   "scripts": {
     "test": "jest --runInBand",
-    "start": "electron-forge start",
-    "watch": "webpack --watch"
+    "start": "./node_modules/.bin/electron .",
+    "watch": "./node_modules/.bin/webpack --watch"
   },
   "repository": "https://github.com/AlexeyArno/Day-Routine",
   "author": "AlexeyArno",
