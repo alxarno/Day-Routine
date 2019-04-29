@@ -1,8 +1,8 @@
 const menu = [
   "Current Day",
   "Routines",
-  "Dead Zones"
-]
+  "Dead Zones",
+];
 //   {
 //     name: "Now",
 //     number: 0
@@ -17,4 +17,4 @@ const menu = [
 //   }
 // ]
 
-export default menu
+export default menu;

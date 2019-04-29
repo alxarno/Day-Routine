@@ -1,0 +1,23 @@
+.snackabars-wrapper{
+  position: absolute;
+  width: 100vw;
+  bottom: 20px;
+}
+
+.snackbars-wrapper__inner{
+  width: 512px;
+  margin: auto;
+  // height: 30px;
+}
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}

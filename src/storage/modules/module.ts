@@ -32,13 +32,9 @@ export default abstract class StorageModule<T> {
   }
 
   public async Delete(unit: any) {
-    // let rows:{[key:number]:any} = await this.kernel.Table().GetByName(this.schema.name).Get(unit)
-    // if(Object.keys(rows).length==0) return;
-    // console.log(rows)
     // We don't use serialization cause serialization
     // doesn't process ID , but we need ID for delete
     // certain row
-   // this.deleteFromStatics(unit)
     await this.kernel.Delete(this.schema.name, unit);
     this.changeCallback();
   }

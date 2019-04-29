@@ -1,4 +1,5 @@
 import {DrawerContent, ModalContent} from "../../api";
+import { ISnackBar } from "src/models/snackbar";
 
 export interface IAppState {
   menuActiveItem: number;
@@ -7,4 +8,5 @@ export interface IAppState {
   drawer: boolean;
   drawerContent: DrawerContent;
   freeHours: number;
+  snackbars: ISnackBar[];
 }

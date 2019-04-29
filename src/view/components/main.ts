@@ -6,8 +6,9 @@ import HeaderComponent from "./header";
 import NowComponent from "./schedule";
 import RoutinesComponent from "./routines";
 import DeadZonesComponent from "./dead_zones";
-import ModalsComponent from "./modals";
+// import ModalsComponent from "./modals";
 import DrawerComponent from "./drawer";
+import SnackBars from "./snackbars";
 
 import * as WithRender from "./template.html";
 
@@ -21,6 +22,7 @@ const namespace: string = "app";
     RoutinesComponent,
     DrawerComponent,
     DeadZonesComponent,
+    SnackBars,
   },
 })
 export default class MainComponent extends Vue {

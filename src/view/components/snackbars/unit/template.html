@@ -1,0 +1,12 @@
+<transition name="slide-fade">
+  <div class="snackbar">
+    <!-- {{this.data.Content}} -->
+    <div v-if="notifier">
+      <div class="snackbar__text">
+        {{this.data.Content.Data}}
+      </div>
+    </div>
+    <div v-if="error">Error</div>
+    <div v-if="newConnection">New Connection</div>
+  </div>
+</transition>

@@ -14,6 +14,7 @@ export const state: IAppState = {
     modal: false,
     modalContent: ModalContent.Some,
     freeHours: 0,
+    snackbars: [],
 };
 
 const namespaced: boolean = true;

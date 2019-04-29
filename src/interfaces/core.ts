@@ -15,6 +15,7 @@ export interface ISettingsCore {
 
 export interface IScheduleCore {
   Get: () => Promise< IScheduleUnit[] >;
+  GetCurrentTask: () => Promise<IScheduleUnit>;
   Clear: () => void;
 }
 

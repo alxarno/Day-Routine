@@ -9,6 +9,7 @@ import {
   GetCoefficients,
   SortRoutinesByFinishingCoefficients,
 } from "./schedule.methods";
+import { INowTask } from "src/models/now.tasks";
 
 function Copy(d: object): object {
   return {...d};
@@ -55,6 +56,29 @@ export class ScheduleCore extends CoreModule implements IScheduleCore {
         this.cache.Clear();
       }
     }
+
+  public async GetCurrentTask(): Promise<IScheduleUnit> {
+    const schedule: IScheduleUnit[] = await this.Get();
+
+    const targetHOUR = new Date().getHours();
+    let hourCounter = 0;
+    let answer: IScheduleUnit = {
+      data: defaultDeadZone,
+      _type: ScheduleUnitType.DeadZone,
+    };
+
+    schedule.forEach((v) => {
+      if (hourCounter > targetHOUR) {return; }
+
+      const hours: number = (v._type === ScheduleUnitType.DeadZone ? 1 : (v.data as INowTask).hours);
+      if (v.data.start <= targetHOUR && targetHOUR < v.data.start + hours) {
+          answer = v;
+        }
+      hourCounter += hours;
+      return;
+    });
+    return answer;
+  }
 
   public async Get(): Promise<IScheduleUnit[]> {
       let cashShedule: any[] = [];

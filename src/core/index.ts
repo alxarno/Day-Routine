@@ -11,16 +11,18 @@ import {
 
 import {ICache} from "src/interfaces/cache";
 
-import {ScheduleCore, defaultDeadZone} from "./modules/schedule";
+import {ScheduleCore} from "./modules/schedule";
 import {SettingsCore} from "./modules/settings";
 import { IOS } from "src/interfaces/os";
 import { INowTask } from "src/models/now.tasks";
 import { IRoutine } from "src/models/routines.routine";
 import { IDeadZone } from "src/models/dead_zone";
 import { ISettingsStore, ISettings } from "src/interfaces/settingsStore";
-import { IScheduleUnit, ScheduleUnitType } from "src/models/schedule.unit";
 import { INetwork, INetworkData } from "src/interfaces/network";
 import IStatistics from "src/models/statistics";
+import { IUserInterface } from "src/interfaces/ui";
+import UserInterface from "src/view/view";
+import { SnackBarType } from "src/models/snackbar";
 
 export class Core implements ICore {
   private Storage: IStorage;
@@ -30,8 +32,13 @@ export class Core implements ICore {
   private SettingsModule: ISettingsCore;
   private os: IOS;
   private Network: INetwork;
+  private ui: IUserInterface | null;
 
-  constructor(storage: IStorage, cache: ICache, os: IOS, settingsStore: ISettingsStore, network: INetwork) {
+  constructor(
+      storage: IStorage, cache: ICache, os: IOS,
+      settingsStore: ISettingsStore, network: INetwork,
+      ui: (core: ICore) => IUserInterface,
+    ) {
     this.Storage = storage;
     this.Cache = cache;
     this.Network = network;
@@ -48,32 +55,16 @@ export class Core implements ICore {
       });
     // REGISTER ALL CALLBACKS AFTER SCHEDULE AND SETTINGS MODULE CREATING
     // CAUSE FUNCS BELOW USE THE MODULES
-    this.os.registerGetCurrentTask(this.GetCurrentTask.bind(this));
+    this.os.registerGetCurrentTask(this.ScheduleModule.GetCurrentTask.bind(this.ScheduleModule));
     this.os.registerTimerCallbcak(this.HourIsGone.bind(this));
-    // this.GetCurrentTask().then((v) => console.log(v));
-  }
 
-  public async GetCurrentTask(): Promise<IScheduleUnit> {
-    const schedule: IScheduleUnit[] = await this.ScheduleModule.Get();
+    this.ui = ui(this);
 
-    const targetHOUR = new Date().getHours();
-    let hourCounter = 0;
-    let answer: IScheduleUnit = {
-      data: defaultDeadZone,
-      _type: ScheduleUnitType.DeadZone,
-    };
-
-    schedule.forEach((v) => {
-      if (hourCounter > targetHOUR) {return; }
-
-      const hours: number = (v._type === ScheduleUnitType.DeadZone ? 1 : (v.data as INowTask).hours);
-      if (v.data.start <= targetHOUR && targetHOUR < v.data.start + hours) {
-          answer = v;
-        }
-      hourCounter += hours;
-      return;
-    });
-    return answer;
+    this.ui.ShowSnackBar(SnackBarType.Notifier, {Data: "hello"});
+    // new Promise((rej) => setTimeout(rej, 2000)).then(() => {
+    this.ui.ShowSnackBar(SnackBarType.Error, {Data: "Erro"});
+    // });
+    this.ui.ShowSnackBar(SnackBarType.NewConnection, {Key: "2323-8976", Callback: (v) => {console.log(v); }});
   }
 
   public HourIsGone(newHour: number) {
@@ -98,7 +89,6 @@ export class Core implements ICore {
     }
 
     if (lastTaskID !== -1) {
-      // this.Storage.Statistics().Add({hours: 1, routineID: lastTaskID});
       this.updateStatistics(1, lastTaskID);
     }
   }
