@@ -1,4 +1,5 @@
 import { ISettingsStore, ISettings } from "src/interfaces/settingsStore";
+import { generateNetworkID } from "./methods";
 
 export class SettingsStore implements ISettingsStore {
   private mystorage: Storage;
@@ -9,7 +10,8 @@ export class SettingsStore implements ISettingsStore {
     this.defaults = {
       Notifications: true,
       DeadZoneNotifications: true,
-      UsersKey: "",
+      NetworkID: generateNetworkID(),
+      RecieveDataFromUnknow: true,
     };
   }
 
@@ -30,5 +32,11 @@ export class SettingsStore implements ISettingsStore {
   public Clear(): void {
     this.mystorage.setItem("settings", "");
     return;
+  }
+
+  public UpdateNetworkID(): void {
+    const set: ISettings = this.Get();
+    set.NetworkID = generateNetworkID();
+    this.Put(set);
   }
 }

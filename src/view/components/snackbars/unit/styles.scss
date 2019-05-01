@@ -117,12 +117,12 @@
   height: 2px;
   width: 100%;
   background: $background;
-  // border-radius: 1px 1px 1px 1px
+  border-radius: 0px 0px 5px 5px;
 }
 
 .snackbar__timeline-inner{
   transition: 0.2s ease-in-out;
   height: 2px;
-  // width: 200px;
   background: lighten($primary-color, 10);
+  border-radius: 0px 0px 5px 5px;
 }

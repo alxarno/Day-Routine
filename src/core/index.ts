@@ -60,7 +60,7 @@ export class Core implements ICore {
 
     this.ui = ui(this);
 
-    this.ui.ShowSnackBar(SnackBarType.Notifier, {Data: "hello"});
+    // this.ui.ShowSnackBar(SnackBarType.Notifier, {Data: "hello"});
     // new Promise((rej) => setTimeout(rej, 2000)).then(() => {
     // this.ui.ShowSnackBar(SnackBarType.Error, {Data: "Erro"});
     // });

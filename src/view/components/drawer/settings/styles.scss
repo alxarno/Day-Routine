@@ -20,7 +20,7 @@
   font-family: Roboto-Light;
   display: block;
   // width: 100%;
-  margin: 25px 0px;
+  margin: 20px 0px;
   color: $gray;
   padding: 0px 20px;
 }
@@ -39,4 +39,33 @@
 .settings-body__value{
   font-size: 18px;
   color: #000000;
+}
+
+.setting-body__subtitle{
+  font-family: Roboto-Light;
+  display: block;
+  margin-top: 50px;
+  color:rgba(0,0,0,0.75);
+  padding: 0px 20px;
+}
+
+.settings__help{
+  display: inline;
+  float: right;
+  margin-right: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-top: 3px;
+}
+
+.settings__help:hover{
+  opacity: 0.6;
+}
+
+.settings__help>svg{
+  width: 18px;
+  height: 18px;
+  path{
+    fill: lighten($primary-color,10) !important;
+  }
 }

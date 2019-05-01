@@ -9,19 +9,7 @@ const path = req.require("path");
 const fs = req.require("fs");
 const {dialog, shell} = req;
 
-// const {notif} = (window as any).require("electron").remote.getGlobal("CONFIG");
-
 export const NotifAction = notif;
-// (title: string, message: string) => {
-//   notifier.notify(
-//     {
-//       title,
-//       message,
-//       icon: ICON,
-//       sound: true,
-//     },
-//   );
-// };
 
 export const SaveFile = async () => {
    const promise: Promise<string> = new Promise(function(resolve, reject) {

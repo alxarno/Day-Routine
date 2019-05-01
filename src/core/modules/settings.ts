@@ -69,4 +69,8 @@ export class SettingsCore extends CoreModule implements ISettingsCore {
     this.settingsStorage!.Put(s);
     this.settingsApply!(s);
   }
+
+  public UpdateNetworkID(): void {
+    this.settingsStorage!.UpdateNetworkID();
+  }
 }

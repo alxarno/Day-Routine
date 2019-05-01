@@ -1,0 +1,15 @@
+<div >
+    <div class="setting-body__subtitle">— Network</div>
+    <div class="settings-body__row">Recieve data from unknow
+      <check-box-component
+        @callback="recieveFromUnknow"
+        class="network-settings__recive_check"
+        v-bind:state="data.RecieveDataFromUnknow"/>
+    </div>
+    <div class="settings-body__row">Network ID
+      <input v-model="data.NetworkID" class="settings__networkID" disabled/>
+    </div>
+    <div class="settings-body__row">
+      <span class="settings-body__action" v-on:click="refresh">Refresh</span> network ID
+    </div>
+</div>

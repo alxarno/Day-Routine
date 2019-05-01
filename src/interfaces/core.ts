@@ -11,6 +11,7 @@ export interface ISettingsCore {
   ClearAll: () => void;
   Get: () => ISettings;
   Put: (s: ISettings) => void;
+  UpdateNetworkID: () => void;
 }
 
 export interface IScheduleCore {

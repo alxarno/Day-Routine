@@ -8,7 +8,7 @@ import SnackBar from "src/view/components/snackbars/unit";
 
 const INFO_SNACKBAR_TIME = 7000;
 const ERROR_SNACKBAR_TIME = 7000;
-const CHOOSE_SNACKBAR_TIME = 15000;
+const CHOOSE_SNACKBAR_TIME = 150000;
 let ID = 0;
 
 function GetSnackBarTime(snackBarType: SnackBarType): number {

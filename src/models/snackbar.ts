@@ -5,7 +5,7 @@ export enum SnackBarType {
 }
 
 export interface ISnackBarNewConnection {
-  Key: string;
+  NetworkID: string;
   Callback: (answer: boolean) => void;
 }
 
