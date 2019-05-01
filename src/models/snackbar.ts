@@ -15,10 +15,17 @@ export interface ISnackBarBase {
 
 export type ISnackBarContent = ISnackBarBase | ISnackBarNewConnection;
 
+export interface ISnackBarTimeOut {
+  Started: number;
+  Timer: NodeJS.Timer;
+  Duration: number;
+}
+
 export interface ISnackBar {
   ID: number;
   Type: SnackBarType;
   Content: ISnackBarContent;
-  TimeOut: NodeJS.Timer;
+  TimeOut: ISnackBarTimeOut;
   Hided: boolean;
+  Executed: boolean;
 }

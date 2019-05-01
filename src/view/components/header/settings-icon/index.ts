@@ -12,11 +12,11 @@ const namespace: string = "app";
 @WithRender
 @Component({})
 export default class SettingsIcon extends Vue {
-  @Action("drawerAction", { namespace }) public drawerAction?: (arg: number) => void;
+  @Action("drawerAction", { namespace }) private drawerAction?: (arg: number) => void;
 
-  public icon: string = icon;
+  private icon: string = icon;
 
-  public change(): void {
+  private change(): void {
     if (this.drawerAction) {this.drawerAction(DrawerContent.Settings); }
     // this.$store.dispatch("openPopUp")
     // this.$store.dispatch('settingsOpenChange')

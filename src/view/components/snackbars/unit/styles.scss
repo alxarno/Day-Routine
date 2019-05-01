@@ -9,17 +9,120 @@
   font-family: Roboto-Regular;
   display: flex;
   flex-direction: column;
+  flex: 1 2px;
   position: relative;
 
   display: flex;
   height: 46px;
-  margin-top: 2px;
-  padding: 0px 10px;
+  // margin-top: 2px;
+  // padding: 0px 10px;
   justify-content: center;
+}
+
+.snackbar__content{
+  padding: 0px 10px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.snackbar__text,
+.snackbar__text-error{
+  font-size: 14px;
+  display: inline-block;
+  color:$dark;
+  width: 50%;
+}
+
+.snackbar__text-error,
+.snackbar__text-red{
+  color: #ff5338;
+}
+
+.snackbar__text-red{
+  font-weight: bold;
+}
+
+.snackbar__buttons{
+  width: 90px;
+  float: right;
+  height: 20px;
+  display: flex;
+  align-content: space-between;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.snackbar__buttons-yes,
+.snackbar__buttons-no{
+  width: 30px;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 5px;
+  height: 22px;
+  margin: 0px 5px;
+  cursor: pointer;
+  justify-content: center;
+  line-height: 23px;
+  transition: 0.2s ease-in-out;
+}
+
+.snackbar__buttons-yes:hover,
+.snackbar__buttons-no:hover{
+  opacity: 0.6;
+}
+
+
+.snackbar__buttons-yes:active,
+.snackbar__buttons-no:active{
+  opacity: 1;
+}
+
+.snackbar__buttons-yes{
+  // background: lighten($primary-color, 10);
+  color: $primary-color;
+}
+
+.snackbar__buttons-no{
+  color: $gray;
+  // border: 1px solid lighten($primary-color, 10);
+  // background: lighten($gray,5);
 
 }
 
-.snackbar__text{
-  color:#B2B2B2;
-  width: 50%;
+.snackbar__close{
+  height: 18px;
+  width:18px;
+  float: right;
+  fill: lighten( $gray, 27% );
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.snackbar__close:hover{
+  fill: lighten( $gray, 25% );
+  transition: 0.2s
+}
+
+.snackbar__close>svg{
+  width: 18px;
+  height: 18px;
+}
+
+.snackbar__timeline{
+  height: 2px;
+  width: 100%;
+  background: $background;
+  // border-radius: 1px 1px 1px 1px
+}
+
+.snackbar__timeline-inner{
+  transition: 0.2s ease-in-out;
+  height: 2px;
+  // width: 200px;
+  background: lighten($primary-color, 10);
 }

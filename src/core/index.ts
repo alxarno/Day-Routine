@@ -62,9 +62,9 @@ export class Core implements ICore {
 
     this.ui.ShowSnackBar(SnackBarType.Notifier, {Data: "hello"});
     // new Promise((rej) => setTimeout(rej, 2000)).then(() => {
-    this.ui.ShowSnackBar(SnackBarType.Error, {Data: "Erro"});
+    // this.ui.ShowSnackBar(SnackBarType.Error, {Data: "Erro"});
     // });
-    this.ui.ShowSnackBar(SnackBarType.NewConnection, {Key: "2323-8976", Callback: (v) => {console.log(v); }});
+    // this.ui.ShowSnackBar(SnackBarType.NewConnection, {Key: "2323-8976", Callback: (v) => {console.log(v); }});
   }
 
   public HourIsGone(newHour: number) {

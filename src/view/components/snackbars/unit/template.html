@@ -1,12 +1,37 @@
 <transition name="slide-fade">
   <div class="snackbar">
     <!-- {{this.data.Content}} -->
-    <div v-if="notifier">
+    <div v-if="notifier" class="snackbar__content">
       <div class="snackbar__text">
         {{this.data.Content.Data}}
       </div>
+      <div 
+        v-html="icon"
+        class="snackbar__close"
+        v-on:click="close"
+      />
     </div>
-    <div v-if="error">Error</div>
-    <div v-if="newConnection">New Connection</div>
+    <div v-if="error"  class="snackbar__content">
+      <div class="snackbar__text-error">
+        {{this.data.Content.Data}}
+      </div>
+      <div 
+        v-html="icon"
+        class="snackbar__close"
+        v-on:click="close"
+      />
+    </div>
+    <div v-if="newConnection"  class="snackbar__content">
+      <div class="snackbar__text">
+        Recieve data from <span class="snackbar__text-red">{{this.data.Content.Key}}</span> device?
+      </div>
+      <div  class="snackbar__buttons">
+        <div class="snackbar__buttons-yes" v-on:click="accept" >YES</div>
+        <div class="snackbar__buttons-no" v-on:click="dismiss">NO</div>
+      </div>
+    </div>
+    <div class="snackbar__timeline">
+      <div class="snackbar__timeline-inner" v-bind:style="{width: timelineWidth}"/>
+    </div>
   </div>
 </transition>
