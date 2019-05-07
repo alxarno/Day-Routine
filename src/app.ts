@@ -19,7 +19,9 @@ const electron = (window as any).require("electron");
 const {PROD} = electron.remote.getGlobal("CONFIG");
 
 const DEBUG = !PROD;
-const PORT = 40814;
+
+const PORT_TCP = 42816;
+const PORT_UDP = 42814;
 
 const db: WebSQLDB = new WebSQLDB(
   {debug: DEBUG},
@@ -30,7 +32,9 @@ const cache: ICache = 	new CacheLocalStorage(); // LocalStorage
 const settingsStore: ISettingsStore = new SettingsStore(); // Settings
 const os: IOS = new OS(settingsStore); // Notifications and other
 const storage: IStorage = new Storage(sk, () => {/**/}); // Manage tables as little ORM
-const network = new Network(storage.SchemaVersion(), settingsStore.Get, DEBUG, PORT); // Work with network
+const network = new Network(
+  storage.SchemaVersion(),
+  settingsStore.Get.bind(settingsStore), DEBUG, PORT_TCP, PORT_UDP); // Work with network
 
 const core = new Core(
   storage,

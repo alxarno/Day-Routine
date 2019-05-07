@@ -12,6 +12,7 @@ export class SettingsStore implements ISettingsStore {
       DeadZoneNotifications: true,
       NetworkID: generateNetworkID(),
       RecieveDataFromUnknow: true,
+      UserPass: generateNetworkID(),
     };
   }
 

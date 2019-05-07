@@ -12,4 +12,7 @@
     <div class="settings-body__row">
       <span class="settings-body__action" v-on:click="refresh">Refresh</span> network ID
     </div>
+    <div class="settings-body__row">Network Pass
+      <input @change="pass" v-model="data.UserPass" class="settings__networkPass"/>
+    </div>
 </div>

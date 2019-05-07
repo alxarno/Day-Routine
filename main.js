@@ -57,9 +57,14 @@ function createWindow () {
       mainWindow.webContents.openDevTools()
   }
 
-
-  mainWindow.on('closed', function () {
-    mainWindow = null
+  mainWindow.on('close', function (e) {
+    // // e.preventDefault();
+    // // mainWindow.webContents.send('close', 'whoooooooh!')
+    // require('dialog').showMessageBox({
+    //   message: "Close button has been pressed!",
+    //   buttons: ["OK"]
+    // });
+    // mainWindow = null
   })
 
   tray = new Tray(ICON)
@@ -92,4 +97,6 @@ app.on('activate', function () {
     createWindow()
   }
 });
+
+
 

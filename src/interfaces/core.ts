@@ -14,6 +14,18 @@ export interface ISettingsCore {
   UpdateNetworkID: () => void;
 }
 
+export interface ISyncCore {
+  Push: () => void;
+  Recieve: () => void;
+}
+
+// export interface ICommunicData {
+//   routines: IRoutine[];
+//   deadZones: IDeadZone[];
+//   statistics: IStatistics[];
+//   dbSchemaVersion: string;
+// }
+
 export interface IScheduleCore {
   Get: () => Promise< IScheduleUnit[] >;
   GetCurrentTask: () => Promise<IScheduleUnit>;
@@ -46,4 +58,5 @@ export interface ICore {
   Settings: () => ISettingsCore;
   FreeTime: () => Promise<number>;
   Statistics: () => IStatisticCore;
+  Sync: () => ISyncCore;
 }

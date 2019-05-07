@@ -3,6 +3,7 @@ export interface ISettings {
   DeadZoneNotifications: boolean;
   NetworkID: string;
   RecieveDataFromUnknow: boolean;
+  UserPass: string;
 }
 
 export interface ISettingsStore {

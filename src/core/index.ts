@@ -7,6 +7,7 @@ import {
   IRoutinesCore,
   IDeadZonesCore,
   IStatisticCore,
+  ISyncCore,
 } from "src/interfaces/core";
 
 import {ICache} from "src/interfaces/cache";
@@ -18,48 +19,50 @@ import { INowTask } from "src/models/now.tasks";
 import { IRoutine } from "src/models/routines.routine";
 import { IDeadZone } from "src/models/dead_zone";
 import { ISettingsStore, ISettings } from "src/interfaces/settingsStore";
-import { INetwork, INetworkData } from "src/interfaces/network";
 import IStatistics from "src/models/statistics";
 import { IUserInterface } from "src/interfaces/ui";
-import UserInterface from "src/view/view";
-import { SnackBarType } from "src/models/snackbar";
+import { ISync, ISyncData } from "src/interfaces/sync";
+import { SyncCore } from "./modules/sync";
 
 export class Core implements ICore {
-  private Storage: IStorage;
-  private Cache: ICache;
+  private storage: IStorage;
+  private cache: ICache;
 
   private ScheduleModule: IScheduleCore;
   private SettingsModule: ISettingsCore;
+  private SyncModule: ISyncCore;
   private os: IOS;
-  private Network: INetwork;
+  private sync: ISync;
   private ui: IUserInterface | null;
 
   constructor(
       storage: IStorage, cache: ICache, os: IOS,
-      settingsStore: ISettingsStore, network: INetwork,
+      settingsStore: ISettingsStore, sync: ISync,
       ui: (core: ICore) => IUserInterface,
     ) {
-    this.Storage = storage;
-    this.Cache = cache;
-    this.Network = network;
+    this.storage = storage;
+    this.cache = cache;
 
+    this.sync = sync;
     this.os = os;
 
-    this.ScheduleModule = new ScheduleCore({storage: this.Storage, cache: this.Cache});
+    this.ScheduleModule = new ScheduleCore({storage: this.storage, cache: this.cache});
     this.SettingsModule = new SettingsCore(
       {
-        storage: this.Storage,
+        storage: this.storage,
         os: this.os,
         settings_storage: settingsStore,
         settings_apply: this.settingsApply.bind(this),
       });
+
     // REGISTER ALL CALLBACKS AFTER SCHEDULE AND SETTINGS MODULE CREATING
     // CAUSE FUNCS BELOW USE THE MODULES
     this.os.registerGetCurrentTask(this.ScheduleModule.GetCurrentTask.bind(this.ScheduleModule));
     this.os.registerTimerCallbcak(this.HourIsGone.bind(this));
 
     this.ui = ui(this);
-
+    this.SyncModule = new SyncCore({sync: this.sync, ui: this.ui});
+    // this.Network.Broadcast();
     // this.ui.ShowSnackBar(SnackBarType.Notifier, {Data: "hello"});
     // new Promise((rej) => setTimeout(rej, 2000)).then(() => {
     // this.ui.ShowSnackBar(SnackBarType.Error, {Data: "Erro"});
@@ -68,11 +71,11 @@ export class Core implements ICore {
   }
 
   public HourIsGone(newHour: number) {
-    let schedule: Array<INowTask | null> = this.Cache.Get();
+    let schedule: Array<INowTask | null> = this.cache.Get();
 
     let lastTaskID: number = -1;
     if (newHour === 0) {
-      schedule = this.Cache.GetYesterday();
+      schedule = this.cache.GetYesterday();
       if (schedule.length === 0) {return; }
       if (schedule[schedule.length - 1] != null) {
         lastTaskID = (schedule[schedule.length - 1] as INowTask).ID;
@@ -114,16 +117,20 @@ export class Core implements ICore {
     return freeTime;
   }
 
+  public Sync(): ISyncCore {
+    return this.SyncModule;
+  }
+
   public Statistics(): IStatisticCore {
-    return this.Storage.Statistics();
+    return this.storage.Statistics();
   }
 
   public Routines(): IRoutinesCore {
-    return this.Storage.Routines();
+    return this.storage.Routines();
   }
 
   public DeadZones(): IDeadZonesCore {
-    return this.Storage.DeadZones();
+    return this.storage.DeadZones();
   }
 
   public Schedule(): IScheduleCore {
@@ -134,23 +141,41 @@ export class Core implements ICore {
     return this.SettingsModule;
   }
 
-  private async updateStatistics(hours: number, routineID: number): Promise<void> {
-    await this.Storage.Statistics().Add({hours, routineID});
+  private async testRequest() {
     const deadZones: IDeadZone[] = (await this.DeadZones().Get() as IDeadZone[]);
     const routines: IRoutine[] = (await this.Routines().Get() as IRoutine[]);
     const statistics: IStatistics[] = (await this.Statistics().Get() as IStatistics[]);
-    const sData: INetworkData = {
-      dbSchemaVersion: this.Storage.SchemaVersion(),
+    const sData: ISyncData = {
+      dbSchemaVersion: this.storage.SchemaVersion(),
       deadZones,
       routines,
       statistics,
     };
-    await this.Network.Broadcast(sData);
+    await this.sync.Broadcast(sData);
+  }
+
+  private async updateStatistics(hours: number, routineID: number): Promise<void> {
+    await this.storage.Statistics().Add({hours, routineID});
+    const deadZones: IDeadZone[] = (await this.DeadZones().Get() as IDeadZone[]);
+    const routines: IRoutine[] = (await this.Routines().Get() as IRoutine[]);
+    const statistics: IStatistics[] = (await this.Statistics().Get() as IStatistics[]);
+    const sData: ISyncData = {
+      dbSchemaVersion: this.storage.SchemaVersion(),
+      deadZones,
+      routines,
+      statistics,
+    };
+    await this.sync.Broadcast(sData);
     // this.Network.Request
   }
 
   private settingsApply(settings: ISettings): void {
     // this.os.setSettings({Notifications: settings.Notifications});
     return;
+  }
+
+  private onClose() {
+    //
+    console.log("Close");
   }
 }

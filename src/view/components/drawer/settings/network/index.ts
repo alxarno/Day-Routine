@@ -27,4 +27,9 @@ export default class NetworkComponent extends Vue {
     this.updateNetworkID();
   }
 
+  private pass() {
+    this.saveSettings!(this.data!);
+    return;
+  }
+
 }

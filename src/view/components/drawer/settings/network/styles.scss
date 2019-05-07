@@ -5,7 +5,8 @@
 }
 
 
-.settings__networkID{
+.settings__networkID,
+.settings__networkPass{
   border: 0px;
   font-size: 14px;
   border: 1px solid $light-gray;
@@ -16,4 +17,8 @@
 
   font-family: Roboto-Light;
   color: darken($gray, 10%);
+}
+
+.settings__networkPass{
+  width: 140px;
 }
