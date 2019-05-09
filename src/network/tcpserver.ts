@@ -1,8 +1,5 @@
 import { ITCPServer, IRequestInfo } from "./interfaces";
 
-// const remote = (window as any).require("electron").remote;
-// const net = remote.require("net");
-
 interface INet {
   createServer: (c: (socket: ISocket) => void) => any;
   Socket: any;
@@ -34,6 +31,8 @@ interface ISocket {
   destroy: () => void;
   localAddress: string;
   localPort: number;
+  remotePort: number;
+  setNoDelay: () => void;
 }
 
 interface IConnection {
@@ -77,7 +76,7 @@ export class TCPServer implements ITCPServer {
       if (addr.substr(0, 7) === ipv6prefix) {
         addr = addr.substr(7);
       }
-      console.log(`${this.name}: new TCP connection `, addr);
+      console.log(`${this.name}: TCP new connection ${addr}:${socket.remotePort}`);
       const conn: IConnection = {
         address:  addr,
         process: ConnectionStep.SocketCreation,
@@ -86,16 +85,16 @@ export class TCPServer implements ITCPServer {
       };
       this.connections.push(conn);
       conn.socket.on(ondata, (message: Buffer) => {
-        console.log("TCP Server V");
-        this.recieve(message.toString(), {address: conn.address, port: conn.socket.localPort});
+        console.log(`${this.name}: TCP Server V from ${conn.address}:${conn.socket.remotePort}`);
+        this.recieve(message.toString(), {address: conn.address, port: conn.socket.remotePort});
       });
-      conn.socket.pipe(conn.socket);
+      // conn.socket.pipe(conn.socket);
     });
     this.server.on(onerror, (err) => {
-      console.log("TCP server error ", err);
+      console.log(`${this.name}: TCP server error `, err);
     });
     this.server.listen(this.port, () => {
-      console.log("Opened TCP server on ", "127.0.0.1:" + this.port);
+      console.log(`${this.name}: TCP server listening ${this.server.address().address}:${this.port}`);
     });
   }
 
@@ -111,17 +110,19 @@ export class TCPServer implements ITCPServer {
       };
       this.connections.push((c as IConnection));
       c.socket.connect(this.servicesPort, addr, () => {
-        console.log("TCP Client Send message");
-        conn.socket.write(m);
+        c!.socket.setNoDelay();
+        console.log(`${this.name}: TCP Client Send message to ${this.servicesPort}`);
+        c!.socket.write(m);
       });
       c.socket.on(ondata, (data: Buffer) => {
-        console.log("TCP Client V");
-        this.recieve(data.toString(), {address: conn.address, port: conn.socket.localPort});
+        console.log(`${this.name}: TCP Client V`);
+        this.recieve(data.toString(), {address: c!.address, port: c!.socket.localPort});
       });
       c.socket.on(onclose, () => {
-        this.popConnection(conn.ID);
-        console.log("TCP Socket Connection closed");
+        this.popConnection(c!.ID);
+        console.log(`${this.name}: TCP Socket Connection closed`);
       });
+      return;
     }
     const conn: IConnection = (c as IConnection);
 
@@ -151,7 +152,4 @@ export class TCPServer implements ITCPServer {
     return conn;
   }
 
-  // public PushDataTo(addr: string, data: string) {
-  //   //
-  // }
 }

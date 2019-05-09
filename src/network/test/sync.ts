@@ -21,10 +21,10 @@ export class SyncCore {
     });
     this.sync.Start().then((v) => {
       if (!v) {
-        console.log(`${this.name} didn't started`);
+        console.log(`${this.name}: didn't started`);
         return;
       }
-      console.log(`${this.name} started`);
+      console.log(`${this.name}: Started`);
       switch (actionAfterStart) {
         case BasicAction.Request:
           this.sync.Request();
@@ -60,6 +60,6 @@ export class SyncCore {
   }
   private gotDataFromTransmition(data: any, dbSchemaVersion: string): void {
     //
-    console.log(`${this.name} got data from transmission - ${data}, db schema - ${dbSchemaVersion}`);
+    console.log(`${this.name}: Got data from transmission - ${data}, db schema - ${dbSchemaVersion}`);
   }
 }

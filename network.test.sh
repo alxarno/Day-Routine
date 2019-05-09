@@ -1,1 +1,1 @@
-ts-node -O '{"module": "commonjs"}' --project tsconfig.json --files src/network/test/index.ts src/lib.d.ts
+./node_modules/.bin/ts-node -O '{"module": "commonjs"}' --project tsconfig.json --files src/network/test/index.ts src/lib.d.ts

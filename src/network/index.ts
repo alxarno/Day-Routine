@@ -23,6 +23,7 @@ export default class Network implements ISync {
   private portUDP: number;
   private servicesTCP: number;
   private servicesUDP: number;
+  private name: string;
 
   private binded = false;
   private bufferRequests: INetworkBufferedRequests[] = [];
@@ -33,12 +34,13 @@ export default class Network implements ISync {
 
   constructor(dbSchemaVersion: string, settings: () => ISettings,
               debug: boolean, portTCP: number, servicesTCP: number,
-              portUPD: number, servicesUDP: number) {
+              portUPD: number, servicesUDP: number, name: string) {
     this.portTCP = portTCP;
     this.servicesTCP = servicesTCP;
     this.portUDP = portUPD;
     this.servicesUDP = servicesUDP;
     this.debug = debug;
+    this.name = name;
     this.dbScehmaVersion = dbSchemaVersion;
     this.settings = settings;
 
@@ -51,6 +53,7 @@ export default class Network implements ISync {
     }
     const udp = new Promise((res, rej) => {
       this.udpserver = new UDPServer(this.debug, this.portUDP, this.servicesUDP,
+        this.name,
         this.Receive.bind(this),
         () => rej(),
         () => res(),
@@ -58,6 +61,7 @@ export default class Network implements ISync {
     });
     const tcp = new Promise((res, rej) => {
       this.tcpserver = new TCPServer(this.debug, this.portTCP, this.servicesTCP,
+        this.name,
         this.Receive.bind(this),
         () => rej(),
         () => res(),
@@ -85,7 +89,7 @@ export default class Network implements ISync {
     if (!request || !this.tcpserver) {return; }
     if (request.Action === Action.Request || request.Action === Action.NeedData) {
       if (!this.getDataForTransmition) {return; }
-      console.log("Send data request and need data");
+      // console.log("Send data request and need data");
       const data = this.getDataForTransmition();
       const sendData: ISendDataMessage = {
         Action: Action.SendData,
@@ -99,7 +103,7 @@ export default class Network implements ISync {
     }
     if (request.Action === Action.Distribution) {
       // if (!this.gotDataFromTransmition) {
-        console.log("Send data distr");
+        // console.log("Send data distr");
         const sendData: INeedDataMessage = {
           Action: Action.NeedData,
           DBSchemaVersion: this.dbScehmaVersion,
@@ -138,7 +142,7 @@ export default class Network implements ISync {
   // Recieve UDP and TCP dgams, but user's data transfering use TCP connection
   private Receive(msg: string , rinfo: IRequestInfo) {
     if (this.debug) {
-      console.log(`Server recive ${msg} from ${rinfo.address}:${rinfo.port}`);
+      console.log(`${this.name}: Recived ${msg} from ${rinfo.address}:${rinfo.port}`);
     }
     const messageO = JSON.parse(msg);
     if (messageO.hasOwnProperty("Type")) {
