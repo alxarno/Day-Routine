@@ -1,7 +1,8 @@
 declare var openDatabase: Function;
+// declare var window: Window;
 
 declare var process : {
   env: {
-    SHOW_NOTIF: string
+    TEST: boolean
   }
 }

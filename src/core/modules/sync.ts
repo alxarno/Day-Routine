@@ -1,5 +1,6 @@
 import CoreModule from "./module";
 import { ISyncCore } from "src/interfaces/core";
+import { SnackBarType, ISnackBarNewConnection } from "src/models/snackbar";
 
 export class SyncCore extends CoreModule implements ISyncCore {
   constructor(props: {[key: string]: any}) {
@@ -10,7 +11,7 @@ export class SyncCore extends CoreModule implements ISyncCore {
       newDataDistribution: this.newDataDistribution.bind(this),
       newDataRequest: this.newDataRequest.bind(this),
     });
-    this.sync!.Start();
+    this.sync!.Start().then((v) => console.log("Sync started"));
   }
 
   public Push() {
@@ -22,17 +23,30 @@ export class SyncCore extends CoreModule implements ISyncCore {
   }
 
   private async newDataRequest(ID: string) {
-    //
-    this.sync!.AcceptRequest(ID);
+    const snack: ISnackBarNewConnection = {
+      NetworkID: ID,
+      Callback: (v) => {
+        if (v) {
+          this.sync!.AcceptRequest(ID);
+        } else {
+          this.sync!.DismissRequest(ID);
+        }
+      },
+    };
+    snack.Callback.bind(this);
+    this.ui!.ShowSnackBar(SnackBarType.NewConnection, snack);
+    // this.sync!.AcceptRequest(ID);
   }
   private async newDataDistribution(ID: string) {
     //
+    this.sync!.AcceptRequest(ID);
   }
   private getDataForTransmition(): string {
     //
     return "TEST 228";
   }
-  private gotDataFromTransmition(data: string): void {
+  private gotDataFromTransmition(data: any, dbSchemaVersion: string): void {
     //
+    console.log("Got data from transmission - ", data, dbSchemaVersion);
   }
 }

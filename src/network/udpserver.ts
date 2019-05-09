@@ -3,8 +3,22 @@ import { ICore } from "src/interfaces/core";
 import { IGreetingMessage, Action, NetworkMessage } from "./messages";
 import { IUDPServer, IRequestInfo } from "./interfaces";
 
-const remote = (window as any).require("electron").remote;
-const dgram = remote.require("dgram");
+// const remote = (window as any).require("electron").remote;
+// const dgram = remote.require("dgram");
+interface IDgram {
+  createSocket: (type: string) => any;
+}
+
+let d: IDgram | null = null;
+
+if (typeof window === "undefined") {
+  d = require("dgram");
+} else {
+  const remote = (window as any).require("electron").remote;
+  d = remote.require("dgram");
+}
+
+const dgram = (d as IDgram);
 
 interface IServer {
   bind: (a: number, address: string, c?: () => void) => void;
@@ -19,19 +33,25 @@ export class UDPServer implements IUDPServer {
   private server: IServer;
   private debug: boolean;
   private port: number;
+  private servicesPort: number;
 
   constructor(
     debug: boolean,
     port: number,
+    servicesPort: number,
     onRecive: (msg: string, rinfo: IRequestInfo) => void,
     onError: (err: Error) => void,
     onBinded: () => void,
   ) {
     this.debug = debug;
     this.port = port;
+    this.servicesPort = servicesPort;
     this.server = dgram.createSocket("udp4");
     this.server.on("error", onError);
-    this.server.on("message", onRecive);
+    this.server.on("message", (message: string, rinfo: IRequestInfo) => {
+      console.log("UDP Server Recieve ");
+      onRecive(message, rinfo);
+    });
     this.server.on("listening", () => {
       const address =  this.server.address();
       if (this.debug) {
@@ -53,8 +73,8 @@ export class UDPServer implements IUDPServer {
 
   public SendMulticast(m: NetworkMessage) {
     const message = Buffer.from(JSON.stringify(m));
-    console.log("SendMulticast - ", message);
-    this.server.send(message, this.port, "255.255.255.255", (err: Error) => {
+    console.log("UDP server send message");
+    this.server.send(message, this.servicesPort, "255.255.255.255", (err: Error) => {
       if (!err) {return; }
       console.log("MultiCast Error - ", err);
     });

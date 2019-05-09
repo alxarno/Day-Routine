@@ -12,7 +12,5 @@ export interface IUDPServer {
 }
 
 export interface ITCPServer {
-  // SendToAddress: (m: string , address: string) => void;
-  GetDataFrom: (address: string) => void;
   PushDataTo: (address: string, data: string) => void;
 }

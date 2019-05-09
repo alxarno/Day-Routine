@@ -34,7 +34,7 @@ const os: IOS = new OS(settingsStore); // Notifications and other
 const storage: IStorage = new Storage(sk, () => {/**/}); // Manage tables as little ORM
 const network = new Network(
   storage.SchemaVersion(),
-  settingsStore.Get.bind(settingsStore), DEBUG, PORT_TCP, PORT_UDP); // Work with network
+  settingsStore.Get.bind(settingsStore), DEBUG, PORT_TCP, PORT_TCP, PORT_UDP, PORT_UDP); // Work with network
 
 const core = new Core(
   storage,

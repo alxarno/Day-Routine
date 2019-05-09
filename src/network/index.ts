@@ -2,7 +2,7 @@ import { ISync,  ISyncAnswer, ISyncData, ISyncInitData } from "src/interfaces/sy
 import { ISettings } from "src/interfaces/settingsStore";
 import { UDPServer} from "./udpserver";
 import {TCPServer} from "./tcpserver";
-import { Action, MessageType, NetworkMessage } from "./messages";
+import { Action, MessageType, NetworkMessage, ISendDataMessage, INeedDataMessage } from "./messages";
 import { IUDPServer, IRequestInfo, ITCPServer } from "./interfaces";
 
 interface INetworkBufferedRequests {
@@ -21,39 +21,51 @@ export default class Network implements ISync {
   private debug: boolean;
   private portTCP: number;
   private portUDP: number;
+  private servicesTCP: number;
+  private servicesUDP: number;
+
   private binded = false;
   private bufferRequests: INetworkBufferedRequests[] = [];
   private newDataRequest: ((networkID: string) => void) | null = null;
   private newDataDistribution: ((networkID: string) => void) | null = null;
   private getDataForTransmition: (() => string) | null = null;
-  private gotDataFromTransmition: ((data: string) => void) | null = null;
+  private gotDataFromTransmition: ((data: any, dbSchemaVersion: string) => void) | null = null;
 
   constructor(dbSchemaVersion: string, settings: () => ISettings,
-              debug: boolean, portTCP: number, portUPD: number) {
+              debug: boolean, portTCP: number, servicesTCP: number,
+              portUPD: number, servicesUDP: number) {
     this.portTCP = portTCP;
+    this.servicesTCP = servicesTCP;
     this.portUDP = portUPD;
+    this.servicesUDP = servicesUDP;
     this.debug = debug;
     this.dbScehmaVersion = dbSchemaVersion;
     this.settings = settings;
 
   }
 
-  public Start() {
+  public async Start(): Promise<boolean> {
     if (!this.newDataDistribution || !this.newDataRequest ||
       !this.gotDataFromTransmition || ! this.getDataForTransmition) {
         throw new Error(START_WITHOUT_INIT);
     }
-    this.udpserver = new UDPServer(this.debug, this.portUDP,
-      this.Receive.bind(this),
-      this.Error.bind(this),
-      this.Created.bind(this),
-    );
-    this.tcpserver = new TCPServer(this.debug, this.portTCP,
-      this.Receive.bind(this),
-      this.Error.bind(this),
-      () => {/**/},
-    );
+    const udp = new Promise((res, rej) => {
+      this.udpserver = new UDPServer(this.debug, this.portUDP, this.servicesUDP,
+        this.Receive.bind(this),
+        () => rej(),
+        () => res(),
+      );
+    });
+    const tcp = new Promise((res, rej) => {
+      this.tcpserver = new TCPServer(this.debug, this.portTCP, this.servicesTCP,
+        this.Receive.bind(this),
+        () => rej(),
+        () => res(),
+      );
+    });
+    Promise.all([udp, tcp]).then((result) => console.log(result));
 
+    return true;
   }
 
   public Init(data: ISyncInitData) {
@@ -69,28 +81,46 @@ export default class Network implements ISync {
 
   public AcceptRequest(networkID: string) {
     const request = this.bufferRequests.find((req: INetworkBufferedRequests) => req.NetworkID === networkID);
+    this.popFromBuffer(networkID);
     if (!request || !this.tcpserver) {return; }
-    if (request.Action === Action.Request) {
+    if (request.Action === Action.Request || request.Action === Action.NeedData) {
       if (!this.getDataForTransmition) {return; }
+      console.log("Send data request and need data");
       const data = this.getDataForTransmition();
-      this.tcpserver.PushDataTo(request.IP, data);
+      const sendData: ISendDataMessage = {
+        Action: Action.SendData,
+        DBSchemaVersion: this.dbScehmaVersion,
+        Data: data,
+        NetworkID: this.settings().NetworkID,
+        Pass: "",
+        Type: MessageType.Transfer,
+      };
+      this.tcpserver.PushDataTo(request.IP, JSON.stringify(sendData));
     }
     if (request.Action === Action.Distribution) {
-      if (!this.gotDataFromTransmition) {
-        this.tcpserver.GetDataFrom(request.IP);
-      }
+      // if (!this.gotDataFromTransmition) {
+        console.log("Send data distr");
+        const sendData: INeedDataMessage = {
+          Action: Action.NeedData,
+          DBSchemaVersion: this.dbScehmaVersion,
+          NetworkID: this.settings().NetworkID,
+          Pass: "",
+          Type: MessageType.Greeting,
+        };
+        this.tcpserver.PushDataTo(request.IP, JSON.stringify(sendData));
+        // this.tcpserver.GetDataFrom(request.IP);
+      // }
     }
+
   }
 
-  public async Broadcast(data: ISyncData): Promise<void> {
-      // this.server.SendMulticast();
+  public Broadcast(): void {
+    this.sendUDPGreeting(Action.Distribution);
   }
 
-  public async Request(): Promise<ISyncAnswer> {
-    const res: any =  await new Promise((res, rej) => {
-      rej(new Error("Fuck"));
-    });
-    return {data: null, error: new Error("Fuck")};
+  public Request(): void {
+    this.sendUDPGreeting(Action.Request);
+    // return {data: null, error: new Error("Fuck")};
     //
   }
 
@@ -102,14 +132,10 @@ export default class Network implements ISync {
 
   public Created() {
     this.binded = true;
-    this.udpserver!.SendMulticast({
-      Action: Action.Request,
-      NetworkID: this.settings().NetworkID,
-      Pass: "",
-      Type: MessageType.Greeting,
-    });
+    this.Broadcast();
+    // this.sendUDPGreeting(Action.Request);
   }
-
+  // Recieve UDP and TCP dgams, but user's data transfering use TCP connection
   private Receive(msg: string , rinfo: IRequestInfo) {
     if (this.debug) {
       console.log(`Server recive ${msg} from ${rinfo.address}:${rinfo.port}`);
@@ -127,12 +153,31 @@ export default class Network implements ISync {
           this.pushToBuffer(message, rinfo.address);
           this.newDataDistribution!(message.NetworkID);
           break;
+        case Action.SendData:
+          this.pushToBuffer(message, rinfo.address);
+          this.gotDataFromTransmition!(
+            (message as ISendDataMessage).Data,
+            (message as ISendDataMessage).DBSchemaVersion);
+          break;
+        case Action.NeedData:
+          this.pushToBuffer(message, rinfo.address);
+          this.newDataDistribution!(message.NetworkID);
+          break;
       }
 
     } else {
       return;
     }
    }
+
+  private sendUDPGreeting(action: Action) {
+    this.udpserver!.SendMulticast({
+      Action: action,
+      NetworkID: this.settings().NetworkID,
+      Pass: "",
+      Type: MessageType.Greeting,
+    });
+  }
 
   private Error(err: Error) {
     if (this.debug) {

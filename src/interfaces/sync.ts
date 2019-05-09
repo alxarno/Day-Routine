@@ -8,10 +8,10 @@ export interface ISyncAnswer {
 }
 
 export interface ISyncInitData {
-  newDataRequest: (networkID: string) => void;
-  newDataDistribution: (networkID: string) => void;
+  newDataRequest: (syncID: string) => void;
+  newDataDistribution: (syncID: string) => void;
   getDataForTransmition: () => string;
-  gotDataFromTransmition: (data: string) => void;
+  gotDataFromTransmition: (data: any, dbSchemaVersion: string) => void;
 }
 
 export interface ISyncData {
@@ -22,11 +22,11 @@ export interface ISyncData {
 }
 
 export interface ISync {
-  Request: () => Promise<ISyncAnswer>;
-  Broadcast: (d: ISyncData) => Promise<void>;
-  DismissRequest: (networkID: string) => void;
-  AcceptRequest: (networkID: string) => void;
+  Request: () => void;
+  Broadcast: () => void;
+  DismissRequest: (syncID: string) => void;
+  AcceptRequest: (syncID: string) => void;
   Init: (data: ISyncInitData) => void;
-  Start: () => void;
+  Start: () => Promise<boolean>;
   Close: () => void;
 }
