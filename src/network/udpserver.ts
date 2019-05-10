@@ -8,6 +8,7 @@ interface IDgram {
 let d: IDgram | null = null;
 
 if (typeof window === "undefined") {
+// if (process.env.TEST) {
   d = require("dgram");
 } else {
   const remote = (window as any).require("electron").remote;
@@ -52,7 +53,9 @@ export class UDPServer implements IUDPServer {
     this.server = dgram.createSocket({ type: "udp4", reuseAddr: true});
     this.server.on("error", onError);
     this.server.on("message", (message: string, rinfo: IRequestInfo) => {
-      console.log(`${this.name}: UDP Server Recieve `);
+      if (this.debug) {
+        console.log(`${this.name}: UDP Server Recieve `);
+      }
       onRecive(message, rinfo);
     });
     this.server.on("listening", () => {
@@ -78,10 +81,14 @@ export class UDPServer implements IUDPServer {
 
   public SendMulticast(m: NetworkMessage) {
     const message = Buffer.from(JSON.stringify(m));
-    console.log(`${this.name}: UDP server send message to ${this.servicesPort}`);
+    if (this.debug) {
+      console.log(`${this.name}: UDP server send message to ${this.servicesPort}`);
+    }
     this.server.send(message, this.servicesPort, MULTICAST_ADDR, (err: Error) => {
       if (!err) {return; }
-      console.log("MultiCast Error - ", err);
+      if (this.debug) {
+        console.log("MultiCast Error - ", err);
+      }
     });
   }
 

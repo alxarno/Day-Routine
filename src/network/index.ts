@@ -132,6 +132,9 @@ export default class Network implements ISync {
     if (this.udpserver) {
       this.udpserver.Close();
     }
+    if (this.tcpserver) {
+      this.tcpserver.Close();
+    }
   }
 
   public Created() {

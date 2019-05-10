@@ -13,4 +13,5 @@ export interface IUDPServer {
 
 export interface ITCPServer {
   PushDataTo: (address: string, data: string) => void;
+  Close: () => void;
 }

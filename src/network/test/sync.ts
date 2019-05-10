@@ -6,13 +6,15 @@ export enum BasicAction {
   None,
 }
 
-export class SyncCore {
+export class SyncTest {
   private sync: ISync;
   private name: string;
+  private testData: string;
 
-  constructor(sync: ISync, actionAfterStart: BasicAction, name: string) {
+  constructor(sync: ISync, actionAfterStart: BasicAction, name: string, data: string) {
     this.sync = sync;
     this.name = name;
+    this.testData = data;
     this.sync.Init({
       getDataForTransmition: this.getDataForTransmition.bind(this),
       gotDataFromTransmition: this.gotDataFromTransmition.bind(this),
@@ -38,6 +40,10 @@ export class SyncCore {
     });
   }
 
+  get Data() {
+    return this.testData;
+  }
+
   public Push() {
     //
   }
@@ -56,10 +62,11 @@ export class SyncCore {
 
   private getDataForTransmition(): string {
     //
-    return "TEST 228";
+    return this.testData;
   }
   private gotDataFromTransmition(data: any, dbSchemaVersion: string): void {
     //
+    this.testData = data;
     console.log(`${this.name}: Got data from transmission - ${data}, db schema - ${dbSchemaVersion}`);
   }
 }

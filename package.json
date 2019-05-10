@@ -5,7 +5,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "jest --runInBand",
+    "test": "./node_modules/.bin/jest ", 
     "start": "./node_modules/.bin/electron .",
     "watch": "./node_modules/.bin/webpack --watch"
   },
@@ -17,7 +17,7 @@
     "electron": "^4.1.4",
     "electron-forge": "^5.2.4",
     "electron-prebuilt-compile": "4.0.0",
-    "jest": "^23.6.0",
+    "jest": "^24.8.0",
     "rimraf": "^2.6.2",
     "ts-loader": "^3.2.0",
     "typescript": "^2.6.2",
@@ -53,6 +53,8 @@
   },
   "jest": {
     "verbose": false,
+    "silent": true,
+    "testEnvironment": "node",
     "modulePaths": [
       "<rootDir>"
     ],
