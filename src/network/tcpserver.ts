@@ -8,7 +8,6 @@ interface INet {
 let n: INet | null = null;
 
 if (typeof window === "undefined") {
-// if (process.env.TEST) {
   n = require("net");
 } else {
   const remote = (window as any).require("electron").remote;
