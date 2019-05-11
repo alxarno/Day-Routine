@@ -1,6 +1,7 @@
 import Network from "..";
 import { ISettings } from "src/interfaces/settingsStore";
 import { BasicAction, SyncTest } from "./sync";
+import { GenerateKeys, Encrypt, Decrypt } from "../crypto";
 
 const PORT_TCP_1 = 42816; // FIRST TCP TEST SERVER PORT
 const PORT_UDP_1 = 42814; // FIRST UDP TEST SERVER PORT
@@ -74,4 +75,12 @@ test("Basic Distribution", async () => {
       expect(sync1.Data).toEqual(sync2.Data);
     });
   });
+});
+
+test("Basic crypto", async () => {
+  const passphrase = "Bingo";
+  const keys = await GenerateKeys(passphrase);
+  const encrypt = Encrypt("Hello", keys.pub, passphrase);
+  const decrypt = Decrypt(encrypt, keys.priv, passphrase);
+  expect(decrypt.toString("utf8")).toEqual("Hello");
 });
