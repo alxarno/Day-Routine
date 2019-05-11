@@ -3,6 +3,7 @@ import { NetworkMessage } from "./messages";
 export interface IRequestInfo {
   address: string;
   port: number;
+  connectionID: number;
 }
 
 export interface IUDPServer {
@@ -13,5 +14,6 @@ export interface IUDPServer {
 
 export interface ITCPServer {
   PushDataTo: (address: string, data: string) => void;
+  Start: () => Promise<void>;
   Close: () => void;
 }

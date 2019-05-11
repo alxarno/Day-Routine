@@ -41,26 +41,33 @@ const settings2 = (): ISettings => {
 const data1 = "Data 1";
 const data2 = "Data 2";
 
+// test("Basic crypto", async () => {
+//   const passphrase = "Bingo";
+//   const keys = await GenerateKeys(passphrase);
+//   const encrypt = Encrypt("Hello", keys.pub, passphrase);
+//   const decrypt = Decrypt(encrypt, keys.priv, passphrase);
+//   console.log(keys.pub.toString("utf8"));
+//   console.log(keys.priv.toString("utf8"));
+//   expect(decrypt.toString("utf8")).toEqual("Hello");
+// });
+
 test("Basic request", async () => {
   const debug = false;
-  // console.log("TEST", process.env.TEST);
-  const network1 = new Network("1.1", settings1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "Entity 1");
-  const network2 = new Network("1.1", settings2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Entity 2");
+  const network1 = new Network("1.1", settings1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "John");
+  const network2 = new Network("1.1", settings2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Luci");
 
-  const sync1 = new SyncTest(network1, BasicAction.None, "Entity 1", data1);
-  const sync2 = new SyncTest(network2, BasicAction.Request,  "Entity 2", data2);
+  const sync1 = new SyncTest(network1, BasicAction.None, "John", data1);
+  const sync2 = new SyncTest(network2, BasicAction.Request,  "Luci", data2);
 
-  await new Promise((res) => setTimeout(res, 1000)).then(async () => {
+  await new Promise((res) => setTimeout(res, 3000)).then(async () => {
     network1.Close();
     network2.Close();
-    await new Promise((res) => setTimeout(res, 500)).then(() => {
-      expect(sync1.Data).toEqual(sync2.Data);
-    });
+    expect(sync1.Data).toEqual(sync2.Data);
   });
 });
 
 test("Basic Distribution", async () => {
-  const debug = true;
+  const debug = false;
 
   const network1 = new Network("1.1", settings1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "Entity 1");
   const network2 = new Network("1.1", settings2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Entity 2");
@@ -68,19 +75,9 @@ test("Basic Distribution", async () => {
   const sync1 = new SyncTest(network1, BasicAction.None, "Entity 1", data1);
   const sync2 = new SyncTest(network2, BasicAction.Distribution,  "Entity 2", data2);
 
-  await new Promise((res) => setTimeout(res, 1000)).then(async () => {
+  await new Promise((res) => setTimeout(res, 3000)).then(async () => {
     network1.Close();
     network2.Close();
-    await new Promise((res) => setTimeout(res, 500)).then(() => {
-      expect(sync1.Data).toEqual(sync2.Data);
-    });
+    expect(sync1.Data).toEqual(sync2.Data);
   });
-});
-
-test("Basic crypto", async () => {
-  const passphrase = "Bingo";
-  const keys = await GenerateKeys(passphrase);
-  const encrypt = Encrypt("Hello", keys.pub, passphrase);
-  const decrypt = Decrypt(encrypt, keys.priv, passphrase);
-  expect(decrypt.toString("utf8")).toEqual("Hello");
 });

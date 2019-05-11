@@ -19,7 +19,7 @@ const cry: ICrypto = (c as ICrypto);
 function GenerateKeys(passphrase: string): Promise<{pub: Buffer, priv: Buffer}> {
   return new Promise((res, rej) => {
     cry.generateKeyPair("rsa", {
-      modulusLength: 4096,
+      modulusLength: 2048,
       publicKeyEncoding: {
         type: "spki",
         format: "pem",

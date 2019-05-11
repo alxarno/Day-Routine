@@ -1,4 +1,4 @@
-import { NetworkMessage } from "./messages";
+import { NetworkMessage, IMessage } from "./messages";
 import { IUDPServer, IRequestInfo } from "./interfaces";
 
 interface IDgram {
@@ -42,7 +42,7 @@ export class UDPServer implements IUDPServer {
     port: number,
     servicesPort: number,
     name: string,
-    onRecive: (msg: string, rinfo: IRequestInfo) => void,
+    onRecive: (msg: IMessage) => void,
     onError: (err: Error) => void,
     onBinded: () => void,
   ) {
@@ -56,7 +56,9 @@ export class UDPServer implements IUDPServer {
       if (this.debug) {
         console.log(`${this.name}: UDP Server Recieve `);
       }
-      onRecive(message, rinfo);
+      let msg: NetworkMessage;
+      msg = JSON.parse(message);
+      onRecive({message: msg, IP: rinfo.address});
     });
     this.server.on("listening", () => {
       const address =  this.server.address();
@@ -70,7 +72,6 @@ export class UDPServer implements IUDPServer {
     // console.log(this.server);
 
     this.server.bind(this.port, "0.0.0.0", () => {
-
       onBinded();
     });
   }

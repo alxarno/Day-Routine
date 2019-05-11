@@ -2,7 +2,7 @@ import { ISync,  ISyncAnswer, ISyncData, ISyncInitData } from "src/interfaces/sy
 import { ISettings } from "src/interfaces/settingsStore";
 import { UDPServer} from "./udpserver";
 import {TCPServer} from "./tcpserver";
-import { Action, MessageType, NetworkMessage, ISendDataMessage, INeedDataMessage } from "./messages";
+import { Action, MessageType, NetworkMessage, ISendDataMessage, INeedDataMessage, IMessage } from "./messages";
 import { IUDPServer, IRequestInfo, ITCPServer } from "./interfaces";
 
 interface INetworkBufferedRequests {
@@ -26,7 +26,7 @@ export default class Network implements ISync {
   private name: string;
 
   private binded = false;
-  private bufferRequests: INetworkBufferedRequests[] = [];
+  private bufferRequests: IMessage[] = [];
   private newDataRequest: ((networkID: string) => void) | null = null;
   private newDataDistribution: ((networkID: string) => void) | null = null;
   private getDataForTransmition: (() => string) | null = null;
@@ -51,7 +51,13 @@ export default class Network implements ISync {
       !this.gotDataFromTransmition || ! this.getDataForTransmition) {
         throw new Error(START_WITHOUT_INIT);
     }
-    const udp = new Promise((res, rej) => {
+    await new Promise(async (res, rej) => {
+      this.tcpserver = new TCPServer(this.debug, this.portTCP, this.servicesTCP,
+        this.name,
+        () => this.settings(),
+        this.Receive.bind(this),
+      );
+      await this.tcpserver.Start();
       this.udpserver = new UDPServer(this.debug, this.portUDP, this.servicesUDP,
         this.name,
         this.Receive.bind(this),
@@ -59,16 +65,6 @@ export default class Network implements ISync {
         () => res(),
       );
     });
-    const tcp = new Promise((res, rej) => {
-      this.tcpserver = new TCPServer(this.debug, this.portTCP, this.servicesTCP,
-        this.name,
-        this.Receive.bind(this),
-        () => rej(),
-        () => res(),
-      );
-    });
-    Promise.all([udp, tcp]).then((result) => console.log(result));
-
     return true;
   }
 
@@ -84,10 +80,13 @@ export default class Network implements ISync {
   }
 
   public AcceptRequest(networkID: string) {
-    const request = this.bufferRequests.find((req: INetworkBufferedRequests) => req.NetworkID === networkID);
+    if (this.debug) {
+      console.log("request accepted ", networkID);
+    }
+    const request = this.bufferRequests.find((req: IMessage) => req.message.NetworkID === networkID);
     this.popFromBuffer(networkID);
     if (!request || !this.tcpserver) {return; }
-    if (request.Action === Action.Request || request.Action === Action.NeedData) {
+    if (request.message.Action === Action.Request || request.message.Action === Action.NeedData) {
       if (!this.getDataForTransmition) {return; }
       // console.log("Send data request and need data");
       const data = this.getDataForTransmition();
@@ -96,19 +95,17 @@ export default class Network implements ISync {
         DBSchemaVersion: this.dbScehmaVersion,
         Data: data,
         NetworkID: this.settings().NetworkID,
-        Pass: "",
         Type: MessageType.Transfer,
       };
       this.tcpserver.PushDataTo(request.IP, JSON.stringify(sendData));
     }
-    if (request.Action === Action.Distribution) {
+    if (request.message.Action === Action.Distribution) {
       // if (!this.gotDataFromTransmition) {
         // console.log("Send data distr");
         const sendData: INeedDataMessage = {
           Action: Action.NeedData,
           DBSchemaVersion: this.dbScehmaVersion,
           NetworkID: this.settings().NetworkID,
-          Pass: "",
           Type: MessageType.Greeting,
         };
         this.tcpserver.PushDataTo(request.IP, JSON.stringify(sendData));
@@ -143,45 +140,47 @@ export default class Network implements ISync {
     // this.sendUDPGreeting(Action.Request);
   }
   // Recieve UDP and TCP dgams, but user's data transfering use TCP connection
-  private Receive(msg: string , rinfo: IRequestInfo) {
+  private Receive(data: IMessage) {
     if (this.debug) {
-      console.log(`${this.name}: Recived ${msg} from ${rinfo.address}:${rinfo.port}`);
+      console.log(`${this.name}: Recived ${data.message} from ${data.IP}`);
     }
-    const messageO = JSON.parse(msg);
-    if (messageO.hasOwnProperty("Type")) {
-      const message = (messageO as NetworkMessage);
+
+    // const messageO = JSON.parse(msg);
+    // if (messageO.hasOwnProperty("Type")) {
+    // const message = (messageO as NetworkMessage);
       // if (message.NetworkID === this.settings().NetworkID) {return; }
-      switch (message.Action) {
+    switch (data.message.Action) {
         case Action.Request:
-          this.pushToBuffer(message, rinfo.address);
-          this.newDataRequest!(message.NetworkID);
+          this.pushToBuffer(data);
+          this.newDataRequest!(data.message.NetworkID);
           break;
         case Action.Distribution:
-          this.pushToBuffer(message, rinfo.address);
-          this.newDataDistribution!(message.NetworkID);
+          this.pushToBuffer(data);
+          this.newDataDistribution!(data.message.NetworkID);
           break;
         case Action.SendData:
-          this.pushToBuffer(message, rinfo.address);
+          this.pushToBuffer(data);
           this.gotDataFromTransmition!(
-            (message as ISendDataMessage).Data,
-            (message as ISendDataMessage).DBSchemaVersion);
+            (data.message as ISendDataMessage).Data,
+            (data.message as ISendDataMessage).DBSchemaVersion);
           break;
         case Action.NeedData:
-          this.pushToBuffer(message, rinfo.address);
-          this.newDataDistribution!(message.NetworkID);
+          this.pushToBuffer(data);
+          this.newDataDistribution!(data.message.NetworkID);
           break;
+        // case Action.SendKey:
+        //   this.tcpserver!.AddRemotePublicKey(rinfo.connectionID, Buffer.from((message as ISendPublicKey).Key));
       }
 
-    } else {
-      return;
-    }
+    // } else {
+    //   return;
+    // }
    }
 
   private sendUDPGreeting(action: Action) {
     this.udpserver!.SendMulticast({
       Action: action,
       NetworkID: this.settings().NetworkID,
-      Pass: "",
       Type: MessageType.Greeting,
     });
   }
@@ -192,16 +191,12 @@ export default class Network implements ISync {
     }
   }
 
-  private pushToBuffer(m: NetworkMessage, address: string) {
-    this.bufferRequests.push({
-      Action: m.Action,
-      IP: address,
-      NetworkID: m.NetworkID,
-    });
+  private pushToBuffer(message: IMessage) {
+    this.bufferRequests.push(message);
   }
 
   private popFromBuffer(networkID: string) {
-    this.bufferRequests = this.bufferRequests.filter((v) => v.NetworkID !== networkID);
+    this.bufferRequests = this.bufferRequests.filter((v) => v.message.NetworkID !== networkID);
   }
 
 }

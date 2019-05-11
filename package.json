@@ -53,7 +53,7 @@
   },
   "jest": {
     "verbose": false,
-    "silent": true,
+    "silent": false,
     "testEnvironment": "node",
     "modulePaths": [
       "<rootDir>"
