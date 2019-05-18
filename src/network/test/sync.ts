@@ -10,24 +10,33 @@ export class SyncTest {
   private sync: ISync;
   private name: string;
   private testData: string;
+  private debug: boolean;
 
-  constructor(sync: ISync, actionAfterStart: BasicAction, name: string, data: string) {
+  constructor(sync: ISync, name: string, data: string, debug: boolean) {
     this.sync = sync;
     this.name = name;
     this.testData = data;
+    this.debug = debug;
     this.sync.Init({
       getDataForTransmition: this.getDataForTransmition.bind(this),
       gotDataFromTransmition: this.gotDataFromTransmition.bind(this),
       newDataDistribution: this.newDataDistribution.bind(this),
       newDataRequest: this.newDataRequest.bind(this),
+      getPassword: this.password.bind(this),
+      failedDecode: this.failedDecodeMessage.bind(this),
     });
-    this.sync.Start().then((v) => {
-      if (!v) {
-        console.log(`${this.name}: didn't started`);
-        return;
-      }
+  }
+
+  public async Start(actionAfterStart: BasicAction) {
+    const started = await this.sync.Start();
+    if (!started && this.debug) {
+      console.log(`${this.name}: didn't started`);
+      return;
+    }
+    if (this.debug) {
       console.log(`${this.name}: Started`);
-      switch (actionAfterStart) {
+    }
+    switch (actionAfterStart) {
         case BasicAction.Request:
           this.sync.Request();
           break;
@@ -37,7 +46,6 @@ export class SyncTest {
         case BasicAction.None:
           break;
       }
-    });
   }
 
   get Data() {
@@ -50,6 +58,16 @@ export class SyncTest {
 
   public Recieve() {
     //
+  }
+
+  private async failedDecodeMessage(syncID: string): Promise<string> {
+    //
+    return new Promise((res, rej) => setTimeout(() => res("Bingo1"), 500));
+  }
+
+  private async password(syncID: string): Promise<string> {
+    //
+    return new Promise((res, rej) => setTimeout(() => res("Bingo2"), 500));
   }
 
   private async newDataRequest(ID: string) {
@@ -67,6 +85,8 @@ export class SyncTest {
   private gotDataFromTransmition(data: any, dbSchemaVersion: string): void {
     //
     this.testData = data;
-    console.log(`${this.name}: Got data from transmission - ${data}, db schema - ${dbSchemaVersion}`);
+    if (this.debug) {
+      console.log(`${this.name}: Got data from transmission - ${data}, db schema - ${dbSchemaVersion}`);
+    }
   }
 }

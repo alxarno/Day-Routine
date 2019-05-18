@@ -58,6 +58,9 @@ export class TCPServer implements ITCPServer {
   private connections: TCPConn[] = [];
   private recieve: (msg: IMessage) => void;
   private settings: () => ISettingForTCP;
+  private password: (nid: string) => Promise<string>;
+  private failedDecode: (NetworkID: string) => Promise<string>;
+
   private tcpfactory: TCPFactory;
 
   constructor(
@@ -67,6 +70,8 @@ export class TCPServer implements ITCPServer {
     name: string,
     settings: () => ISettingForTCP,
     onRecive: (msg: IMessage) => void,
+    getPassord: (networkID: string) => Promise<string>,
+    failedDecode: (networkID: string) => Promise<string>,
   ) {
     this.debug = debug;
     this.port = port;
@@ -74,6 +79,8 @@ export class TCPServer implements ITCPServer {
     this.name = name;
     this.settings = settings;
     this.recieve = onRecive;
+    this.password = getPassord;
+    this.failedDecode = failedDecode;
     this.server = null;
     this.tcpfactory = new TCPFactory();
 
@@ -81,7 +88,8 @@ export class TCPServer implements ITCPServer {
 
   public async Start() {
     await new Promise(async (res) => {
-      await this.tcpfactory.Init(this.settings, this.recieve, (id: number) => {/* */}, this.debug, this.name);
+      await this.tcpfactory.Init(this.settings, this.recieve, (id: number) => {/* */},
+       this.debug, this.name, this.password, this.failedDecode);
       this.server = net.createServer(this.connHandler.bind(this));
       this.server!.on(onerror, (err) => {
         if (this.debug) {
@@ -111,9 +119,12 @@ export class TCPServer implements ITCPServer {
     c!.Send(m);
   }
 
-  public Close() {
+  public Close(c: () => void) {
     this.clearConnections();
-    this.server!.close();
+    this.server!.close(c);
+    if (this.debug) {
+      console.log(`${this.name}: TCP closing ...`);
+    }
   }
 
   private async connHandler(socket: ISocket) {

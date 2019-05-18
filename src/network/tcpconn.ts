@@ -1,5 +1,6 @@
 import { NetworkMessage, MessageType, Action, IPublicKey, IReady, IMessage, IPublicKeyDelivery } from "./messages";
 import { IRequestInfo } from "./interfaces";
+import { Encrypt, Decrypt } from "./crypto";
 
 export interface ISocket {
   connect: (port: number, addr: string, c: () => void) => void;
@@ -7,14 +8,14 @@ export interface ISocket {
   pipe: (socket: ISocket) => void;
   listen: (port: number, callback: () => void) => void;
   address: () => any;
-  write: (mes: string, c?: () => void) => void;
+  write: (mes: string | Buffer, c?: () => void) => void;
   destroy: () => void;
   localAddress: string;
   localPort: number;
   remotePort: number;
   remoteAddress: string;
   setNoDelay: () => void;
-  close: () => void;
+  close: (c: () => void) => void;
   connected: boolean;
 }
 
@@ -69,13 +70,20 @@ export class TCPConn implements IConnection {
   private closed: (id: number) => void;
   private keyDelivered: boolean = false;
 
-  constructor(socket: ISocket, newSocket: boolean,
-              id: number, debug: boolean,
-              servername: string,
-              settingsFunc: () => ISettingForTCP,
-              pubKey: Buffer, privKey: Buffer,
-              recieve: (msg: IMessage) => void,
-              close: (id: number) => void) {
+  private getPassword: (networkID: string) => Promise<string>;
+  private failedDecode: (networkID: string) => Promise<string>;
+
+  constructor(
+    socket: ISocket, newSocket: boolean,
+    id: number, debug: boolean,
+    servername: string,
+    settingsFunc: () => ISettingForTCP,
+    pubKey: Buffer, privKey: Buffer,
+    recieve: (msg: IMessage) => void,
+    close: (id: number) => void,
+    getPassword: (networkID: string) => Promise<string>,
+    failedDecode: (networkID: string) => Promise<string>,
+  ) {
     this.ID = id;
     this.debug = debug;
     this.name = servername;
@@ -91,6 +99,9 @@ export class TCPConn implements IConnection {
     this.giveAway = recieve;
     this.closed = close;
 
+    this.failedDecode = failedDecode;
+    this.getPassword = getPassword;
+
     this.socket.on(ondata, this.recieved.bind(this));
     if (!newSocket) {
       this.socket.setNoDelay();
@@ -99,7 +110,6 @@ export class TCPConn implements IConnection {
       if (this.address.substr(0, 7) === ipv6prefix) {
         this.address = this.address.substr(7);
       }
-      // this.sendReady();
       this.sendKey();
     }
   }
@@ -108,13 +118,12 @@ export class TCPConn implements IConnection {
     if (this.state !== TCPConnState.KeysExchanged) {
       this.messageBuff.push(msg);
     } else {
-      // Encryption
-      this.socket.write(msg);
+      const encrypted = Encrypt(msg, this.remotePublicKey, "");
+      this.socket.write(encrypted);
     }
   }
 
   public Connect(addr: string, port: number) {
-    //
     this.address = addr;
     this.socket.connect(port, addr, () => {
       if (this.debug) {
@@ -125,7 +134,7 @@ export class TCPConn implements IConnection {
   }
 
   public Close() {
-    //
+    this.socket.destroy();
   }
 
   private async sendReady() {
@@ -143,7 +152,7 @@ export class TCPConn implements IConnection {
   private async sendKey() {
     const message: IPublicKey = {
       Action: Action.PublicKey,
-      Key: this.publicKey.toString("utf8"),
+      Key: this.publicKey.toString("hex"),
       NetworkID: this.settings().NetworkID,
       Type: MessageType.SystemTCP,
     };
@@ -177,9 +186,37 @@ export class TCPConn implements IConnection {
     }
   }
 
-  private recieved(m: Buffer, rinfo: IRequestInfo) {
+  private async recieved(m: Buffer, rinfo: IRequestInfo) {
     let message: NetworkMessage;
-    message = JSON.parse(m.toString());
+    try {
+      message = JSON.parse(m.toString());
+   } catch (e) {
+    let decrypted: Buffer;
+    let pass: string = await new Promise(async (res, rej) => {
+      const password = this.settings().UserPass;
+      if (password.length === 0) {rej(); } else {res(password); }
+    });
+    if (pass) {
+      try {
+        decrypted = Decrypt(m, this.privateKey, pass);
+      } catch (d) {
+        pass = await this.failedDecode(this.networkID);
+        if (pass.length === 0) {return; }
+        try {
+          decrypted = Decrypt(m, this.privateKey, pass);
+        } catch (m) {
+          return;
+        }
+      }
+    } else {
+      return;
+    }
+    try {
+      message = JSON.parse(decrypted.toString());
+    } catch (l) {
+      return;
+    }
+   }
 
     if (message.Type !== MessageType.SystemTCP) {
       this.giveAway({message, IP: this.address});
@@ -191,6 +228,7 @@ export class TCPConn implements IConnection {
           console.log(`${this.name}: Got remote public key`);
         }
         this.remotePublicKey = Buffer.from((message as IPublicKey).Key);
+        this.networkID = (message as IPublicKey).NetworkID;
         this.state = (this.state === TCPConnState.KeyDelivered ?
           TCPConnState.KeysExchanged :
           TCPConnState.KeyGot);

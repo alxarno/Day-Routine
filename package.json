@@ -5,7 +5,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "./node_modules/.bin/jest ", 
+    "test": "./node_modules/.bin/jest ",
     "start": "./node_modules/.bin/electron .",
     "watch": "./node_modules/.bin/webpack --watch"
   },
@@ -17,11 +17,11 @@
     "electron": "^4.1.4",
     "electron-forge": "^5.2.4",
     "electron-prebuilt-compile": "4.0.0",
-    "jest": "^24.8.0",
     "rimraf": "^2.6.2",
     "ts-loader": "^3.2.0",
     "typescript": "^2.6.2",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "ts-jest": "^23.10.4"
   },
   "dependencies": {
     "@types/jest": "^23.3.9",
@@ -37,7 +37,6 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.19.1",
     "svg-inline-loader": "^0.8.0",
-    "ts-jest": "^23.10.4",
     "ts-node": "^8.1.0",
     "tslint": "^5.11.0",
     "vue": "^2.5.17",

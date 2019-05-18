@@ -35,7 +35,7 @@ const storage: IStorage = new Storage(sk, () => {/**/}); // Manage tables as lit
 const network = () => new Network(
   storage.SchemaVersion(),
   settingsStore.Get.bind(settingsStore),
-  DEBUG, PORT_TCP, PORT_TCP, PORT_UDP, PORT_UDP, "Network 1"); // Work with network
+  DEBUG, PORT_TCP, PORT_TCP, PORT_UDP, PORT_UDP, "Network 1", true); // Work with network
 const ui = (core: ICore) => new UserInterface(core);
 
 const core = new Core(

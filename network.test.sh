@@ -1,1 +1,1 @@
-./node_modules/.bin/jest network.test.ts
+./node_modules/jest/bin/jest.js network.test.ts

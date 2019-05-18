@@ -24,7 +24,7 @@ const settings1 = (): ISettings => {
     NetworkID: "2228-8889",
     Notifications: false,
     RecieveDataFromUnknow: true,
-    UserPass: "1111",
+    UserPass: "Bingo1",
   };
 };
 
@@ -34,7 +34,7 @@ const settings2 = (): ISettings => {
     NetworkID: "2228-8009",
     Notifications: false,
     RecieveDataFromUnknow: true,
-    UserPass: "1111",
+    UserPass: "Bingo2",
   };
 };
 
@@ -47,51 +47,73 @@ const t = () =>  new Promise((res) => timeOut(res));
 let basicRequestDone = false;
 
 test("Basic crypto", async () => {
+  const debug = false;
   const passphrase = "Bingo";
   const keys = await GenerateKeys(passphrase);
   const encrypt = Encrypt("Hello", keys.pub, passphrase);
   const decrypt = Decrypt(encrypt, keys.priv, passphrase);
-  console.log(keys.pub.toString("utf8"));
-  console.log(keys.priv.toString("utf8"));
+  if (debug) {
+    console.log(keys.pub.toString("utf8"));
+    console.log(keys.priv.toString("utf8"));
+  }
   expect(decrypt.toString("utf8")).toEqual("Hello");
 });
 
 test("Basic request", async () => {
   const debug = false;
-  const network1 = new Network("1.1", settings1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "John");
-  const network2 = new Network("1.1", settings2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Luci");
+  if (debug) {
+    console.log("--------------------------------------------");
+  }
+  const network1 = new Network("1.1", settings1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "John", false);
+  const network2 = new Network("1.1", settings2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Luci", false);
 
-  const sync1 = new SyncTest(network1, BasicAction.None, "John", data1);
-  const sync2 = new SyncTest(network2, BasicAction.Request,  "Luci", data2);
+  const sync1 = new SyncTest(network1, "John", data1, debug);
+  const sync2 = new SyncTest(network2, "Luci", data2, debug);
 
-  await new Promise((res) => setTimeout(res, 5000)).then(() => {
-    network1.Close();
-    network2.Close();
+  await new Promise(async (res) => {
+    await sync1.Start(BasicAction.None);
+    await sync2.Start(BasicAction.Request);
+    res();
+  });
+
+  await new Promise((res) => setTimeout(res, 5000)).then(async () => {
+    const n1 = new Promise((res) => network1.Close(res));
+    const n2 = new Promise((res) => network2.Close(res));
+    await Promise.all([n1, n2]);
     basicRequestDone = true;
     expect(sync1.Data).toEqual(sync2.Data);
   });
-}, 6000);
+}, 15000);
 
 test("Basic Distribution", async () => {
-  // Wait while 'Basic request' done because async test run concurency and disturb each other
+  // Wait while 'Basic request' done because async tests run concurency and disturb each other
   t().then(async (v) => {
     if (!basicRequestDone) {
       await t();
     }
   });
   await t();
-
   const debug = false;
+  if (debug) {
+    console.log("--------------------------------------------");
+  }
 
-  const network1 = new Network("1.1", settings1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "John");
-  const network2 = new Network("1.1", settings2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Luci");
+  const network1 = new Network("1.1", settings1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "John", true);
+  const network2 = new Network("1.1", settings2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Luci", true);
 
-  const sync1 = new SyncTest(network1, BasicAction.None, "John", data1);
-  const sync2 = new SyncTest(network2, BasicAction.Distribution,  "Luci", data2);
+  const sync1 = new SyncTest(network1, "John", data1, debug);
+  const sync2 = new SyncTest(network2, "Luci", data2, debug);
 
-  await new Promise((res) => setTimeout(res, 10000)).then(() => {
-    network1.Close();
-    network2.Close();
+  await new Promise(async (res) => {
+    await sync1.Start(BasicAction.None);
+    await sync2.Start(BasicAction.Distribution);
+    res();
+  });
+
+  await new Promise((res) => setTimeout(res, 5000)).then(async () => {
+    const n1 = new Promise((res) => network1.Close(res));
+    const n2 = new Promise((res) => network2.Close(res));
+    await Promise.all([n1, n2]);
     expect(sync1.Data).toEqual(sync2.Data);
   });
-}, 20000);
+}, 35000);

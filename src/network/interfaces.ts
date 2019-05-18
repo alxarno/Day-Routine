@@ -9,11 +9,11 @@ export interface IRequestInfo {
 export interface IUDPServer {
   SendMulticast: (m: NetworkMessage) => void;
   SendToAddress: (m: string, address: string) => void;
-  Close: () => void;
+  Close: (c: () => void) => void;
 }
 
 export interface ITCPServer {
   PushDataTo: (address: string, data: string) => void;
   Start: () => Promise<void>;
-  Close: () => void;
+  Close: (c: () => void) => void;
 }

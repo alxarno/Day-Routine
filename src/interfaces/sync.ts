@@ -12,6 +12,8 @@ export interface ISyncInitData {
   newDataDistribution: (syncID: string) => void;
   getDataForTransmition: () => string;
   gotDataFromTransmition: (data: any, dbSchemaVersion: string) => void;
+  getPassword: (syncID: string) => Promise<string>;
+  failedDecode: (syncID: string) => Promise<string>;
 }
 
 export interface ISyncData {
@@ -28,5 +30,5 @@ export interface ISync {
   AcceptRequest: (syncID: string) => void;
   Init: (data: ISyncInitData) => void;
   Start: () => Promise<boolean>;
-  Close: () => void;
+  Close: (c: () => void) => void;
 }

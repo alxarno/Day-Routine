@@ -24,6 +24,7 @@ export default class Network implements ISync {
   private servicesTCP: number;
   private servicesUDP: number;
   private name: string;
+  private generateKeys: boolean;
 
   private binded = false;
   private bufferRequests: IMessage[] = [];
@@ -31,10 +32,12 @@ export default class Network implements ISync {
   private newDataDistribution: ((networkID: string) => void) | null = null;
   private getDataForTransmition: (() => string) | null = null;
   private gotDataFromTransmition: ((data: any, dbSchemaVersion: string) => void) | null = null;
+  private getPassword: ((networkID: string) => Promise<string>) | null = null;
+  private failedDecode: ((networkID: string) => Promise<string>) | null = null;
 
   constructor(dbSchemaVersion: string, settings: () => ISettings,
               debug: boolean, portTCP: number, servicesTCP: number,
-              portUPD: number, servicesUDP: number, name: string) {
+              portUPD: number, servicesUDP: number, name: string, generateKeys: boolean) {
     this.portTCP = portTCP;
     this.servicesTCP = servicesTCP;
     this.portUDP = portUPD;
@@ -43,12 +46,14 @@ export default class Network implements ISync {
     this.name = name;
     this.dbScehmaVersion = dbSchemaVersion;
     this.settings = settings;
+    this.generateKeys = generateKeys;
 
   }
 
   public async Start(): Promise<boolean> {
     if (!this.newDataDistribution || !this.newDataRequest ||
-      !this.gotDataFromTransmition || ! this.getDataForTransmition) {
+      !this.gotDataFromTransmition || ! this.getDataForTransmition ||
+      !this.getPassword || !this.failedDecode) {
         throw new Error(START_WITHOUT_INIT);
     }
     await new Promise(async (res, rej) => {
@@ -56,6 +61,8 @@ export default class Network implements ISync {
         this.name,
         () => this.settings(),
         this.Receive.bind(this),
+        this.getPassword!.bind(this),
+        this.failedDecode!.bind(this),
       );
       await this.tcpserver.Start();
       this.udpserver = new UDPServer(this.debug, this.portUDP, this.servicesUDP,
@@ -73,6 +80,8 @@ export default class Network implements ISync {
     this.newDataRequest = data.newDataRequest;
     this.getDataForTransmition = data.getDataForTransmition;
     this.gotDataFromTransmition = data.gotDataFromTransmition;
+    this.getPassword = data.getPassword;
+    this.failedDecode = data.failedDecode;
   }
 
   public DismissRequest(networkID: string) {
@@ -81,7 +90,7 @@ export default class Network implements ISync {
 
   public AcceptRequest(networkID: string) {
     if (this.debug) {
-      console.log("request accepted ", networkID);
+      console.log(`${this.name}: Request accepted from ${networkID}`);
     }
     const request = this.bufferRequests.find((req: IMessage) => req.message.NetworkID === networkID);
     this.popFromBuffer(networkID);
@@ -119,13 +128,24 @@ export default class Network implements ISync {
     this.sendUDPGreeting(Action.Request);
   }
 
-  public Close() {
-    if (this.udpserver) {
-      this.udpserver.Close();
-    }
-    if (this.tcpserver) {
-      this.tcpserver.Close();
-    }
+  public Close(c: () => void) {
+    const udp = new Promise((res, rej) => {
+      if (this.udpserver) {
+        this.udpserver.Close(res);
+      } else {
+        res();
+      }
+    });
+
+    const tcp = new Promise((res, rej) => {
+      if (this.tcpserver) {
+        this.tcpserver.Close(res);
+      } else {
+        res();
+      }
+    });
+
+    Promise.all([udp, tcp]).then(() => c());
   }
 
   public Created() {

@@ -23,7 +23,7 @@ interface IServer {
   address: () => IRequestInfo;
   send: (buf: Buffer, port: number, address: string, c: (err: Error) => void) => void;
   setBroadcast: (f: boolean) => void;
-  close: () => void;
+  close: (c: () => void) => void;
   setMulticastTTL: (a: number) => void;
   addMembership: (addr: string) => void;
 }
@@ -76,8 +76,11 @@ export class UDPServer implements IUDPServer {
     });
   }
 
-  public Close() {
-    this.server.close();
+  public Close(c: () => void) {
+    this.server.close(c);
+    if (this.debug) {
+      console.log(`${this.name}: UDP closing...`);
+    }
   }
 
   public SendMulticast(m: NetworkMessage) {
