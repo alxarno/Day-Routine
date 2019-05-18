@@ -6,7 +6,7 @@ import HeaderComponent from "./header";
 import NowComponent from "./schedule";
 import RoutinesComponent from "./routines";
 import DeadZonesComponent from "./dead_zones";
-// import ModalsComponent from "./modals";
+import ModalsComponent from "./modals";
 import DrawerComponent from "./drawer";
 import SnackBars from "./snackbars";
 
@@ -23,6 +23,7 @@ const namespace: string = "app";
     DrawerComponent,
     DeadZonesComponent,
     SnackBars,
+    ModalsComponent,
   },
 })
 export default class MainComponent extends Vue {
@@ -38,6 +39,10 @@ export default class MainComponent extends Vue {
 
   private created() {
     this.getSettings();
+  }
+
+  private bacClick() {
+    console.log("Close");
   }
 
   // @Action('newRoutineWindow', { namespace }) newRoutineWindow: any;

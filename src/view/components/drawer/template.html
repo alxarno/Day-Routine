@@ -3,14 +3,12 @@
     class="drawer"
     v-bind:class="[!this.drawer ?'':'active']">
     <settings-component 
-      v-if="this.drawerContent == 1" 
-      class="modal_body"/>
+      v-if="this.drawerContent == 1" />
     <routine-component 
       v-if="this.drawerContent == 2" 
       v-bind:routineID="-1"/>
     <routine-component 
       v-if="this.drawerContent == 3" 
-      class="modal_body"
     />
   </div>
   <div

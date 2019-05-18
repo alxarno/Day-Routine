@@ -39,7 +39,9 @@ function createWindow () {
     minWidth: 690,
     autoHideMenuBar: true,
     icon: ICON,
-    nodeIntegration: true
+    webPreferences:{
+      nodeIntegration: true,
+    }
   };
   mainWindow = new BrowserWindow(params);
   mainWindow.setMenu(null);

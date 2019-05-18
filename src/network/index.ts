@@ -100,8 +100,6 @@ export default class Network implements ISync {
       this.tcpserver.PushDataTo(request.IP, JSON.stringify(sendData));
     }
     if (request.message.Action === Action.Distribution) {
-      // if (!this.gotDataFromTransmition) {
-        // console.log("Send data distr");
         const sendData: INeedDataMessage = {
           Action: Action.NeedData,
           DBSchemaVersion: this.dbScehmaVersion,
@@ -109,8 +107,6 @@ export default class Network implements ISync {
           Type: MessageType.Greeting,
         };
         this.tcpserver.PushDataTo(request.IP, JSON.stringify(sendData));
-        // this.tcpserver.GetDataFrom(request.IP);
-      // }
     }
 
   }
@@ -121,8 +117,6 @@ export default class Network implements ISync {
 
   public Request(): void {
     this.sendUDPGreeting(Action.Request);
-    // return {data: null, error: new Error("Fuck")};
-    //
   }
 
   public Close() {
@@ -137,18 +131,12 @@ export default class Network implements ISync {
   public Created() {
     this.binded = true;
     this.Broadcast();
-    // this.sendUDPGreeting(Action.Request);
   }
   // Recieve UDP and TCP dgams, but user's data transfering use TCP connection
   private Receive(data: IMessage) {
     if (this.debug) {
       console.log(`${this.name}: Recived ${data.message} from ${data.IP}`);
     }
-
-    // const messageO = JSON.parse(msg);
-    // if (messageO.hasOwnProperty("Type")) {
-    // const message = (messageO as NetworkMessage);
-      // if (message.NetworkID === this.settings().NetworkID) {return; }
     switch (data.message.Action) {
         case Action.Request:
           this.pushToBuffer(data);
@@ -168,16 +156,13 @@ export default class Network implements ISync {
           this.pushToBuffer(data);
           this.newDataDistribution!(data.message.NetworkID);
           break;
-        // case Action.SendKey:
-        //   this.tcpserver!.AddRemotePublicKey(rinfo.connectionID, Buffer.from((message as ISendPublicKey).Key));
       }
-
-    // } else {
-    //   return;
-    // }
    }
 
   private sendUDPGreeting(action: Action) {
+    if (this.debug) {
+      console.log(`${this.name}: Sent udp greeting - ${action}`);
+    }
     this.udpserver!.SendMulticast({
       Action: action,
       NetworkID: this.settings().NetworkID,

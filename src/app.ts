@@ -10,7 +10,7 @@ import { IStorageKernel } from "./interfaces/storageKernel";
 import StorageKernel from "./storage/kernel";
 import { OS } from "./os";
 import { IOS } from "./interfaces/os";
-import { ISettingsStore } from "./interfaces/settingsStore";
+import { ISettingsStore, ISettings } from "./interfaces/settingsStore";
 import { SettingsStore } from "./settings";
 import Network from "./network";
 import { ICore } from "./interfaces/core";
@@ -32,10 +32,11 @@ const cache: ICache = 	new CacheLocalStorage(); // LocalStorage
 const settingsStore: ISettingsStore = new SettingsStore(); // Settings
 const os: IOS = new OS(settingsStore); // Notifications and other
 const storage: IStorage = new Storage(sk, () => {/**/}); // Manage tables as little ORM
-const network = new Network(
+const network = () => new Network(
   storage.SchemaVersion(),
   settingsStore.Get.bind(settingsStore),
   DEBUG, PORT_TCP, PORT_TCP, PORT_UDP, PORT_UDP, "Network 1"); // Work with network
+const ui = (core: ICore) => new UserInterface(core);
 
 const core = new Core(
   storage,
@@ -43,7 +44,7 @@ const core = new Core(
   os,
   settingsStore,
   network,
-  (core: ICore) => new UserInterface(core),
+  ui,
 );
 // const ui = new UserInterface(core);
 // core.UI = ui;

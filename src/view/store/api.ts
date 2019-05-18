@@ -6,7 +6,8 @@ enum DrawerContent {
 }
 
 enum ModalContent {
-  Some = 1,
+  Nothing = 0,
+  PassSync,
 }
 
 export {DrawerContent, ModalContent};

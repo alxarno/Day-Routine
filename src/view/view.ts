@@ -7,6 +7,7 @@ import MainComponent from "./components/main";
 import { IUserInterface } from "src/interfaces/ui";
 import { IRootState } from "./store/types";
 import { ISnackBar, SnackBarType, ISnackBarContent } from "src/models/snackbar";
+import { IModal } from "src/models/modals";
 
 class UserInterface implements IUserInterface {
   private store: Store<IRootState>;
@@ -41,6 +42,24 @@ class UserInterface implements IUserInterface {
   public ShowSnackBar(snackBarType: SnackBarType, content: ISnackBarContent) {
     this.store.dispatch("app/showSnackBar", {snackBarType, content}, {root: true});
   }
+
+  public ShowModal(modal: IModal) {
+    this.store.dispatch("app/showModal", modal, {root: true});
+
+    // const snackBarType: SnackBarType = SnackBarType.EnterPassword;
+    // const content: ISnackBarContent = {
+    //   SyncID: modal.Content.SyncID;
+    // }
+    // new Promise((res, ref) => {
+    //   this.store.dispatch("app/showSnackBar", {
+    //     snackBarType,
+    //     content: {
+
+    //     },
+    // }, {root: true});
+    // });
+  }
+
 }
 
 export default UserInterface;

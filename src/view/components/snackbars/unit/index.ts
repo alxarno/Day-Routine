@@ -33,6 +33,10 @@ export default class SnackBar extends Vue {
     return this.$props.data.Type === SnackBarType.NewConnection;
   }
 
+  private get password() {
+    return this.$props.data.Type === SnackBarType.EnterPassword;
+  }
+
   private icon: string = icon;
   private timelineWidth: string = "100%";
   private interval: NodeJS.Timeout | null = null;

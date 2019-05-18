@@ -13,8 +13,14 @@ import { TCPFactory } from "./tcpfactory";
 //           |            CPublic Key          |
 //           |   ------------------------->    |
 //           |                                 |
+//           |      CPublic Key Delivered      |
+//           |   <-------------------------    |
+//           |                                 |
 //           |           SPublic Key           |
 //           |   <-------------------------    |
+//           |                                 |
+//           |      SPublic Key Delivered      |
+//           |   ------------------------->    |
 //           |                                 |
 //           |    Encrypted Messsage Data      |
 //           |   ------------------------->    |
@@ -42,7 +48,6 @@ const net = (n as INet);
 const ondata = "data";
 const onerror = "error";
 const onclose = "close";
-// const ipv6prefix  = "::ffff:";
 
 export class TCPServer implements ITCPServer {
   private name: string;
@@ -104,72 +109,7 @@ export class TCPServer implements ITCPServer {
       console.log(`${this.name}: message sent to ${addr}:${this.servicesPort}`);
     }
     c!.Send(m);
-      // c!.socket.connect(this.servicesPort, addr, async () => {
-      //   c!.socket.setNoDelay();
-      //   if (this.debug) {
-      //     console.log(`${this.name}: TCP Client Send message to ${this.servicesPort}`);
-      //   }
-      //   let keys: {pub: Buffer, priv: Buffer} = {
-      //     pub: Buffer.from(""),
-      //     priv: Buffer.from(""),
-      //   };
-      //   try {
-      //     keys = await GenerateKeys(this.settings().UserPass);
-      //   } catch (e) {
-      //     if (this.debug) {
-      //       console.log(`${this.name}: TCP cannot create keys for ${addr} - error ${e}`);
-      //     }
-      //     return;
-      //   }
-      //   c!.publicKey = keys.pub;
-      //   c!.privateKey = keys.priv;
-      //   c!.process = connState.KeysGenerated;
-
-      //   const message: IPublicKey = {
-      //     Action: Action.PublicKey,
-      //     Key: c!.publicKey.toString("utf8"),
-      //     NetworkID: this.settings().NetworkID,
-      //     Type: MessageType.SystemTCP,
-      //   };
-      //   c!.socket.write(JSON.stringify(message));
-      // });
-      // c!.socket.on(ondata, (data: Buffer) => {
-      //   if (this.debug) {
-      //     console.log(`${this.name}: TCP Client V`);
-      //   }
-      //   this.recieve(data.toString(), {address: c!.address, port: c!.socket.localPort, connectionID: c!.ID});
-      // });
-      // c!.socket.on(onclose, () => {
-      //   this.popConnection(c!.ID);
-      //   if (this.debug) {
-      //     console.log(`${this.name}: TCP Socket Connection closed`);
-      //   }
-      // });
-      // return;
-    // }
-    // const conn: IConnection = (c as IConnection);
-    // c!.Send(m);
-    // conn.socket.write(m);
   }
-
-  // public HandleSystemMessage(connectionID: number, message: NetworkMessage) {
-  //   switch (message.Action) {
-  //     case  Action.PublicKey:
-  //       this.addRemotePublicKey(connectionID, Buffer.from((message as IPublicKey).Key));
-  //       break;
-  //     case Action.PublicKeyDelivery:
-  //       for (const c of this.connections) {
-  //         if (c.ID === connectionID) {
-  //           c.process = (c.process === connState.KeyGot ? connState.KeysExchanged : connState.KeyDelivered);
-  //           if (c.process === connState.KeysExchanged) {
-  //             this.sendMessages(connectionID);
-  //           }
-  //           break;
-  //         }
-  //       }
-
-  //   }
-  // }
 
   public Close() {
     this.clearConnections();
@@ -177,51 +117,11 @@ export class TCPServer implements ITCPServer {
   }
 
   private async connHandler(socket: ISocket) {
-    // IPv6 to IPv4
-    console.log(`${this.name} - new connection `, socket.remotePort);
+    if (this.debug) {
+      console.log(`${this.name} - new connection `, socket.remotePort);
+    }
     const conn: TCPConn = this.tcpfactory.Create(socket, false);
     this.connections.push(conn);
-    // let addr = socket.address().address;
-    // if (addr.substr(0, 7) === ipv6prefix) {
-    //   addr = addr.substr(7);
-    // }
-    // if (this.debug) {
-    //   console.log(`${this.name}: TCP new connection ${addr}:${socket.remotePort}`);
-    // }
-    // let keys: {pub: Buffer, priv: Buffer} = {
-    //   pub: Buffer.from(""),
-    //   priv: Buffer.from(""),
-    // };
-    // try {
-    //   keys = await GenerateKeys(this.settings().UserPass);
-    // } catch (e) {
-    //   socket.destroy();
-    //   if (this.debug) {
-    //     console.log(`${this.name}: TCP cannot create keys for ${addr}:${socket.remotePort} - error ${e}`);
-    //   }
-    //   return;
-    // }
-    // const conn: IConnection = this.defConnection(this.idcounter++, socket, addr);
-    // conn.publicKey = keys.pub;
-    // conn.privateKey = keys.priv;
-    // conn.process = connState.KeysGenerated;
-    // this.connections.push(conn);
-
-    // const message: IPublicKey = {
-    //   Action: Action.PublicKey,
-    //   Key: conn.publicKey.toString("utf8"),
-    //   NetworkID: this.settings().NetworkID,
-    //   Type: MessageType.SystemTCP,
-    // };
-    // conn.socket.write(JSON.stringify(message));
-    // // conn.socket
-    // // conn.write
-    // conn.socket.on(ondata, (message: Buffer) => {
-    //   if (this.debug) {
-    //     console.log(`${this.name}: TCP Server V from ${addr}:${conn.socket.remotePort}`);
-    //   }
-    //   this.recieve(message.toString(), {address: addr, port: conn.socket.remotePort, connectionID: conn.ID});
-    // });
   }
 
   private popConnection(id: number) {
@@ -250,14 +150,6 @@ export class TCPServer implements ITCPServer {
       }
     }
     return null;
-    // let conn: IConnection | null = null;
-    // this.connections.forEach((v) => {
-    //   if (conn) {return; }
-    //   if (v.address === addr) {
-    //     conn = v;
-    //   }
-    // });
-    // return conn;
   }
 
   private clearConnections() {

@@ -1,0 +1,10 @@
+<div class="modal syncpass-modal">
+  <div class="modal__header">Enter password for <span class="modal__accent">{{modal.Content.SyncID}}</span></div>
+  <div class="modal__body syncpass-modal__body"
+  ><input type="password" placeholder="Password" class="modal__password" v-model="pass"/>
+  </div>
+  <div class="modal__bottom"
+  ><button class="modal__buttons-yes" v-on:click="accept" >OK</button>
+  <button class="modal__buttons-no" v-on:click="dismiss">CANCEL</button>
+  </div>
+</div>

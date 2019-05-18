@@ -23,7 +23,16 @@
     </div>
     <div v-if="newConnection"  class="snackbar__content">
       <div class="snackbar__text">
-        Recieve data from <span class="snackbar__text-red">{{this.data.Content.NetworkID}}</span> device?
+        Recieve data from <span class="snackbar__text-red">{{this.data.Content.SyncID}}</span> device?
+      </div>
+      <div  class="snackbar__buttons">
+        <div class="snackbar__buttons-yes" v-on:click="accept" >YES</div>
+        <div class="snackbar__buttons-no" v-on:click="dismiss">NO</div>
+      </div>
+    </div>
+    <div v-if="password"  class="snackbar__content">
+      <div class="snackbar__text">
+        Enter key for <span class="snackbar__text-red">{{this.data.Content.SyncID}}</span> data?
       </div>
       <div  class="snackbar__buttons">
         <div class="snackbar__buttons-yes" v-on:click="accept" >YES</div>

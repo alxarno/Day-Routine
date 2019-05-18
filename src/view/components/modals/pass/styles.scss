@@ -1,0 +1,15 @@
+.syncpass-modal{
+  width: 300px;
+  height: 130px;
+  top: calc(50vh - 100px);
+  left: calc(50vw - 150px);
+}
+
+.syncpass-modal__body>input{
+  margin-top: 20px;
+  // padding-top: 20px;
+}
+
+.syncpass-modal__body>input{
+  width: calc(100% - 15px);
+}

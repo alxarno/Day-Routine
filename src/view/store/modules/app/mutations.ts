@@ -1,8 +1,8 @@
 import { IAppState} from "./types";
 import { MutationTree } from "vuex";
 import {DrawerContent, ModalContent} from "../../api";
-import { stat } from "fs";
 import { ISnackBar, SnackBarType, ISnackBarNewConnection } from "src/models/snackbar";
+import { IModal } from "src/models/modals";
 
 export const mutations: MutationTree<IAppState> = {
   setMenuActivItem: (state, item) => {
@@ -16,13 +16,14 @@ export const mutations: MutationTree<IAppState> = {
     state.drawer = false;
     state.drawerContent = DrawerContent.Nothing;
   },
-  modalOpen: (state, content: ModalContent) => {
-     state.modalContent = content;
-     state.drawer = true;
+  modalOpen: (state, modal: IModal) => {
+     state.modalEntity = modal;
+     state.modal = true;
   },
-  modalClose: (state) => {
-    state.drawer = false;
-    state.modalContent = ModalContent.Some;
+  modalClose: (state, data: any) => {
+    state.modalEntity!.Content.Callback(data);
+    state.modal = false;
+    state.modalEntity = null;
   },
   setFreeHours: (state, hours: number) => {
     state.freeHours = hours;
@@ -51,7 +52,7 @@ export const mutations: MutationTree<IAppState> = {
     let done = false;
     state.snackbars.forEach((v: ISnackBar) => {
       if (done) {return; }
-      if (v.ID === data.ID && v.Type === SnackBarType.NewConnection) {
+      if (v.ID === data.ID && (v.Type === SnackBarType.NewConnection ||  v.Type === SnackBarType.EnterPassword)) {
         if (!v.Executed) {
           (v.Content as ISnackBarNewConnection).Callback(data.answer);
           v.Executed = true;

@@ -1,9 +1,12 @@
 <div class="modals-background"
-      v-if="this.popupOpen">
+      v-on:click="close"
+      ref="modal_background"
+      v-if="modalOpen && modal != null">
   <close-button/>
-  <settings-component 
-    v-if="this.settingsOpen" 
+  <pass-sync 
+    v-if="modal.Type == modelContentPassSync" 
     class="modal_body"/>
+  <!--
   <routine-component 
     v-if="this.newRoutineOpen" 
     class="modal_body"
@@ -12,5 +15,5 @@
     v-if="this.routineSettingsOpen" 
     class="modal_body"
     v-bind:routineID="this.currentRoutine"
-  />
+  /> -->
 </div>

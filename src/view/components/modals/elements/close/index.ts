@@ -10,12 +10,12 @@ const namespace: string = "app";
 @Component({
 })
 export default class CloseButton extends Vue {
-  @Action("closePopUp", { namespace }) public closePopUp: any;
 
   public icon: string = icon;
+  @Action("modalAction", {namespace}) private modalAction!: (arg: number) => void;
 
   public click() {
-    this.closePopUp();
+    this.modalAction(-1);
     // this.$store.dispatch("closePopUp")
   }
 }

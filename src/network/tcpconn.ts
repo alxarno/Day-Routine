@@ -1,4 +1,3 @@
-import { GenerateKeys } from "./crypto";
 import { NetworkMessage, MessageType, Action, IPublicKey, IReady, IMessage, IPublicKeyDelivery } from "./messages";
 import { IRequestInfo } from "./interfaces";
 
@@ -206,7 +205,9 @@ export class TCPConn implements IConnection {
         this.state = (this.state === TCPConnState.KeyGot ?
             TCPConnState.KeysExchanged :
             TCPConnState.KeyDelivered);
-        console.log(`${this.name}: Public key delivered -> ${this.state},${TCPConnState.KeysExchanged}`);
+        if (this.debug) {
+          console.log(`${this.name}: Public key delivered -> ${this.state},${TCPConnState.KeysExchanged}`);
+        }
         this.keyDelivered = true;
         this.sendBuffered();
         break;

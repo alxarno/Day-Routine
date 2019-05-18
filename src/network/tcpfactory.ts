@@ -1,5 +1,7 @@
 import { TCPConn, ISocket, ISettingForTCP } from "./tcpconn";
 import { IMessage } from "./messages";
+import { GenerateKeys } from "./crypto";
+import { settings } from "src/view/store/modules/settings";
 
 export interface ITCPFactory {
   Init: (settingsFunc: () => ISettingForTCP,
@@ -16,6 +18,8 @@ export class TCPFactory implements ITCPFactory {
   private settings: (() => ISettingForTCP) | null = null;
   private debug: boolean = false;
   private serverName: string = "";
+
+  // Test key for test, it will overwrite within startup
   private publicKey: Buffer = Buffer.from(`-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6ZYQLxtaE0UgFXTFlRwS
 u8wz5Gq9amZIk4Q6NqXdnbIPEAIQdXAlqHFy7JJ60m9XNCcZfNFFyAERc2HuthrU
@@ -25,6 +29,7 @@ TLyClo4r9R/IAva6Lk69rFf2v52QVnC1vQMhZJeJXdjOvW4Pw6hee+DsSYPL/ri2
 8+2HnWTWfpTiD5OKAw39eHmpFgvYa4yfmxun2GkQhp1y916OXWAG7karrCtx20R5
 YQIDAQAB
 -----END PUBLIC KEY----`);
+  // Test key for test, it will overwrite within startup
   private privateKey: Buffer = Buffer.from(`-----BEGIN ENCRYPTED PRIVATE KEY-----
 MIIFLTBXBgkqhkiG9w0BBQ0wSjApBgkqhkiG9w0BBQwwHAQIQrpwi59x+DgCAggA
 MAwGCCqGSIb3DQIJBQAwHQYJYIZIAWUDBAEqBBDHyzdjffFj2ug6UwAroxb5BIIE
@@ -76,10 +81,10 @@ YOPgIoQUfXCxLOfPLZKVcxUWbGqGM/UFyz68m1h+0WrponMhghyaC1bc0Sj8No/Y
     if (this.debug) {
       console.log(`${this.serverName}: Generating RSA keys ...`);
     }
-    // const keys = await GenerateKeys(settings().UserPass);
+    const keys = await GenerateKeys(this.settings().UserPass);
 
-    // publicKey = keys.pub;
-    // privateKey = keys.priv;
+    this.publicKey = keys.pub;
+    this.privateKey = keys.priv;
     if (this.debug) {
       console.log(`${this.serverName}: RSA keys created`);
     }

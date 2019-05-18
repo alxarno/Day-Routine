@@ -23,6 +23,7 @@ import IStatistics from "src/models/statistics";
 import { IUserInterface } from "src/interfaces/ui";
 import { ISync, ISyncData } from "src/interfaces/sync";
 import { SyncCore } from "./modules/sync";
+import { ModalType } from "src/models/modals";
 
 export class Core implements ICore {
   private storage: IStorage;
@@ -37,13 +38,13 @@ export class Core implements ICore {
 
   constructor(
       storage: IStorage, cache: ICache, os: IOS,
-      settingsStore: ISettingsStore, sync: ISync,
+      settingsStore: ISettingsStore, sync: () => ISync,
       ui: (core: ICore) => IUserInterface,
     ) {
     this.storage = storage;
     this.cache = cache;
 
-    this.sync = sync;
+    // this.sync = sync();
     this.os = os;
 
     this.ScheduleModule = new ScheduleCore({storage: this.storage, cache: this.cache});
@@ -61,7 +62,14 @@ export class Core implements ICore {
     this.os.registerTimerCallbcak(this.HourIsGone.bind(this));
 
     this.ui = ui(this);
-    this.SyncModule = new SyncCore({sync: this.sync, ui: this.ui});
+    // this.ui.ShowModal({
+    //   Content: {
+    //     Callback: (pass: string) => console.log(pass),
+    //     SyncID: "228-2228",
+    //   },
+    //   Type: ModalType.SyncPass,
+    // });
+    // this.SyncModule = new SyncCore({sync: this.sync, ui: this.ui});
     // this.Network.Broadcast();
     // this.ui.ShowSnackBar(SnackBarType.Notifier, {Data: "hello"});
     // new Promise((rej) => setTimeout(rej, 2000)).then(() => {
@@ -141,18 +149,18 @@ export class Core implements ICore {
     return this.SettingsModule;
   }
 
-  private async testRequest() {
-    const deadZones: IDeadZone[] = (await this.DeadZones().Get() as IDeadZone[]);
-    const routines: IRoutine[] = (await this.Routines().Get() as IRoutine[]);
-    const statistics: IStatistics[] = (await this.Statistics().Get() as IStatistics[]);
-    const sData: ISyncData = {
-      dbSchemaVersion: this.storage.SchemaVersion(),
-      deadZones,
-      routines,
-      statistics,
-    };
-    await this.sync.Broadcast(sData);
-  }
+  // private async testRequest() {
+  //   const deadZones: IDeadZone[] = (await this.DeadZones().Get() as IDeadZone[]);
+  //   const routines: IRoutine[] = (await this.Routines().Get() as IRoutine[]);
+  //   const statistics: IStatistics[] = (await this.Statistics().Get() as IStatistics[]);
+  //   const sData: ISyncData = {
+  //     dbSchemaVersion: this.storage.SchemaVersion(),
+  //     deadZones,
+  //     routines,
+  //     statistics,
+  //   };
+  //   await this.sync.Broadcast();
+  // }
 
   private async updateStatistics(hours: number, routineID: number): Promise<void> {
     await this.storage.Statistics().Add({hours, routineID});
@@ -165,7 +173,7 @@ export class Core implements ICore {
       routines,
       statistics,
     };
-    await this.sync.Broadcast(sData);
+    await this.sync.Broadcast();
     // this.Network.Request
   }
 
