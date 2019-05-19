@@ -12,10 +12,7 @@ export class SettingsCore extends CoreModule implements ISettingsCore {
     const data: string = await this.os.readFile(path[0]);
     await this.ClearAll();
     const newData: {routines: IRoutine[], dead_zones: IDeadZone[]} = JSON.parse(data);
-    // console.log(newData);
     newData.routines.forEach((element: IRoutine) => {
-      // console.log(element);
-      // this.storage!.
       this.storage!.Routines().Create(element);
     });
 
@@ -31,7 +28,7 @@ export class SettingsCore extends CoreModule implements ISettingsCore {
   public async Export() {
 
     if (!this.os || !this.storage) {return; }
-    const routines: Promise<IRoutine[]> = this.storage!.Routines().Get();
+    const routines: Promise<IRoutine[]> = this.storage.Routines().Get();
     const deadZones: Promise<IDeadZone[]> = this.storage.DeadZones().Get();
     const final: {[key: string]: any} = {};
     await Promise.all([routines, deadZones]).then((result: {0: any, 1: any}) => {
@@ -58,6 +55,9 @@ export class SettingsCore extends CoreModule implements ISettingsCore {
       });
     });
     await Promise.all(delQuerys);
+    if (this.cache) {
+      this.cache.Clear();
+    }
   }
 
   public Get(): ISettings {

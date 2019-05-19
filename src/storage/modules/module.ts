@@ -14,7 +14,7 @@ export default abstract class StorageModule<T> {
     this.schema = schema;
     this.changeCallback = changeCallback;
 
-    this.tableCheck();
+    // this.tableCheck();
   }
 
   public async Get(): Promise<T[]> {
@@ -42,6 +42,10 @@ export default abstract class StorageModule<T> {
   public async Update(unit: T) {
     this.kernel.Update(this.schema.name, this.schema.Serialization(unit));
     this.changeCallback();
+  }
+
+  public async Init(): Promise<void> {
+    return this.tableCheck();
   }
 
   private async tableCheck() {

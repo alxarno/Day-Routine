@@ -8,11 +8,6 @@ export interface IDeadZonesStorage {
   Create: (zone: IDeadZone) => void;
   Update: (unit: any) => Promise<void>;
   Delete: (unit: any) => Promise<void>;
-
-  // Get: () => Promise< IRoutine | IRoutine[]>;
-  // Create: (routine: IRoutine) => void;
-  // Delete: (unit: any) => Promise<void>;
-  // Update: (unit: IRoutine) => void;
 }
 
 export interface IStatisticsStorage {
@@ -43,4 +38,5 @@ export interface IStorage {
   SyncDevices: () => ISyncDevicesStorage;
   changeCallback: () => void;
   SchemaVersion: () => string;
+  Init: () => Promise<void>;
 }

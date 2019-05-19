@@ -37,9 +37,7 @@ export class Table implements ITableMethods {
     }
 
     sqlBody = "CREATE TABLE IF NOT EXISTS " + name + "(" + sqlBody + ")";
-    const promise = Request(sqlBody, [], this.DB);
-
-    await promise;
+    await Request(sqlBody, [], this.DB);
 
     return new Crud(name, this.DB, this.debug);
   }

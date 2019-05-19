@@ -17,14 +17,8 @@ export interface ISettingsCore {
 export interface ISyncCore {
   Push: () => void;
   Recieve: () => void;
+  Init: () => Promise<void>;
 }
-
-// export interface ICommunicData {
-//   routines: IRoutine[];
-//   deadZones: IDeadZone[];
-//   statistics: IStatistics[];
-//   dbSchemaVersion: string;
-// }
 
 export interface IScheduleCore {
   Get: () => Promise< IScheduleUnit[] >;

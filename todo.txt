@@ -9,7 +9,7 @@ TODO:
 
   On close to tray
 
-  Preloads for creating table
+  + Preloads for creating table
 
   + Review build and run system
 
@@ -21,8 +21,10 @@ TODO:
 
     + Timestamps for data
 
-    UDP broadcast requests
+    + UDP broadcast requests
 
-    Table for external public keys
-  
-  Change all core constructor to async
+    + Table for external public keys
+
+  Security
+
+  Save old schedule to cash before recieve update from sync

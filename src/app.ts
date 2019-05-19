@@ -31,7 +31,7 @@ const sk: IStorageKernel = new StorageKernel(db); // TABLE's SCHEMAS
 const cache: ICache = 	new CacheLocalStorage(); // LocalStorage
 const settingsStore: ISettingsStore = new SettingsStore(); // Settings
 const os: IOS = new OS(settingsStore); // Notifications and other
-const storage: IStorage = new Storage(sk, () => {/**/}); // Manage tables as little ORM
+const storage: IStorage =  new Storage(sk, () => {/**/}); // Manage tables as little ORM
 const network = () => new Network(
   storage.SchemaVersion(),
   settingsStore.Get.bind(settingsStore),

@@ -21,6 +21,11 @@ import {Routines} from "./modules/routines";
 import {DeadZones} from "./modules/dead_zones";
 import {Statistics} from "./modules/statistics";
 import { SyncDevices } from "./modules/sync_devices";
+import StorageModule from "./modules/module";
+import IStatistics from "src/models/statistics";
+import { IRoutine } from "src/models/routines.routine";
+import { IDeadZone } from "src/models/dead_zone";
+import { ISyncDevice } from "src/models/sync_device";
 
 export class Storage implements IStorage {
   public changeCallback: () => void;
@@ -65,6 +70,23 @@ export class Storage implements IStorage {
 
   public SchemaVersion(): string {
     return this.schemaVersion;
+  }
+
+  public async Init(): Promise<void> {
+    await ((this.statistics as unknown) as StorageModule<IStatistics>).Init();
+    await ((this.routines as unknown) as StorageModule<IRoutine>).Init();
+    await ((this.deadZones as unknown) as StorageModule<IDeadZone>).Init();
+    await ((this.syncDevices as unknown) as StorageModule<ISyncDevice>).Init();
+    // const sp = new Promise(async (res, rej) => {
+    //   await (; res(); });
+    // const rp = new Promise(async (res, rej) => {
+    //   await ((this.routines as unknown) as StorageModule<IRoutine>).Init(); res(); });
+    // const dp = new Promise(async (res, rej) => {
+    //   await ((this.deadZones as unknown) as StorageModule<IDeadZone>).Init(); res(); });
+    // const sdp = new Promise(async (res, rej) => {
+    //   await ((this.syncDevices as unknown) as StorageModule<ISyncDevice>).Init(); res(); });
+
+    // await Promise.all([sp, rp, dp, sdp]);
   }
 
 }

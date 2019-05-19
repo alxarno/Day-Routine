@@ -23,28 +23,30 @@ import IStatistics from "src/models/statistics";
 import { IUserInterface } from "src/interfaces/ui";
 import { ISync, ISyncData } from "src/interfaces/sync";
 import { SyncCore } from "./modules/sync";
-import { ModalType } from "src/models/modals";
 
 export class Core implements ICore {
   private storage: IStorage;
   private cache: ICache;
 
-  private ScheduleModule: IScheduleCore;
-  private SettingsModule: ISettingsCore;
-  private SyncModule: ISyncCore;
-  private os: IOS;
-  private sync: ISync;
-  private ui: IUserInterface | null;
+  private ScheduleModule: IScheduleCore | null = null;
+  private SettingsModule: ISettingsCore | null = null;
+  private SyncModule: ISyncCore | null = null;
+  private os: IOS | null = null;
+  private sync: ISync | null = null;
+  private ui: IUserInterface | null = null;
 
   constructor(
-      storage: IStorage, cache: ICache, os: IOS,
-      settingsStore: ISettingsStore, sync: () => ISync,
+      storage: IStorage,
+      cache: ICache,
+      os: IOS,
+      settingsStore: ISettingsStore,
+      sync: () => ISync,
       ui: (core: ICore) => IUserInterface,
     ) {
     this.storage = storage;
     this.cache = cache;
 
-    // this.sync = sync();
+    this.sync = sync();
     this.os = os;
 
     this.ScheduleModule = new ScheduleCore({storage: this.storage, cache: this.cache});
@@ -52,6 +54,7 @@ export class Core implements ICore {
       {
         storage: this.storage,
         os: this.os,
+        cache: this.cache,
         settings_storage: settingsStore,
         settings_apply: this.settingsApply.bind(this),
       });
@@ -61,7 +64,8 @@ export class Core implements ICore {
     this.os.registerGetCurrentTask(this.ScheduleModule.GetCurrentTask.bind(this.ScheduleModule));
     this.os.registerTimerCallbcak(this.HourIsGone.bind(this));
 
-    this.ui = ui(this);
+    // this.ui = ui(this);
+    this.init(ui);
     // this.ui.ShowModal({
     //   Content: {
     //     Callback: (pass: string) => console.log(pass),
@@ -69,7 +73,6 @@ export class Core implements ICore {
     //   },
     //   Type: ModalType.SyncPass,
     // });
-    // this.SyncModule = new SyncCore({sync: this.sync, ui: this.ui});
     // this.Network.Broadcast();
     // this.ui.ShowSnackBar(SnackBarType.Notifier, {Data: "hello"});
     // new Promise((rej) => setTimeout(rej, 2000)).then(() => {
@@ -126,7 +129,7 @@ export class Core implements ICore {
   }
 
   public Sync(): ISyncCore {
-    return this.SyncModule;
+    return this.SyncModule!;
   }
 
   public Statistics(): IStatisticCore {
@@ -142,25 +145,18 @@ export class Core implements ICore {
   }
 
   public Schedule(): IScheduleCore {
-    return this.ScheduleModule;
+    return this.ScheduleModule!;
   }
 
   public Settings(): ISettingsCore {
-    return this.SettingsModule;
+    return this.SettingsModule!;
   }
 
-  // private async testRequest() {
-  //   const deadZones: IDeadZone[] = (await this.DeadZones().Get() as IDeadZone[]);
-  //   const routines: IRoutine[] = (await this.Routines().Get() as IRoutine[]);
-  //   const statistics: IStatistics[] = (await this.Statistics().Get() as IStatistics[]);
-  //   const sData: ISyncData = {
-  //     dbSchemaVersion: this.storage.SchemaVersion(),
-  //     deadZones,
-  //     routines,
-  //     statistics,
-  //   };
-  //   await this.sync.Broadcast();
-  // }
+  private async init(ui: (core: ICore) => IUserInterface) {
+    await this.storage.Init();
+    this.ui = ui(this);
+    this.SyncModule = new SyncCore({sync: this.sync, ui: this.ui});
+  }
 
   private async updateStatistics(hours: number, routineID: number): Promise<void> {
     await this.storage.Statistics().Add({hours, routineID});
@@ -173,8 +169,7 @@ export class Core implements ICore {
       routines,
       statistics,
     };
-    await this.sync.Broadcast();
-    // this.Network.Request
+    await this.sync!.Broadcast();
   }
 
   private settingsApply(settings: ISettings): void {
