@@ -1,6 +1,6 @@
 import { NetworkMessage, MessageType, Action, IPublicKey, IReady, IMessage, IPublicKeyDelivery } from "./messages";
 import { IRequestInfo } from "./interfaces";
-import { Encrypt, Decrypt } from "./crypto";
+import { Encrypt, Decrypt, PubEncrypt, PubDecrypt } from "./crypto";
 
 export interface ISocket {
   connect: (port: number, addr: string, c: () => void) => void;
@@ -118,8 +118,16 @@ export class TCPConn implements IConnection {
     if (this.state !== TCPConnState.KeysExchanged) {
       this.messageBuff.push(msg);
     } else {
-      const encrypted = Encrypt(msg, this.remotePublicKey, "");
-      this.socket.write(encrypted);
+      try {
+        const hash = Encrypt(msg, this.settings().UserPass);
+        const encrypted = PubEncrypt(hash, this.remotePublicKey, "");
+        this.socket.write(encrypted);
+      } catch (l) {
+        if (this.debug) {
+          console.log(`${this.name}: TCP failed to encrypt message - `, l);
+        }
+      }
+
     }
   }
 
@@ -192,29 +200,38 @@ export class TCPConn implements IConnection {
       message = JSON.parse(m.toString());
    } catch (e) {
     let decrypted: Buffer;
-    let pass: string = await new Promise(async (res, rej) => {
-      const password = this.settings().UserPass;
-      if (password.length === 0) {rej(); } else {res(password); }
-    });
-    if (pass) {
+    const password = this.settings().UserPass;
+    if (password) {
       try {
-        decrypted = Decrypt(m, this.privateKey, pass);
+        decrypted = PubDecrypt(m, this.privateKey, password);
       } catch (d) {
-        pass = await this.failedDecode(this.networkID);
-        if (pass.length === 0) {return; }
-        try {
-          decrypted = Decrypt(m, this.privateKey, pass);
-        } catch (m) {
-          return;
+        if (this.debug) {
+          console.log(`${this.name}: TCP cannot private decrypt - `, d);
         }
+        return;
       }
     } else {
+      if (this.debug) {
+        console.log(`${this.name}: TCP cannot get password for private decryption`);
+      }
       return;
     }
     try {
-      message = JSON.parse(decrypted.toString());
+      const dehashed = Decrypt(decrypted.toString(), await this.getPassword(this.networkID));
+      message = JSON.parse(dehashed);
     } catch (l) {
-      return;
+      if (this.debug) {
+        console.log(`${this.name}: TCP cannot dehash recieved message - `, l);
+      }
+      try {
+        const dehashed = Decrypt(decrypted.toString(), await this.failedDecode(this.networkID));
+        message = JSON.parse(dehashed);
+      } catch (l) {
+        if (this.debug) {
+          console.log(`${this.name}: TCP cannot dehash recieved message 2 time - `, l);
+        }
+        return;
+      }
     }
    }
 

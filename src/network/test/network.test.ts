@@ -1,7 +1,7 @@
 import Network from "..";
 import { ISettings } from "src/interfaces/settingsStore";
 import { BasicAction, SyncTest } from "./sync";
-import { GenerateKeys, Encrypt, Decrypt } from "../crypto";
+import { GenerateKeys, Encrypt, Decrypt, PubEncrypt, PubDecrypt } from "../crypto";
 
 const PORT_TCP_1 = 42816; // FIRST TCP TEST SERVER PORT
 const PORT_UDP_1 = 42814; // FIRST UDP TEST SERVER PORT
@@ -18,7 +18,7 @@ beforeAll(() => {
 // window = new Window();
 });
 
-const settings1 = (): ISettings => {
+const s1 = (): ISettings => {
   return {
     DeadZoneNotifications: false,
     NetworkID: "2228-8889",
@@ -28,7 +28,7 @@ const settings1 = (): ISettings => {
   };
 };
 
-const settings2 = (): ISettings => {
+const s2 = (): ISettings => {
   return {
     DeadZoneNotifications: false,
     NetworkID: "2228-8009",
@@ -50,8 +50,8 @@ test("Basic crypto", async () => {
   const debug = false;
   const passphrase = "Bingo";
   const keys = await GenerateKeys(passphrase);
-  const encrypt = Encrypt("Hello", keys.pub, passphrase);
-  const decrypt = Decrypt(encrypt, keys.priv, passphrase);
+  const encrypt = PubEncrypt("Hello", keys.pub, passphrase);
+  const decrypt = PubDecrypt(encrypt, keys.priv, passphrase);
   if (debug) {
     console.log(keys.pub.toString("utf8"));
     console.log(keys.priv.toString("utf8"));
@@ -64,8 +64,8 @@ test("Basic request", async () => {
   if (debug) {
     console.log("--------------------------------------------");
   }
-  const network1 = new Network("1.1", settings1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "John", false);
-  const network2 = new Network("1.1", settings2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Luci", false);
+  const network1 = new Network("1.1", s1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "John", false);
+  const network2 = new Network("1.1", s2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Luci", false);
 
   const sync1 = new SyncTest(network1, "John", data1, debug);
   const sync2 = new SyncTest(network2, "Luci", data2, debug);
@@ -98,8 +98,8 @@ test("Basic Distribution", async () => {
     console.log("--------------------------------------------");
   }
 
-  const network1 = new Network("1.1", settings1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "John", true);
-  const network2 = new Network("1.1", settings2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Luci", true);
+  const network1 = new Network("1.1", s1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "John", true);
+  const network2 = new Network("1.1", s2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Luci", true);
 
   const sync1 = new SyncTest(network1, "John", data1, debug);
   const sync2 = new SyncTest(network2, "Luci", data2, debug);
