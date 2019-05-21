@@ -3,7 +3,7 @@
       <check-box-component
         @callback="recieveFromUnknow"
         class="network-settings__recive_check"
-        v-bind:checked="data.RecieveDataFromUnknow"/>
+        v-bind:state="data.RecieveDataFromUnknow"/>
     </div>
     <div class="settings-body__row">Network ID
       <input v-model="data.NetworkID" class="settings__networkID" disabled/>
@@ -15,3 +15,5 @@
       <input @change="pass" v-model="data.UserPass" class="settings__networkPass"/>
     </div>
 </div>
+
+<!-- {"Notifications":true,"DeadZoneNotifications":true,"NetworkID":"xlht-bnot","RecieveDataFromUnknow":true,"UserPass":"eojb-usfo"} -->

@@ -12,7 +12,7 @@ export interface ITCPFactory {
     name: string,
     getPassword: (networkID: string) => Promise<string>,
     failedDecode: (networkID: string) => Promise<string>,
-    generateKeys: boolean,
+    successDecode: (networkID: string, pass: string) => Promise<void>,
   ) => Promise<boolean>;
   Create: (socket: ISocket, fresh: boolean) => TCPConn;
 }
@@ -32,6 +32,7 @@ export class TCPFactory implements ITCPFactory {
   private closed: ((ID: number) => void) | null = null;
   private getPassword: ((networkID: string) => Promise<string>) | null = null;
   private failedDecode: ((networkID: string) => Promise<string>) | null = null;
+  private successDecode: ((networkID: string, pass: string) => Promise<void>) | null = null;
 
   constructor() {
     //
@@ -45,6 +46,7 @@ export class TCPFactory implements ITCPFactory {
     name: string,
     getPassword: (networkID: string) => Promise<string>,
     failedDecode: (networkID: string) => Promise<string>,
+    successDecode: (networkID: string, pass: string) => Promise<void>,
   ): Promise<boolean> {
   this.settings = settingsFunc;
   this.debug = tcpdebug;
@@ -53,6 +55,7 @@ export class TCPFactory implements ITCPFactory {
   this.closed = close;
   this.getPassword = getPassword;
   this.failedDecode = failedDecode;
+  this.successDecode = successDecode;
   try {
     if (this.debug) {
       console.log(`${this.serverName}: Generating RSA keys ...`);
@@ -76,6 +79,6 @@ export class TCPFactory implements ITCPFactory {
   public Create(socket: ISocket, fresh: boolean) {
     return new TCPConn(socket, fresh, this.IDCounter++, this.debug,
       this.serverName, this.settings!, this.publicKey, this.privateKey,
-      this.recieved!, this.closed!, this.getPassword!, this.failedDecode!);
+      this.recieved!, this.closed!, this.getPassword!, this.failedDecode!, this.successDecode!);
   }
 }

@@ -30,10 +30,11 @@ export default class Network implements ISync {
   private bufferRequests: IMessage[] = [];
   private newDataRequest: ((networkID: string) => void) | null = null;
   private newDataDistribution: ((networkID: string) => void) | null = null;
-  private getDataForTransmition: (() => string) | null = null;
+  private getDataForTransmition: (() => Promise<string>) | null = null;
   private gotDataFromTransmition: ((data: any, dbSchemaVersion: string) => void) | null = null;
   private getPassword: ((networkID: string) => Promise<string>) | null = null;
   private failedDecode: ((networkID: string) => Promise<string>) | null = null;
+  private successDecode: ((syncID: string, pass: string) => Promise<void>) | null = null;
 
   constructor(dbSchemaVersion: string, settings: () => ISettings,
               debug: boolean, portTCP: number, servicesTCP: number,
@@ -63,6 +64,7 @@ export default class Network implements ISync {
         this.Receive.bind(this),
         this.getPassword!.bind(this),
         this.failedDecode!.bind(this),
+        this.successDecode!.bind(this),
       );
       await this.tcpserver.Start();
       this.udpserver = new UDPServer(this.debug, this.portUDP, this.servicesUDP,
@@ -82,13 +84,14 @@ export default class Network implements ISync {
     this.gotDataFromTransmition = data.gotDataFromTransmition;
     this.getPassword = data.getPassword;
     this.failedDecode = data.failedDecode;
+    this.successDecode = data.successDecode;
   }
 
   public DismissRequest(networkID: string) {
     this.popFromBuffer(networkID);
   }
 
-  public AcceptRequest(networkID: string) {
+  public async AcceptRequest(networkID: string) {
     if (this.debug) {
       console.log(`${this.name}: Request accepted from ${networkID}`);
     }
@@ -98,7 +101,7 @@ export default class Network implements ISync {
     if (request.message.Action === Action.Request || request.message.Action === Action.NeedData) {
       if (!this.getDataForTransmition) {return; }
       // console.log("Send data request and need data");
-      const data = this.getDataForTransmition();
+      const data = await this.getDataForTransmition();
       const sendData: ISendDataMessage = {
         Action: Action.SendData,
         DBSchemaVersion: this.dbScehmaVersion,

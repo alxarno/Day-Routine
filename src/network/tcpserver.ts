@@ -60,6 +60,7 @@ export class TCPServer implements ITCPServer {
   private settings: () => ISettingForTCP;
   private password: (nid: string) => Promise<string>;
   private failedDecode: (NetworkID: string) => Promise<string>;
+  private successDecode: (syncID: string, pass: string) => Promise<void>;
 
   private tcpfactory: TCPFactory;
 
@@ -72,6 +73,7 @@ export class TCPServer implements ITCPServer {
     onRecive: (msg: IMessage) => void,
     getPassord: (networkID: string) => Promise<string>,
     failedDecode: (networkID: string) => Promise<string>,
+    successDecode: (syncID: string, pass: string) => Promise<void>,
   ) {
     this.debug = debug;
     this.port = port;
@@ -81,6 +83,7 @@ export class TCPServer implements ITCPServer {
     this.recieve = onRecive;
     this.password = getPassord;
     this.failedDecode = failedDecode;
+    this.successDecode = successDecode;
     this.server = null;
     this.tcpfactory = new TCPFactory();
 
@@ -89,7 +92,7 @@ export class TCPServer implements ITCPServer {
   public async Start() {
     await new Promise(async (res) => {
       await this.tcpfactory.Init(this.settings, this.recieve, (id: number) => {/* */},
-       this.debug, this.name, this.password, this.failedDecode);
+       this.debug, this.name, this.password, this.failedDecode, this.successDecode);
       this.server = net.createServer(this.connHandler.bind(this));
       this.server!.on(onerror, (err) => {
         if (this.debug) {

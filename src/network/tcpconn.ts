@@ -72,6 +72,7 @@ export class TCPConn implements IConnection {
 
   private getPassword: (networkID: string) => Promise<string>;
   private failedDecode: (networkID: string) => Promise<string>;
+  private successDecode: (networkID: string, pass: string) => Promise<void>;
 
   constructor(
     socket: ISocket, newSocket: boolean,
@@ -83,6 +84,7 @@ export class TCPConn implements IConnection {
     close: (id: number) => void,
     getPassword: (networkID: string) => Promise<string>,
     failedDecode: (networkID: string) => Promise<string>,
+    successDecode: (networkID: string, pass: string) => Promise<void>,
   ) {
     this.ID = id;
     this.debug = debug;
@@ -101,6 +103,7 @@ export class TCPConn implements IConnection {
 
     this.failedDecode = failedDecode;
     this.getPassword = getPassword;
+    this.successDecode = successDecode;
 
     this.socket.on(ondata, this.recieved.bind(this));
     if (!newSocket) {
@@ -217,15 +220,19 @@ export class TCPConn implements IConnection {
       return;
     }
     try {
-      const dehashed = Decrypt(decrypted.toString(), await this.getPassword(this.networkID));
+      const userpass = await this.getPassword(this.networkID);
+      const dehashed = Decrypt(decrypted.toString(), userpass);
       message = JSON.parse(dehashed);
+      this.successDecode(this.networkID, userpass);
     } catch (l) {
       if (this.debug) {
         console.log(`${this.name}: TCP cannot dehash recieved message - `, l);
       }
       try {
-        const dehashed = Decrypt(decrypted.toString(), await this.failedDecode(this.networkID));
+        const newuserpass = await this.failedDecode(this.networkID);
+        const dehashed = Decrypt(decrypted.toString(), newuserpass);
         message = JSON.parse(dehashed);
+        this.successDecode(this.networkID, newuserpass);
       } catch (l) {
         if (this.debug) {
           console.log(`${this.name}: TCP cannot dehash recieved message 2 time - `, l);

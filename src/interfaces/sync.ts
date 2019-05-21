@@ -10,17 +10,17 @@ export interface ISyncAnswer {
 export interface ISyncInitData {
   newDataRequest: (syncID: string) => void;
   newDataDistribution: (syncID: string) => void;
-  getDataForTransmition: () => string;
+  getDataForTransmition: () => Promise<string>;
   gotDataFromTransmition: (data: any, dbSchemaVersion: string) => void;
   getPassword: (syncID: string) => Promise<string>;
   failedDecode: (syncID: string) => Promise<string>;
+  successDecode: (syncID: string, pass: string) => Promise<void>;
 }
 
 export interface ISyncData {
   routines: IRoutine[];
   deadZones: IDeadZone[];
   statistics: IStatistics[];
-  dbSchemaVersion: string;
 }
 
 export interface ISync {

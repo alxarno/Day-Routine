@@ -159,17 +159,17 @@ export class Core implements ICore {
   }
 
   private async updateStatistics(hours: number, routineID: number): Promise<void> {
-    await this.storage.Statistics().Add({hours, routineID});
-    const deadZones: IDeadZone[] = (await this.DeadZones().Get() as IDeadZone[]);
-    const routines: IRoutine[] = (await this.Routines().Get() as IRoutine[]);
-    const statistics: IStatistics[] = (await this.Statistics().Get() as IStatistics[]);
-    const sData: ISyncData = {
-      dbSchemaVersion: this.storage.SchemaVersion(),
-      deadZones,
-      routines,
-      statistics,
-    };
-    await this.sync!.Broadcast();
+    // await this.storage.Statistics().Add({hours, routineID});
+    // const deadZones: IDeadZone[] = (await this.DeadZones().Get() as IDeadZone[]);
+    // const routines: IRoutine[] = (await this.Routines().Get() as IRoutine[]);
+    // const statistics: IStatistics[] = (await this.Statistics().Get() as IStatistics[]);
+    // const sData: ISyncData = {
+    //   dbSchemaVersion: this.storage.SchemaVersion(),
+    //   deadZones,
+    //   routines,
+    //   statistics,
+    // };
+    // await this.sync!.Broadcast();
   }
 
   private settingsApply(settings: ISettings): void {
