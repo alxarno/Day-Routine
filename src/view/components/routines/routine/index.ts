@@ -38,10 +38,13 @@ export default class RoutineComponent extends Vue {
   public created(): void {
     if (colors.hasOwnProperty(this.$props.routine.colorScheme)) {
       this.currentColor = colors[this.$props.routine.colorScheme];
-      this.downLineWidth = (this.$props.routine as IRoutine).hoursSpended.reduce((x, y) => x + y) /
-        (this.$props.routine as IRoutine).hours * 100;
-      this.downLineWidth = (this.downLineWidth > 100 ? 100 : this.downLineWidth);
     }
+  }
+
+  public downline(): number {
+    const downline = (this.$props.routine as IRoutine).hoursSpended.reduce((x, y) => x + y) /
+      (this.$props.routine as IRoutine).hours * 100;
+    return (downline > 100 ? 100 : downline);
   }
 
   public settings(): void {

@@ -15,6 +15,9 @@ class UserInterface implements IUserInterface {
 
   constructor(core: ICore) {
     this.store = store;
+    this.store.subscribe((mutation: any, state: any) => {
+      console.log(mutation.type, mutation.payload);
+    });
     RegisterAPI(core);
     this.ui = new Vue({
       el: "#app",

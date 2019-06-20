@@ -24,6 +24,7 @@ export class SyncTest {
       newDataRequest: this.newDataRequest.bind(this),
       getPassword: this.password.bind(this),
       failedDecode: this.failedDecodeMessage.bind(this),
+      successDecode: async (syncID: string, pass: string) => {/* */},
     });
   }
 
@@ -78,7 +79,7 @@ export class SyncTest {
     this.sync.AcceptRequest(ID);
   }
 
-  private getDataForTransmition(): string {
+  private async getDataForTransmition(): Promise<string> {
     //
     return this.testData;
   }

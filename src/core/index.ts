@@ -46,7 +46,7 @@ export class Core implements ICore {
     this.storage = storage;
     this.cache = cache;
 
-    this.sync = sync();
+    // this.sync = sync();
     this.os = os;
 
     this.ScheduleModule = new ScheduleCore({storage: this.storage, cache: this.cache});
@@ -155,7 +155,9 @@ export class Core implements ICore {
   private async init(ui: (core: ICore) => IUserInterface) {
     await this.storage.Init();
     this.ui = ui(this);
-    this.SyncModule = new SyncCore({sync: this.sync, ui: this.ui});
+    // this.SyncModule = new SyncCore({sync: this.sync, ui: this.ui});
+    // this.SyncModule.Init();
+    // this.SyncModule.
   }
 
   private async updateStatistics(hours: number, routineID: number): Promise<void> {

@@ -24,10 +24,7 @@ export class TCPFactory implements ITCPFactory {
   private debug: boolean = false;
   private serverName: string = "";
 
-  // Test key for test, it will overwrite within startup
-  private publicKey: Buffer = Buffer.from("");
-  // Test key for test, it will overwrite within startup
-  private privateKey: Buffer = Buffer.from("");
+  private keys: (CryptoKeyPair | null) = null;
   private recieved: ((msg: IMessage) => void) | null = null;
   private closed: ((ID: number) => void) | null = null;
   private getPassword: ((networkID: string) => Promise<string>) | null = null;
@@ -60,10 +57,10 @@ export class TCPFactory implements ITCPFactory {
     if (this.debug) {
       console.log(`${this.serverName}: Generating RSA keys ...`);
     }
-    const keys = await GenerateKeys(this.settings().UserPass);
-
-    this.publicKey = keys.pub;
-    this.privateKey = keys.priv;
+    const keys = await GenerateKeys();
+    this.keys = keys;
+    // this.publicKey = keys.pub;
+    // this.privateKey = keys.priv;
     if (this.debug) {
       console.log(`${this.serverName}: RSA keys created`);
     }
@@ -78,7 +75,7 @@ export class TCPFactory implements ITCPFactory {
 
   public Create(socket: ISocket, fresh: boolean) {
     return new TCPConn(socket, fresh, this.IDCounter++, this.debug,
-      this.serverName, this.settings!, this.publicKey, this.privateKey,
+      this.serverName, this.settings!, this.keys!,
       this.recieved!, this.closed!, this.getPassword!, this.failedDecode!, this.successDecode!);
   }
 }

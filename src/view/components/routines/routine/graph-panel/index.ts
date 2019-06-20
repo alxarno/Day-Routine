@@ -27,10 +27,6 @@ export default class RoutineStatGraphPanel extends Vue {
 
   private pointsO: number[] = [0, 0, 0, 0, 0, 0, 0];
 
-  // public mounted() {
-  //   // console.log(this.$refs.routine_graph_panel.offsetTop);
-  // }
-
   public created() {
 
     this.pointsO = this.$props.stat;
@@ -60,8 +56,6 @@ export default class RoutineStatGraphPanel extends Vue {
       if (this.pointsO[mouseDown ] === newHours) {return; }
       this.pointsO = this.pointsO.map((v, i) => (i === mouseDown  ? newHours : v));
       this.changeStatistics!({routineID: this.$props.routineID, spent: this.pointsO});
-      // this.updateKey += 1;
-      // this.$forceUpdate();
     }
   }
 

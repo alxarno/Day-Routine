@@ -1,6 +1,6 @@
 import { NetworkMessage, MessageType, Action, IPublicKey, IReady, IMessage, IPublicKeyDelivery } from "./messages";
 import { IRequestInfo } from "./interfaces";
-import { Encrypt, Decrypt, PubEncrypt, PubDecrypt } from "./crypto";
+import { Encrypt, Decrypt, PubEncrypt, PubDecrypt, publickKeyToPem } from "./crypto";
 
 export interface ISocket {
   connect: (port: number, addr: string, c: () => void) => void;
@@ -64,8 +64,9 @@ export class TCPConn implements IConnection {
   private debug: boolean;
   private name: string;
   private settings: () => ISettingForTCP;
-  private publicKey: Buffer = Buffer.from("");
-  private privateKey: Buffer = Buffer.from("");
+  private keys: CryptoKeyPair;
+  // private publicKey: Buffer = Buffer.from("");
+  // private privateKey: Buffer = Buffer.from("");
   private giveAway: (msg: IMessage) => void;
   private closed: (id: number) => void;
   private keyDelivered: boolean = false;
@@ -79,7 +80,7 @@ export class TCPConn implements IConnection {
     id: number, debug: boolean,
     servername: string,
     settingsFunc: () => ISettingForTCP,
-    pubKey: Buffer, privKey: Buffer,
+    keys: CryptoKeyPair,
     recieve: (msg: IMessage) => void,
     close: (id: number) => void,
     getPassword: (networkID: string) => Promise<string>,
@@ -96,8 +97,9 @@ export class TCPConn implements IConnection {
     this.remotePublicKey = Buffer.from("");
     this.networkID = "";
     this.messageBuff = [];
-    this.publicKey = pubKey;
-    this.privateKey = privKey;
+    this.keys = keys;
+    // this.publicKey = pubKey;
+    // this.privateKey = privKey;
     this.giveAway = recieve;
     this.closed = close;
 
@@ -123,8 +125,7 @@ export class TCPConn implements IConnection {
     } else {
       try {
         const hash = Encrypt(msg, this.settings().UserPass);
-        const encrypted = PubEncrypt(hash, this.remotePublicKey, "");
-        this.socket.write(encrypted);
+        PubEncrypt(hash, this.keys.publicKey).then((e) =>  this.socket.write(e));
       } catch (l) {
         if (this.debug) {
           console.log(`${this.name}: TCP failed to encrypt message - `, l);
@@ -163,7 +164,7 @@ export class TCPConn implements IConnection {
   private async sendKey() {
     const message: IPublicKey = {
       Action: Action.PublicKey,
-      Key: this.publicKey.toString("hex"),
+      Key: await publickKeyToPem(this.keys),
       NetworkID: this.settings().NetworkID,
       Type: MessageType.SystemTCP,
     };
@@ -202,11 +203,11 @@ export class TCPConn implements IConnection {
     try {
       message = JSON.parse(m.toString());
    } catch (e) {
-    let decrypted: Buffer;
+    let decrypted: string;
     const password = this.settings().UserPass;
     if (password) {
       try {
-        decrypted = PubDecrypt(m, this.privateKey, password);
+        decrypted = await PubDecrypt(m.toString("utf8"), this.keys.privateKey);
       } catch (d) {
         if (this.debug) {
           console.log(`${this.name}: TCP cannot private decrypt - `, d);

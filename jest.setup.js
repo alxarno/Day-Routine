@@ -1,0 +1,1 @@
+crypto = require('@trust/webcrypto')

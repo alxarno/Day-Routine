@@ -18,16 +18,18 @@ export const mutations: MutationTree<IRoutinesState> = {
     state.current_routine = val;
   },
   loadedRoutines: (state, routines) => {
-    state.items = routines.map((v: any) => v);
+    state.items = routines;
     state.loaded = true;
   },
-  loaded: (state) => {
-    state.loaded = false;
+  loading: (state) => {
+    // state.loaded = false;
   },
   setCurrentGraphPanel: (state, val) => {
     state.routineGraph = val;
   },
   setRoutine: (state, data: {index: number, routine: IRoutine}) => {
     state.items[data.index] = data.routine;
+    state.loaded = false;
+    state.loaded = true;
   },
 };

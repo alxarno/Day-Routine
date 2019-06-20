@@ -32,6 +32,7 @@
   div{
     height: 2px;
     border-radius: 0px 0px 5px 5px;
+    transition: width 0.3s ease-in-out;
   }
 }
 
@@ -63,10 +64,10 @@
   font-size: 12px;
   font-family: Roboto-Light;
   color:$gray;
-  white-space: nowrap; /* Отменяем перенос текста */
-  overflow: hidden; /* Обрезаем содержимое */
-  padding: 5px; /* Поля */
-  text-overflow: ellipsis; /* Многоточие */
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 5px;
+  text-overflow: ellipsis; 
 }
 
 .routines-routine__settings{

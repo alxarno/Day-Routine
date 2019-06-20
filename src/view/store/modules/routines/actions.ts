@@ -35,7 +35,7 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
     dispatch("app/setFreeHours", {}, {root: true});
   },
   async loadRoutines({commit}) {
-      commit("loaded");
+      commit("loading");
       const routines = await GetAPI().Routines().Get();
       const statistics = await GetAPI().Statistics().Get();
       routines.forEach((v: IRoutine) => {
@@ -62,7 +62,7 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
   },
   setRoutineGraph({commit, dispatch}, routineID: number) {
     commit("setCurrentGraphPanel", routineID);
-    dispatch("loadRoutines", {});
+    // dispatch("loadRoutines", {});
   },
 
   async updateCurrentRoutine({commit, dispatch}, routineID: number) {

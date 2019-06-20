@@ -41,13 +41,14 @@
       @mousedown="function(event){ mousedown(event, index)}.bind(this)"
       class="routine-panel-svg__point"
       v-for="(point, index) in points"
-      v-bind:cx="point[0]"
-      v-bind:cy="point[1]"
+
+     
       r="6"
       v-bind:fill="colortheme.active_color"
       stroke-width="2"
       stroke="rgba(255,255,255,0.9)"
       v-bind:svg-tooltip-target="`svg_tooltip_point_`+index"
+      v-bind:transform = "`translate(${point[0]} ${point[1]})`"
     />
 
     <g 
