@@ -1,5 +1,6 @@
-import { ICrypto, ICryptoKey } from "../interfaces";
-import { WebCryptoKey } from "./cryptokey";
+import { ICrypto, KeyType } from "../interfaces";
+import RSACryptoKey from "./rsa";
+import AESCryptoKey from "./aes";
 
 export default  class  WebCrypto implements ICrypto {
   constructor() {
@@ -7,33 +8,21 @@ export default  class  WebCrypto implements ICrypto {
   }
 
   public async generateRSAKeyPair() {
-    const keypair = (await crypto.subtle.generateKey("RSA-OAEP",  true, []) as CryptoKeyPair);
+    const keypair = await crypto.subtle.generateKey(
+      {
+        name: "RSA-OAEP",
+        modulusLength: 2048,
+        publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
+        hash: {
+          name: "SHA-256",
+        },
+      },
+      true,
+      ["encrypt", "decrypt"]);
     return {
-      privateKey: new WebCryptoKey(keypair.privateKey),
-      publicKey: new WebCryptoKey(keypair.publicKey),
+      privateKey: new RSACryptoKey(KeyType.Private, keypair.privateKey),
+      publicKey: new RSACryptoKey(KeyType.Public, keypair.publicKey),
     };
-  }
-
-  public async encryptRSAData(key: ICryptoKey, data: string) {
-    return arrayBufferToText(await crypto.subtle.encrypt(
-      {
-        name: "RSA-OAEP",
-        iv: new Uint8Array([1, 0, 1]),
-      },
-      key.nativeKey(),
-      textToArrayBuffer(data),
-    ));
-  }
-
-  public async decryptRSAData(key: ICryptoKey, data: string) {
-    return arrayBufferToText(await crypto.subtle.decrypt(
-      {
-        name: "RSA-OAEP",
-        iv: new Uint8Array([1, 0, 1]),
-      },
-      key.nativeKey(),
-      textToArrayBuffer(data),
-  ));
   }
 
   public async generateAESKey() {
@@ -45,26 +34,6 @@ export default  class  WebCrypto implements ICrypto {
       true,
       ["encrypt", "decrypt"],
     ) as CryptoKey);
-    return new WebCryptoKey(key);
-  }
-
-  public async encryptAESData(key: ICryptoKey, data: string, pass: string) {
-    return arrayBufferToText(
-      await window.crypto.subtle.encrypt(
-        {
-          name: "AES-GCM",
-          iv: textToArrayBuffer(pass),
-          additionalData: new ArrayBuffer(0),
-          tagLength: 128,
-        },
-        key.nativeKey(),
-        textToArrayBuffer(data),
-      ),
-    );
-  }
-
-  public async decryptAESData(key: ICryptoKey, data: string, pass: string) {
-    return "";
-    //
+    return new AESCryptoKey(key);
   }
 }

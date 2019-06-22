@@ -42,6 +42,7 @@ export default class RoutineComponent extends Vue {
   }
 
   public downline(): number {
+    console.log(this.$props.routine);
     const downline = (this.$props.routine as IRoutine).hoursSpended.reduce((x, y) => x + y) /
       (this.$props.routine as IRoutine).hours * 100;
     return (downline > 100 ? 100 : downline);

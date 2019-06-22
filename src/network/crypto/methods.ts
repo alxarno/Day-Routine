@@ -1,13 +1,14 @@
-function textToArrayBuffer(str: string): ArrayBuffer {
-  const buf = unescape(encodeURIComponent(str));
-  const bufView = new Uint8Array(buf.length);
-  for (let i = 0; i < buf.length; i++) {
-    bufView[i] = buf.charCodeAt(i);
+export function textToArrayBuffer(str: string): ArrayBuffer {
+  // const buf = unescape(encodeURIComponent(str));
+  const buf = new ArrayBuffer(str.length);
+  const bufView = new Uint8Array(buf);
+  for (let i = 0, strLen = str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
   }
-  return bufView;
+  return buf;
 }
 
-function arrayBufferToText(arrayBuffer: ArrayBuffer): string {
+export function arrayBufferToText(arrayBuffer: ArrayBuffer): string {
   const byteArray = new Uint8Array(arrayBuffer);
   let str = "";
   for (let i = 0; i < byteArray.byteLength; i++) {

@@ -2,17 +2,37 @@ export interface ICryptoError {
   body: string;
 }
 
-export interface ICryptoKey {
-  export: () => Promise<ArrayBuffer>;
-  nativeKey: () => any;
-  importKey: (key: string) => void;
+export enum KeyType {
+  Private = 1,
+  Public,
+}
+
+export enum FormatType {
+  Raw = 1,
+  Pem,
+}
+
+export interface ICryptoRSAKey {
+  encrypt: (data: string) => Promise<string | ICryptoError>;
+  decrypt: (data: string) => Promise<string | ICryptoError>;
+  export: () => Promise<string>;
+  import: (key: string) => Promise<void | ICryptoError>;
+}
+
+// export interface ICryptoKey {
+//   export: () => Promise<ArrayBuffer>;
+//   nativeKey: () => any;
+//   import: (key: string, type: string, algorithm: string) => void;
+// }
+
+export interface ICryptoAESKey {
+  encrypt: (data: string) => Promise<string | ICryptoError>;
+  decrypt: (data: string) => Promise<string | ICryptoError>;
+  export: () => Promise<string | ICryptoError>;
+  import: (key: string) => Promise<void | ICryptoError>;
 }
 
 export interface ICrypto {
-  generateRSAKeyPair: () => Promise<{privateKey: ICryptoKey, publicKey: ICryptoKey}>;
-  encryptRSAData: (key: ICryptoKey, data: string) => Promise<string>;
-  decryptRSAData: (key: ICryptoKey, data: string) => Promise<string>;
-  generateAESKey: () => Promise<ICryptoKey>;
-  encryptAESData: (key: ICryptoKey, data: string, pass: string) => Promise<string | ICryptoError>;
-  decryptAESData: (key: ICryptoKey, data: string, pass: string) => Promise<string | ICryptoError>;
+  generateRSAKeyPair: () => Promise<{privateKey: ICryptoRSAKey, publicKey: ICryptoRSAKey}>;
+  generateAESKey: () => Promise<ICryptoAESKey>;
 }

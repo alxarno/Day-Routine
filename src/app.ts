@@ -10,18 +10,22 @@ import { IStorageKernel } from "./interfaces/storageKernel";
 import StorageKernel from "./storage/kernel";
 import { OS } from "./os";
 import { IOS } from "./interfaces/os";
-import { ISettingsStore, ISettings } from "./interfaces/settingsStore";
+import { ISettingsStore } from "./interfaces/settingsStore";
 import { SettingsStore } from "./settings";
 import Network from "./network";
 import { ICore } from "./interfaces/core";
+import WebCryptoTest from "src/network/crypto/web/web.encryption-test";
 
 const electron = (window as any).require("electron");
 const {PROD} = electron.remote.getGlobal("CONFIG");
 
-const DEBUG = !PROD;
+// const DEBUG = !PROD;
+const DEBUG = false;
 
 const PORT_TCP = 42816;
 const PORT_UDP = 42814;
+
+WebCryptoTest();
 
 const db: WebSQLDB = new WebSQLDB(
   {debug: DEBUG},
@@ -36,9 +40,10 @@ const network = () => new Network(
   storage.SchemaVersion(),
   settingsStore.Get.bind(settingsStore),
   DEBUG, PORT_TCP, PORT_TCP, PORT_UDP, PORT_UDP, "Network 1", true); // Work with network
-const ui = (core: ICore) => new UserInterface(core);
+const ui = (core: ICore) => new UserInterface(core, DEBUG);
 
-const core = new Core(
+// tslint:disable-next-line
+new Core(
   storage,
   cache,
   os,

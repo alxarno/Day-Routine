@@ -19,8 +19,7 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
   },
   async addRoutine({commit, dispatch}, routine: IRoutine) {
     await GetAPI().Routines().Create(routine);
-    const routines = await GetAPI().Routines().Get();
-    commit("loadedRoutines", routines);
+    dispatch("loadRoutines", {});
 
     commit("setCurrentRoutine",  -1);
     commit("drop");
@@ -28,10 +27,8 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
     dispatch("app/setFreeHours", {}, {root: true});
   },
   async deleteRoutine({commit, dispatch}, routine: IRoutine) {
-    // console.log(routine);
     await GetAPI().Routines().Delete({ID: routine.ID});
-    const routines = await GetAPI().Routines().Get();
-    commit("loadedRoutines", routines);
+    dispatch("loadRoutines", {});
     dispatch("app/setFreeHours", {}, {root: true});
   },
   async loadRoutines({commit}) {
@@ -45,7 +42,6 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
           }
         });
       });
-      // console.log("LoadedRoutines");
       commit("loadedRoutines", routines);
   },
   async saveRoutine({commit, dispatch}, routine: IRoutine) {
@@ -57,12 +53,10 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
   async changeStatistics({commit, dispatch}, data: {routineID: number, spent: number[]}) {
     await GetAPI().Statistics().ChangeSpent(data);
     dispatch("updateCurrentRoutine", data.routineID);
-    // console.log(updateRes);
-    // dispatch("loadRoutines", {});
+
   },
   setRoutineGraph({commit, dispatch}, routineID: number) {
     commit("setCurrentGraphPanel", routineID);
-    // dispatch("loadRoutines", {});
   },
 
   async updateCurrentRoutine({commit, dispatch}, routineID: number) {
@@ -78,18 +72,10 @@ export const actions: ActionTree<IRoutinesState, IRootState> = {
             return a;
           }
         }, r.hoursSpended);
-        // console.log(r);
         commit("setRoutine", {routine: r, index: i});
       }
     });
-    // const routine = routines.reduce((a: IRoutine, v: IRoutine) => {
-    //   if (v.ID === routineID) {
-    //     return v;
-    //   } else {
-    //     return a;
-    //   }
-    // });
-    // console.log(routine);
+
   },
 
 };
