@@ -1,14 +1,13 @@
 import Network from "..";
 import { ISettings } from "src/interfaces/settingsStore";
 import { BasicAction, SyncTest } from "./sync";
-import { GenerateKeys, Encrypt, Decrypt, PubEncrypt, PubDecrypt, publickKeyToPem, privateKeyToPem } from "../crypto";
-// crypto = require("@trust/webcrypto");
 
-const PORT_TCP_1 = 42816; // FIRST TCP TEST SERVER PORT
-const PORT_UDP_1 = 42814; // FIRST UDP TEST SERVER PORT
-
-const PORT_TCP_2 = 43816; // SECOND TCP TEST SERVER PORT
-const PORT_UDP_2 = 43814; // SECOND UDP TEST SERVER PORT
+// Its random port, more than 1024 reserved ports
+let lastport = 42816;
+// Generate new PORTS for tests
+const ports = () => {
+  return new Array(4).fill(0).map((v) => lastport++);
+};
 
 beforeAll(() => {
   process.env = {...process.env,  TEST: true};
@@ -38,79 +37,59 @@ const s2 = (): ISettings => {
 const data1 = "Data 1";
 const data2 = "Data 2";
 
-const timeOut = (fn: () => void) => setTimeout(fn, 500);
-const t = () =>  new Promise((res) => timeOut(res));
-
-// let basicRequestDone = false;
-
-test("Basic crypto", async () => {
-  const debug = true;
-  const keys = await GenerateKeys();
+test("Basic request", async () => {
+  const debug = false;
   if (debug) {
-    console.log(publickKeyToPem(keys));
-    console.log(privateKeyToPem(keys));
+    console.log("--------------------------------------------");
   }
-  const encrypt = await PubEncrypt("Hello", keys.publicKey);
-  const decrypt = await PubDecrypt(encrypt, keys.privateKey);
+  const cPorts = ports();
 
-  expect(decrypt).toEqual("Hello");
-});
+  const network1 = new Network("1.1", s1, debug,
+    cPorts[0], cPorts[2], cPorts[1], cPorts[3], "John", false);
+  const network2 = new Network("1.1", s2, debug,
+    cPorts[2], cPorts[0], cPorts[3], cPorts[1], "Luci", false);
 
-// test("Basic request", async () => {
-//   const debug = false;
-//   if (debug) {
-//     console.log("--------------------------------------------");
-//   }
-//   const network1 = new Network("1.1", s1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "John", false);
-//   const network2 = new Network("1.1", s2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Luci", false);
+  const sync1 = new SyncTest(network1, "John", data1, debug);
+  const sync2 = new SyncTest(network2, "Luci", data2, debug);
 
-//   const sync1 = new SyncTest(network1, "John", data1, debug);
-//   const sync2 = new SyncTest(network2, "Luci", data2, debug);
+  await new Promise(async (res) => {
+    await sync1.Start(BasicAction.None);
+    await sync2.Start(BasicAction.Request);
+    res();
+  });
 
-//   await new Promise(async (res) => {
-//     await sync1.Start(BasicAction.None);
-//     await sync2.Start(BasicAction.Request);
-//     res();
-//   });
+  await new Promise((res) => setTimeout(res, 5000)).then(async () => {
+    const n1 = new Promise((res) => network1.Close(res));
+    const n2 = new Promise((res) => network2.Close(res));
+    await Promise.all([n1, n2]);
+    expect(sync1.Data).toEqual(sync2.Data);
+  });
+}, 7000);
 
-//   await new Promise((res) => setTimeout(res, 5000)).then(async () => {
-//     const n1 = new Promise((res) => network1.Close(res));
-//     const n2 = new Promise((res) => network2.Close(res));
-//     await Promise.all([n1, n2]);
-//     basicRequestDone = true;
-//     expect(sync1.Data).toEqual(sync2.Data);
-//   });
-// }, 15000);
+test("Basic Distribution", async () => {
+  const debug = true;
+  if (debug) {
+    console.log("--------------------------------------------");
+  }
+  const cPorts = ports();
+  const network1 = new Network(
+    "1.1", s1, debug, cPorts[0], cPorts[3], cPorts[1], cPorts[4], "John", true);
+  const network2 = new Network(
+    "1.1", s2, debug, cPorts[3], cPorts[0], cPorts[4], cPorts[1], "Luci", true);
 
-// test("Basic Distribution", async () => {
-  // Wait while 'Basic request' done because async tests run concurency and disturb each other
-//   t().then(async (v) => {
-//     if (!basicRequestDone) {
-//       await t();
-//     }
-//   });
-//   await t();
-//   const debug = false;
-//   if (debug) {
-//     console.log("--------------------------------------------");
-//   }
+  const sync1 = new SyncTest(network1, "John", data1, debug);
+  const sync2 = new SyncTest(network2, "Luci", data2, debug);
 
-//   const network1 = new Network("1.1", s1, debug, PORT_TCP_1, PORT_TCP_2, PORT_UDP_1, PORT_UDP_2, "John", true);
-//   const network2 = new Network("1.1", s2, debug, PORT_TCP_2, PORT_TCP_1, PORT_UDP_2, PORT_UDP_1, "Luci", true);
+  await new Promise(async (res) => {
+    await sync1.Start(BasicAction.None);
+    await sync2.Start(BasicAction.Distribution);
+    res();
+  });
 
-//   const sync1 = new SyncTest(network1, "John", data1, debug);
-//   const sync2 = new SyncTest(network2, "Luci", data2, debug);
-
-//   await new Promise(async (res) => {
-//     await sync1.Start(BasicAction.None);
-//     await sync2.Start(BasicAction.Distribution);
-//     res();
-//   });
-
-//   await new Promise((res) => setTimeout(res, 5000)).then(async () => {
-//     const n1 = new Promise((res) => network1.Close(res));
-//     const n2 = new Promise((res) => network2.Close(res));
-//     await Promise.all([n1, n2]);
-//     expect(sync1.Data).toEqual(sync2.Data);
-//   });
-// }, 35000);
+  await new Promise((res) => setTimeout(res, 5000)).then(async () => {
+    const n1 = new Promise((res) => network1.Close(res));
+    const n2 = new Promise((res) => network2.Close(res));
+    await Promise.all([n1, n2]);
+    expect(sync1.Data).toEqual(sync2.Data);
+  });
+}, 7000);

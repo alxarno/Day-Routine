@@ -1,7 +1,7 @@
 module.exports = {
   "verbose": false,
   "silent": false,
-  "testEnvironment": "jsdom",
+  "testEnvironment": "node",
   "setupFiles":["<rootDir>/jest.setup.js"],
   "modulePaths": [
     "<rootDir>"

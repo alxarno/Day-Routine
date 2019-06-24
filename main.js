@@ -1,5 +1,5 @@
 const electron = require('electron');
-const {Tray} = require('electron')
+const {Tray, ipcRenderer} = require('electron')
 const notifier = require("node-notifier");
 
 const { app, BrowserWindow } = electron;
@@ -67,6 +67,7 @@ function createWindow () {
     //   buttons: ["OK"]
     // });
     // mainWindow = null
+    ipcRenderer.sendSync("asynchronous-message", "close");
   })
 
   tray = new Tray(ICON)

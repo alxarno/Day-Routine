@@ -8,11 +8,12 @@ export function textToArrayBuffer(str: string): ArrayBuffer {
   return buf;
 }
 
-export function arrayBufferToText(arrayBuffer: ArrayBuffer): string {
-  const byteArray = new Uint8Array(arrayBuffer);
-  let str = "";
-  for (let i = 0; i < byteArray.byteLength; i++) {
-    str += String.fromCharCode(byteArray[i]);
-  }
-  return str;
+export function arrayBufferToText(buf: ArrayBuffer): string {
+  // const byteArray = new Uint8Array(arrayBuffer);
+  // let str = "";
+  // for (let i = 0; i < byteArray.byteLength; i++) {
+  //   str += String.fromCharCode(byteArray[i]);
+  // }
+  // return str;
+  return String.fromCharCode.apply(null, new Uint8Array(buf) as any);
 }

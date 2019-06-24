@@ -15,21 +15,13 @@ export enum FormatType {
 export interface ICryptoRSAKey {
   encrypt: (data: string) => Promise<string | ICryptoError>;
   decrypt: (data: string) => Promise<string | ICryptoError>;
-  export: () => Promise<string>;
+  export: () => Promise<string | ICryptoError>;
   import: (key: string) => Promise<void | ICryptoError>;
 }
 
-// export interface ICryptoKey {
-//   export: () => Promise<ArrayBuffer>;
-//   nativeKey: () => any;
-//   import: (key: string, type: string, algorithm: string) => void;
-// }
-
 export interface ICryptoAESKey {
-  encrypt: (data: string) => Promise<string | ICryptoError>;
-  decrypt: (data: string) => Promise<string | ICryptoError>;
-  export: () => Promise<string | ICryptoError>;
-  import: (key: string) => Promise<void | ICryptoError>;
+  encrypt: (data: string, pass: string) => Promise<string | ICryptoError>;
+  decrypt: (data: string, pass: string) => Promise<string | ICryptoError>;
 }
 
 export interface ICrypto {

@@ -1,4 +1,4 @@
-import { ICryptoRSAKey, KeyType, FormatType } from "../interfaces";
+import { ICryptoRSAKey, KeyType } from "../interfaces";
 import { arrayBufferToText, textToArrayBuffer } from "../methods";
 
 export default class RSACryptoKey implements ICryptoRSAKey {
@@ -57,9 +57,13 @@ export default class RSACryptoKey implements ICryptoRSAKey {
       } catch (e) {
         return {body: `RSA Import key system error: ${e}`};
       }
+      return;
   }
 
   public async export() {
+    if (this.type === 1) {
+      return {body: `Cannot export RSA private key`};
+    }
     const exported = await crypto.subtle.exportKey(
       (this.type === 1 ? "pkcs8" : "spki"),
       this.key,

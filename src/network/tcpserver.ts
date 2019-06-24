@@ -1,25 +1,13 @@
 import { ITCPServer, IRequestInfo } from "./interfaces";
-import { GenerateKeys } from "./crypto";
-import { NetworkMessage, IPublicKey, Action, MessageType, IMessage } from "./messages";
-import { ISocket, TCPConn, ISettingForTCP } from "./tcpconn";
+import { IMessage } from "./messages";
+import {  TCPConn, ISettingForTCP } from "./tcpconn";
 import { TCPFactory } from "./tcpfactory";
+import { net, ISocket } from "./net";
 
 //
 //        TCP Client                        TCP Server
 //           |                                 |
 //           |             Connect             |
-//           |   ------------------------->    |
-//           |                                 |
-//           |            CPublic Key          |
-//           |   ------------------------->    |
-//           |                                 |
-//           |      CPublic Key Delivered      |
-//           |   <-------------------------    |
-//           |                                 |
-//           |           SPublic Key           |
-//           |   <-------------------------    |
-//           |                                 |
-//           |      SPublic Key Delivered      |
 //           |   ------------------------->    |
 //           |                                 |
 //           |    Encrypted Messsage Data      |
@@ -28,22 +16,6 @@ import { TCPFactory } from "./tcpfactory";
 //           |                                 |
 //
 //
-
-interface INet {
-  createServer: (c: (socket: ISocket) => void) => any;
-  Socket: any;
-}
-
-let n: INet | null = null;
-
-if (typeof window === "undefined") {
-  n = require("net");
-} else {
-  const remote = (window as any).require("electron").remote;
-  n = remote.require("net");
-}
-
-const net = (n as INet);
 
 const ondata = "data";
 const onerror = "error";
@@ -54,13 +26,13 @@ export class TCPServer implements ITCPServer {
   private debug: boolean;
   private port: number;
   private servicesPort: number;
-  private server: ISocket | null;
+  private server: any | null;
   private connections: TCPConn[] = [];
   private recieve: (msg: IMessage) => void;
   private settings: () => ISettingForTCP;
-  private password: (nid: string) => Promise<string>;
-  private failedDecode: (NetworkID: string) => Promise<string>;
-  private successDecode: (syncID: string, pass: string) => Promise<void>;
+  // private password: (nid: string) => Promise<string>;
+  // private failedDecode: (NetworkID: string) => Promise<string>;
+  // private successDecode: (syncID: string, pass: string) => Promise<void>;
 
   private tcpfactory: TCPFactory;
 
@@ -71,9 +43,9 @@ export class TCPServer implements ITCPServer {
     name: string,
     settings: () => ISettingForTCP,
     onRecive: (msg: IMessage) => void,
-    getPassord: (networkID: string) => Promise<string>,
-    failedDecode: (networkID: string) => Promise<string>,
-    successDecode: (syncID: string, pass: string) => Promise<void>,
+    // getPassord: (networkID: string) => Promise<string>,
+    // failedDecode: (networkID: string) => Promise<string>,
+    // successDecode: (syncID: string, pass: string) => Promise<void>,
   ) {
     this.debug = debug;
     this.port = port;
@@ -81,9 +53,9 @@ export class TCPServer implements ITCPServer {
     this.name = name;
     this.settings = settings;
     this.recieve = onRecive;
-    this.password = getPassord;
-    this.failedDecode = failedDecode;
-    this.successDecode = successDecode;
+    // this.password = getPassord;
+    // this.failedDecode = failedDecode;
+    // this.successDecode = successDecode;
     this.server = null;
     this.tcpfactory = new TCPFactory();
 
@@ -91,10 +63,19 @@ export class TCPServer implements ITCPServer {
 
   public async Start() {
     await new Promise(async (res) => {
-      await this.tcpfactory.Init(this.settings, this.recieve, (id: number) => {/* */},
-       this.debug, this.name, this.password, this.failedDecode, this.successDecode);
+      await this.tcpfactory.Init(
+      {
+        name: this.name,
+        tcpdebug: this.debug,
+        settings: this.settings,
+        recive: this.recieve,
+        // getPassword: this.password,
+        closed: (id: number) => {/* */},
+        // failedDecode: this.failedDecode,
+        // successDecode: this.successDecode,
+      });
       this.server = net.createServer(this.connHandler.bind(this));
-      this.server!.on(onerror, (err) => {
+      this.server!.on(onerror, (err: any) => {
         if (this.debug) {
           console.log(`${this.name}: TCP server error `, err);
         }
@@ -112,7 +93,7 @@ export class TCPServer implements ITCPServer {
     let c: TCPConn | null;
     c = this.getConnectionByAddr(addr);
     if (!c) {
-      c = this.tcpfactory.Create(new net.Socket(), true);
+      c = this.tcpfactory.Create(net.createSocket(), true);
       c.Connect(addr, this.servicesPort);
       this.connections.push((c as TCPConn));
     }

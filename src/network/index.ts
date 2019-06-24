@@ -4,6 +4,7 @@ import { UDPServer} from "./udpserver";
 import {TCPServer} from "./tcpserver";
 import { Action, MessageType, NetworkMessage, ISendDataMessage, INeedDataMessage, IMessage } from "./messages";
 import { IUDPServer, IRequestInfo, ITCPServer } from "./interfaces";
+import Crypto from "./crypto";
 
 interface INetworkBufferedRequests {
   Action: Action;
@@ -62,9 +63,9 @@ export default class Network implements ISync {
         this.name,
         () => this.settings(),
         this.Receive.bind(this),
-        this.getPassword!.bind(this),
-        this.failedDecode!.bind(this),
-        this.successDecode!.bind(this),
+        // this.getPassword!.bind(this),
+        // this.failedDecode!.bind(this),
+        // this.successDecode!.bind(this),
       );
       await this.tcpserver.Start();
       this.udpserver = new UDPServer(this.debug, this.portUDP, this.servicesUDP,
@@ -102,23 +103,27 @@ export default class Network implements ISync {
       if (!this.getDataForTransmition) {return; }
       // console.log("Send data request and need data");
       const data = await this.getDataForTransmition();
+      const encryptedData = await this.encryptData(data);
+      if (this.debug) {
+        console.log(`${this.name}: Send ecnrypted =  ${encryptedData}`);
+      }
       const sendData: ISendDataMessage = {
         Action: Action.SendData,
         DBSchemaVersion: this.dbScehmaVersion,
-        Data: data,
+        Data: encryptedData,
         NetworkID: this.settings().NetworkID,
         Type: MessageType.Transfer,
       };
       this.tcpserver.PushDataTo(request.IP, JSON.stringify(sendData));
     }
     if (request.message.Action === Action.Distribution) {
-        const sendData: INeedDataMessage = {
-          Action: Action.NeedData,
-          DBSchemaVersion: this.dbScehmaVersion,
-          NetworkID: this.settings().NetworkID,
-          Type: MessageType.Greeting,
-        };
-        this.tcpserver.PushDataTo(request.IP, JSON.stringify(sendData));
+      const sendData: INeedDataMessage = {
+        Action: Action.NeedData,
+        DBSchemaVersion: this.dbScehmaVersion,
+        NetworkID: this.settings().NetworkID,
+        Type: MessageType.Greeting,
+      };
+      this.tcpserver.PushDataTo(request.IP, JSON.stringify(sendData));
     }
 
   }
@@ -156,31 +161,64 @@ export default class Network implements ISync {
     this.Broadcast();
   }
   // Recieve UDP and TCP dgams, but user's data transfering use TCP connection
-  private Receive(data: IMessage) {
+  private async Receive(req: IMessage) {
     if (this.debug) {
-      console.log(`${this.name}: Recived ${data.message} from ${data.IP}`);
+      console.log(`${this.name}: Recived ${req.message} from ${req.IP}`);
     }
-    switch (data.message.Action) {
+    switch (req.message.Action) {
         case Action.Request:
-          this.pushToBuffer(data);
-          this.newDataRequest!(data.message.NetworkID);
+          this.pushToBuffer(req);
+          this.newDataRequest!(req.message.NetworkID);
           break;
         case Action.Distribution:
-          this.pushToBuffer(data);
-          this.newDataDistribution!(data.message.NetworkID);
+          this.pushToBuffer(req);
+          this.newDataDistribution!(req.message.NetworkID);
           break;
         case Action.SendData:
-          this.pushToBuffer(data);
+          this.pushToBuffer(req);
+          const dataMessage =  (req.message as ISendDataMessage);
+          const decrypted = await this.decryptData(dataMessage, 0);
+          if (decrypted.hasOwnProperty("body")) {
+            this.popFromBuffer(dataMessage.NetworkID);
+            return;
+          }
           this.gotDataFromTransmition!(
-            (data.message as ISendDataMessage).Data,
-            (data.message as ISendDataMessage).DBSchemaVersion);
+            decrypted,
+            (req.message as ISendDataMessage).DBSchemaVersion);
           break;
         case Action.NeedData:
-          this.pushToBuffer(data);
-          this.newDataDistribution!(data.message.NetworkID);
+          this.pushToBuffer(req);
+          this.newDataDistribution!(req.message.NetworkID);
           break;
       }
-   }
+  }
+
+  private async encryptData(data: string) {
+    const pass = this.settings().UserPass;
+    const key = await Crypto.generateAESKey();
+    return key.encrypt(data, pass);
+  }
+
+  private async decryptData(msg: ISendDataMessage, trys: number, password?: string): Promise<string | {body: string}> {
+    if (trys >= 2) {
+      return {body: "Attempts >= 2"};
+    }
+    const key = await Crypto.generateAESKey();
+    const pass = (password ? password :  await this.getPassword!(msg.NetworkID));
+    if (!pass) {
+      return {body: "Password is udefined"};
+    }
+    if (this.debug) {
+      console.log(`${this.name}: Recive ecnrypted =  ${msg.Data} with pass = ${pass}`);
+    }
+    const decryptedData = await key.decrypt(msg.Data, pass);
+    if (!decryptedData.hasOwnProperty("body")) {
+      this.successDecode!(msg.NetworkID, pass);
+    } else {
+      return this.decryptData(msg, trys++, await this.failedDecode!(msg.NetworkID));
+    }
+    return decryptedData;
+  }
 
   private sendUDPGreeting(action: Action) {
     if (this.debug) {

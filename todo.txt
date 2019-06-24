@@ -25,6 +25,6 @@ TODO:
 
     + Table for external public keys
 
-  Security
+  + Security
 
   Save old schedule to cash before recieve update from sync
