@@ -1,54 +1,68 @@
-import { IAppState} from "./types";
+import {
+  IAppState,
+  IAppMutations,
+  SetMenuActiveItem,
+  DrawerOpen,
+  DrawerClose,
+  ModalOpen,
+  ModalClose,
+  SetFreeHours,
+  AddSnackBar,
+  DeleteSnackBar,
+  HideSnackBar,
+  UpdateTimeoutSnackBar,
+  ExecuteSnackBar,
+} from "./types";
 import { MutationTree } from "vuex";
-import {DrawerContent, ModalContent} from "../../api";
+import {DrawerContent} from "../../api";
 import { ISnackBar, SnackBarType, ISnackBarNewConnection } from "src/models/snackbar";
 import { IModal } from "src/models/modals";
 
-export const mutations: MutationTree<IAppState> = {
-  setMenuActivItem: (state, item) => {
+export const mutations: MutationTree<IAppState> & IAppMutations = {
+  [SetMenuActiveItem]: (state, item) => {
     state.menuActiveItem = item;
   },
-  drawerOpen: (state, content: DrawerContent) => {
+  [DrawerOpen]: (state, content: DrawerContent) => {
     state.drawerContent = content;
     state.drawer = true;
   },
-  drawerClose: (state) => {
+  [DrawerClose]: (state) => {
     state.drawer = false;
     state.drawerContent = DrawerContent.Nothing;
   },
-  modalOpen: (state, modal: IModal) => {
+  [ModalOpen]: (state, modal: IModal) => {
      state.modalEntity = modal;
      state.modal = true;
   },
-  modalClose: (state, data: any) => {
-    state.modalEntity!.Content.Callback(data);
+  [ModalClose]: (state, data: any) => {
+    // (state.modalEntity ? state.modalEntity.Content.Callback(data) : null);
     state.modal = false;
     state.modalEntity = null;
   },
-  setFreeHours: (state, hours: number) => {
+  [SetFreeHours]: (state, hours: number) => {
     state.freeHours = hours;
   },
-  addSnackBar: (state, data: ISnackBar) => {
+  [AddSnackBar]: (state, data: ISnackBar) => {
     state.snackbars.push(data);
   },
-  deleteSnackBar: (state, ID: number) => {
+  [DeleteSnackBar]: (state, ID: number) => {
     state.snackbars = state.snackbars.filter((v) => v.ID !== ID);
   },
-  hideSnackBar: (state, ID: number) => {
+  [HideSnackBar]: (state, ID: number) => {
     state.snackbars.forEach((v) => {
       if (v.ID === ID) {
         v.Hided = true;
       }
     });
   },
-  updateTimeoutSnackBar: (state: IAppState, data: {ID: number, newTimer: NodeJS.Timeout}) => {
+  [UpdateTimeoutSnackBar]: (state: IAppState, data: {ID: number, newTimer: NodeJS.Timeout}) => {
     state.snackbars.forEach((v: ISnackBar) => {
       if (v.ID === data.ID) {
         v.TimeOut.Timer = data.newTimer;
       }
     });
   },
-  executeSnackBar: (state, data: {ID: number, answer: boolean}) => {
+  [ExecuteSnackBar]: (state, data: {ID: number, answer: boolean}) => {
     let done = false;
     state.snackbars.forEach((v: ISnackBar) => {
       if (done) {return; }

@@ -14,6 +14,7 @@ export default abstract class CoreModule {
   protected settingsApply?: (s: ISettings) => void;
   protected sync?: ISync;
   protected ui?: IUserInterface;
+  protected onClose?: (f: (c: () => void) => void) => void;
 
   constructor(props: {[key: string]: any}) {
     if (props.hasOwnProperty("storage")) {
@@ -36,6 +37,9 @@ export default abstract class CoreModule {
     }
     if (props.hasOwnProperty("ui")) {
       this.ui = props.ui;
+    }
+    if (props.hasOwnProperty("onClose")) {
+      this.onClose = props.onClose;
     }
   }
 

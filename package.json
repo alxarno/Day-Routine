@@ -28,6 +28,7 @@
   "dependencies": {
     "@types/jest": "^24.0.13",
     "@types/node": "^11.13.2",
+    "chokidar": "^3.0.1",
     "dotenv": "^6.1.0",
     "dotenv-webpack": "^1.5.7",
     "electron-builder": "^20.39.0",

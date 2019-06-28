@@ -11,7 +11,8 @@ export default class AESCryptoKey implements ICryptoAESKey {
   }
 
   public async encrypt(data: string, pass: string) {
-    const iv = Buffer.from(crypto.getRandomValues(new Uint8Array(10)));
+    data = Buffer.from(data).toString("base64");
+    const iv = Buffer.from(crypto.getRandomValues(new Uint8Array(16)));
     const salt = Buffer.from(crypto.getRandomValues(new Uint8Array(64)));
 
     const keyMaterial = await this.getKeyMaterial(pass);
@@ -76,7 +77,7 @@ export default class AESCryptoKey implements ICryptoAESKey {
         key,
         text,
       );
-      return arrayBufferToText(decrypted);
+      return Buffer.from(arrayBufferToText(decrypted), "base64").toString("utf8");
     } catch (e) {
       return {body: `Decription is failed ${e}`};
     }

@@ -30,9 +30,6 @@ export class TCPServer implements ITCPServer {
   private connections: TCPConn[] = [];
   private recieve: (msg: IMessage) => void;
   private settings: () => ISettingForTCP;
-  // private password: (nid: string) => Promise<string>;
-  // private failedDecode: (NetworkID: string) => Promise<string>;
-  // private successDecode: (syncID: string, pass: string) => Promise<void>;
 
   private tcpfactory: TCPFactory;
 
@@ -43,9 +40,6 @@ export class TCPServer implements ITCPServer {
     name: string,
     settings: () => ISettingForTCP,
     onRecive: (msg: IMessage) => void,
-    // getPassord: (networkID: string) => Promise<string>,
-    // failedDecode: (networkID: string) => Promise<string>,
-    // successDecode: (syncID: string, pass: string) => Promise<void>,
   ) {
     this.debug = debug;
     this.port = port;
@@ -53,11 +47,10 @@ export class TCPServer implements ITCPServer {
     this.name = name;
     this.settings = settings;
     this.recieve = onRecive;
-    // this.password = getPassord;
-    // this.failedDecode = failedDecode;
-    // this.successDecode = successDecode;
+
     this.server = null;
     this.tcpfactory = new TCPFactory();
+    this.Close = this.Close.bind(this);
 
   }
 
@@ -69,18 +62,18 @@ export class TCPServer implements ITCPServer {
         tcpdebug: this.debug,
         settings: this.settings,
         recive: this.recieve,
-        // getPassword: this.password,
         closed: (id: number) => {/* */},
-        // failedDecode: this.failedDecode,
-        // successDecode: this.successDecode,
       });
       this.server = net.createServer(this.connHandler.bind(this));
-      this.server!.on(onerror, (err: any) => {
+      if (!this.server) {
+        throw new Error("Cannot create TCP server ...");
+      }
+      this.server.on(onerror, (err: any) => {
         if (this.debug) {
           console.log(`${this.name}: TCP server error `, err);
         }
       });
-      this.server!.listen(this.port, () => {
+      this.server.listen(this.port, "0.0.0.0", () => {
         if (this.debug) {
           console.log(`${this.name}: TCP server listening ${this.server!.address().address}:${this.port}`);
         }
@@ -104,8 +97,19 @@ export class TCPServer implements ITCPServer {
   }
 
   public Close(c: () => void) {
-    this.clearConnections();
-    this.server!.close(c);
+    if (!this.server) {
+      if (this.debug) {
+        console.log(`${this.name}: TCP is null.`);
+      }
+      c();
+      return;
+    }
+    this.server!.close(() => {
+      if (this.debug) {
+        console.log(`${this.name}: TCP closed.`);
+      }
+      c();
+    });
     if (this.debug) {
       console.log(`${this.name}: TCP closing ...`);
     }
@@ -145,13 +149,6 @@ export class TCPServer implements ITCPServer {
       }
     }
     return null;
-  }
-
-  private clearConnections() {
-    this.connections = this.connections.filter((v) => {
-      v.Close();
-      return false;
-    });
   }
 
 }

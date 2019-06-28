@@ -1,7 +1,6 @@
 import WebCrypto from "./crypto";
 import RSACryptoKey from "./rsa";
 import { KeyType, ICrypto } from "../interfaces";
-import AESCryptoKey from "./aes";
 
 export default async () => {
   const crypto = new WebCrypto();
@@ -30,17 +29,38 @@ async function RSATest(crypto: ICrypto) {
 }
 
 async function AESTest(crypto: ICrypto) {
+  const plaintext = `
+  {
+    "nc:PersonAgeMeasure": {
+      "nc:MeasureIntegerValue": 14,
+      "nc:TimeUnitCode": "Русский"
+    },
+    "j:PersonHairColorCode": "BRO",
+    "nc:PersonName": {
+      "nc:PersonGivenName": "Mortimer",
+      "nc:PersonSurName": "Smith",
+      "nc:PersonNameSuffixText": "Sr",
+      "nc:PersonPreferredName": "Morty"
+    }
+  }
+  `;
+
   // Basic encryption
   const aesKey = await crypto.generateAESKey();
-  const encrypted = await aesKey.encrypt("Hello", "1111") as string;
+  const encrypted = await aesKey.encrypt(plaintext, "1111") as string;
   const decrypted = await aesKey.decrypt(encrypted, "1111") as string;
-  if (decrypted !== "Hello") {
-    throw new Error(`AES Decrypted equal ${decrypted} , but should 'Hello'`);
+  if (decrypted !== plaintext) {
+    throw new Error(`AES Decrypted equal ${decrypted} , but should ${plaintext}`);
   }
 
   const faildecrypted = await aesKey.decrypt(encrypted, "2222") as string;
-  if (faildecrypted === "Hello") {
-    throw new Error(`AES Fail Decrypted equal 'Hello' but shouldn't `);
+  if (faildecrypted === plaintext) {
+    throw new Error(`AES Fail Decrypted equal ${plaintext} but shouldn't `);
+  }
+  const newAesKey = await crypto.generateAESKey();
+  const newKeyDecrypted = await newAesKey.decrypt(encrypted, "1111") as string;
+  if (newKeyDecrypted !== plaintext) {
+    throw new Error(`AES Decrypted equal ${newKeyDecrypted} , but should ${plaintext}`);
   }
 
 }

@@ -34,6 +34,7 @@ export class Core implements ICore {
   private os: IOS | null = null;
   private sync: ISync | null = null;
   private ui: IUserInterface | null = null;
+  private onClose: ((f: (c: () => void) => void) => void) | null = null;
 
   constructor(
       storage: IStorage,
@@ -42,19 +43,22 @@ export class Core implements ICore {
       settingsStore: ISettingsStore,
       sync: () => ISync,
       ui: (core: ICore) => IUserInterface,
+      onClose: (f: (c: () => void) => void) => void,
     ) {
+
+    this.onClose = onClose;
     this.storage = storage;
     this.cache = cache;
 
-    // this.sync = sync();
+    this.sync = sync();
     this.os = os;
 
-    this.ScheduleModule = new ScheduleCore({storage: this.storage, cache: this.cache});
+    this.ScheduleModule = new ScheduleCore({storage, cache});
     this.SettingsModule = new SettingsCore(
       {
-        storage: this.storage,
-        os: this.os,
-        cache: this.cache,
+        storage,
+        os,
+        cache,
         settings_storage: settingsStore,
         settings_apply: this.settingsApply.bind(this),
       });
@@ -155,8 +159,8 @@ export class Core implements ICore {
   private async init(ui: (core: ICore) => IUserInterface) {
     await this.storage.Init();
     this.ui = ui(this);
-    // this.SyncModule = new SyncCore({sync: this.sync, ui: this.ui});
-    // this.SyncModule.Init();
+    this.SyncModule = new SyncCore({sync: this.sync, ui: this.ui, onClose: this.onClose});
+    this.SyncModule.Init();
     // this.SyncModule.
   }
 
@@ -179,8 +183,8 @@ export class Core implements ICore {
     return;
   }
 
-  private onClose() {
-    //
-    console.log("Close");
-  }
+  // private onClose() {
+  //   //
+  //   console.log("Close");
+  // }
 }

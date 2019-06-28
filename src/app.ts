@@ -15,6 +15,7 @@ import { SettingsStore } from "./settings";
 import Network from "./network";
 import { ICore } from "./interfaces/core";
 import WebCryptoTest from "src/network/crypto/web/web.encryption-test";
+import {close} from "./close";
 
 const electron = (window as any).require("electron");
 const {PROD} = electron.remote.getGlobal("CONFIG");
@@ -25,7 +26,7 @@ const DEBUG = false;
 const PORT_TCP = 42816;
 const PORT_UDP = 42814;
 
-WebCryptoTest();
+// WebCryptoTest();
 
 const db: WebSQLDB = new WebSQLDB(
   {debug: DEBUG},
@@ -39,7 +40,7 @@ const storage: IStorage =  new Storage(sk, () => {/**/}); // Manage tables as li
 const network = () => new Network(
   storage.SchemaVersion(),
   settingsStore.Get.bind(settingsStore),
-  DEBUG, PORT_TCP, PORT_TCP, PORT_UDP, PORT_UDP, "Network 1", true); // Work with network
+  true, PORT_TCP, PORT_TCP, PORT_UDP, PORT_UDP, "Network 1", true); // Work with network
 const ui = (core: ICore) => new UserInterface(core, DEBUG);
 
 // tslint:disable-next-line
@@ -50,6 +51,5 @@ new Core(
   settingsStore,
   network,
   ui,
+  close,
 );
-// const ui = new UserInterface(core);
-// core.UI = ui;

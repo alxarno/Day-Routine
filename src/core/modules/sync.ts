@@ -22,6 +22,12 @@ export class SyncCore extends CoreModule implements ISyncCore {
   }
 
   public async Init() {
+    if (!this.sync) {
+      throw new Error("Sync is undefined core/sync");
+    }
+    if (this.onClose) {
+      this.onClose((c: () => void) => (this.sync ? this.sync.Close(c) : c()));
+    }
     this.sync!.Init({
       getDataForTransmition: this.getDataForTransmition.bind(this),
       gotDataFromTransmition: this.gotDataFromTransmition.bind(this),

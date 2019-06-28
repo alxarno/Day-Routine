@@ -49,6 +49,7 @@ export default class Network implements ISync {
     this.dbScehmaVersion = dbSchemaVersion;
     this.settings = settings;
     this.generateKeys = generateKeys;
+    this.Close = this.Close.bind(this);
 
   }
 

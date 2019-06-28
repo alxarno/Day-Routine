@@ -27,7 +27,7 @@ export const actions: ActionTree<ISettingsState, IRootState> = {
     GetAPI().Settings().Put(settings);
     dispatch("getSettings", {});
   },
-  updateNetworkID({commit, dispatch}) {
+  updateSyncID({commit, dispatch}) {
     GetAPI().Settings().UpdateNetworkID();
     dispatch("getSettings", {});
   },

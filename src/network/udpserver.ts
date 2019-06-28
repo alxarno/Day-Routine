@@ -77,7 +77,12 @@ export class UDPServer implements IUDPServer {
   }
 
   public Close(c: () => void) {
-    this.server.close(c);
+    this.server.close(() => {
+      if (this.debug) {
+        console.log(`${this.name}: UDP closed.`);
+      }
+      c();
+    });
     if (this.debug) {
       console.log(`${this.name}: UDP closing...`);
     }

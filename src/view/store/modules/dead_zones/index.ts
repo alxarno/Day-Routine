@@ -1,30 +1,18 @@
 import { Module } from "vuex";
-import {IDeadZone} from "src/models/dead_zone";
-import { IDeadZoneState } from "./types";
 
 import {getters} from "./getters";
 import {actions} from "./actions";
 import {mutations} from "./mutations";
 import { IRootState } from "../../types";
 
-// const dz: IDeadZone[] = [
-//   {
-//     ID: 0,
-//     start: 0,
-//     done: 10,
-//     enable: true,
-//     name: "Sleep",
-//     disabled_days: [0, 3],
-//   },
-//   {
-//     ID: 1,
-//     start: 13,
-//     done: 14,
-//     enable: false,
-//     name: "Deener",
-//     disabled_days: [],
-//   },
-// ];
+import {
+  IDeadZoneState,
+  SET_CURRENT_ITEM,
+  NEW_DEAD_ZONE,
+  LOAD_DEAD_ZONES,
+  SAVE_CANGED_DEAD_ZONE,
+  DELETE_DEAD_ZONE,
+} from "./types";
 
 export const state: IDeadZoneState = {
     currentItem: -1,
@@ -41,36 +29,10 @@ export const deadZones: Module<IDeadZoneState, IRootState> = {
   mutations,
 };
 
-// interface IDeadZoneModule{
-//   currentItem:number,
-//   items:Array<DeadZone>
-// }
-
-// const DeadZonesModule:Module<any,IDeadZoneModule> = {
-//   state: {
-//     currentItem: -1,
-//     items: deadZones,
-
-//    },
-//   actions:{
-//     SetCurrentItem({commit}, number:number) {
-//       commit('SET_ACTIVE_ITEM', number)
-//     },
-//     NewDeadZone({commit}) {
-//       // HERE
-//       commit('CREATE_NEW_DEAD_ZONE')
-//     },
-
-//   },
-//   mutations: {
-//     SET_ACTIVE_ITEM:(state, {number}) => {
-//       state.currentItem = number
-//     },
-//     CREATE_NEW_DEAD_ZONE:(state)=>{
-
-//     }
-//   },
-
-// }
-
-// export default DeadZonesModule
+export {
+  SET_CURRENT_ITEM,
+  NEW_DEAD_ZONE,
+  LOAD_DEAD_ZONES,
+  SAVE_CANGED_DEAD_ZONE,
+  DELETE_DEAD_ZONE,
+};

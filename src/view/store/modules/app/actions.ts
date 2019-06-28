@@ -1,11 +1,34 @@
 import { ActionTree } from "vuex";
 import { IRootState } from "../../types";
-import { IAppState } from "./types";
-import {DrawerContent, ModalContent} from "../../api";
+import {DrawerContent} from "../../api";
 import { GetAPI } from "src/view/external.api";
 import { ISnackBarContent, SnackBarType, ISnackBarTimeOut } from "src/models/snackbar";
-import SnackBar from "src/view/components/snackbars/unit";
 import { IModal, ModalType } from "src/models/modals";
+import {
+  IAppState,
+  IAppActions,
+  HideSnackBar,
+  ExecuteSnackBar,
+  DeleteSnackBar,
+  SetMenuActiveItem,
+  DrawerClose,
+  DrawerOpen,
+  ModalClose,
+  ModalOpen,
+  SetFreeHours,
+  AddSnackBar,
+  UpdateTimeoutSnackBar,
+//
+  SET_MENU_ITEM,
+  DRAWER_ACTION,
+  MODAL_ACTION,
+  SHOW_MODAL,
+  CLOSE_MODAL,
+  SET_FREE_HOURS,
+  SHOW_SNACK_BAR,
+  CLOSE_SNACK_BAR,
+  SNACK_BAR_ACTION,
+} from "./types";
 
 const INFO_SNACKBAR_TIME = 7000;
 const ERROR_SNACKBAR_TIME = 7000;
@@ -40,37 +63,32 @@ function Timer(ID: number, duration: number, commit: (h: string, data: any) => v
     Duration: duration,
     Started:  new Date().getTime(), // getTime is number
     Timer: setTimeout((id) => {
-      commit("hideSnackBar", id); // First off just show off snack bar because we have animation
+      commit(HideSnackBar, id); // First off just show off snack bar because we have animation
       new Promise((res, rej) => setTimeout(res, 1000)).then(() => {
-        commit("executeSnackBar", {ID: id, answer: false});
-        commit("deleteSnackBar", id); // Delete from list
+        commit(ExecuteSnackBar, {ID: id, answer: false});
+        commit(DeleteSnackBar, id); // Delete from list
       });
     }, duration, Number(ID)),
   };
 }
 
-export const actions: ActionTree<IAppState, IRootState> = {
-  setMenuItem({commit, dispatch}, val): any {
-    commit("setMenuActivItem",  val);
+export const actions: ActionTree<IAppState, IRootState> & IAppActions =  {
+  [SET_MENU_ITEM]: ({commit, dispatch}, val): any => {
+    commit(SetMenuActiveItem,  val);
     dispatch("routines/setRoutineGraph", -1 , {root: true});
   },
-  drawerAction({commit}, val: DrawerContent | -1): void {
-    if (val === -1) {
-      commit("drawerClose");
-    } else {
-      commit("drawerOpen", val);
-    }
+
+  [DRAWER_ACTION]: ({commit}, val: DrawerContent | -1): void => {
+    (val === -1 ?  commit(DrawerClose) :  commit(DrawerOpen, val));
   },
-  modalAction({commit}, val: IModal | -1): void {
-    if (val === -1) {
-      commit("modalClose");
-    } else {
-      commit("modalOpen", val);
-    }
+
+  [MODAL_ACTION]: ({commit}, val: IModal | -1): void => {
+    (val === -1 ?  commit(ModalClose) :  commit(ModalOpen, val));
   },
-  showModal({commit, dispatch}, modal: IModal): void {
+
+  [SHOW_MODAL]: ({commit, dispatch}, modal: IModal): void  => {
     const call = (res: (accept: boolean) => void) => {
-      dispatch("showSnackBar", {
+      dispatch(SHOW_SNACK_BAR, {
         snackBarType: GetSnackBarTypeByModal(modal.Type),
         content: {
           SyncID: modal.Content.SyncID,
@@ -79,27 +97,22 @@ export const actions: ActionTree<IAppState, IRootState> = {
       });
     };
 
-    new Promise((res, rej) => {
-      call(res);
-    }).then((v) => {
-      if (v) {
-        dispatch("modalAction", modal);
-      } else {
-        modal.Content.Callback("");
-      }
+    new Promise((res, rej) => call(res)).then((v) => {
+       (v ? dispatch(MODAL_ACTION, modal) : modal.Content.Callback(""));
     });
   },
 
-  closeModal({commit}, data: any): void {
-    commit("modalClose", data);
+  [CLOSE_MODAL]: ({commit}, data: any): void => {
+    commit(ModalClose, data);
   },
-  async setFreeHours({commit}) {
+
+  [SET_FREE_HOURS]: async ({commit}) => {
     const freeHours = await GetAPI().FreeTime();
-    commit("setFreeHours", freeHours);
+    commit(SetFreeHours, freeHours);
   },
-  showSnackBar({commit}, data: {snackBarType: SnackBarType, content: ISnackBarContent}) {
-    console.log(data);
-    commit("addSnackBar", {
+
+  [SHOW_SNACK_BAR]: ({commit}, data: {snackBarType: SnackBarType, content: ISnackBarContent}) => {
+    commit(AddSnackBar, {
       ID: ++ID,
       Hided: false,
       Type: data.snackBarType,
@@ -108,15 +121,16 @@ export const actions: ActionTree<IAppState, IRootState> = {
       TimeOut: Timer(ID, GetSnackBarTime(data.snackBarType), commit),
     });
   },
-  closeSnackBar({commit}, ID: number) {
-    commit("updateTimeoutSnackBar", {
+
+  [CLOSE_SNACK_BAR]: ({commit}, ID: number) => {
+    commit(UpdateTimeoutSnackBar, {
       ID,
       newTimer: Timer(ID, 0, commit),
     });
   },
-  snackBarAction({commit, dispatch}, data: {answer: boolean, ID: number}) {
-    commit("executeSnackBar", data);
-    dispatch("closeSnackBar", data.ID);
-  },
 
+  [SNACK_BAR_ACTION]: (helpers: {commit: any, dispatch: any}, data: {answer: boolean, ID: number}) => {
+    helpers.commit(ExecuteSnackBar, data);
+    helpers.dispatch(CLOSE_SNACK_BAR, data.ID);
+  },
 };

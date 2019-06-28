@@ -1,14 +1,16 @@
-import { IDeadZoneState } from "./types";
+import { IDeadZoneState, IDeadZoneMutations, SetActiveDeadZone, CreateNewDeadZone, LoadedDeadZones } from "./types";
 import { MutationTree } from "vuex";
 
-export const mutations: MutationTree<IDeadZoneState> = {
-    setActiveDeadZone: (state, value) => {
+export const mutations: MutationTree<IDeadZoneState> & IDeadZoneMutations = {
+    [SetActiveDeadZone]: (state, value) => {
       state.currentItem = value;
     },
-    createNewDeadZone: (state) => {
+
+    [CreateNewDeadZone]: (state) => {
       //
     },
-    loadedDeadZones: (state, deadZones) => {
+
+    [LoadedDeadZones]: (state, deadZones) => {
       state.items = deadZones;
     },
 };

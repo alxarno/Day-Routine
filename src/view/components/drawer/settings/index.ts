@@ -9,7 +9,7 @@ import MenuComponent from "./menu";
 import DataComponent from "./data";
 import OthersComponent from "./other";
 import DebugMenu from "./debug";
-import NetworkComponent from "./network";
+import SyncComponent from "./sync";
 
 require("./styles.scss");
 
@@ -22,7 +22,7 @@ const help = require("assets/help.svg");
     DataComponent,
     OthersComponent,
     DebugMenu,
-    NetworkComponent,
+    SyncComponent,
   },
 })
 export default class SettingsComponent extends Vue {
