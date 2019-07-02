@@ -14,6 +14,7 @@ import {
   CLOSE_SNACK_BAR,
   SNACK_BAR_ACTION,
 } from "./types";
+
 import {actions} from "./actions";
 import {mutations} from "./mutations";
 import {getters} from "./getters";

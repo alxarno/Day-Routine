@@ -19,7 +19,7 @@
           v-on:click="settings"/>
   </div>
   <routine-stat-graph-panel
-    v-if="currRoutine == this.$props.routine.ID"
+    v-if="routines.current_routine == this.$props.routine.ID"
     v-bind:stat="this.$props.routine.hoursSpended"
     v-bind:color="currentColor"
     v-bind:hoursPerWeek="this.$props.routine.hours"

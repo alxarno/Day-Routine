@@ -21,6 +21,8 @@ export const state: IDeadZoneState = {
 
 const namespaced: boolean = true;
 
+export const deadZonesJoin = (action: string) => `deadZones/${action}`;
+
 export const deadZones: Module<IDeadZoneState, IRootState> = {
   namespaced,
   state,

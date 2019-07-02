@@ -3,6 +3,7 @@ import Component from "vue-class-component";
 import {Action, State} from "vuex-class";
 import * as WithRender from "./template.html";
 import { colors, IColor } from "src/view/color.themes";
+import { CHANGE_STATISTICS } from "src/view/store/modules/routines";
 require("./styles.scss");
 
 enum commands {
@@ -22,7 +23,7 @@ const namespace: string = "routines";
   },
 })
 export default class RoutineStatGraphPanel extends Vue {
-  @Action("changeStatistics", { namespace}) public changeStatistics?:
+  @Action(CHANGE_STATISTICS, { namespace}) public changeStatistics?:
     (data: {routineID: number, spent: number[]}) => void;
 
   private pointsO: number[] = [0, 0, 0, 0, 0, 0, 0];
@@ -68,8 +69,6 @@ export default class RoutineStatGraphPanel extends Vue {
   }
 
   public get points(): number[][] {
-    // let original: number[] = this.$props.stat;
-    // let original: number[] = this.pointsO;
     // Reducing numbers (8-v) because we follow a rule - (more hours - higher curve point)
     // But the zero point of coordinate is left-up corner
     const original = this.pointsO.map((v) => (v > 10 ? -2 : 8 - v));

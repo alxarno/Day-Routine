@@ -1,0 +1,22 @@
+<div >
+    <div class="settings-body__row">Recieve data from unknow
+      <check-box-component
+        @callback="recieveFromUnknow"
+        class="network-settings__recive_check"
+        v-bind:state="data.RecieveDataFromUnknow"/>
+    </div>
+    <div class="settings-body__row">Sync ID
+      <input v-model="data.NetworkID" class="settings__networkID" disabled/>
+    </div>
+    <div class="settings-body__row">
+      <span class="settings-body__action" v-on:click="refresh">Refresh</span> sync ID
+    </div>
+    <div class="settings-body__row">Sync Pass
+      <input @change="pass" v-model="data.UserPass" class="settings__networkPass"/>
+    </div>
+    <div class="settings-body__row">
+      <span class="settings-body__action" v-on:click="sync">Sync</span> data
+    </div>
+</div>
+
+<!-- {"Notifications":true,"DeadZoneNotifications":true,"NetworkID":"xlht-bnot","RecieveDataFromUnknow":true,"UserPass":"eojb-usfo"} -->

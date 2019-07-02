@@ -1,35 +1,72 @@
-import { IRoutinesState } from "./types";
+import Vue from "vue";
+
+import {
+  IRoutinesState,
+  IRoutinesMutations,
+  Drop,
+  RoutineSettingsWindow,
+  SetCurrentGraphPanel,
+  LoadedRoutines,
+  SetRoutine,
+  NewRoutineWindow,
+} from "./types";
 import { MutationTree } from "vuex";
 import { IRoutine } from "src/models/routines.routine";
-import { routines } from ".";
 
-export const mutations: MutationTree<IRoutinesState> = {
-  newRoutineWindow: (state) => {
+export const mutations: MutationTree<IRoutinesState> & IRoutinesMutations = {
+  [NewRoutineWindow]: (state: IRoutinesState) => {
     state.new_routine_open = true;
   },
-  drop: (state) => {
+
+  [Drop]: (state: IRoutinesState) => {
     state.routine_settings_open = false;
     state.new_routine_open = false;
   },
-  routineSettingsWindow: (state) => {
+
+  [RoutineSettingsWindow]: (state: IRoutinesState) => {
     state.routine_settings_open = true;
   },
-  setCurrentRoutine: (state, val) => {
+
+  [SetCurrentGraphPanel]:  (state: IRoutinesState, val: number) => {
     state.current_routine = val;
   },
-  loadedRoutines: (state, routines) => {
+
+  [LoadedRoutines]: (state: IRoutinesState, routines: IRoutine[]) => {
     state.items = routines;
     state.loaded = true;
   },
-  loading: (state) => {
-    // state.loaded = false;
-  },
-  setCurrentGraphPanel: (state, val) => {
-    state.routineGraph = val;
-  },
-  setRoutine: (state, data: {index: number, routine: IRoutine}) => {
-    state.items[data.index] = data.routine;
-    state.loaded = false;
+
+  [SetRoutine]: (state, data: {index: number, routine: IRoutine}) => {
+    Vue.set(state.items, data.index, data.routine);
     state.loaded = true;
   },
+
+  // newRoutineWindow: (state) => {
+  //   state.new_routine_open = true;
+  // },
+  // drop: (state) => {
+  //   state.routine_settings_open = false;
+  //   state.new_routine_open = false;
+  // },
+  // routineSettingsWindow: (state) => {
+  //   state.routine_settings_open = true;
+  // },
+  // setCurrentRoutine: (state, val) => {
+  //   state.current_routine = val;
+  // },
+  // loadedRoutines: (state, routines) => {
+  //   state.items = routines;
+  //   state.loaded = true;
+  // },
+  // loading: (state) => {
+  //   // state.loaded = false;
+  // },
+  // setCurrentGraphPanel: (state, val) => {
+  //   state.routineGraph = val;
+  // },
+  // setRoutine: (state, data: {index: number, routine: IRoutine}) => {
+  //   state.items[data.index] = data.routine;
+  //   state.loaded = false;
+  //   state.loaded = true;
+  // },
 };

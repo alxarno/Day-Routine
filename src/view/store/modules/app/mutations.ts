@@ -19,36 +19,36 @@ import { ISnackBar, SnackBarType, ISnackBarNewConnection } from "src/models/snac
 import { IModal } from "src/models/modals";
 
 export const mutations: MutationTree<IAppState> & IAppMutations = {
-  [SetMenuActiveItem]: (state, item) => {
+  [SetMenuActiveItem]: (state: IAppState, item) => {
     state.menuActiveItem = item;
   },
-  [DrawerOpen]: (state, content: DrawerContent) => {
+  [DrawerOpen]: (state: IAppState, content: DrawerContent) => {
     state.drawerContent = content;
     state.drawer = true;
   },
-  [DrawerClose]: (state) => {
+  [DrawerClose]: (state: IAppState) => {
     state.drawer = false;
     state.drawerContent = DrawerContent.Nothing;
   },
-  [ModalOpen]: (state, modal: IModal) => {
+  [ModalOpen]: (state: IAppState, modal: IModal) => {
      state.modalEntity = modal;
      state.modal = true;
   },
-  [ModalClose]: (state, data: any) => {
+  [ModalClose]: (state: IAppState, data: any) => {
     // (state.modalEntity ? state.modalEntity.Content.Callback(data) : null);
     state.modal = false;
     state.modalEntity = null;
   },
-  [SetFreeHours]: (state, hours: number) => {
+  [SetFreeHours]: (state: IAppState, hours: number) => {
     state.freeHours = hours;
   },
-  [AddSnackBar]: (state, data: ISnackBar) => {
+  [AddSnackBar]: (state: IAppState, data: ISnackBar) => {
     state.snackbars.push(data);
   },
-  [DeleteSnackBar]: (state, ID: number) => {
+  [DeleteSnackBar]: (state: IAppState, ID: number) => {
     state.snackbars = state.snackbars.filter((v) => v.ID !== ID);
   },
-  [HideSnackBar]: (state, ID: number) => {
+  [HideSnackBar]: (state: IAppState, ID: number) => {
     state.snackbars.forEach((v) => {
       if (v.ID === ID) {
         v.Hided = true;
@@ -62,7 +62,7 @@ export const mutations: MutationTree<IAppState> & IAppMutations = {
       }
     });
   },
-  [ExecuteSnackBar]: (state, data: {ID: number, answer: boolean}) => {
+  [ExecuteSnackBar]: (state: IAppState, data: {ID: number, answer: boolean}) => {
     let done = false;
     state.snackbars.forEach((v: ISnackBar) => {
       if (done) {return; }

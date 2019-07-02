@@ -10,6 +10,7 @@ import * as WithRender from "./template.html";
 import NewButton from "src/view/default-components/new-button";
 import FreeHours from "src/view/default-components/free-hours";
 import { TooltipsPositions } from "src/view/default-components/interfaces";
+import { NEW_ROUTINE_WINDOW, ROUTINE_SETTINGS_WINDOW, LOAD_ROUTINES } from "src/view/store/modules/routines";
 
 require("./styles.scss");
 
@@ -27,11 +28,11 @@ const namespace: string = "routines";
 })
 export default class RoutinesComponent extends Vue {
   @State((state) => state.routines.items) private routines?: Array<IRoutine | null>;
-  @State((state) => state.routines.loaded) private loaded?: boolean;
+  // @State((state) => state.routines.loaded) private loaded?: boolean;
 
-  @Action("newRoutineWindow", { namespace }) private newRoutineWindow?: () => void;
-  @Action("routineSettingsWindow", { namespace }) private routineSettingsWindow?: () => void;
-  @Action("loadRoutines", { namespace }) private loadRoutines?: () => void;
+  @Action(NEW_ROUTINE_WINDOW, { namespace }) private newRoutineWindow?: () => void;
+  @Action(ROUTINE_SETTINGS_WINDOW, { namespace }) private routineSettingsWindow?: () => void;
+  @Action(LOAD_ROUTINES, { namespace }) private loadRoutines?: () => void;
 
   private searchRequest: string = "";
 

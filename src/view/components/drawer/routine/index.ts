@@ -15,6 +15,9 @@ const pen = require("assets/pen.svg");
 import {colors} from "src/view/color.themes";
 import { IRoutine } from "src/models/routines.routine";
 import { Action as RoutineAction } from "src/models/action";
+import { SAVE_ROUTINES, DELETE_ROUTINE, ADD_ROUTINE } from "src/view/store/modules/routines";
+import { DRAWER_ACTION } from "src/view/store/modules/app";
+import { IRoutinesState } from "src/view/store/modules/routines/types";
 
 const {dialog} = (window as any).require("electron").remote;
 
@@ -33,13 +36,14 @@ const appNamespace: string = "app";
 })
 
 export default class RoutineComponent extends Vue {
-  @State("items", {namespace}) private routines?: IRoutine[];
-  @State("current_routine", {namespace}) private currentRoutineIDStore?: number;
+  // @State("items", {namespace}) private routines?: IRoutine[];
+  // @State("current_routine", {namespace}) private currentRoutineIDStore?: number;
+  @State(namespace) private routines!: IRoutinesState;
 
-  @Action("addRoutine", { namespace }) private addRoutine: any;
-  @Action("deleteRoutine", { namespace }) private deleteRoutine: any;
-  @Action("saveRoutine", { namespace }) private saveRoutine: any;
-  @Action("drawerAction", {namespace: appNamespace}) private drawerAction: any;
+  @Action(ADD_ROUTINE, { namespace }) private addRoutine: any;
+  @Action(DELETE_ROUTINE, { namespace }) private deleteRoutine: any;
+  @Action(SAVE_ROUTINES, { namespace }) private saveRoutine: any;
+  @Action(DRAWER_ACTION, {namespace: appNamespace}) private drawerAction: any;
 
   // Icons
   private nothing: string = nothing;
@@ -67,9 +71,9 @@ export default class RoutineComponent extends Vue {
   }
 
   private created() {
-    if (this.currentRoutineIDStore !== -1 && this.routines) {
-      this.routines.forEach((element: IRoutine) => {
-        if (element.ID === this.currentRoutineIDStore) {
+    if (this.routines.current_routine !== -1 && this.routines) {
+      this.routines.items.forEach((element: IRoutine) => {
+        if (element.ID === this.routines.current_routine) {
           this.currentRoutine = {...element};
           return;
         }

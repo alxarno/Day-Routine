@@ -29,6 +29,7 @@ import {
   CLOSE_SNACK_BAR,
   SNACK_BAR_ACTION,
 } from "./types";
+import { routinesJoin, SET_ROUTINE_GRAPH } from "../routines";
 
 const INFO_SNACKBAR_TIME = 7000;
 const ERROR_SNACKBAR_TIME = 7000;
@@ -75,7 +76,7 @@ function Timer(ID: number, duration: number, commit: (h: string, data: any) => v
 export const actions: ActionTree<IAppState, IRootState> & IAppActions =  {
   [SET_MENU_ITEM]: ({commit, dispatch}, val): any => {
     commit(SetMenuActiveItem,  val);
-    dispatch("routines/setRoutineGraph", -1 , {root: true});
+    dispatch(routinesJoin(SET_ROUTINE_GRAPH), -1, {root: true});
   },
 
   [DRAWER_ACTION]: ({commit}, val: DrawerContent | -1): void => {

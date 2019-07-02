@@ -1,0 +1,24 @@
+.network-settings__recive_check{
+  display: inline-block;
+  position: relative;
+  top: 3px;
+}
+
+
+.settings__networkID,
+.settings__networkPass{
+  border: 0px;
+  font-size: 14px;
+  border: 1px solid $light-gray;
+  background: rgba(0,0,0,0.01);
+  outline: none;
+  border-radius: 2.5px;
+  padding: 5px;
+
+  font-family: Roboto-Light;
+  color: darken($gray, 10%);
+}
+
+.settings__networkPass{
+  width: 140px;
+}
