@@ -14,7 +14,7 @@
   "license": "MIT",
   "devDependencies": {
     "css-loader": "^0.28.7",
-    "electron": "^4.1.4",
+    "electron": "^18.3.7",
     "electron-forge": "^5.2.4",
     "electron-prebuilt-compile": "4.0.0",
     "jest": "^23.6.0",
